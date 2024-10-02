@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
+
 import AddProject from "./pages/AddProject";
 import Projects from "./pages/Projects";
 import ModifyProject from "./pages/ModifyProject";
@@ -9,11 +9,13 @@ import AddVolunteer from "./pages/AddVolunteer";
 import Profile from "./pages/Profile";
 import ModifyVolunteer from "./pages/ModifyVolunteer";
 import ConnectionForm from "./pages/ConnectionForm";
+import Home from "./pages/Home";
+import App from "./App";
 
 export const router = createBrowserRouter([
         {
             element: <App/>,
-            errorElement:<Page404/>,
+            // errorElement:<Page404/>,
             children:[
                 {
                 path:"/" ,
