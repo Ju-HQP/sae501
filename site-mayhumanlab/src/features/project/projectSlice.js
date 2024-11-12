@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const slice = createSlice({
     name: 'slice',
     initialState: {
-            //states
+        connected: false,
+        projects: [],
+        actus: [],
+        volunteers: []
     },
     reducers: {
             //reducers
