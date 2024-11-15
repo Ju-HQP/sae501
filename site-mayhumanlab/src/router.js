@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import AddProject from "./pages/AddProject";
-import Projects from "./pages/Projects";
+import Projects from "./pages/ListProjects";
 import ModifyProject from "./pages/ModifyProject";
 import VolunteersChart from "./pages/VolunteersChart";
 import VolunteersList from "./pages/VolunteersList";
@@ -20,10 +20,6 @@ export const router = createBrowserRouter([
                 {
                 path:"/" ,
                 element: <Home />
-                },
-                {
-                path:"/projets" ,
-                element: <Projects/>
                 },
                 {
                     path: "/projets/ajouter-un-projet",
