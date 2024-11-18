@@ -12,7 +12,7 @@ const slice = createSlice({
             //reducers
     },
     extraReducers:(builder)=>{
-            //ajout des cas
+        builder.addCase(addVolunteer.fulfilled)
     }
 })
 

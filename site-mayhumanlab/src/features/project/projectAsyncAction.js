@@ -5,7 +5,7 @@ import {
     URL_API
 } from '../../utils/config.js';
 
-//fonctions asynchrones pourcommuniquer avec l'api
+//fonctions asynchrones pour communiquer avec l'api
 
 export const loadProjects = createAsyncThunk(
 
