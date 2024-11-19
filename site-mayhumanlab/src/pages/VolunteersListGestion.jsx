@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import { selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
@@ -13,7 +12,7 @@ function VolunteersListGestion(){
     }
 
     return(<>
-    <Button onClick={handleAddVolunteer} variant="contained">Créer un bénévole</Button>
+    <button onClick={handleAddVolunteer} variant="contained">Créer un bénévole</button>
     {
         isModifying && <VolunteerForm/>
     }

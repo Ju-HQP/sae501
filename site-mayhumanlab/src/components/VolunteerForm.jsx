@@ -1,12 +1,14 @@
 import { useDispatch } from "react-redux";
 import { stopVolunteerEdit } from "../features/volunteer/volunteerSlice";
-import { Dialog, DialogContent, IconButton } from "@mui/material";
-import CloseIcon from '@mui/icons-material/Close';
-import { Form } from "react-final-form";
+import { Field, Form } from "react-final-form";
 
 
 function VolunteerForm() {
     const dispatch = useDispatch();
+
+    function handleSubmit() {
+
+    }
 
     function handleExit() {
         dispatch(stopVolunteerEdit());
@@ -14,22 +16,37 @@ function VolunteerForm() {
 
     return (
         <>
-            <Dialog open={true} onClose={handleExit}>
-                <IconButton
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                    }}
-                >
-                    <CloseIcon color="primary" sx={{ fontSize: 32 }} onClick={handleExit} />
-                </IconButton>
-                <DialogContent>
-                    <Form></Form>
-                </DialogContent>
+            <dialog open onClose={handleExit}>
+                <Form onSubmit={handleSubmit}
+                    render={({ handleSubmit }) => (
+                        <form onSubmit={handleSubmit} >
+                            <Field
+                                validate=''
+                                name="title"
+                                render={({ input, meta }) => (
+                                    <div>
+                                        <label for='name'>Prenom</label>
+                                        <input id='name' name="name" type='text'></input>
+                                    </div>
+                                )}
+                            >
+                            </Field>
+                            <Field
+                                validate=''
+                                name="title"
+                                render={({ input, meta }) => (
+                                    <div>
+                                        <label for='lastname'>Nom</label>
+                                        <input id='lastname' name="lastname" type='text'></input>
+                                    </div>
+                                )}
+                            >
+                            </Field>
 
-            </Dialog>
+                        </form>
+                    )} />
 
+            </dialog>
         </>
     )
 }
