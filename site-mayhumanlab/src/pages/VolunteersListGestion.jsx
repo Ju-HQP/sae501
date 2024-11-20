@@ -12,7 +12,7 @@ function VolunteersListGestion(){
     }
 
     return(<>
-    <button onClick={handleAddVolunteer} variant="contained">Créer un bénévole</button>
+    <button onClick={handleAddVolunteer} variant="contained" className='text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center'>Créer un bénévole</button>
     {
         isModifying && <VolunteerForm/>
     }

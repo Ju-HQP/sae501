@@ -7,12 +7,19 @@ import {
 
 //fonctions asynchrones pourcommuniquer avec l'api
 
-export const loadProjects = createAsyncThunk(
-
-)
-
-export const loadActus = createAsyncThunk(
-
+export const saveVolunteer = createAsyncThunk(
+    'benevoles/saveBenevole',
+    (datas,{
+        dispatch,
+        getState
+    }) => {
+        const id= getState().idVolunteerModifying
+        if(id){
+            dispatch(updateVolunteer(datas));
+        } else {
+            dispatch(addVolunteer(datas));
+        }
+    }
 )
 
 export const addVolunteer = createAsyncThunk(

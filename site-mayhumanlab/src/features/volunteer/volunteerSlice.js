@@ -7,16 +7,17 @@ const slice = createSlice({
     initialState: {
         connected: false,
         volunteers: [],
-        volunteerModifying: false
+        volunteerModifying: false,
+        idVolunteerModifying: null
     },
     reducers: {
         startVolunteerEdit(state, action) {
             state.volunteerModifying = true;
-            state.idVolunteer = action.payload;
+            state.idVolunteerModifying = action.payload;
         },
         stopVolunteerEdit(state, action) {
             state.volunteerModifying = false;
-            state.idVolunteer = null;
+            state.idVolunteerModifying = null;
         }
     },
     extraReducers: (builder) => {
