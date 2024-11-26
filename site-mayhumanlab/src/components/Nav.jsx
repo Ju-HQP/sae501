@@ -35,7 +35,7 @@ function Nav() {
                                             {
                                                 isMenuOpen
                                                 &&
-                                                <ul className="flex flex-col justify-between items-end pt-3">
+                                                <ul className="flex flex-col justify-between items-end pt-3 shadow-lg px-8 rounded-md">
                                                     <li className="my-3">
                                                         <Link to='/#presentation'>Présentation</Link>
                                                     </li>
