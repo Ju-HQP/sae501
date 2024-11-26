@@ -1,45 +1,7 @@
-import {
-    createAsyncThunk
-} from '@reduxjs/toolkit';
-import {
-    URL_API
-} from '../../utils/config.js';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { URL_API_ACTUS, URL_API_PROJECTS, URL_API_VOLUNTEERS, test } from '../../utils/config.js';
 
 //fonctions asynchrones pourcommuniquer avec l'api
-
-export const loadProjects = createAsyncThunk(
-    'benevoles/loadProjects',
-    async (_, { rejectWithValue }) => {
-        try{
-            const response = await fetch(`${URL_API_PROJETCS}?${queryString}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return await response.json();
-        }catch (error){
-            return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
-        };
-    }
-)
-
-export const loadActus = createAsyncThunk(
-    'benevoles/loadActus',
-    async (_, { rejectWithValue }) => {
-        try{
-            const response = await fetch(URL_API_ACTUS, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return await response.json();
-        }catch (error){
-            return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
-        };
-    }
-)
 
 export const loadVolunteer = createAsyncThunk(
     'benevoles/loadVolunteer',
@@ -51,6 +13,7 @@ export const loadVolunteer = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
             });
+            console.log("ok", response.json());
             return await response.json();
         }catch (error){
             return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
@@ -58,10 +21,26 @@ export const loadVolunteer = createAsyncThunk(
     }
 )
 
+export const saveVolunteer = createAsyncThunk(
+    'benevoles/saveBenevole',
+    (datas,{
+        dispatch,
+        getState
+    }) => {
+        const id= getState().idVolunteerModifying
+        if(id){
+            dispatch(updateVolunteer(datas));
+        } else {
+            dispatch(addVolunteer(datas));
+        }
+    }
+)
+
 export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
+            const queryString = new URLSearchParams(datas).toString();
             const res = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
                 mmethod: 'POST',
                 headers: {
@@ -82,7 +61,8 @@ export const updateVolunteer = createAsyncThunk(
     'benevoles/updateVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const res = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
+            const queryString = new URLSearchParams(datas).toString();
+            const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
                 mmethod: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -99,7 +79,8 @@ export const deleteVolunteer = createAsyncThunk(
     'benevoles/deleteVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const res = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
+            const queryString = new URLSearchParams(datas).toString();
+            const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
                 mmethod: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
