@@ -1,6 +1,11 @@
-function Home(){
+import Header from "../components/Header";
 
-    return(<></>)
+function Home() {
+
+    return (
+    <>
+        <Header />
+    </>)
 };
 
 export default Home;
