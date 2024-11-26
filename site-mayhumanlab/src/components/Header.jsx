@@ -4,7 +4,10 @@ function Header() {
 
     return (
         <>
-        <header><Nav/></header>   
+        <header className="p-8 flex justify-between shadow-lg">
+            <img src=""/>
+            <Nav/>
+        </header>   
         </>)
 };
 

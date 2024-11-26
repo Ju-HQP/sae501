@@ -5,7 +5,7 @@ import {
 const slice = createSlice({
     name: 'volunteer',
     initialState: {
-        connected: true,
+        connected: false,
         admin: false,
         volunteers: [],
         volunteerModifying: false,

@@ -1,3 +1,5 @@
+/*Item pour la gestion des bévoles (VolunteersListGestion) */
+
 function VolunteerListItem(){
 
     return(<></>)
