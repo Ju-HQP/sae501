@@ -1,18 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {
+    createSlice
+} from '@reduxjs/toolkit';
 
 const slice = createSlice({
-    name: 'slice',
+    name: 'project',
     initialState: {
         connected: false,
         projects: [],
-        actus: [],
-        volunteers: []
     },
     reducers: {
-            //reducers
+
     },
-    extraReducers:(builder)=>{
-        builder.addCase(addVolunteer.fulfilled)
+    extraReducers: (builder) => {
+        //ajout des cas
     }
 })
 
