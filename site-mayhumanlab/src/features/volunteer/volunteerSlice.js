@@ -5,8 +5,8 @@ import {
 const slice = createSlice({
     name: 'volunteer',
     initialState: {
-        connected: false,
-        admin: false,
+        connected: true,
+        admin: true,
         volunteers: [],
         volunteerModifying: false,
         idVolunteerModifying: null

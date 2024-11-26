@@ -71,28 +71,7 @@ function VolunteerForm() {
                                         )}
                                     >
                                     </Field>
-                                    <Field
-                                        validate=''
-                                        name="password"
-                                        render={({ input, meta }) => (
-                                            <div className="flex flex-col">
-                                                <label onChange={handlePassChange} for='password' className="mt-3 mb-2 font-semibold">Mot de passe</label>
-                                                <input placeholder="••••••••" id='password' name="password" type='password' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
-                                            </div>
-                                        )}
-                                    >
-                                    </Field>
-                                    <Field
-                                        validate=''
-                                        name="password-confirm"
-                                        render={({ input, meta }) => (
-                                            <div className="flex flex-col">
-                                                <label onChange={handleConfirmPassChange} for='password-confirm' className="mt-3 mb-2 font-semibold">Confirmer le mot de passe</label>
-                                                <input placeholder="••••••••" id='password-confirm' name="password-confirm" type='password' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
-                                            </div>
-                                        )}
-                                    >
-                                    </Field>
+                                    
                                     <div className="flex justify-between m-8">
                                         <button onClick={handleExit} variant="contained" className='font-bold text-xl border-2 border-black hover:border-pink-600 hover:text-pink-600 rounded-lg px-5 py-3 text-center'>Annuler</button>
                                         <button type="submit" variant="contained" className='text-white font-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center'>Valider</button>
