@@ -9,14 +9,13 @@ import {
 
 export const loadProjects = createAsyncThunk(
     'benevoles/loadProjects',
-    async (datas, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try{
-            const response = await fetch(URL_API_PROJETCS, {
+            const response = await fetch(`${URL_API_PROJETCS}?${queryString}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(datas),
             });
             return await response.json();
         }catch (error){
@@ -27,14 +26,13 @@ export const loadProjects = createAsyncThunk(
 
 export const loadActus = createAsyncThunk(
     'benevoles/loadActus',
-    async (datas, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try{
             const response = await fetch(URL_API_ACTUS, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(datas),
             });
             return await response.json();
         }catch (error){
@@ -45,14 +43,13 @@ export const loadActus = createAsyncThunk(
 
 export const loadVolunteer = createAsyncThunk(
     'benevoles/loadVolunteer',
-    async (datas, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try{
             const response = await fetch(URL_API_VOLUNTEERS, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(datas),
             });
             return await response.json();
         }catch (error){
@@ -65,12 +62,11 @@ export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const res = await fetch(URL_API_VOLUNTEERS, {
+            const res = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
                 mmethod: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(datas),
             });
             return res.data;
         } catch (er) {
@@ -86,12 +82,11 @@ export const updateVolunteer = createAsyncThunk(
     'benevoles/updateVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const res = await fetch(URL_API_VOLUNTEERS, {
+            const res = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
                 mmethod: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(datas),
             });
             return await response.json();
         } catch (errorAxio){
@@ -104,12 +99,11 @@ export const deleteVolunteer = createAsyncThunk(
     'benevoles/deleteVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const res = await fetch(URL_API_VOLUNTEERS, {
+            const res = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
                 mmethod: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(datas),
             });
             return await response.json();
         }catch(errorAxio){

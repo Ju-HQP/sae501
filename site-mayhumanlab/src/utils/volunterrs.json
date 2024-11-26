@@ -2,7 +2,7 @@
     {
         "id": 1,
         "name": "Alice Dupont",
-        "role": "Coordonnateur",
+        "role": "Bénévole",
         "email": "alice@example.com"
     },
     {
@@ -10,5 +10,11 @@
         "name": "Bob Martin",
         "role": "Bénévole",
         "email": "bob@example.com"
+    },
+    {
+        "id": 3,
+        "name": "Michel Piot",
+        "role": "Admin",
+        "email": "Michel@example.com"
     }
 ]
