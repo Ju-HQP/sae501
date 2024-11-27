@@ -12,6 +12,7 @@ Etape 2 : Si ce n'est pas déjà fait (et dans le doute), exécutez
 
 Etape 3 : Exécutez les commandes DANS UNE INVITE DE COMMANDES, au niveau dossier du projet symfony
 
+php bin/console cache:clear
 php bin\console doctrine:database:create --if-not-exists 2>NUL
 php bin\console doctrine:schema:drop --full-database --force
 php bin\console doctrine:schema:create

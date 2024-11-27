@@ -109,7 +109,7 @@ class Benevole
         return $this->tel_b;
     }
 
-    public function setTel(string $tel): static
+    public function setTel(?string $tel): static
     {
         $this->tel_b = $tel;
 
@@ -121,7 +121,7 @@ class Benevole
         return $this->photo_b;
     }
 
-    public function setPhoto(string $photo): static
+    public function setPhoto(?string $photo): static
     {
         $this->photo_b = $photo;
 

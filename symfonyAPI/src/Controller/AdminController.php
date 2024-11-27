@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Benevole;
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -53,38 +54,36 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/benevoles/', name: 'adminBenevolesAjouter', methods: ['POST'])]
+	#[Route('/admin/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
 	public function adminBenevolesAjouterAction(Request $request): Response
 	{
-		$entity = new Benevole();
-		$formBuilder = $this->createFormBuilder($entity);
-        $formBuilder->add("id_benevole", HiddenType::class) ;
-		$formBuilder->add("nom_b", TextType::class);
-		$formBuilder->add("prenom_b", TextType::class);
-		$formBuilder->add("mdp_b", TextType::class);
-		$formBuilder->add("mail_b", TextType::class);
-		$formBuilder->add("tel_b", TextType::class);
-		$formBuilder->add("photo_b", TextType::class);
-		$formBuilder->add("role_b", TextType::class);
+		// Récupérer les données JSON
+		$data = json_decode($request->getContent(), true);
 
-		// Generate form
-		$form = $formBuilder->getForm();
-
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted()) {
-			$entity = $form->getData();
-			$entity->setId(uniqid());
-			$this->entityManager->persist($entity);
-			$this->entityManager->flush();
-			return $this->redirectToRoute("adminBenevoles");
-		} else {
-			return $this->render('admin.form.html.twig', [
-				'form' => $form->createView(),
-			]);
+		if (!$data) {
+			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
+
+		// Créer un nouvel objet Benevole
+		$benevole = new Benevole();
+		$benevole->setNom($data['nom_b'] ?? '')
+			->setPrenom($data['prenom_b'] ?? '')
+			->setMdp($data['mdp_b'] ?? '')
+			->setMail($data['mail_b'] ?? '')
+			->setTel($data['tel_b'] ?? null)
+			->setPhoto($data['photo_b'] ?? null)
+			->setRole($data['role_b'] ?? 'ROLE_USER');
+
+		// Sauvegarder dans la base de données
+		$this->entityManager->persist($benevole);
+		$this->entityManager->flush();
+
+		// Retourner la réponse avec l'ID du nouvel objet
+		return new Response(json_encode(['id' => $benevole->getId()]), Response::HTTP_CREATED, [
+			'Content-Type' => 'application/json',
+		]);
 	}
-	
+
 	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
 	public function adminBenevolesSupprimerAction(Request $request): Response
 	{
@@ -97,42 +96,40 @@ class AdminController extends AbstractController
 	}
 
 
-    #[Route('/admin/benevoles/modifier', name: 'adminBenevolesModifier')]
-    public function adminBenevolesModifierAction(Request $request): Response
-    {
+	#[Route('/admin/benevoles/modifier', name: 'adminBenevolesModifier')]
+	public function adminBenevolesModifierAction(Request $request): Response
+	{
 		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
-		if ($entity === null) 
+		if ($entity === null)
 			$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->request->get("id_benevole"));
 		if ($entity !== null) {
 			$formBuilder = $this->createFormBuilder($entity);
-            $formBuilder->add("id_benevole", HiddenType::class) ;
-            $formBuilder->add("nom_b", TextType::class);
-            $formBuilder->add("prenom_b", TextType::class);
-            $formBuilder->add("mdp_b", TextType::class);
-            $formBuilder->add("mail_b", TextType::class);
-            $formBuilder->add("tel_b", TextType::class);
-            $formBuilder->add("photo_b", TextType::class);
-            $formBuilder->add("role_b", TextType::class);
-            // $formBuilder->add("category", SubmitType::class);
-            // Generate form
-            $form = $formBuilder->getForm();
+			$formBuilder->add("id_benevole", HiddenType::class);
+			$formBuilder->add("nom_b", TextType::class);
+			$formBuilder->add("prenom_b", TextType::class);
+			$formBuilder->add("mdp_b", TextType::class);
+			$formBuilder->add("mail_b", TextType::class);
+			$formBuilder->add("tel_b", TextType::class);
+			$formBuilder->add("photo_b", TextType::class);
+			$formBuilder->add("role_b", TextType::class);
+			// $formBuilder->add("category", SubmitType::class);
+			// Generate form
+			$form = $formBuilder->getForm();
 
-		    $form->handleRequest($request);
-			
+			$form->handleRequest($request);
+
 			if ($form->isSubmitted()) {
-				$entity = $form->getData() ;
+				$entity = $form->getData();
 				$this->entityManager->persist($entity);
 				$this->entityManager->flush();
-				return $this->redirectToRoute("adminBenevoles") ;
-			}
-			else {
+				return $this->redirectToRoute("adminBenevoles");
+			} else {
 				return $this->render('admin.form.html.twig', [
 					'form' => $form->createView(),
 				]);
 			}
+		} else {
+			return $this->redirectToRoute("adminBenevoles");
 		}
-		else {
-			return $this->redirectToRoute("adminBenevoles") ;
-		}
-    }
+	}
 }

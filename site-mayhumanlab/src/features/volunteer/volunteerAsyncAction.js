@@ -43,7 +43,7 @@ export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
     async (datas) => {
         try {
-            const res = await fetch(URL_API_VOLUNTEERS, {
+            const res = await fetch(URL_API_VOLUNTEERS+'/benevoles', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
