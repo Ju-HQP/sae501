@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { URL_API_ACTUS, URL_API_PROJECTS, URL_API_VOLUNTEERS, test } from '../../utils/config.js';
+import { URL_API_VOLUNTEERS } from '../../utils/config.js';
 
 //fonctions asynchrones pourcommuniquer avec l'api
 
@@ -13,9 +13,13 @@ export const loadVolunteer = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
             });
-            const info = await response.json();
-            console.log("test" + info);
-            return info;
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP : ${response.status}`);
+            }
+            console.log("ok");
+            const data = await response.json();
+            console.log("rfjok", data);
+            return data
         }catch (error){
             return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
         };
