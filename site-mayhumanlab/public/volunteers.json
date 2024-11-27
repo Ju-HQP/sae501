@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [
     {
         "id_benevole": 1,
@@ -7,7 +6,7 @@
         "mail_b": "alice@example.com",
         "tel_b": "0000000000",
         "photo_b": "/user.png",
-        "role_b": "Bénévole"
+        "role_b": "Benevole"
     },
     {
         "id_benevole": 2,
@@ -16,7 +15,7 @@
         "mail_b": "bob@example.com",
         "tel_b": "1111111111",
         "photo_b": "/user.png",
-        "role_b": "Bénévole"
+        "role_b": "Benevole"
     },
     {
         "id_benevole": 3,
@@ -28,34 +27,3 @@
         "role_b": "Admin"
     }
 ]
-=======
-[
-    {
-        "id_benevole": 1,
-        "nom_b": "Dupont",
-        "prenom_b": "Alice",
-        "mail_b": "alice@example.com",
-        "tel_b": "0000000000",
-        "photo_b": "/user.png",
-        "role_b": "Bénévole"
-    },
-    {
-        "id_benevole": 2,
-        "nom_b": "Martin",
-        "prenom_b": "Bob",
-        "mail_b": "bob@example.com",
-        "tel_b": "1111111111",
-        "photo_b": "/user.png",
-        "role_b": "Bénévole"
-    },
-    {
-        "id_benevole": 3,
-        "nom_b": "Piot",
-        "prenom_b": "Michel",
-        "mail_b": "Michel@example.com",
-        "tel_b": "2222222222",
-        "photo_b": "/user.png",
-        "role_b": "Admin"
-    }
-]
->>>>>>> trombinoscope
