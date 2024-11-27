@@ -30,7 +30,6 @@ export const saveVolunteer = createAsyncThunk(
         dispatch,
         getState
     }) => {
-        //console.log(datas);
         const id= getState().idVolunteerModifying
         if(id){
             dispatch(updateVolunteer(datas));
@@ -43,7 +42,6 @@ export const saveVolunteer = createAsyncThunk(
 export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
     async (datas) => {
-        console.log(datas)
         try {
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',

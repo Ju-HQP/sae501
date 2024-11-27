@@ -13,7 +13,6 @@ function VolunteerForm() {
 
     const handleSubmit = async(values, form) => {
         dispatch(saveVolunteer(values));
-        console.log(values);
     }
 
     function handleExit() {
