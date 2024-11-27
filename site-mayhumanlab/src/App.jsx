@@ -2,6 +2,7 @@ import Home from "./pages/Home";
 import VolunteersChart from "./pages/VolunteersChart";
 import VolunteersListGestion from "./pages/VolunteersListGestion";
 import { Route, Routes } from "react-router-dom";
+import { URL_API_VOLUNTEERS } from "./utils/config";
 
 function App(){
 

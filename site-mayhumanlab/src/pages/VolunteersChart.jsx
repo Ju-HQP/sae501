@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectLoading, selectVolunteer } from "../features/volunteer/volunteerSelector";
-import VolunteerListItem from "../components/VolunteerListItem";
+import VolunteersChartItem from "../components/VolunteersChartItem";
 import { useEffect } from "react";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";
 
@@ -19,7 +19,7 @@ function VolunteersChart(){
             <h1 className="font-bold text-xl text-center">Trombinoscope</h1>
             <div className="grid lg:grid-cols-2">
                 {loading?<p>Chargement des données...</p>:volunteerList.map((volunteer)=>(
-                    <VolunteerListItem volunteer={volunteer} />
+                    <VolunteersChartItem volunteer={volunteer} />
                 ))}
             </div>
         </>
