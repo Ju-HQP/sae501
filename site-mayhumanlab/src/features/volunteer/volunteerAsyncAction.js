@@ -48,6 +48,7 @@ export const addVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(datas)
             });
             return await res.json();
         } catch (er) {
