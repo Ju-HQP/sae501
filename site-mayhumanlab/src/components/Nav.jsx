@@ -27,10 +27,10 @@ function Nav() {
                                 <div className="absolute top-0 left-0 bg-white w-full h-screen flex flex-col items-end p-8">
                                     <XMarkIcon className="w-12" onClick={() => setIsNavOpen(false)} />
                                     <ul className="text-lg p-6 flex flex-col justify-between items-end">
-                                        <li className="flex flex-col items-end">
+                                        <li className="flex flex-col items-end mb-3">
                                             <span className="flex justify-between w-20">
-                                                <button onClick={() => setIsMenuOpen((prev) => !prev)}>Accueil</button>
                                                 <ChevronDownIcon className="w-4" onClick={() => setIsMenuOpen((prev) => !prev)} />
+                                                <button onClick={() => setIsMenuOpen((prev) => !prev)}>Accueil</button>        
                                             </span>
                                             {
                                                 isMenuOpen
