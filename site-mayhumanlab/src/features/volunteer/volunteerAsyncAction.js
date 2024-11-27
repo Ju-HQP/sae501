@@ -45,7 +45,6 @@ export const addVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(datas),
             });
             return await res.json();
         } catch (er) {
@@ -58,9 +57,37 @@ export const addVolunteer = createAsyncThunk(
 )
 
 export const updateVolunteer = createAsyncThunk(
-  
+    'benevoles/updateVolunteer',
+    async (datas, { rejectWithValue }) => {
+        try {
+            const queryString = new URLSearchParams(datas).toString();
+            const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
+                mmethod: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            return await response.json();
+        } catch (errorAxio){
+            return rejectWithValue(errorAxio.response.data.error.message);
+        };
+    }
 )
 
 export const deleteVolunteer = createAsyncThunk(
- 
+    'benevoles/deleteVolunteer',
+    async (datas, { rejectWithValue }) => {
+        try {
+            const queryString = new URLSearchParams(datas).toString();
+            const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
+                mmethod: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            return await response.json();
+        }catch(errorAxio){
+            return rejectWithValue(errorAxio.response.data.error.message);
+        };
+    }
 )
