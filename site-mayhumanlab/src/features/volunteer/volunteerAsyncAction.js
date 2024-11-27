@@ -16,10 +16,8 @@ export const loadVolunteer = createAsyncThunk(
             if (!response.ok) {
                 throw new Error(`Erreur HTTP : ${response.status}`);
             }
-            console.log("ok");
             const data = await response.json();
-            console.log("rfjok", data);
-            return data
+            return data;
         }catch (error){
             return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
         };
