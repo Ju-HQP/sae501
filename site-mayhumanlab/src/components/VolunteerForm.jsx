@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { stopVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import { Field, Form } from "react-final-form";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { saveVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import { useState } from "react";
 
@@ -13,8 +12,8 @@ function VolunteerForm() {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleSubmit = async(values, form) => {
-        dispatch(saveVolunteer(values))
-        console.log('ok')
+        dispatch(saveVolunteer(values));
+        console.log(values);
     }
 
     function handleExit() {
@@ -35,38 +34,76 @@ function VolunteerForm() {
                 <dialog open onClose={handleExit} className="w-screen shadow-2xl rounded-lg relative p-4">
                     <span className="flex justify-center flex-col">
                         <h2 className="text-2xl font-bold text-center">Créer un compte</h2>
-                        <Form onSubmit={handleSubmit}
+                        <Form
+                            onSubmit={handleSubmit}
                             render={({ handleSubmit }) => (
                                 <form onSubmit={handleSubmit} >
                                     <Field
                                         validate=''
-                                        name="name"
+                                        name="prenom_b"
                                         render={({ input, meta }) => (
                                             <div className="flex flex-col">
-                                                <label for='name' className="mt-3 mb-2 font-semibold">Prénom</label>
-                                                <input placeholder="Michelle" id='name' name="name" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <label htmlFor='prenom_b' className="mt-3 mb-2 font-semibold">Prénom</label>
+                                                <input {...input} value={input.value} placeholder="Michelle" id='prenom_b' name="prenom_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
                                     </Field>
                                     <Field
                                         validate=''
-                                        name="lastname"
+                                        name="nom_b"
                                         render={({ input, meta }) => (
                                             <div className="flex flex-col">
-                                                <label for='lastname' className="mt-3 mb-2 font-semibold">Nom</label>
-                                                <input placeholder="Durand" id='lastname' name="lastname" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <label htmlFor='nom_b' className="mt-3 mb-2 font-semibold">Nom</label>
+                                                <input {...input} value={input.value} placeholder="Durand" id='nom_b' name="nom_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
                                     </Field>
                                     <Field
                                         validate=''
-                                        name="email"
+                                        name="mail_b"
                                         render={({ input, meta }) => (
+                                            
                                             <div className="flex flex-col">
-                                                <label for='email' className="mt-3 mb-2 font-semibold">Email</label>
-                                                <input placeholder="michelle.durand@gmail.com" id='email' name="email" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <label htmlFor='mail_b' className="mt-3 mb-2 font-semibold">Email</label>
+                                                <input {...input} value={input.value} placeholder="michelle.durand@gmail.com" id='mail_b' name="mail_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                            </div>
+                                        )}
+                                    >
+                                    </Field>
+                                    <Field
+                                        validate=''
+                                        name="tel_b"
+                                        render={({ input, meta }) => (
+                                            
+                                            <div className="flex flex-col">
+                                                <label htmlFor='tel_b' className="mt-3 mb-2 font-semibold">Téléphone</label>
+                                                <input {...input} value={input.value} placeholder="07 01 02 03 04" id='tel_b' name="tel_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                            </div>
+                                        )}
+                                    >
+                                    </Field>
+                                    <Field
+                                        validate=''
+                                        name="photo_b"
+                                        render={({ input, meta }) => (
+                                            
+                                            <div className="flex flex-col">
+                                                <label htmlFor='photo_b' className="mt-3 mb-2 font-semibold">Photo</label>
+                                                <input {...input} value={input.value} placeholder="" id='photo_b' name="photo_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                            </div>
+                                        )}
+                                    >
+                                    </Field>
+                                    <Field
+                                        validate=''
+                                        name="role_b"
+                                        render={({ input, meta }) => (
+                                            
+                                            <div className="flex flex-col">
+                                                <label htmlFor='role_b' className="mt-3 mb-2 font-semibold">Role</label>
+                                                <input {...input} value={input.value} placeholder="Benevole" id='role_b' name="role_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
