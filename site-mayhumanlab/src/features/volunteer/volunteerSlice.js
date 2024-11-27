@@ -8,8 +8,8 @@ const slice = createSlice({
     initialState: {
         volunteers: [],
         loading: false,
-        connected: false,
-        admin: false,
+        connected: true,
+        admin: true,
         volunteerModifying: false,
         idVolunteerModifying: null,
         errors: {

@@ -1,8 +1,8 @@
 /*Item pour le trombinoscope (VolunteersChart) */
 
-function VolunteersItem(){
+function VolunteersChartItem(){
 
     return(<></>)
 };
 
-export default VolunteersItem;
+export default VolunteersChartItem;
