@@ -13,8 +13,9 @@ export const loadVolunteer = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
             });
-            console.log("ok", response.json());
-            return await response.json();
+            const info = await response.json();
+            console.log("test" + info);
+            return info;
         }catch (error){
             return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
         };
@@ -40,8 +41,7 @@ export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const queryString = new URLSearchParams(datas).toString();
-            const res = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
+            const res = await fetch(URL_API_VOLUNTEERS, {
                 mmethod: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
