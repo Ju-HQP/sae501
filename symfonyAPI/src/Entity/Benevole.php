@@ -9,8 +9,12 @@ use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Bundle\MakerBundle\Str;
 
+// UserInterface pour la gestion du mot de passe
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 #[ORM\Entity]
-class Benevole
+class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 { 
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
@@ -80,12 +84,12 @@ class Benevole
         return $this;
     }
 
-    public function getMdp(): ?string
+    public function getPassword(): ?string
     {
         return $this->mdp_b;
     }
 
-    public function setMdp(string $mdp): static
+    public function setPassword(string $mdp): static
     {
         $this->mdp_b = $mdp;
 
@@ -134,11 +138,28 @@ class Benevole
         return $this->role_b;
     }
 
-    public function setRole(string $role): static
+    public function getRoles(): array
+    {
+        return [$this->role_b];
+    }
+    
+    public function setRoles(string $role): static
     {
         $this->role_b = $role;
 
         return $this;
     }
+
+    public function getUserIdentifier(): string
+    {
+        // Utilisez un identifiant unique, comme l'email ou le nom
+        return $this->nom_b;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Efface les données sensibles si nécessaire
+    }
+
 }
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Benevole;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,8 +17,12 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 use Psr\Log\LoggerInterface;
-
+// Pour l'entité
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Benevole;
+// Pour la gestion du mot de passe
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminController extends AbstractController
 {
@@ -54,8 +57,11 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
+	// Fonction pour l'ajout d'un nouveau Bénévole
+	// le paramètre passwordhasher vient du fichier security.yaml
+
 	#[Route('/admin/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
-	public function adminBenevolesAjouterAction(Request $request): Response
+	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
 		// Récupérer les données JSON
 		$data = json_decode($request->getContent(), true);
@@ -64,15 +70,24 @@ class AdminController extends AbstractController
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
 
+		
 		// Créer un nouvel objet Benevole
 		$benevole = new Benevole();
 		$benevole->setNom($data['nom_b'] ?? '')
 			->setPrenom($data['prenom_b'] ?? '')
-			->setMdp($data['mdp_b'] ?? '')
+			 // le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
 			->setPhoto($data['photo_b'] ?? null)
-			->setRole($data['role_b'] ?? 'ROLE_USER');
+			->setRoles($data['role_b'] ?? 'ROLE_USER');
+
+		// --- Génération du mdp aléatoire
+        $randomMdp= random_bytes(10);
+		// --- Hash du mot de passe
+        $hashedPassword = $passwordHasher->hashPassword($benevole, $randomMdp);
+		// ajout à l'objet Benevole
+		$benevole->setPassword($hashedPassword);
+
 
 		// Sauvegarder dans la base de données
 		$this->entityManager->persist($benevole);
