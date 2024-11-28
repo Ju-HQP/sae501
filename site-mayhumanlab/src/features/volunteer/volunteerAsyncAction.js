@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { URL_API_VOLUNTEERS } from '../../utils/config.js';
 
-//fonctions asynchrones pourcommuniquer avec l'api
+//fonctions asynchrones pour communiquer avec l'api
 
 export const loadVolunteer = createAsyncThunk(
     'benevoles/loadVolunteer',
@@ -41,7 +41,7 @@ export const saveVolunteer = createAsyncThunk(
 
 export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
-    async (datas) => {
+    async (datas, {rejectWithValue}) => {
         try {
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
@@ -52,10 +52,7 @@ export const addVolunteer = createAsyncThunk(
             });
             return await res.json();
         } catch (er) {
-            return {
-                success: false,
-                message: `Erreur lors de la création du compte : ${er.message}`
-            };
+            return rejectWithValue(+ er.response.data.error.message)
         }
     }
 )
@@ -66,7 +63,7 @@ export const updateVolunteer = createAsyncThunk(
         try {
             const queryString = new URLSearchParams(datas).toString();
             const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
-                mmethod: 'PUT',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -84,7 +81,7 @@ export const deleteVolunteer = createAsyncThunk(
         try {
             const queryString = new URLSearchParams(datas).toString();
             const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
-                mmethod: 'DELETE',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },

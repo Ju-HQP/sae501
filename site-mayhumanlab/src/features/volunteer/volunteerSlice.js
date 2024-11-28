@@ -1,7 +1,7 @@
 import {
     createSlice
 } from '@reduxjs/toolkit';
-import { loadVolunteer } from './volunteerAsyncAction';
+import { addVolunteer, loadVolunteer, updateVolunteer } from './volunteerAsyncAction';
 
 const slice = createSlice({
     name: 'volunteer',
@@ -45,6 +45,16 @@ const slice = createSlice({
         .addCase(loadVolunteer.rejected, (state, action)=>{
             state.loading = false;
             state.errors.apiErrorLoad = action.payload;
+        })
+        .addCase(addVolunteer.fulfilled, (state, action)=>{
+            console.log(state.volunteers)
+            state.volunteers = [...state.volunteers, action.payload];
+            state.volunteerModifying = false;
+            console.log(state.volunteers)
+        })
+        .addCase(addVolunteer.rejected, (state, action)=>{
+            state.errors.apiErrorAdd = action.payload;
+            state.volunteerModifying = false;
         })
     }
 })
