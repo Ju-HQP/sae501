@@ -10,107 +10,190 @@ function Nav() {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-
     return (
         <>
-            <nav className="">
+            <nav className="w-full">
 
+                {/**nav pour les écrans grands */}
+                <section className="hidden lg:block">
+                    {
+                        isConnected
+                            ?
+                            <ul className="text-lg flex justify-between items-center">
+                                <li className="flex flex-col items-center relative">
+                                    <span className="flex justify-between w-20">
+                                        <ChevronDownIcon className="w-4" onClick={() => setIsMenuOpen((prev) => !prev)} />
+                                        <button onClick={() => setIsMenuOpen((prev) => !prev)}>Accueil</button>
+                                    </span>
+                                    {
+                                        isMenuOpen
+                                        &&
+                                        <ul className=" absolute top-6 flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100">
+                                            <li className="my-3">
+                                                <Link to='/#presentation'>Présentation</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#axes'>Axes</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#projects'>Projets</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#actu'>Actualités</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#contacts'>Contacts</Link>
+                                            </li>
+                                        </ul>
+                                    }
+
+
+                                </li>
+                                <li className="my-3">
+                                    <NavLink to='/agenda'>Agenda</NavLink>
+                                </li>
+                                <li className="my-3">
+                                    <NavLink to='/trombinoscope'>Trombinoscope</NavLink>
+                                </li>
+                                <li className="my-3">
+                                    <NavLink to='/gestion-du-site'>Gestion du site</NavLink>
+                                </li>
+
+                                {/**QUE POUR LES ADMINS */
+                                    isAdmin
+                                    &&
+                                    <li className="my-3">
+                                        <NavLink to='/gestion-des-benevoles'>Gestion des comptes</NavLink>
+                                    </li>
+                                }
+
+                            </ul>
+                            :
+                            /**Nav pour les utilisateurs non connectés */
+                                <ul className="text-lg flex justify-between items-center">
+                                    <li className="my-3">
+                                        <Link to='/'>Accueil</Link>
+                                    </li>
+                                    <li className="my-3">
+                                        <Link to='/#presentation'>Présentation</Link>
+                                    </li>
+                                    <li className="my-3">
+                                        <Link to='/#axes'>Axes</Link>
+                                    </li>
+                                    <li className="my-3">
+                                        <Link to='/#projects'>Projets</Link>
+                                    </li>
+                                    <li className="my-3">
+                                        <Link to='/#actu'>Actualités</Link>
+                                    </li>
+                                    <li className="my-3">
+                                        <Link to='/#contacts'>Contacts</Link>
+                                    </li>
+                                </ul>
+                    }
+
+                </section>
+
+                {/**nav mobile */}
                 {/*Nav pour les bénévoles et admins*/}
-                {
-                    isConnected
-                        ?
-                        <section>
-                            <Bars3Icon className="w-12" onClick={() => setIsNavOpen((prev) => !prev)} />
-                            {
-                                isNavOpen
-                                &&
-                                <div className="absolute top-0 left-0 bg-white w-full h-screen flex flex-col items-end p-8">
-                                    <XMarkIcon className="w-12" onClick={() => setIsNavOpen(false)} />
-                                    <ul className="text-lg p-6 flex flex-col justify-between items-end">
-                                        <li className="flex flex-col items-end mb-3">
-                                            <span className="flex justify-between w-20">
-                                                <ChevronDownIcon className="w-4" onClick={() => setIsMenuOpen((prev) => !prev)} />
-                                                <button onClick={() => setIsMenuOpen((prev) => !prev)}>Accueil</button>        
-                                            </span>
-                                            {
-                                                isMenuOpen
+                <section className="lg:hidden flex justify-end">
+                    {
+                        isConnected
+                            ?
+                            <>
+                                <Bars3Icon className="w-12 " onClick={() => setIsNavOpen((prev) => !prev)} />
+                                {
+                                    isNavOpen
+                                    &&
+                                    <div className="absolute top-0 left-0 bg-white w-full h-screen flex flex-col items-end p-8">
+                                        <XMarkIcon className="w-12" onClick={() => setIsNavOpen(false)} />
+                                        <ul className="text-lg p-6 flex flex-col justify-between items-end">
+                                            <li className="flex flex-col items-end mb-3">
+                                                <span className="flex justify-between w-20">
+                                                    <ChevronDownIcon className="w-4" onClick={() => setIsMenuOpen((prev) => !prev)} />
+                                                    <button onClick={() => setIsMenuOpen((prev) => !prev)}>Accueil</button>
+                                                </span>
+                                                {
+                                                    isMenuOpen
+                                                    &&
+                                                    <ul className="flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100">
+                                                        <li className="my-3">
+                                                            <Link to='/#presentation'>Présentation</Link>
+                                                        </li>
+                                                        <li className="my-3">
+                                                            <Link to='/#axes'>Axes</Link>
+                                                        </li>
+                                                        <li className="my-3">
+                                                            <Link to='/#projects'>Projets</Link>
+                                                        </li>
+                                                        <li className="my-3">
+                                                            <Link to='/#actu'>Actualités</Link>
+                                                        </li>
+                                                        <li className="my-3">
+                                                            <Link to='/#contacts'>Contacts</Link>
+                                                        </li>
+                                                    </ul>
+                                                }
+
+
+                                            </li>
+                                            <li className="my-3">
+                                                <NavLink to='/agenda'>Agenda</NavLink>
+                                            </li>
+                                            <li className="my-3">
+                                                <NavLink to='/trombinoscope'>Trombinoscope</NavLink>
+                                            </li>
+                                            <li className="my-3">
+                                                <NavLink to='/gestion-du-site'>Gestion du site</NavLink>
+                                            </li>
+
+                                            {/**QUE POUR LES ADMINS */
+                                                isAdmin
                                                 &&
-                                                <ul className="flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100">
-                                                    <li className="my-3">
-                                                        <Link to='/#presentation'>Présentation</Link>
-                                                    </li>
-                                                    <li className="my-3">
-                                                        <Link to='/#axes'>Axes</Link>
-                                                    </li>
-                                                    <li className="my-3">
-                                                        <Link to='/#projects'>Projets</Link>
-                                                    </li>
-                                                    <li className="my-3">
-                                                        <Link to='/#actu'>Actualités</Link>
-                                                    </li>
-                                                    <li className="my-3">
-                                                        <Link to='/#contacts'>Contacts</Link>
-                                                    </li>
-                                                </ul>
+                                                <li className="my-3">
+                                                    <NavLink to='/gestion-des-benevoles'>Gestion des comptes</NavLink>
+                                                </li>
                                             }
 
-
-                                        </li>
-                                        <li className="my-3">
-                                            <NavLink to='/agenda'>Agenda</NavLink>
-                                        </li>
-                                        <li className="my-3">
-                                            <NavLink to='/trombinoscope'>Trombinoscope</NavLink>
-                                        </li>
-                                        <li className="my-3">
-                                            <NavLink to='/gestion-du-site'>Gestion du site</NavLink>
-                                        </li>
-
-                                        {/**QUE POUR LES ADMINS */
-                                            isAdmin
-                                            &&
+                                        </ul>
+                                    </div>
+                                }
+                            </>
+                            :
+                            /**Nav pour les utilisateurs non connectés */
+                            <>
+                                <Bars3Icon className="w-12" onClick={() => setIsNavOpen((prev) => !prev)} />
+                                {
+                                    isNavOpen
+                                    &&
+                                    <div className="absolute top-0 left-0 bg-white w-full h-screen flex flex-col items-end p-8">
+                                        <XMarkIcon className="w-12" onClick={() => setIsNavOpen(false)} />
+                                        <ul className="text-lg p-6 flex flex-col justify-between items-end">
                                             <li className="my-3">
-                                                <NavLink to='/gestion-des-benevoles'>Gestion des comptes</NavLink>
+                                                <Link to='/'>Accueil</Link>
                                             </li>
-                                        }
+                                            <li className="my-3">
+                                                <Link to='/#presentation'>Présentation</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#axes'>Axes</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#projects'>Projets</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#actu'>Actualités</Link>
+                                            </li>
+                                            <li className="my-3">
+                                                <Link to='/#contacts'>Contacts</Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                            </>
 
-                                    </ul>
-                                </div>
-                            }
-                        </section>
-                        :
-                        /**Nav pour les utilisateurs non connectés */
-                        <section>
-                            <Bars3Icon className="w-12" onClick={() => setIsNavOpen((prev) => !prev)} />
-                            {
-                                isNavOpen
-                                &&
-                                <div className="absolute top-0 left-0 bg-white w-full h-screen flex flex-col items-end p-8">
-                                    <XMarkIcon className="w-12" onClick={() => setIsNavOpen(false)} />
-                                    <ul className="text-lg p-6 flex flex-col justify-between items-end">
-                                        <li className="my-3">
-                                            <Link to='/'>Accueil</Link>
-                                        </li>
-                                        <li className="my-3">
-                                            <Link to='/#presentation'>Présentation</Link>
-                                        </li>
-                                        <li className="my-3">
-                                            <Link to='/#axes'>Axes</Link>
-                                        </li>
-                                        <li className="my-3">
-                                            <Link to='/#projects'>Projets</Link>
-                                        </li>
-                                        <li className="my-3">
-                                            <Link to='/#actu'>Actualités</Link>
-                                        </li>
-                                        <li className="my-3">
-                                            <Link to='/#contacts'>Contacts</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            }
-                        </section>
-                }
+                    }
+                </section>
             </nav>
         </>)
 };
