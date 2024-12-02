@@ -1,3 +1,4 @@
+php composer.phar install
 php bin/console cache:clear
 php bin\console doctrine:database:create --if-not-exists 2>NUL
 php bin\console doctrine:schema:drop --full-database --force
