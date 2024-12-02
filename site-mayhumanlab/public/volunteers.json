@@ -5,8 +5,8 @@
         "prenom_b": "Alice",
         "mail_b": "alice@example.com",
         "tel_b": "0000000000",
-        "photo_b": "/user.png",
-        "role_b": "Benevole"
+        "photo_b": "/encore.jpg",
+        "role_b": "Bénévole"
     },
     {
         "id_benevole": 2,
@@ -14,8 +14,8 @@
         "prenom_b": "Bob",
         "mail_b": "bob@example.com",
         "tel_b": "1111111111",
-        "photo_b": "/user.png",
-        "role_b": "Benevole"
+        "photo_b": "/usertest.jpg",
+        "role_b": "Bénévole"
     },
     {
         "id_benevole": 3,
@@ -24,6 +24,15 @@
         "mail_b": "Michel@example.com",
         "tel_b": "2222222222",
         "photo_b": "/user.png",
+        "role_b": "Bénévole"
+    },
+    {
+        "id_benevole": 3,
+        "nom_b": "Piotgireitghreoihgeoih",
+        "prenom_b": "Michelfiehoireh",
+        "mail_b": "Michel@example.com",
+        "tel_b": "2222222222",
+        "photo_b": "/test.jpg",
         "role_b": "Admin"
     }
 ]
