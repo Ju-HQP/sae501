@@ -1,0 +1,25 @@
+security:
+    password_hashers:
+        # auto hasher with default options for the Benevole class (and children)
+        App\Entity\Benevole: 'auto'
+
+        # auto hasher with custom options for all PasswordAuthenticatedUserInterface instances
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: 'bcrypt'
+            # lvl of hashing, mini 4 pour le test, mais on indiquera 13 lors de la mise en prod
+            cost:  4 
+    providers:
+        benevoles_provider:
+            entity:
+                class: App\Entity\Benevole
+                property: nom_b # ou mail_b si vous utilisez l'email comme identifiant
+
+    firewalls:
+        main:
+            provider: benevoles_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+            logout:
+                path: app_logout
+

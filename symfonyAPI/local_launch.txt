@@ -1,0 +1,32 @@
+Ceci est un tutoriel rédigé afin de lancer le serveur et l'API en local. SVP LISEZ jusqu'en bas
+
+Etape 0 : Lancer XAMPP (toujours)
+
+Etape 1 : Vérifiez que vous avez bien php sur votre ordinateur, exécutez
+                php -v
+(php est présent dans xampp par défaut)
+
+Etape 2 : Si ce n'est pas déjà fait (et dans le doute), exécutez
+                php composer.phar install
+(La commande installe les librairies dans le dossier vendor)
+
+Etape 3 : Exécutez les commandes DANS UNE INVITE DE COMMANDES, au niveau dossier du projet symfony
+
+php bin/console cache:clear
+php bin\console doctrine:database:create --if-not-exists 2>NUL
+php bin\console doctrine:schema:drop --full-database --force
+php bin\console doctrine:schema:create
+php bin\console doctrine:fixtures:load --append
+php -S 0.0.0.0:8000 -t public
+
+Erreurs probables :
+
+Si vous rencontrez l'erreur : 
+    out-file : FileStream devait ouvrir un périphérique qui n'était pas un fichier. Pour une prise en charge de périphériques tels que 'com1:' ou 'lpt1:', appelez CreateFile, puis
+    'out-file' n’est pas reconnu en tant que commande interne ou externe, un programme exécutable ou un fichier de commandes.
+
+Retrouvez le fichier php.ini dans le dossier "php" de votre installation php (soit sur votre ordinateur soit dans xampp)
+Cherchez la ligne 
+";extension=pdo_mysql" (CTRL + F "pdo" ça ira plus vite), 
+et enlevez le ";", puis sauvegardez (CTRL + S)
+Réessayez ensuite les commandes
