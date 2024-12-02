@@ -35,14 +35,17 @@ class AdminController extends AbstractController
 		$this->logger = $logger;
 	}
 
-	#[Route('/admin/benevoles', name: 'adminBenevoles',  methods: ['GET'])]
-	public function adminBenevolesAction(Request $request): Response
+	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
+	public function adminBenevolesAction(): Response
 	{
-		$query = $this->entityManager->createQuery("SELECT a FROM use App\Entity\Benevole a");
-		$benevoles = $query->getResult();
-		return $this->render('admin.benevoles.html.twig', [
-			'benevoles' => $benevoles,
-		]);
+		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
+		$benevoles = $query->getArrayResult(); // ou getResult();
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+		$response->setContent(json_encode($benevoles));
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		return $response;
 	}
 
 	#[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
