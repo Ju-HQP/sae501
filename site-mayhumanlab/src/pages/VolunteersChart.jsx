@@ -17,7 +17,7 @@ function VolunteersChart(){
     return(
         <>
             <h1 className="font-bold text-2xl text-center p-6">Trombinoscope</h1>
-            <div className="grid gap-x-36 lg:grid-cols-2 p-9 xl:mx-60">
+            <div className="grid gap-x-32 lg:grid-cols-2 p-9 xl:mx-52">
                 {loading?<p>Chargement des données...</p>:volunteerList.map((volunteer)=>(
                     <VolunteersChartItem volunteer={volunteer} />
                 ))}
