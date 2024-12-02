@@ -21,9 +21,9 @@ function Nav() {
                             ?
                             <ul className="text-lg flex justify-between items-center">
                                 <li className="flex flex-col items-center relative hover:bg-slate-100 rounded">
-                                    <span className="flex justify-between w-20">
+                                    <span className="flex justify-between w-28">
                                         <ChevronDownIcon className="w-4" onClick={() => setIsMenuOpen((prev) => !prev)} />
-                                        <NavLink className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 ' : ' '} to="/" onMouseOver={() => setIsMenuOpen(true)} onMouseOut={() => setIsMenuOpen(false)}>Accueil</NavLink>
+                                        <NavLink className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 py-2 px-4 font-bold' : 'py-2 px-4 font-bold '} to="/" onMouseOver={() => setIsMenuOpen(true)} onMouseOut={() => setIsMenuOpen(false)}>Accueil</NavLink>
                                     </span>
                                     {
                                         isMenuOpen
@@ -49,21 +49,21 @@ function Nav() {
 
 
                                 </li>
-                                <li className="my-3 hover:bg-slate-100 p-2 rounded">
-                                    <NavLink to='/agenda' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Agenda</NavLink>
+                                <li className="my-3">
+                                    <NavLink to='/agenda' className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded':'py-2 px-4 font-bold hover:bg-slate-100 rounded'}>Agenda</NavLink>
                                 </li>
-                                <li className="my-3 hover:bg-slate-100 p-2 rounded">
-                                    <NavLink to='/trombinoscope' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Trombinoscope</NavLink>
+                                <li className="my-3">
+                                    <NavLink to='/trombinoscope' className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded':'py-2 px-4 font-bold hover:bg-slate-100 rounded'}>Trombinoscope</NavLink>
                                 </li>
-                                <li className="my-3 hover:bg-slate-100 p-2 rounded">
-                                    <NavLink to='/gestion-du-site' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Gestion du site</NavLink>
+                                <li className="my-3">
+                                    <NavLink to='/gestion-du-site' className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded':'py-2 px-4 font-bold hover:bg-slate-100 rounded'}>Gestion du site</NavLink>
                                 </li>
 
                                 {/**QUE POUR LES ADMINS */
                                     isAdmin
                                     &&
-                                    <li className="my-3 hover:bg-slate-100 p-2 rounded">
-                                        <NavLink to='/gestion-des-benevoles' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Gestion des comptes</NavLink>
+                                    <li className="my-3">
+                                        <NavLink to='/gestion-des-benevoles' className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded' : 'py-2 px-4 font-bold hover:bg-slate-100 rounded'}>Gestion des comptes</NavLink>
                                     </li>
                                 }
 
@@ -71,22 +71,22 @@ function Nav() {
                             :
                             /**Nav pour les utilisateurs non connectés */
                                 <ul className="text-lg flex justify-between items-center">
-                                    <li className="my-3">
+                                    <li className="my-3 font-bold">
                                         <Link to='/'>Accueil</Link>
                                     </li>
-                                    <li className="my-3">
+                                    <li className="my-3 font-bold">
                                         <Link to='/#presentation'>Présentation</Link>
                                     </li>
-                                    <li className="my-3">
+                                    <li className="my-3 font-bold">
                                         <Link to='/#axes'>Axes</Link>
                                     </li>
-                                    <li className="my-3">
+                                    <li className="my-3 font-bold">
                                         <Link to='/#projects'>Projets</Link>
                                     </li>
-                                    <li className="my-3">
+                                    <li className="my-3 font-bold">
                                         <Link to='/#actu'>Actualités</Link>
                                     </li>
-                                    <li className="my-3">
+                                    <li className="my-3 font-bold">
                                         <Link to='/#contacts'>Contacts</Link>
                                     </li>
                                 </ul>
@@ -111,7 +111,7 @@ function Nav() {
                                             <li className="flex flex-col items-end mb-3">
                                                 <span className="flex justify-between w-20">
                                                     <ChevronDownIcon className="w-4" onClick={() => setIsMenuOpen((prev) => !prev)} />
-                                                    <NavLink to='/' onClick={() => setIsMenuOpen((prev) => !prev)} className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Accueil</NavLink>
+                                                    <NavLink to='/' onClick={() => setIsMenuOpen((prev) => !prev)} className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 font-bold' :'font-bold'}>Accueil</NavLink>
                                                 </span>
                                                 {
                                                     isMenuOpen
@@ -137,21 +137,21 @@ function Nav() {
 
 
                                             </li>
-                                            <li className="my-3">
-                                                <NavLink to='/agenda' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Agenda</NavLink>
+                                            <li className="my-3 font-bold">
+                                                <NavLink to='/agenda' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8 font-bold'}>Agenda</NavLink>
                                             </li>
-                                            <li className="my-3">
-                                                <NavLink to='/trombinoscope' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Trombinoscope</NavLink>
+                                            <li className="my-3 font-bold">
+                                                <NavLink to='/trombinoscope' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8 font-bold'}>Trombinoscope</NavLink>
                                             </li>
-                                            <li className="my-3">
-                                                <NavLink to='/gestion-du-site'className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Gestion du site</NavLink>
+                                            <li className="my-3 font-bold">
+                                                <NavLink to='/gestion-du-site'className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8 font-bold'}>Gestion du site</NavLink>
                                             </li>
 
                                             {/**QUE POUR LES ADMINS */
                                                 isAdmin
                                                 &&
-                                                <li className="my-3">
-                                                    <NavLink to='/gestion-des-benevoles' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8'}>Gestion des comptes</NavLink>
+                                                <li className="my-3 font-bold">
+                                                    <NavLink to='/gestion-des-benevoles' className={({isActive})=> isActive&& 'text-pink-600 underline underline-offset-8 font-bold'}>Gestion des comptes</NavLink>
                                                 </li>
                                             }
 
@@ -169,23 +169,23 @@ function Nav() {
                                     <div className="absolute top-0 left-0 bg-white w-full h-screen flex flex-col items-end p-8">
                                         <XMarkIcon className="w-12" onClick={() => setIsNavOpen(false)} />
                                         <ul className="text-lg p-6 flex flex-col justify-between items-end">
-                                            <li className="my-3">
-                                                <Link to='/'>Accueil</Link>
+                                            <li className="my-3 font-bold">
+                                                <Link to='/' onClick={() => setIsNavOpen(false)}>Accueil</Link>
                                             </li>
-                                            <li className="my-3">
-                                                <Link to='/#presentation'>Présentation</Link>
+                                            <li className="my-3 font-bold">
+                                                <Link to='/#presentation' onClick={() => setIsNavOpen(false)}>Présentation</Link>
                                             </li>
-                                            <li className="my-3">
-                                                <Link to='/#axes'>Axes</Link>
+                                            <li className="my-3 font-bold">
+                                                <Link to='/#axes' onClick={() => setIsNavOpen(false)}>Axes</Link>
                                             </li>
-                                            <li className="my-3">
-                                                <Link to='/#projects'>Projets</Link>
+                                            <li className="my-3 font-bold">
+                                                <Link to='/#projects' onClick={() => setIsNavOpen(false)}>Projets</Link>
                                             </li>
-                                            <li className="my-3">
-                                                <Link to='/#actu'>Actualités</Link>
+                                            <li className="my-3 font-bold">
+                                                <Link to='/#actu' onClick={() => setIsNavOpen(false)}>Actualités</Link>
                                             </li>
-                                            <li className="my-3">
-                                                <Link to='/#contacts'>Contacts</Link>
+                                            <li className="my-3 font-bold">
+                                                <Link to='/#contacts' onClick={() => setIsNavOpen(false)}>Contacts</Link>
                                             </li>
                                         </ul>
                                     </div>
