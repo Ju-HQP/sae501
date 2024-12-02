@@ -3,7 +3,8 @@ import { stopVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import { Field, Form } from "react-final-form";
 import { saveVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import { useState } from "react";
-import { required } from "../utils/validators";
+import { combineValidators, phoneValidated, required } from "../utils/validators";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 
 
@@ -45,42 +46,77 @@ function VolunteerForm() {
                                             <div className="flex flex-col">
                                                 <label htmlFor='prenom_b' className="mt-3 mb-2 font-semibold">Prénom</label>
                                                 <input {...input} placeholder="Michelle" id='prenom_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
-                                                {meta.touched && meta.invalid && <p className="text-red-900 text-sm">{meta.error}</p>}
+                                                {meta.touched
+                                                &&
+                                                meta.invalid
+                                                &&
+                                                <div className="flex px-2">
+                                                    <ExclamationTriangleIcon className="w-6 text-red-900"/>
+                                                    <p className="text-red-900 text-sm p-2">{meta.error}</p>
+                                                </div>
+                                                }
                                             </div>
                                         )}
                                     >
                                     </Field>
                                     <Field
-                                        validate=''
+                                        validate={required}
                                         name="nom_b"
                                         render={({ input, meta }) => (
                                             <div className="flex flex-col">
                                                 <label htmlFor='nom_b' className="mt-3 mb-2 font-semibold">Nom</label>
                                                 <input {...input} placeholder="Durand" id='nom_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                {meta.touched
+                                                &&
+                                                meta.invalid
+                                                &&
+                                                <div className="flex px-2">
+                                                    <ExclamationTriangleIcon className="w-6 text-red-900"/>
+                                                    <p className="text-red-900 text-sm p-2">{meta.error}</p>
+                                                </div>
+                                                }
                                             </div>
                                         )}
                                     >
                                     </Field>
                                     <Field
-                                        validate=''
+                                        validate={required}
                                         name="mail_b"
                                         render={({ input, meta }) => (
                                             
                                             <div className="flex flex-col">
                                                 <label htmlFor='mail_b' className="mt-3 mb-2 font-semibold">Email</label>
                                                 <input {...input} placeholder="michelle.durand@gmail.com" id='mail_b' type='email' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                {meta.touched
+                                                &&
+                                                meta.invalid
+                                                &&
+                                                <div className="flex px-2">
+                                                    <ExclamationTriangleIcon className="w-6 text-red-900"/>
+                                                    <p className="text-red-900 text-sm p-2">{meta.error}</p>
+                                                </div>
+                                                }
                                             </div>
                                         )}
                                     >
                                     </Field>
                                     <Field
-                                        validate=''
+                                        validate={combineValidators(required, phoneValidated)}
                                         name="tel_b"
                                         render={({ input, meta }) => (
                                             
                                             <div className="flex flex-col">
                                                 <label htmlFor='tel_b' className="mt-3 mb-2 font-semibold">Téléphone</label>
                                                 <input {...input} placeholder="07 01 02 03 04" id='tel_b' type='tel' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                {meta.touched
+                                                &&
+                                                meta.invalid
+                                                &&
+                                                <div className="flex px-2">
+                                                    <ExclamationTriangleIcon className="w-6 text-red-900"/>
+                                                    <p className="text-red-900 text-sm p-2">{meta.error}</p>
+                                                </div>
+                                                }
                                             </div>
                                         )}
                                     >
@@ -98,13 +134,22 @@ function VolunteerForm() {
                                     >
                                     </Field>
                                     <Field
-                                        validate=''
+                                        validate={required}
                                         name="role_b"
                                         render={({ input, meta }) => (
                                             
                                             <div className="flex flex-col">
                                                 <label htmlFor='role_b' className="mt-3 mb-2 font-semibold">Role</label>
                                                 <input {...input} placeholder="Benevole" id='role_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                {meta.touched
+                                                &&
+                                                meta.invalid
+                                                &&
+                                                <div className="flex px-2">
+                                                    <ExclamationTriangleIcon className="w-6 text-red-900"/>
+                                                    <p className="text-red-900 text-sm p-2">{meta.error}</p>
+                                                </div>
+                                                }
                                             </div>
                                         )}
                                     >
