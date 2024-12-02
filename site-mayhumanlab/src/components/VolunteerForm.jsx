@@ -3,6 +3,7 @@ import { stopVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import { Field, Form } from "react-final-form";
 import { saveVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import { useState } from "react";
+import { required } from "../utils/validators";
 
 
 
@@ -38,12 +39,13 @@ function VolunteerForm() {
                             render={({ handleSubmit }) => (
                                 <form onSubmit={handleSubmit} >
                                     <Field
-                                        validate=''
+                                        validate={required}
                                         name="prenom_b"
                                         render={({ input, meta }) => (
                                             <div className="flex flex-col">
                                                 <label htmlFor='prenom_b' className="mt-3 mb-2 font-semibold">Prénom</label>
-                                                <input {...input} value={input.value} placeholder="Michelle" id='prenom_b' name="prenom_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <input {...input} placeholder="Michelle" id='prenom_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                {meta.touched && meta.invalid && <p className="text-red-900 text-sm">{meta.error}</p>}
                                             </div>
                                         )}
                                     >
@@ -54,7 +56,7 @@ function VolunteerForm() {
                                         render={({ input, meta }) => (
                                             <div className="flex flex-col">
                                                 <label htmlFor='nom_b' className="mt-3 mb-2 font-semibold">Nom</label>
-                                                <input {...input} value={input.value} placeholder="Durand" id='nom_b' name="nom_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <input {...input} placeholder="Durand" id='nom_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
@@ -66,7 +68,7 @@ function VolunteerForm() {
                                             
                                             <div className="flex flex-col">
                                                 <label htmlFor='mail_b' className="mt-3 mb-2 font-semibold">Email</label>
-                                                <input {...input} value={input.value} placeholder="michelle.durand@gmail.com" id='mail_b' name="mail_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <input {...input} placeholder="michelle.durand@gmail.com" id='mail_b' type='email' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
@@ -78,7 +80,7 @@ function VolunteerForm() {
                                             
                                             <div className="flex flex-col">
                                                 <label htmlFor='tel_b' className="mt-3 mb-2 font-semibold">Téléphone</label>
-                                                <input {...input} value={input.value} placeholder="07 01 02 03 04" id='tel_b' name="tel_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <input {...input} placeholder="07 01 02 03 04" id='tel_b' type='tel' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
@@ -90,7 +92,7 @@ function VolunteerForm() {
                                             
                                             <div className="flex flex-col">
                                                 <label htmlFor='photo_b' className="mt-3 mb-2 font-semibold">Photo</label>
-                                                <input {...input} value={input.value} placeholder="" id='photo_b' name="photo_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <input {...input} placeholder="" id='photo_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
@@ -102,7 +104,7 @@ function VolunteerForm() {
                                             
                                             <div className="flex flex-col">
                                                 <label htmlFor='role_b' className="mt-3 mb-2 font-semibold">Role</label>
-                                                <input {...input} value={input.value} placeholder="Benevole" id='role_b' name="role_b" type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                <input {...input} placeholder="Benevole" id='role_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                             </div>
                                         )}
                                     >
