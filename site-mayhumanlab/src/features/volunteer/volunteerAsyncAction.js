@@ -51,8 +51,8 @@ export const addVolunteer = createAsyncThunk(
                 body: JSON.stringify(datas)
             });
             return await res.json();
-        } catch (er) {
-            return rejectWithValue(+ er.response.data.error.message)
+        } catch (errorAxio) {
+            return rejectWithValue(errorAxio.response.data.error.message)
         }
     }
 )
@@ -90,5 +90,23 @@ export const deleteVolunteer = createAsyncThunk(
         }catch(errorAxio){
             return rejectWithValue(errorAxio.response.data.error.message);
         };
+    }
+)
+
+export const loginVolunteer = createAsyncThunk(
+    'benevoles/loginVolunteer',
+    async (datas, { rejectWithValue }) => {
+        try {
+            const res = await fetch(URL_API_VOLUNTEERS, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(datas)
+            });
+            return await res.json();
+        } catch (errorAxio) {
+            return rejectWithValue(errorAxio.response.data.error.message) 
+        }
     }
 )
