@@ -22,8 +22,8 @@ function Nav() {
                             <ul className="text-lg flex justify-between items-center">
                                 <li className="flex flex-col items-center relative hover:bg-slate-100 rounded">
                                     <span className="flex justify-between w-28">
-                                        <ChevronDownIcon className="w-4" onClick={() => setIsMenuOpen((prev) => !prev)} />
                                         <NavLink className={({isActive})=> isActive ? 'text-pink-600 underline underline-offset-8 py-2 px-4 font-bold' : 'py-2 px-4 font-bold '} to="/" onMouseOver={() => setIsMenuOpen(true)} onMouseOut={() => setIsMenuOpen(false)}>Accueil</NavLink>
+                                        <ChevronDownIcon className="w-6" onClick={() => setIsMenuOpen((prev) => !prev)} />
                                     </span>
                                     {
                                         isMenuOpen
