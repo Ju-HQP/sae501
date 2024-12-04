@@ -4,6 +4,8 @@ import VolunteersChartItem from "../components/VolunteersChartItem";
 import { useEffect } from "react";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import Header from "../components/Header";
+import Grid from '@mui/material/Grid2';
+
 
 function VolunteersChart() {
 
@@ -21,9 +23,11 @@ function VolunteersChart() {
             <main>
                 <h1 className="font-bold text-xl text-center">Trombinoscope</h1>
                 <div className="grid lg:grid-cols-2">
-                    {loading ? <p>Chargement des données...</p> : volunteerList.map((volunteer) => (
+                    {loading ? <p>Chargement des données...</p> : volunteerList.map((volunteer) => 
+                        <Grid item xs={1} sm={1} md={2} ld={2} key={volunteer.id}>
                         <VolunteersChartItem volunteer={volunteer} />
-                    ))}
+                        </Grid>
+                    )}
                 </div>
             </main>
         </>
