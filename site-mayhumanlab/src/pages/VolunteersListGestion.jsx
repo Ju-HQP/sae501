@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
-import { selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
+import { selectLoading, selectVolunteer, selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
 import VolunteerForm from "../components/VolunteerForm";
 import Header from '../components/Header';
+import VolunteerListItem from '../components/VolunteerListItem';
 
 function VolunteersListGestion() {
     const dispatch = useDispatch();
     const isModifying = useSelector(selectVolunteerModifying);
+    const loading = useSelector(selectLoading);
+    const volunteerList = useSelector(selectVolunteer);
 
     function handleAddVolunteer() {
         dispatch(startVolunteerEdit()) //isModifying passe à true
@@ -24,6 +27,17 @@ function VolunteersListGestion() {
         {
             isModifying && <VolunteerForm />
         }
+        <ul className='flex flex-col'>
+            {
+                loading
+                    ?
+                    <p>Chargement des données</p>
+                    :
+                    volunteerList.map((volunteer) =>
+                        <li><VolunteerListItem key={volunteer.id_b} volunteer={volunteer} /></li>
+                    )
+            }
+        </ul>
 
     </>)
 };
