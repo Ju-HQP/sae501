@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 function VolunteerListItem({ volunteer, width }) {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    /*constante de TEST */
     const competences = [
-        "soudeur", "graphiste", "designeur"
+        "Soudeur", "Graphiste", "Designeur"
     ]
 
 
@@ -30,7 +32,17 @@ function VolunteerListItem({ volunteer, width }) {
                 <td className="text-center">hjgiguiiiuv</td>
                 <td className="text-center">{volunteer.prenom_b}</td>
                 <td className="text-center">{volunteer.nom_b}</td>
-                <td className="text-center">bnuoehboiqer</td>
+                <td className="text-center relative font-semibold" onMouseOver={()=>{setIsDropdownOpen(true)}} onMouseLeave={()=>{setIsDropdownOpen(false)}}>
+                    <p className="rounded-full py-2 bg-slate-300">{competences[0]} ...</p>
+                {
+                    isDropdownOpen
+                    &&
+                    <ul className="absolute top-0 left-0 right-0 bg-white z-10 rounded-lg shadow-md p-4 flex flex-col gap-2">
+                        {competences.map((comp)=><li className="rounded-full px-4 py-2 bg-slate-300">{comp}</li>)}
+                    </ul>
+                }
+                    
+                </td>
                 <td className="text-center">{volunteer.tel_b}</td>
                 <td className="text-center">{volunteer.mail_b}</td>
                 <td className="text-end">
