@@ -4,12 +4,25 @@ import { selectLoading, selectVolunteer, selectVolunteerModifying } from "../fea
 import VolunteerForm from "../components/VolunteerForm";
 import Header from '../components/Header';
 import VolunteerListItem from '../components/VolunteerListItem';
+import { loadVolunteer } from '../features/volunteer/volunteerAsyncAction';
+import { useEffect, useState } from 'react';
 
 function VolunteersListGestion() {
     const dispatch = useDispatch();
     const isModifying = useSelector(selectVolunteerModifying);
     const loading = useSelector(selectLoading);
     const volunteerList = useSelector(selectVolunteer);
+    const [width, setWidth] = useState(window.innerWidth);
+
+    function handleResize() {
+        setWidth(window.innerWidth)
+    }
+
+    useEffect(() => {
+        dispatch(loadVolunteer());
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     function handleAddVolunteer() {
         dispatch(startVolunteerEdit()) //isModifying passe à true
@@ -23,21 +36,36 @@ function VolunteersListGestion() {
             <div className='w-full flex justify-end'>
                 <button onClick={handleAddVolunteer} variant="contained" className=' text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center'>Créer un bénévole</button>
             </div>
-        </main>
-        {
-            isModifying && <VolunteerForm />
-        }
-        <ul className='flex flex-col'>
+
             {
-                loading
-                    ?
-                    <p>Chargement des données</p>
-                    :
-                    volunteerList.map((volunteer) =>
-                        <li><VolunteerListItem key={volunteer.id_b} volunteer={volunteer} /></li>
-                    )
+                isModifying && <VolunteerForm />
             }
-        </ul>
+            <table className='mt-4 table-auto w-full'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Photo</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Compétences</th>
+                        <th>Téléphone</th>
+                        <th>Mail</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        loading
+                            ?
+                            <p>Chargement des données</p>
+                            :
+                            volunteerList.map((volunteer) =>
+                                <VolunteerListItem key={volunteer.id_b} volunteer={volunteer} width={width}/>
+                            )
+                    }
+                </tbody>
+            </table>
+        </main>
 
     </>)
 };
