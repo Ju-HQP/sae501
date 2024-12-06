@@ -20,7 +20,7 @@ function VolunteersListGestion() {
 
     useEffect(() => {
         dispatch(loadVolunteer());
-        window.addEventListener('resize', handleResize)
+        window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
@@ -30,42 +30,55 @@ function VolunteersListGestion() {
 
     return (<>
         <Header />
-        <main className='flex flex-col items-center p-4 '>
-            <h1 className='text-center my-6 font-bold text-2xl'>Gestion des comptes</h1>
+        <main className='flex flex-col items-center p-8'>
+            <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>Gestion des comptes</h1>
 
             <div className='w-full flex justify-end'>
-                <button onClick={handleAddVolunteer} variant="contained" className=' text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center'>Créer un bénévole</button>
+                <button onClick={handleAddVolunteer} className=' text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center'>Créer un bénévole</button>
             </div>
 
             {
                 isModifying && <VolunteerForm />
             }
-            <table className='mt-4 table-auto w-full'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Photo</th>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Compétences</th>
-                        <th>Téléphone</th>
-                        <th>Mail</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        loading
-                            ?
-                            <p>Chargement des données</p>
-                            :
-                            volunteerList.map((volunteer) =>
-                                <VolunteerListItem key={volunteer.id_b} volunteer={volunteer} width={width}/>
-                            )
-                    }
-                </tbody>
-            </table>
-        </main>
+            {
+                loading
+                    ?
+                    <p>Chargement des données...</p>
+                    :
+
+                    width < 1024
+                        ?
+                        /**Pour les écrans inférieurs à 1024px*/
+                        volunteerList.map((volunteer) =>
+                            <VolunteerListItem key={volunteer.id_b} volunteer={volunteer} width={width} />)
+                        :
+                        /**Pour les écrans supérieurs à 1024px, les comptes sont présentés sous forme de tableau*/
+                        <table className='mt-8 w-11/12 min-w-fit'>
+                            <thead className='h-16'>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Photo</th>
+                                    <th>Prénom</th>
+                                    <th>Nom</th>
+                                    <th>Compétences</th>
+                                    <th>Téléphone</th>
+                                    <th>Mail</th>
+                                    <th className='text-end'>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    volunteerList.map((volunteer) =>
+                                        <VolunteerListItem key={volunteer.id_b} volunteer={volunteer} width={width} />)
+                                }
+                            </tbody>
+                        </table>
+
+
+            }
+
+
+        </main >
 
     </>)
 };
