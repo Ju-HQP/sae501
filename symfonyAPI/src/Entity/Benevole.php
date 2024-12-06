@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\BenevoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +14,8 @@ use Symfony\Bundle\MakerBundle\Str;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: BenevoleRepository::class)]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_NAME', fields: ['nom_b'])]
 class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 { 
     #[ORM\Id]
@@ -66,6 +68,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->nom_b;
     }
+
     public function setNom(string $nom): static
     {
         $this->nom_b = $nom;
@@ -84,6 +87,9 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
     public function getPassword(): ?string
     {
         return $this->mdp_b;

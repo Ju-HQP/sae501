@@ -12,14 +12,28 @@ security:
         benevoles_provider:
             entity:
                 class: App\Entity\Benevole
-                property: nom_b # ou mail_b si vous utilisez l'email comme identifiant
-
+                property: nom_b # ou mail_b si vous utilisez l'email comme identifiant        
+                
     firewalls:
         main:
             provider: benevoles_provider
             form_login:
                 login_path: app_login
                 check_path: app_login
+                username_parameter: _nom_b # Correspond au champ de votre formulaire
+                password_parameter: _mdp_b
             logout:
                 path: app_logout
+            entry_point: App\Security\AppAuthenticator
+
+            custom_authenticators:
+                - security.authenticator.form_login.main
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form, uncomment the following line to always enable it.
+                #always_remember_me: true
 
