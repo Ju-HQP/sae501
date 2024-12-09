@@ -169,7 +169,7 @@ function VolunteerForm() {
                                         render={({ input, meta }) => (
                                             <div className="flex flex-col col-start-2 md:px-4">
                                                 <label htmlFor='role_b' className="mt-3 mb-2 font-semibold">Rôle</label>
-                                                <Select {...input} defaultValue={options[0].value} options={options}  />
+                                                <Select {...input} defaultValue={options[0]} options={options}  />
                                                 {meta.touched
                                                     &&
                                                     meta.invalid
