@@ -29,7 +29,9 @@ function VolunteerListItem({ volunteer, width }) {
             :
             <tr className="h-16">
                 <td className="text-center">164574518456</td>
-                <td className="text-center">hjgiguiiiuv</td>
+                <td className="flex justify-center">
+                    <p className="text-center rounded-full bg-slate-500 w-12 h-12"></p>
+                </td>
                 <td className="text-center">{volunteer.prenom_b}</td>
                 <td className="text-center">{volunteer.nom_b}</td>
                 <td className="text-center relative font-semibold" onMouseOver={()=>{setIsDropdownOpen(true)}} onMouseLeave={()=>{setIsDropdownOpen(false)}}>

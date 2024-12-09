@@ -49,11 +49,11 @@ function VolunteersListGestion() {
                     width < 1024
                         ?
                         /**Pour les écrans inférieurs à 1024px*/
-                        volunteerList.map((volunteer) =>
-                            <VolunteerListItem key={volunteer.id_b} volunteer={volunteer} width={width} />)
+                        volunteerList.map((volunteer, id) =>
+                            <VolunteerListItem key={id} volunteer={volunteer} width={width} />)
                         :
                         /**Pour les écrans supérieurs à 1024px, les comptes sont présentés sous forme de tableau*/
-                        <table className='mt-8 w-11/12 min-w-fit'>
+                        <table className='mt-8 w-11/12 min-w-fit border-separate border-spacing-4'>
                             <thead className='h-16'>
                                 <tr>
                                     <th>ID</th>
