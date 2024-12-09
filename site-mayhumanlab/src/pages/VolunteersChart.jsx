@@ -26,10 +26,12 @@ function VolunteersChart() {
           {loading ? (
             <p>Chargement des données...</p>
           ) : (
-            volunteerList.map((volunteer) => (
-              <div>
-                <VolunteersChartItem volunteer={volunteer} />
-              </div>
+            volunteerList.map((volunteer,item) => (
+              <VolunteersChartItem
+                item
+                key={item}
+                volunteer={volunteer}
+              />
             ))
           )}
         </div>
