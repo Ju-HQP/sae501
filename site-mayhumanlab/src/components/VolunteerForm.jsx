@@ -14,13 +14,12 @@ function VolunteerForm() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const options = [
-        {value: 'benevole', label : 'Bénévole'},
-        {value: 'admin', label : 'Administrateur'}
+        {value: 0, label : 'Bénévole'},
+        {value: 1, label : 'Administrateur'}
     ];
 
-    console.log(options[0])
-
     const handleSubmit = async (values, form) => {
+        values.role_b = values.role_b.value;
         dispatch(saveVolunteer(values));
     }
 

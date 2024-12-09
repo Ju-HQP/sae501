@@ -30,7 +30,7 @@ class AppFixtures extends Fixture
 			$benevole->setPassword("1234");
 			$benevole->setMail("hedrjul@gmail.com");
 			$benevole->setTel("0767347406");
-			$benevole->setRoles("admin");
+			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
 			// Les deux autres bénévoles ont des mdp aléatoires, mais pas hash
@@ -41,7 +41,7 @@ class AppFixtures extends Fixture
 			$benevole->setPassword($randomMdp);
 			$benevole->setMail("ant.martin@gmail.com");
 			$benevole->setTel("0767347406");
-			$benevole->setRoles("benevole");
+			$benevole->setRoles(0);
 			$manager->persist($benevole);
 
 			$benevole = new Benevole();
@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
 			$benevole->setPassword($randomMdp);
 			$benevole->setMail("berranger.rt@gmail.com");
 			$benevole->setPhoto("https://www.leparisien.fr/resizer/ct_WYEsReoHHR5VZonx9QrYcJq0=/622x971/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/O7DVELRLZVHOFH3ZLPNV53EEVI.jpg");
-			$benevole->setRoles("admin");
+			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
 			$manager->flush();

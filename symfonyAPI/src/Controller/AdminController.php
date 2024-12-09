@@ -82,7 +82,7 @@ class AdminController extends AbstractController
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
 			->setPhoto($data['photo_b'] ?? null)
-			->setRoles($data['role_b'] ?? 'ROLE_USER');
+			->setRoles($data['role_b'] ?? 0);
 
 		// --- Génération du mdp aléatoire
         $randomMdp= random_bytes(10);
