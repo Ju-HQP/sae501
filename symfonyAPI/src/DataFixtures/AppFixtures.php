@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 
 use App\Entity\Benevole;
+use App\Entity\Competence;
 
 use Psr\Log\LoggerInterface;
 
@@ -53,6 +54,14 @@ class AppFixtures extends Fixture
 			$benevole->setPhoto("https://www.leparisien.fr/resizer/ct_WYEsReoHHR5VZonx9QrYcJq0=/622x971/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/O7DVELRLZVHOFH3ZLPNV53EEVI.jpg");
 			$benevole->setRoles("admin");
 			$manager->persist($benevole);
+
+			$competence = new Competence();
+			$competence->setNom("Tavernier");
+			$manager->persist($competence);
+
+			$competence = new Competence();
+			$competence->setNom("Roturier");
+			$manager->persist($competence);
 
 			$manager->flush();
 		}
