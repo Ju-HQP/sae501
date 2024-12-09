@@ -102,7 +102,7 @@ class AdminController extends AbstractController
 		]);
 	}
 
-	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
+	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
 	public function adminBenevolesSupprimerAction(Request $request): Response
 	{
 		$entityBenevole = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
