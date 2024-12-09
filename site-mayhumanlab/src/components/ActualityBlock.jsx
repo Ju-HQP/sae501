@@ -1,8 +1,4 @@
-import PropTypes from 'prop-types';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import { formatDate } from "../utils/dateUtils";
 
 function ActualityBlock({ actuality }){
 

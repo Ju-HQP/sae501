@@ -2,18 +2,21 @@ import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import ActualityForm from "../components/ActualityForm";
 import ActualityList from "../components/ActualityList";
-import { selectEditActu } from "../features/actuality/actualitySelector";
+import { selectEditActu, selectLoadingActu } from "../features/actuality/actualitySelector";
 
 function SiteGestion(){
     
-    const edit = useSelector(selectEditActu);
+    const editActu = useSelector(selectEditActu);
+    const loadingActu = useSelector(selectLoadingActu);
 
     return(
     <>
         <Header />
         <main>
-          {edit ? <ActualityForm/> : null}
-          <ActualityList/>
+          <h1 className='text-center my-6 font-bold text-2xl'>Gestion du site</h1>
+
+          {editActu ? <ActualityForm/> : null}
+          {loadingActu ? <p>Chargement des actualités...</p> : <ActualityList/>}   
         </main>
     </>)
 };

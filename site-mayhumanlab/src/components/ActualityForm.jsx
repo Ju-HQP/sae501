@@ -12,6 +12,7 @@ const ActualityForm = () => {
     const errorSave = useSelector(selectErrorSave);
 
     const dispatch = useDispatch();
+
     const handleClose = () => {
       dispatch(stopEdit());
     };
@@ -24,19 +25,11 @@ const ActualityForm = () => {
     const today = new Date().toISOString().split('T')[0];
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-lg">
-                <div className="relative border-b p-4">
-                    <h2 className="text-xl font-bold text-center">{title}</h2>
-                    <button
-                        onClick={handleClose}
-                        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-                    >
-                        &times;
-                    </button>
-                </div>
+        <div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
+            <dialog open className="w-screen shadow-2xl rounded-lg relative p-4">
+                <div className="flex flex-col justify-center">
+                    <h2 className="text-2xl font-bold text-center mb-4">{title}</h2>
 
-                <div className="p-4">
                     {errorSave && (
                         <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
                             {errorSave}
@@ -47,68 +40,93 @@ const ActualityForm = () => {
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
                         render={({ handleSubmit }) => (
-                            <form onSubmit={handleSubmit} className="space-y-4">
-                                <div>
-                                    <Field
-                                        name="title"
-                                        render={({ input, meta }) => (
-                                            <div>
-                                                <label className="block font-medium text-gray-700">Titre</label>
-                                                <input
-                                                    {...input}
-                                                    type="text"
-                                                    className="mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                                                />
-                                                {meta.touched && meta.error && (
-                                                    <span className="text-red-500 text-sm">{meta.error}</span>
-                                                )}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
+                            <form onSubmit={handleSubmit}>
+                                <Field
+                                    name="titre"
+                                    render={({ input, meta }) => (
+                                        <div className="flex flex-col">
+                                            <label htmlFor="titre" className="mt-3 mb-2 font-semibold">Titre</label>
+                                            <input
+                                                {...input}
+                                                id="titre"
+                                                type="text"
+                                                placeholder="Titre de l'actualité"
+                                                className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
+                                            />
+                                            {meta.touched && meta.error && (
+                                                <span className="text-red-500 text-sm">{meta.error}</span>
+                                            )}
+                                        </div>
+                                    )}
+                                />
 
-                                <div>
-                                    <Field
-                                        name="overview"
-                                        render={({ input, meta }) => (
-                                            <div>
-                                                <label className="block font-medium text-gray-700">Synopsis</label>
-                                                <textarea
-                                                    {...input}
-                                                    rows="5"
-                                                    className="mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                                                ></textarea>
-                                                {meta.touched && meta.error && (
-                                                    <span className="text-red-500 text-sm">{meta.error}</span>
-                                                )}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
+                                <Field
+                                    name="image"
+                                    render={({ input, meta }) => (
+                                        <div className="flex flex-col">
+                                            <label htmlFor="image" className="mt-3 mb-2 font-semibold">Image</label>
+                                            <input
+                                                {...input}
+                                                id="image"
+                                                type="text"
+                                                placeholder="Image d'illustration de l'actualité"
+                                                className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
+                                            />
+                                            {meta.touched && meta.error && (
+                                                <span className="text-red-500 text-sm">{meta.error}</span>
+                                            )}
+                                        </div>
+                                    )}
+                                />
 
-                                <div>
-                                    <Field
-                                        name="releaseDate"
-                                        render={({ input, meta }) => (
-                                            <div>
-                                                <label className="block font-medium text-gray-700">Date</label>
-                                                <input
-                                                    {...input}
-                                                    type="date"
-                                                    className="mt-1 block w-full border border-gray-300 rounded shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                                                />
-                                                {meta.touched && meta.error && (
-                                                    <span className="text-red-500 text-sm">{meta.error}</span>
-                                                )}
-                                            </div>
-                                        )}
-                                    />
-                                </div>
+                                <Field
+                                    name="description"
+                                    render={({ input, meta }) => (
+                                        <div className="flex flex-col">
+                                            <label htmlFor="description" className="mt-3 mb-2 font-semibold">Description</label>
+                                            <textarea
+                                                {...input}
+                                                id="description"
+                                                rows="5"
+                                                placeholder="Brève description"
+                                                className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
+                                            ></textarea>
+                                            {meta.touched && meta.error && (
+                                                <span className="text-red-500 text-sm">{meta.error}</span>
+                                            )}
+                                        </div>
+                                    )}
+                                />
 
-                                <div className="text-center">
+                                <Field
+                                    name="date"
+                                    render={({ input, meta }) => (
+                                        <div className="flex flex-col">
+                                            <label htmlFor="date" className="mt-3 mb-2 font-semibold">Date</label>
+                                            <input
+                                                {...input}
+                                                id="date"
+                                                type="date"
+                                                className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
+                                            />
+                                            {meta.touched && meta.error && (
+                                                <span className="text-red-500 text-sm">{meta.error}</span>
+                                            )}
+                                        </div>
+                                    )}
+                                />
+
+                                <div className="flex justify-between mt-8">
+                                    <button
+                                        type="button"
+                                        onClick={handleClose}
+                                        className="font-bold text-xl border-2 border-black hover:border-pink-600 hover:text-pink-600 rounded-lg px-5 py-3 text-center"
+                                    >
+                                        Annuler
+                                    </button>
                                     <button
                                         type="submit"
-                                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                        className="text-white font-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
                                     >
                                         Soumettre
                                     </button>
@@ -117,7 +135,7 @@ const ActualityForm = () => {
                         )}
                     />
                 </div>
-            </div>
+            </dialog>
         </div>
     );
 };

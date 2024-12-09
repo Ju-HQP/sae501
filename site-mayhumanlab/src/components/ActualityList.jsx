@@ -20,7 +20,7 @@ function ActualityList() {
   };
 
   return (
-<div className="space-y-4">
+    <div className="space-y-4">
       {errorDelete && (
         <div className="bg-red-100 text-red-700 p-4 rounded">
           <p>{errorDelete}</p>
@@ -29,7 +29,7 @@ function ActualityList() {
 
       <div className="flex justify-end mb-4">
         <button
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+          className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600"
           onClick={handleAdd}
         >
           Ajouter une actualité
