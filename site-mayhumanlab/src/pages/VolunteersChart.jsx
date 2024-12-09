@@ -26,10 +26,9 @@ function VolunteersChart() {
           {loading ? (
             <p>Chargement des données...</p>
           ) : (
-            volunteerList.map((volunteer,item) => (
+            volunteerList.map((volunteer, id) => (
               <VolunteersChartItem
-                item
-                key={item}
+                key={id}
                 volunteer={volunteer}
               />
             ))
