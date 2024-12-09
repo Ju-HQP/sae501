@@ -2,18 +2,19 @@
 
 namespace App\Entity;
 
+use App\Repository\BenevoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Bundle\MakerBundle\Str;
-
 // UserInterface pour la gestion du mot de passe
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: BenevoleRepository::class)]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['mail_b'])]
 class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 { 
     #[ORM\Id]
@@ -135,6 +136,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRole(): ?string
     {
+        $roles[] = 'ROLE_USER';
         return $this->role_b;
     }
 
@@ -153,7 +155,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         // Utilisez un identifiant unique, comme l'email ou le nom
-        return $this->nom_b;
+        return $this->mail_b;
     }
 
     public function eraseCredentials(): void

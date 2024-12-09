@@ -38,6 +38,7 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response
 	{
+		$this->denyAccessUnlessGranted('ROLE_USER');
 		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();
@@ -52,6 +53,7 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
 	public function allowCreateAProduct(Request $request): Response
 	{
+		$this->denyAccessUnlessGranted('ROLE_USER');
 		$response = new Response(); // Action qui autorise le options
 		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
 		$response->headers->set('Access-Control-Allow-Origin', '*');
@@ -66,6 +68,7 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
 	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
+		$this->denyAccessUnlessGranted('ROLE_USER');
 		// Récupérer les données JSON
 		$data = json_decode($request->getContent(), true);
 
@@ -105,6 +108,7 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
 	public function adminBenevolesSupprimerAction(Request $request): Response
 	{
+		$this->denyAccessUnlessGranted('ROLE_USER');
 		$entityBenevole = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
 		if ($entityBenevole !== null) {
 			$this->entityManager->remove($entityBenevole);
@@ -117,6 +121,7 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles/modifier', name: 'adminBenevolesModifier')]
 	public function adminBenevolesModifierAction(Request $request): Response
 	{
+		$this->denyAccessUnlessGranted('ROLE_USER');
 		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
 		if ($entity === null)
 			$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->request->get("id_benevole"));
