@@ -5,6 +5,7 @@ import { saveVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import { useState } from "react";
 import { combineValidators, phoneValidated, required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import Select from 'react-select';
 
 
 
@@ -12,6 +13,12 @@ function VolunteerForm() {
     const dispatch = useDispatch();
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const options = [
+        {value: 'benevole', label : 'Bénévole'},
+        {value: 'admin', label : 'Administrateur'}
+    ];
+
+    console.log(options[0])
 
     const handleSubmit = async (values, form) => {
         dispatch(saveVolunteer(values));
@@ -158,15 +165,12 @@ function VolunteerForm() {
                                     >
                                     </Field>
                                     <Field
-                                        validate={required}
+                                        validate=''
                                         name="role_b"
                                         render={({ input, meta }) => (
                                             <div className="flex flex-col col-start-2 md:px-4">
                                                 <label htmlFor='role_b' className="mt-3 mb-2 font-semibold">Rôle</label>
-                                                <select name={input.name} id="role_b" className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none">
-                                                    <option value="benevole">Bénévole</option>
-                                                    <option value="admin">Administrateur</option>
-                                                </select>
+                                                <Select {...input} defaultValue={options[0].value} options={options}  />
                                                 {meta.touched
                                                     &&
                                                     meta.invalid

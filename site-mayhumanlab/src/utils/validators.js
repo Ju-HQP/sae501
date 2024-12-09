@@ -8,10 +8,8 @@ export function required(string) {
 }
 
 export function phoneValidated(nums) {
-    console.log(typeof(nums));
     const regex = /(\d\d\s){4}\d\d/;
-    
-    console.log(regex.test(nums));
+
     if(regex.test(nums) && nums.length < 15) {
         return '';
     } else {
