@@ -55,8 +55,8 @@ class AdminController extends AbstractController
 		$response = new Response(); // Action qui autorise le options
 		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
 		$response->headers->set('Access-Control-Allow-Origin', '*');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method', 'GET, POST, PUT, DELETE, OPTIONS'));
+		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers', 'Content-Type, Authorization'));
 		return $response;
 	}
 
@@ -102,7 +102,7 @@ class AdminController extends AbstractController
 		]);
 	}
 
-	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
+	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
 	public function adminBenevolesSupprimerAction(Request $request): Response
 	{
 		$entityBenevole = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
@@ -114,7 +114,7 @@ class AdminController extends AbstractController
 	}
 
 
-	#[Route('/admin/benevoles/modifier', name: 'adminBenevolesModifier')]
+	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
 	public function adminBenevolesModifierAction(Request $request): Response
 	{
 		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
