@@ -61,16 +61,15 @@ export const updateVolunteer = createAsyncThunk(
     'benevoles/updateVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const queryString = new URLSearchParams(datas).toString();
-            const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
+            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             return await response.json();
-        } catch (errorAxio){
-            return rejectWithValue(errorAxio.response.data.error.message);
+        } catch (errorJson){
+            return rejectWithValue(errorJson.response.data.error.message);
         };
     }
 )
@@ -78,17 +77,17 @@ export const updateVolunteer = createAsyncThunk(
 export const deleteVolunteer = createAsyncThunk(
     'benevoles/deleteVolunteer',
     async (datas, { rejectWithValue }) => {
+        console.log(datas);
         try {
-            const queryString = new URLSearchParams(datas).toString();
-            const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
+            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
             return await response.json();
-        }catch(errorAxio){
-            return rejectWithValue(errorAxio.response.data.error.message);
+        }catch(errorJson){
+            return rejectWithValue(errorJson.response.data.error.message);
         };
     }
 )

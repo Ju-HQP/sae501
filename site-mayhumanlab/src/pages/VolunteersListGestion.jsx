@@ -69,7 +69,7 @@ function VolunteersListGestion() {
                             <tbody>
                                 {
                                     volunteerList.map((volunteer) =>
-                                        <VolunteerListItem key={volunteer.id_b} volunteer={volunteer} width={width} />)
+                                        <VolunteerListItem key={volunteer.id_benevole} volunteer={volunteer} width={width} />)
                                 }
                             </tbody>
                         </table>
