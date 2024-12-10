@@ -14,7 +14,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: BenevoleRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['mail_b'])]
 class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 { 
     #[ORM\Id]
@@ -41,8 +40,8 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255,name: 'photo', nullable:true)]
     private ?string $photo_b = null;
 
-    #[ORM\Column(length: 50,name: 'role_b')]
-    private ?string $role_b = null;
+    #[ORM\Column(name: 'role_b')]
+    private ?array $role_b = null;
 
     // Many To Many bidirectionnelle pour les compétences et les bénévoles
         // Table jointe
@@ -134,20 +133,23 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function getRole(): ?string
-    {
-        $roles[] = 'ROLE_USER';
-        return $this->role_b;
-    }
+    // public function getRole(): ?string
+    // {
+    //     $roles[] = 'ROLE_USER';
+    //     return $this->role_b;
+    // }
 
     public function getRoles(): array
     {
-        return [$this->role_b];
+        $roles = $this->role_b;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
     
-    public function setRoles(string $role): static
+    public function setRoles(array $roles): static
     {
-        $this->role_b = $role;
+        $this->role_b = $roles;
 
         return $this;
     }

@@ -24,6 +24,7 @@ Erreurs probables :
 Si vous rencontrez l'erreur : 
     out-file : FileStream devait ouvrir un périphérique qui n'était pas un fichier. Pour une prise en charge de périphériques tels que 'com1:' ou 'lpt1:', appelez CreateFile, puis
     'out-file' n’est pas reconnu en tant que commande interne ou externe, un programme exécutable ou un fichier de commandes.
+OU l'erreur : could not find drive
 
 Retrouvez le fichier php.ini dans le dossier "php" de votre installation php (soit sur votre ordinateur soit dans xampp)
 Cherchez la ligne 
