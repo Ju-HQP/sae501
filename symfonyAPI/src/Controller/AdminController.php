@@ -82,7 +82,7 @@ class AdminController extends AbstractController
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
 			->setPhoto($data['photo_b'] ?? null)
-			->setRoles($data['role_b'] ?? 'ROLE_USER');
+			->setRoles($data['role_b'] ?? 0);
 
 		// --- Génération du mdp aléatoire
         $randomMdp= random_bytes(10);
@@ -96,10 +96,15 @@ class AdminController extends AbstractController
 		$this->entityManager->persist($benevole);
 		$this->entityManager->flush();
 
-		// Retourner la réponse avec l'ID du nouvel objet
-		return new Response(json_encode(['id' => $benevole->getId()]), Response::HTTP_CREATED, [
-			'Content-Type' => 'application/json',
-		]);
+		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
+		$benevoles = $query->getArrayResult(); // ou getResult();
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_CREATED);
+		//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
+		$response->setContent(json_encode($benevoles[sizeof($benevoles)-1]));
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		return $response;
 	}
 
 	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
