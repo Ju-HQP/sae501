@@ -34,6 +34,13 @@ class AdminController extends AbstractController
 		$this->entityManager = $entityManager;
 		$this->logger = $logger;
 	}
+#test à suppr
+	#[Route('/connected', name:'connexion')]
+    public function index(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return $this->render('admin/index.html');
+    }
 
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response

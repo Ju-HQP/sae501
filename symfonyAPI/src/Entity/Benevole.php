@@ -40,7 +40,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255,name: 'photo', nullable:true)]
     private ?string $photo_b = null;
 
-    #[ORM\Column(name: 'role_b')]
+    #[ORM\Column(type:'json', name: 'role_b')]
     private ?array $role_b = null;
 
     // Many To Many bidirectionnelle pour les compétences et les bénévoles
