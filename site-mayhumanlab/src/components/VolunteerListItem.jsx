@@ -39,7 +39,7 @@ function VolunteerListItem({ volunteer, width }) {
                 {
                     isDropdownOpen
                     &&
-                    <ul className="absolute top-0 left-0 right-0 bg-white z-10 rounded-lg shadow-md p-4 flex flex-col gap-2">
+                    <ul className="absolute top-0 left-full bg-white z-10 rounded-lg shadow-md p-4 flex flex-col gap-2">
                         {competences.map((comp)=><li className="rounded-full px-4 py-2 bg-slate-300">{comp}</li>)}
                     </ul>
                 }

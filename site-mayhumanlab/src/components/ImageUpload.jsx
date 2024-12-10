@@ -14,6 +14,10 @@ function ImageUpload({avatarURL, setAvatarURL}) {
         const cachedURL = URL.createObjectURL(uploadedFile);
         console.log(cachedURL);
         setAvatarURL(cachedURL);
+
+        const formData = new FormData();
+        formData.append("photo_b", uploadedFile);
+        console.log(formData);
     }
 
     return (
