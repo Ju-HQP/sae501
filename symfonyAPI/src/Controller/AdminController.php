@@ -20,6 +20,7 @@ use Psr\Log\LoggerInterface;
 // Pour l'entité
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Benevole;
+use App\Entity\Actualite;
 // Pour la gestion du mot de passe
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -150,4 +151,84 @@ class AdminController extends AbstractController
 			return $this->redirectToRoute("adminBenevoles");
 		}
 	}
+
+	//------------------------------------ ACTUALITE ------------------------------------//
+
+	#[Route('/admin/actualites', name: 'adminActualites', methods: ['GET'])]
+	public function adminActualitesAction(): Response
+	{
+		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Actualite a");
+		$actualites = $query->getArrayResult();
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_OK);
+		$response->setContent(json_encode($actualites));
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		return $response;
+	}
+
+	#[Route('/admin/actualites', name: 'adminActualitesAjouter', methods: ['POST'])]
+	public function adminActualitesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+	{
+		$data = json_decode($request->getContent(), true);
+
+		if (!$data) {
+			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+		}
+	
+		$actualite = new Actualite();
+		$actualite->setTitre($data['titre_a'] ?? '')
+				  ->setDescription($data['description_a'] ?? '')
+				  ->setDate($data['date_a'] ?? '')
+				  ->setImage($data['image_a'] ?? '');
+	
+		$this->entityManager->persist($actualite);
+		$this->entityManager->flush();
+	
+		return new Response(json_encode(['id' => $actualite->getId()]), Response::HTTP_CREATED, [
+			'Content-Type' => 'application/json',
+		]);
+	}
+
+	#[Route('/admin/actualites/supprimer', name: 'adminActualitesSupprimer')]
+	public function adminActualitesSupprimerAction(Request $request): Response
+	{
+		$idActualite = $request->query->get("id_actualite");
+		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
+
+		if ($actualite) {
+			$this->entityManager->remove($actualite);
+			$this->entityManager->flush();
+			return new Response(null, Response::HTTP_NO_CONTENT);
+		}
+
+		return new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
+	}
+
+	#[Route('/admin/actualites/modifier', name: 'adminActualitesModifier')]
+	public function adminActualitesModifierAction(Request $request): Response
+	{
+		$data = json_decode($request->getContent(), true);
+		$idActualite = $data['id_actualite'] ?? null;
+	
+		if (!$idActualite) {
+			return new Response('ID manquant', Response::HTTP_BAD_REQUEST);
+		}
+	
+		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
+	
+		if ($actualite) {
+			$actualite->setTitre($data['titre_a'] ?? $actualite->getTitre())
+					  ->setDescription($data['description_a'] ?? $actualite->getDescription())
+					  ->setDate($data['date_a'] ?? $actualite->getDate())
+					  ->setImage($data['image_a'] ?? $actualite->getImage());
+	
+			$this->entityManager->flush();
+	
+			return new Response('Actualité mise à jour', Response::HTTP_OK);
+		}
+	
+		return new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
+	}
 }
+

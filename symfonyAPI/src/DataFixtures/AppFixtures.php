@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 
 use App\Entity\Benevole;
+use App\Entity\Actualite;
 
 use Psr\Log\LoggerInterface;
 
@@ -55,6 +56,39 @@ class AppFixtures extends Fixture
 			$manager->persist($benevole);
 
 			$manager->flush();
+		}
+
+		if (count($manager->getRepository("App\Entity\Actualite")->findAll()) == 0) {
+			
+			$actualite = new Actualite();
+            $actualite->setTitre("Actu 1");
+            $actualite->setDate("12/12/12");
+            $actualite->setDescription("Ceci est un essai numéro 1 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
+            $actualite->setImage("imageActu1.png");
+            $manager->persist($actualite);
+
+            $actualite = new Actualite();
+            $actualite->setTitre("Actu 2");
+            $actualite->setDate("11/11/11");
+            $actualite->setDescription("Ceci est un essai numéro 2 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
+            $actualite->setImage("imageActu2.png");
+            $manager->persist($actualite);
+
+            $actualite = new Actualite();
+            $actualite->setTitre("Actu 3");
+            $actualite->setDate("10/10/10");
+            $actualite->setDescription("Ceci est un essai numéro 3 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
+            $actualite->setImage("imageActu3.png");
+            $manager->persist($actualite);
+
+            $actualite = new Actualite();
+            $actualite->setTitre("Actu 4");
+            $actualite->setDate("09/09/09");
+            $actualite->setDescription("Ceci est un essai numéro 4 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
+            $actualite->setImage("imageActu4.png");
+            $manager->persist($actualite);
+
+            $manager->flush();
 		}
 	}
 }
