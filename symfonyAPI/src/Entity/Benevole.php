@@ -141,7 +141,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->role_b;
+        $roles = $this->role_b ?? [];
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);

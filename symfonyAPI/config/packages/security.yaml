@@ -1,13 +1,16 @@
 security:
+    # Pour les mots de passe
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: auto
 
+    # Fournisseurs d'utilisateurs
     providers:
         benevole_provider:
             entity:
                 class: App\Entity\Benevole
-                property: mail_b # Le champ utilisé pour identifier l'utilisateur
+                property: mail_b # Champ unique pour identifier l'utilisateur
 
+    # Définition des firewalls
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -15,12 +18,13 @@ security:
 
         main:
             provider: benevole_provider
-            json_login:
-                check_path: /login
-                username_path: mail_b
-                password_path: password
+            custom_authenticators:
+                - App\Security\AppAuthenticator
+            logout:
+                path: app_logout
 
+    # Règles d'accès
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY } #accessible sans authentification
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, roles: ROLE_USER }

@@ -20,9 +20,12 @@ use Psr\Log\LoggerInterface;
 // Pour l'entité
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Benevole;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 // Pour la gestion du mot de passe
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminController extends AbstractController
 {
@@ -34,13 +37,40 @@ class AdminController extends AbstractController
 		$this->entityManager = $entityManager;
 		$this->logger = $logger;
 	}
-#test à suppr
-	#[Route('/connected', name:'connexion')]
-    public function index(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        return $this->render('admin/index.html');
-    }
+	// #[IsGranted('ROLE_ADMIN')]
+	#[Route('/connected', name: 'connexion')]
+	public function index(): Response
+	{
+		return $this->render('admin/index.html');
+	}
+	#pareil
+	#[Route('/admin/dashboard', name: 'admin_dashboard', methods: ['GET'])]
+	#[IsGranted('ROLE_ADMIN')]
+	public function adminDashboard()
+	{
+		// Accessible uniquement aux administrateurs
+
+		if (!$this->isGranted('ROLE_ADMIN')) {
+			return new JsonResponse(['error' => 'Access denied'], 403);
+		}
+
+		return new JsonResponse(['message' => 'Welcome, Admin!']);
+	}
+
+	#[Route('/api/user', name: 'api_user', methods: ['GET'])]
+	public function getUserInfo(Security $security): JsonResponse
+	{
+		$user = $security->getUser();
+
+		if (!$user) {
+			return new JsonResponse(['error' => 'Not authenticated'], 401);
+		}
+
+		return $this->json([
+			'email' => $user->getUserIdentifier(),
+			'roles' => $user->getRoles(),
+		]);
+	}
 
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response
@@ -83,21 +113,21 @@ class AdminController extends AbstractController
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
 
-		
+
 		// Créer un nouvel objet Benevole
 		$benevole = new Benevole();
 		$benevole->setNom($data['nom_b'] ?? '')
 			->setPrenom($data['prenom_b'] ?? '')
-			 // le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
+			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
 			->setPhoto($data['photo_b'] ?? null)
 			->setRoles($data['role_b'] ?? 'ROLE_USER');
 
 		// --- Génération du mdp aléatoire
-        $randomMdp= random_bytes(10);
+		$randomMdp = random_bytes(10);
 		// --- Hash du mot de passe
-        $hashedPassword = $passwordHasher->hashPassword($benevole, $randomMdp);
+		$hashedPassword = $passwordHasher->hashPassword($benevole, $randomMdp);
 		// ajout à l'objet Benevole
 		$benevole->setPassword($hashedPassword);
 
