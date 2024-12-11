@@ -55,8 +55,8 @@ class AdminController extends AbstractController
 		$response = new Response(); // Action qui autorise le options
 		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
 		$response->headers->set('Access-Control-Allow-Origin', '*');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method', 'GET, POST, PUT, DELETE, OPTIONS'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers', 'Content-Type, Authorization'));
+		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
 		return $response;
 	}
 
@@ -72,7 +72,6 @@ class AdminController extends AbstractController
 		if (!$data) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
-
 		
 		// Créer un nouvel objet Benevole
 		$benevole = new Benevole();
@@ -102,7 +101,7 @@ class AdminController extends AbstractController
 		]);
 	}
 
-	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
+	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesSupprimer')]
 	public function adminBenevolesSupprimerAction(Request $request): Response
 	{
 		// Récupérer les données JSON
@@ -121,12 +120,20 @@ class AdminController extends AbstractController
 	}
 
 
-	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
+	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesModifier')]
 	public function adminBenevolesModifierAction(Request $request): Response
 	{
-		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
+
+		// Récupérer les données JSON
+		$data = json_decode($request->getContent(), true);
+
+		if (!$data) {
+			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+		}
+
+		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get($data["id_benevole"]));
 		if ($entity === null)
-			$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->request->get("id_benevole"));
+			$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->request->get($data["id_benevole"]));
 		if ($entity !== null) {
 			$formBuilder = $this->createFormBuilder($entity);
 			$formBuilder->add("id_benevole", HiddenType::class);
