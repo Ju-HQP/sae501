@@ -50,7 +50,7 @@ function VolunteerForm() {
                         ?
                         <div className="h-fit bg-white shadow-xl rounded flex flex-col items-center justify-center w-fit p-4">
                             <p className="font-semibold mb-3">Requête en cours de traitement...</p>
-                            <img src="/loading.svg" className="w-8"/>
+                            <img src="/loading.svg" className="w-16"/>
                         </div>
                         :
                         <dialog open onClose={handleExit} className="w-screen shadow-2xl rounded-lg relative px-4 md:m-12 lg:mx-32">
