@@ -2,7 +2,6 @@ import { createSelector } from "reselect";
 
 export const selectConnected = (state) => state.volunteer.connected;
 export const selectVolunteerModifying = (state) => state.volunteer.volunteerModifying;
-export const selectVolunteerDeleting = (state) => state.volunteer.volunteerDeleting;
 export const selectAdmin = (state) => state.volunteer.admin;
 export const selectVolunteer = (state) => state.volunteer.volunteers;
 export const selectTotalVolunteers = (state) => state.volunteer.volunteers.length;

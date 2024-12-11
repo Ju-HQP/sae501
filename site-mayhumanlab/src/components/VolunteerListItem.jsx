@@ -1,23 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectErrorDelete, selectVolunteer, selectVolunteerDeleting } from "../features/volunteer/volunteerSelector";
+import { selectVolunteer } from "../features/volunteer/volunteerSelector";
 import { deleteVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import DeleteButton from "./DeleteButton";
-import { startVolunteerDelete } from "../features/volunteer/volunteerSlice";
 
 function VolunteerListItem({ volunteer, width }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const dispatch = useDispatch();
-    const isModifying = useSelector(selectVolunteerDeleting);
-
-    const volunteerList = useSelector(selectVolunteer);
-    //const errorDelete = useSelector(selectErrorDelete);
-
-    const handleDeleteAlert = () => {
-        dispatch(startVolunteerDelete())
-    }
-
+    
     const handleDeleteVolunteer = (id) => {
         dispatch(deleteVolunteer({id}));
     }
@@ -43,10 +34,7 @@ function VolunteerListItem({ volunteer, width }) {
                 </span>
                 <div className="flex col-span-2 m-auto w-full">
                     <button className='primary-btn-small mr-2 w-full'>Modifier</button>
-                    <button className='secondary-btn-small ml-2' onClick={handleDeleteAlert} onDelete={handleDeleteVolunteer}>Supprimer</button>
-                    {
-                        isModifying && <DeleteButton volunteer={volunteer} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}/>
-                    }
+                    <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </div>
             </section>
             :
@@ -70,10 +58,7 @@ function VolunteerListItem({ volunteer, width }) {
                 <td className="text-center">{volunteer.mail_b}</td>
                 <td className="text-end">
                     <button className='primary-btn-small mr-2'>Modifier</button>
-                    <button className='secondary-btn-small ml-2' onClick={handleDeleteAlert}>Supprimer</button>
-                    {
-                        isModifying && <DeleteButton volunteer={volunteer} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}/>
-                    }
+                    <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </td>
             </tr>
     )

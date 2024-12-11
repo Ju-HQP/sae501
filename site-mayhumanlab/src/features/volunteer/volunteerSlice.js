@@ -32,16 +32,6 @@ const slice = createSlice({
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
         },
-        startVolunteerDelete(state, action){
-            state.volunteerDeleting = true;
-            state.idVolunteerDeleting = action.payload;
-        },
-        stopVolunteerDelete(state, action) {
-            state.volunteerDeleting = false;
-            state.idVolunteerDeleting = null;
-            state.errors.apiErrorDelete = null;
-            state.errors.apiErrorUpdate = null;
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -68,19 +58,8 @@ const slice = createSlice({
             state.errors.apiErrorAdd = action.payload;
             state.volunteerModifying = false;
         })
-        .addCase(deleteVolunteer.fulfilled, (state, action)=>{
-            const index = state.filmList.findIndex((film)=> film.id === action.payload);
-            state.filmList.splice(index, 1);
-            state.volunteerDeleting = false;
-            state.errors.apiErrorDelete = null;
-        })
-        .addCase(deleteVolunteer.rejected, (state, action)=>{
-            console.log(action.error.message);
-            state.volunteerDeleting = false;
-            state.errors.apiErrorDelete = action.payload;
-        })
     }
 })
 
-export const {startVolunteerEdit, stopVolunteerEdit, startVolunteerDelete, stopVolunteerDelete} = slice.actions;
+export const {startVolunteerEdit, stopVolunteerEdit} = slice.actions;
 export default slice.reducer;
