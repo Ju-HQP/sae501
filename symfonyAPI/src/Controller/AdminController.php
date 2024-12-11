@@ -48,8 +48,8 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
-	#[Route('/admin/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
+	#[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-volunteer', methods: ['OPTIONS'])]
+	#[Route('/admin/benevoles', name: 'allow-create-a-volunteer', methods: ['OPTIONS'])]
 	public function allowCreateAProduct(Request $request): Response
 	{
 		$response = new Response(); // Action qui autorise le options
@@ -105,7 +105,14 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
 	public function adminBenevolesSupprimerAction(Request $request): Response
 	{
-		$entityBenevole = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
+		// Récupérer les données JSON
+		$data = json_decode($request->getContent(), true);
+
+		if (!$data) {
+			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+		}
+
+		$entityBenevole = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get($data["id_benevole"]));
 		if ($entityBenevole !== null) {
 			$this->entityManager->remove($entityBenevole);
 			$this->entityManager->flush();
