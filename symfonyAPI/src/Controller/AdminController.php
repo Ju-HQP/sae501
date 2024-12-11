@@ -101,23 +101,33 @@ class AdminController extends AbstractController
 		]);
 	}
 
-	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesSupprimer')]
-	public function adminBenevolesSupprimerAction(Request $request): Response
-	{
-		// Récupérer les données JSON
-		$data = json_decode($request->getContent(), true);
+	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
+    public function adminBenevolesSupprimerAction(string $id): Response
+    {
+        // Récupérer les données JSON
+        $benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
 
-		if (!$data) {
-			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
-		}
-
-		$entityBenevole = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get($data["id_benevole"]));
-		if ($entityBenevole !== null) {
-			$this->entityManager->remove($entityBenevole);
-			$this->entityManager->flush();
-		}
-		return $this->redirectToRoute("adminBenevoles");
-	}
+        if ($benevole) {
+            $this->entityManager->remove($benevole);
+            $this->entityManager->flush();
+    
+            //return new Response(null, 'benevole resource deleted' . $id); 
+            $response = new Response;
+            $response->setStatusCode(Response::HTTP_NO_CONTENT);
+            $response->setContent(json_encode(array(['message' => 'benevole ressource deleted: benevole was deleted ' . $id])));
+            
+            return $response;
+            // 204 No Content
+        } else {
+            $response = new Response;
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+            $response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
+            $response->headers->set('Content-Type', 'application/json'); 
+            $response->headers->set('Access-Control-Allow-Origin', '*');
+            return $response;
+            // 404 Not Found
+        }
+    }
 
 
 	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesModifier')]
