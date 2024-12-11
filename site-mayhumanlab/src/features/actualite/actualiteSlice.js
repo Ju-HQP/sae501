@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addActu, updateActu, loadActus, deleteActu } from './actualityAsyncAction';
+import { addActu, updateActu, loadActus, deleteActu } from './actualiteAsyncAction';
 
-const actualitySlice = createSlice({
-    name : 'actuality',
+const actualiteSlice = createSlice({
+    name : 'actualite',
     initialState:{
         tabActus : [],
         loading : false,
@@ -18,11 +18,11 @@ const actualitySlice = createSlice({
     },
 
     reducers: {
-        startEdit(state,action){
+        startEditActu(state,action){
             state.editActu = true;
             state.idActu = action.payload;
         },
-        stopEdit(state,action){
+        stopEditActu(state,action){
             state.editActu = false;
             state.idActu = null;
             state.errors.apiErrorAdd = null;
@@ -60,7 +60,7 @@ const actualitySlice = createSlice({
             state.errors.apiErrorUpdate = null;
         })
         .addCase(updateActu.fulfilled, (state, action)=>{
-            state.tabActus[state.tabActus.findIndex((actuality)=>state.idActu === actuality.id)] = action.payload;
+            state.tabActus[state.tabActus.findIndex((actualite)=>state.idActu === actualite.id)] = action.payload;
             state.idActu = null;
             state.editActu = false;
         })
@@ -72,7 +72,7 @@ const actualitySlice = createSlice({
             state.errors.apiErrorDelete = null;
         })
         .addCase(deleteActu.fulfilled, (state, action)=>{
-            const index = state.tabActus.findIndex((actuality) => actuality.id === action.payload);
+            const index = state.tabActus.findIndex((actualite) => actualite.id === action.payload);
             state.tabActus.splice(index,1);
         })
 
@@ -82,5 +82,5 @@ const actualitySlice = createSlice({
     }
 })
 
-export const {startEdit, stopEdit} = actualitySlice.actions;
-export default actualitySlice.reducer;
+export const {startEditActu, stopEditActu} = actualiteSlice.actions;
+export default actualiteSlice.reducer;

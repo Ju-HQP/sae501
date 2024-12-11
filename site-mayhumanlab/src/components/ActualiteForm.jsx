@@ -1,11 +1,11 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { stopEdit } from '../features/actuality/actualitySlice';
-import { saveActu } from '../features/actuality/actualityAsyncAction';
-import { selectErrorSave, selectFormTitle, selectInitialFormValues } from '../features/actuality/actualitySelector';
+import { stopEditActu } from '../features/actualite/actualiteSlice';
+import { saveActu } from '../features/actualite/actualiteAsyncAction';
+import { selectErrorSave, selectFormTitle, selectInitialFormValues } from '../features/actualite/actualiteSelector';
 
-const ActualityForm = () => {
+const ActualiteForm = () => {
 
     const initialValues = useSelector(selectInitialFormValues);
     const title = useSelector(selectFormTitle);
@@ -14,7 +14,7 @@ const ActualityForm = () => {
     const dispatch = useDispatch();
 
     const handleClose = () => {
-      dispatch(stopEdit());
+      dispatch(stopEditActu());
     };
 
     const handleSubmit = async (values, form) => {
@@ -140,4 +140,4 @@ const ActualityForm = () => {
     );
 };
 
-export default ActualityForm;
+export default ActualiteForm;

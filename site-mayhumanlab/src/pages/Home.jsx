@@ -1,4 +1,4 @@
-import ActualityAccueil from "../components/ActualityAccueil";
+import ActualiteAccueil from "../components/ActualiteAccueil";
 import Header from "../components/Header";
 
 function Home() {
@@ -7,7 +7,7 @@ function Home() {
     <>
         <Header />
 
-        <ActualityAccueil/>
+        <ActualiteAccueil/>
     </>)
 };
 

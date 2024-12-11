@@ -1,8 +1,8 @@
 import { formatDate } from "../utils/dateUtils";
 
-function ActualityBlock({ actuality }){
+function ActualiteBlock({ actualite }){
 
-  const { title, description, date, image } = actuality; /* Récupération des informations utiles de l'actualité */
+  const { title, description, date, image } = actualite; /* Récupération des informations utiles de l'actualité */
   const formattedDate = formatDate(date); /* Formatte la date sous la forme jour nom du mois année */
 
   return (
@@ -19,4 +19,4 @@ function ActualityBlock({ actuality }){
   );
 }
 
-export default ActualityBlock;
+export default ActualiteBlock;

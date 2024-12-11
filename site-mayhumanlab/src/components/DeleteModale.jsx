@@ -20,15 +20,7 @@ function DeleteModale({ title, id, handleDelete }){
   
     return (
       <>
-        <button
-          aria-label="Supprimer"
-          onClick={handleClickOpen}
-          className="text-red-500 hover:text-red-700 focus:outline-none"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+        <button onClick={handleClickOpen} className='secondary-btn-small ml-2'>Supprimer</button>
   
         {open && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

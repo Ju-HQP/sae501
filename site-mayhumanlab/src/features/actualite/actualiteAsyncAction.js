@@ -4,7 +4,7 @@ import { URL_API_ACTUS } from '../../utils/config';
 //fonctions asynchrones pour communiquer avec l'api
 
 export const loadActus = createAsyncThunk(
-    'actuality/loadActus',
+    'actualites/loadActus',
     async (_, {rejectWithValue})=>{
         try{
             const response = await fetch(URL_API_ACTUS, {
@@ -25,7 +25,7 @@ export const loadActus = createAsyncThunk(
 )
 
 export const addActu = createAsyncThunk(
-    'actuality/addActu',
+    'actualites/addActu',
     async (dataToSend, {rejectWithValue})=>{
         try{
             const response = await fetch(URL_API_ACTUS, {
@@ -43,7 +43,7 @@ export const addActu = createAsyncThunk(
 )
 
 export const updateActu = createAsyncThunk(
-    'actuality/updateActu',
+    'actualites/updateActu',
     async (dataToSend, {rejectWithValue})=>{
         try{
             const queryString = new URLSearchParams(dataToSend).toString();
@@ -61,10 +61,10 @@ export const updateActu = createAsyncThunk(
 )
 
 export const saveActu = createAsyncThunk(
-    'actuality/saveActu',
+    'actualites/saveActu',
     async (dataToSend,{dispatch,getState})=>{
         try{
-            if (getState().actuality.idActu) {
+            if (getState().actualite.idActu) {
                 dispatch(updateActu(dataToSend));
             } else {
                 dispatch(addActu(dataToSend));
@@ -76,7 +76,7 @@ export const saveActu = createAsyncThunk(
 )
 
 export const deleteActu = createAsyncThunk(
-    'actuality/deleteActu',
+    'actualites/deleteActu',
     async (dataToSend, {rejectWithValue})=>{
         try{
             const queryString = new URLSearchParams(dataToSend).toString();
