@@ -8,8 +8,6 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Select from 'react-select';
 import { selectLoading } from "../features/volunteer/volunteerSelector";
 
-
-
 function VolunteerForm() {
     const dispatch = useDispatch();
     const loading = useSelector(selectLoading);
