@@ -1,12 +1,18 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { URL_API_ACTUS } from '../../utils/config';
+import {
+    createAsyncThunk
+} from '@reduxjs/toolkit';
+import {
+    URL_API_ACTUS
+} from '../../utils/config';
 
 //fonctions asynchrones pour communiquer avec l'api
 
 export const loadActus = createAsyncThunk(
     'actualites/loadActus',
-    async (_, {rejectWithValue})=>{
-        try{
+    async (_, {
+        rejectWithValue
+    }) => {
+        try {
             const response = await fetch(URL_API_ACTUS, {
                 method: 'GET',
                 headers: {
@@ -18,7 +24,7 @@ export const loadActus = createAsyncThunk(
             }
             const data = await response.json();
             return data;
-        }catch(error){
+        } catch (error) {
             return rejectWithValue("Les actualités sont indisponibles.");
         }
     }
@@ -26,8 +32,10 @@ export const loadActus = createAsyncThunk(
 
 export const addActu = createAsyncThunk(
     'actualites/addActu',
-    async (dataToSend, {rejectWithValue})=>{
-        try{
+    async (dataToSend, {
+        rejectWithValue
+    }) => {
+        try {
             const response = await fetch(URL_API_ACTUS, {
                 method: 'POST',
                 headers: {
@@ -36,7 +44,7 @@ export const addActu = createAsyncThunk(
                 body: JSON.stringify(dataToSend)
             });
             return await response.json();
-        }catch(error){
+        } catch (error) {
             return rejectWithValue("Erreur lors de l'ajout de l'actualité.");
         }
     }
@@ -44,8 +52,10 @@ export const addActu = createAsyncThunk(
 
 export const updateActu = createAsyncThunk(
     'actualites/updateActu',
-    async (dataToSend, {rejectWithValue})=>{
-        try{
+    async (dataToSend, {
+        rejectWithValue
+    }) => {
+        try {
             const queryString = new URLSearchParams(dataToSend).toString();
             const response = await fetch(`${URL_API_ACTUS}?${queryString}`, {
                 method: 'PUT',
@@ -54,7 +64,7 @@ export const updateActu = createAsyncThunk(
                 },
             });
             return await response.json();
-        }catch(error){
+        } catch (error) {
             return rejectWithValue("Erreur lors de la modification de l'actualité.");
         }
     }
@@ -62,14 +72,17 @@ export const updateActu = createAsyncThunk(
 
 export const saveActu = createAsyncThunk(
     'actualites/saveActu',
-    async (dataToSend,{dispatch,getState})=>{
-        try{
+    async (dataToSend, {
+        dispatch,
+        getState
+    }) => {
+        try {
             if (getState().actualite.idActu) {
                 dispatch(updateActu(dataToSend));
             } else {
                 dispatch(addActu(dataToSend));
             }
-        }catch(er){
+        } catch (er) {
             throw new Error(er);
         }
     }
@@ -77,8 +90,10 @@ export const saveActu = createAsyncThunk(
 
 export const deleteActu = createAsyncThunk(
     'actualites/deleteActu',
-    async (dataToSend, {rejectWithValue})=>{
-        try{
+    async (dataToSend, {
+        rejectWithValue
+    }) => {
+        try {
             const queryString = new URLSearchParams(dataToSend).toString();
             const response = await fetch(`${URL_API_ACTUS}?${queryString}`, {
                 method: 'DELETE',
@@ -87,7 +102,7 @@ export const deleteActu = createAsyncThunk(
                 },
             });
             return await response.json();
-        }catch(error){
+        } catch (error) {
             return rejectWithValue("Erreur lors de la suppression de l'actualité.");
         }
     }

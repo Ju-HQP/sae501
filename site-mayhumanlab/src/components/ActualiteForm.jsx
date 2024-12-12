@@ -42,13 +42,13 @@ const ActualiteForm = () => {
                         render={({ handleSubmit }) => (
                             <form onSubmit={handleSubmit}>
                                 <Field
-                                    name="titre"
+                                    name="titre_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
-                                            <label htmlFor="titre" className="mt-3 mb-2 font-semibold">Titre</label>
+                                            <label htmlFor="titre_a" className="mt-3 mb-2 font-semibold">Titre</label>
                                             <input
                                                 {...input}
-                                                id="titre"
+                                                id="titre_a"
                                                 type="text"
                                                 placeholder="Titre de l'actualité"
                                                 className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
@@ -61,13 +61,13 @@ const ActualiteForm = () => {
                                 />
 
                                 <Field
-                                    name="image"
+                                    name="image_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
-                                            <label htmlFor="image" className="mt-3 mb-2 font-semibold">Image</label>
+                                            <label htmlFor="image_a" className="mt-3 mb-2 font-semibold">Image</label>
                                             <input
                                                 {...input}
-                                                id="image"
+                                                id="image_a"
                                                 type="text"
                                                 placeholder="Image d'illustration de l'actualité"
                                                 className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
@@ -80,13 +80,13 @@ const ActualiteForm = () => {
                                 />
 
                                 <Field
-                                    name="description"
+                                    name="description_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
-                                            <label htmlFor="description" className="mt-3 mb-2 font-semibold">Description</label>
+                                            <label htmlFor="description_a" className="mt-3 mb-2 font-semibold">Description</label>
                                             <textarea
                                                 {...input}
-                                                id="description"
+                                                id="description_a"
                                                 rows="5"
                                                 placeholder="Brève description"
                                                 className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
@@ -99,13 +99,13 @@ const ActualiteForm = () => {
                                 />
 
                                 <Field
-                                    name="date"
+                                    name="date_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
-                                            <label htmlFor="date" className="mt-3 mb-2 font-semibold">Date</label>
+                                            <label htmlFor="date_a" className="mt-3 mb-2 font-semibold">Date</label>
                                             <input
                                                 {...input}
-                                                id="date"
+                                                id="date_a"
                                                 type="date"
                                                 className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
                                             />

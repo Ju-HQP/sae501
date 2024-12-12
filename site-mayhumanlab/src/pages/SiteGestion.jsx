@@ -1,7 +1,6 @@
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import ActualiteForm from "../components/ActualiteForm";
-import ActualiteList from "../components/ActualiteList";
 import { selectEditActu, selectLoadingActu } from "../features/actualite/actualiteSelector";
 import { loadActus } from "../features/actualite/actualiteAsyncAction";
 import { useEffect, useState } from "react";
@@ -72,7 +71,7 @@ function SiteGestion(){
               </thead>
               <tbody>
               {listeActualite.map((actualite) => (
-                <ActualiteRow key={actualite.id_actualite} actualite={actualite} handleDelete={handleDelete} />
+                <ActualiteRow key={actualite.id_actualite} actualite={actualite} handleDelete={handleDelete} width={width}/>
               ))}
               </tbody>
             </table>

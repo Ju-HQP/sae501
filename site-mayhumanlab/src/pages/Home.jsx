@@ -1,4 +1,4 @@
-import ActualiteAccueil from "../components/ActualiteAccueil";
+
 import Header from "../components/Header";
 
 function Home() {
@@ -6,8 +6,6 @@ function Home() {
     return (
     <>
         <Header />
-
-        <ActualiteAccueil/>
     </>)
 };
 
