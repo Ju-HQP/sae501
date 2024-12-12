@@ -36,6 +36,19 @@ class AdminController extends AbstractController
 		$this->logger = $logger;
 	}
 
+	// #[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
+	#[Route('/admin/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
+	public function allowCreateAProduct(Request $request): Response
+	{
+		$response = new Response(); // Action qui autorise le options
+		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+		return $response;
+	}
+
+
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response
 	{
@@ -49,18 +62,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
-	#[Route('/admin/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
-	public function allowCreateAProduct(Request $request): Response
-	{
-		$response = new Response(); // Action qui autorise le options
-		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-		$response->headers->set('Access-Control-Allow-Origin', '*');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-		return $response;
-	}
-
+	
 	// Fonction pour l'ajout d'un nouveau Bénévole
 	// le paramètre passwordhasher vient du fichier security.yaml
 
@@ -154,8 +156,8 @@ class AdminController extends AbstractController
 
 	//------------------------------------ ACTUALITE ------------------------------------//
 
-	#[Route('/admin/actualites/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
-   	#[Route('/admin/actualites', name: 'allow-create-a-product', methods: ['OPTIONS'])]
+	#[Route('/admin/actualites/{id}', name: 'allow-retrieve-actuality', methods: ['OPTIONS'])]
+   	#[Route('/admin/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
    	public function allowCreateaActuality(Request $request): Response
    	{
        $response = new Response(); // Action qui autorise le options
