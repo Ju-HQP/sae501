@@ -158,7 +158,7 @@ class AdminController extends AbstractController
 
 	#[Route('/admin/actualites/{id}', name: 'allow-retrieve-actuality', methods: ['OPTIONS'])]
    	#[Route('/admin/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
-   	public function allowCreateaActuality(Request $request): Response
+   	public function allowActuality(Request $request): Response
    	{
        $response = new Response(); // Action qui autorise le options
        $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
@@ -182,7 +182,7 @@ class AdminController extends AbstractController
 	}
 
 	#[Route('/admin/actualites', name: 'adminActualitesAjouter', methods: ['POST'])]
-	public function adminActualitesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+	public function adminActualitesAjouterAction(Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
 
@@ -198,10 +198,15 @@ class AdminController extends AbstractController
 	
 		$this->entityManager->persist($actualite);
 		$this->entityManager->flush();
-	
-		return new Response(json_encode(['id' => $actualite->getId()]), Response::HTTP_CREATED, [
+
+		$response = new Response();
+	    $response->setContent(json_encode(['id' => $actualite->getId()]), Response::HTTP_CREATED, [
 			'Content-Type' => 'application/json',
 		]);
+		$response->setStatusCode(Response::HTTP_CREATED);
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		return $response;
 	}
 
 	#[Route('/admin/actualites/supprimer', name: 'adminActualitesSupprimer')]
