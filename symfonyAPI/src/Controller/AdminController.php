@@ -154,6 +154,18 @@ class AdminController extends AbstractController
 
 	//------------------------------------ ACTUALITE ------------------------------------//
 
+	#[Route('/admin/actualites/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
+   	#[Route('/admin/actualites', name: 'allow-create-a-product', methods: ['OPTIONS'])]
+   	public function allowCreateaActuality(Request $request): Response
+   	{
+       $response = new Response(); // Action qui autorise le options
+       $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+       $response->headers->set('Access-Control-Allow-Origin', '*');
+       $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+       $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+       return $response;
+   	}
+	
 	#[Route('/admin/actualites', name: 'adminActualites', methods: ['GET'])]
 	public function adminActualitesAction(): Response
 	{
