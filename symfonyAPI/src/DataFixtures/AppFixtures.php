@@ -25,32 +25,32 @@ class AppFixtures extends Fixture
 		if (count($manager->getRepository("App\Entity\Benevole")->findAll()) == 0) {
 		
 			$benevole = new Benevole();
-			$benevole->setNom("HEDREUL");
-			$benevole->setPrenom("Julien");
+			$benevole->setNom("Trobu");
+			$benevole->setPrenom("Berranger");
 			$benevole->setPassword("1234");
-			$benevole->setMail("hedrjul@gmail.com");
-			$benevole->setTel("0767347406");
+			$benevole->setMail("brg.trobu@free.fr");
+			$benevole->setTel("0647589501");
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
 			// Les deux autres bénévoles ont des mdp aléatoires, mais pas hash
 			$benevole = new Benevole();
-			$benevole->setNom("MARTIN");
-			$benevole->setPrenom("Antoine");
+			$benevole->setNom("Misstaire");
+			$benevole->setPrenom("Martun");
 			$randomMdp = random_bytes(20);
 			$benevole->setPassword($randomMdp);
-			$benevole->setMail("ant.martin@gmail.com");
-			$benevole->setTel("0767347406");
+			$benevole->setMail("mart.mist@gmail.com");
+			$benevole->setTel("0674854751");
 			$benevole->setRoles(0);
 			$manager->persist($benevole);
 
 			$benevole = new Benevole();
-			$benevole->setNom("RETAUD");
-			$benevole->setPrenom("Berranger");
+			$benevole->setNom("Aconda");
+			$benevole->setPrenom("Ahlan");
 			$randomMdp = random_bytes(20);
 			$benevole->setPassword($randomMdp);
-			$benevole->setMail("berranger.rt@gmail.com");
-			$benevole->setPhoto("https://www.leparisien.fr/resizer/ct_WYEsReoHHR5VZonx9QrYcJq0=/622x971/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/O7DVELRLZVHOFH3ZLPNV53EEVI.jpg");
+			$benevole->setMail("ahlanaconda@hotmail.com");
+			$benevole->setPhoto("https://thispersondoesnotexist.com/");
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
