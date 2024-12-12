@@ -117,7 +117,7 @@ class AdminController extends AbstractController
 	}
 
 
-	#[Route('/admin/benevoles/modifier', name: 'adminBenevolesModifier')]
+	#[Route('/admin/benevoles/modifier', name: 'adminBenevolesModifier', methods:["PUT"])]
 	public function adminBenevolesModifierAction(Request $request): Response
 	{
 		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
@@ -150,7 +150,7 @@ class AdminController extends AbstractController
 				]);
 			}
 		} else {
-			return $this->redirectToRoute("adminBenevoles");
+			return $reponse;
 		}
 	}
 
@@ -209,7 +209,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/actualites/supprimer', name: 'adminActualitesSupprimer')]
+	#[Route('/admin/actualites', name: 'adminActualitesSupprimer')]
 	public function adminActualitesSupprimerAction(Request $request): Response
 	{
 		$idActualite = $request->query->get("id_actualite");
@@ -224,14 +224,17 @@ class AdminController extends AbstractController
 		return new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
 	}
 
-	#[Route('/admin/actualites/modifier', name: 'adminActualitesModifier')]
+	#[Route('/admin/actualites', name: 'adminActualitesModifier', methods: ["PUT"])]
 	public function adminActualitesModifierAction(Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
+		var_dump($data);
 		$idActualite = $data['id_actualite'] ?? null;
 	
 		if (!$idActualite) {
-			return new Response('ID manquant', Response::HTTP_BAD_REQUEST);
+			$response = new Response('ID manquant', Response::HTTP_BAD_REQUEST);
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			return $response;
 		}
 	
 		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
@@ -241,13 +244,18 @@ class AdminController extends AbstractController
 					  ->setDescription($data['description_a'] ?? $actualite->getDescription())
 					  ->setDate($data['date_a'] ?? $actualite->getDate())
 					  ->setImage($data['image_a'] ?? $actualite->getImage());
-	
+			$this->entityManager->persist($actualite);
 			$this->entityManager->flush();
-	
-			return new Response('Actualité mise à jour', Response::HTTP_OK);
+	        $response = new Response('Actualité mise à jour', Response::HTTP_OK);
+			// $response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+
+			return $response;
 		}
 	
-		return new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
+		$response = new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		return $response;
 	}
 }
 
