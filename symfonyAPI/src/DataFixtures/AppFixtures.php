@@ -31,6 +31,7 @@ class AppFixtures extends Fixture
 			$benevole->setPassword("1234");
 			$benevole->setMail("brg.trobu@free.fr");
 			$benevole->setTel("0647589501");
+			$benevole->setPhoto("https://st3.depositphotos.com/1743476/16188/i/450/depositphotos_161885998-stock-photo-mature-mixed-race-man-smiling.jpg");
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
@@ -42,6 +43,7 @@ class AppFixtures extends Fixture
 			$benevole->setPassword($randomMdp);
 			$benevole->setMail("mart.mist@gmail.com");
 			$benevole->setTel("0674854751");
+			$benevole->setPhoto("https://www.utopix.com/fr/blog/wp-content/uploads/2024/04/MTc1YWE2ZDQtMThiMi00NTM1LTk3YzctMzk0MmZhMjQ4OGZm_167911d1-0c4c-4aeb-9c3c-3be12e16cdf9_paul-schafer-ndcn_8jiaqw-unsplash-1-scaled.jpeg");
 			$benevole->setRoles(0);
 			$manager->persist($benevole);
 
@@ -51,9 +53,22 @@ class AppFixtures extends Fixture
 			$randomMdp = random_bytes(20);
 			$benevole->setPassword($randomMdp);
 			$benevole->setMail("ahlanaconda@hotmail.com");
+			$benevole->setTel("0672284157");
 			$benevole->setPhoto("https://thispersondoesnotexist.com/");
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
+
+			$benevole = new Benevole();
+			$benevole->setNom("Tano");
+			$benevole->setPrenom("Marie");
+			$randomMdp = random_bytes(20);
+			$benevole->setPassword($randomMdp);
+			$benevole->setMail("m.tano@gmail.com");
+			$benevole->setTel("0764412869");
+			$benevole->setPhoto("https://cache.cosmopolitan.fr/data/photo/w1000_c17/3y/femme_sourire.jpg");
+			$benevole->setRoles(1);
+			$manager->persist($benevole);
+
 
 			$competence = new Competence();
 			$competence->setNom("Tavernier");
