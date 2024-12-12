@@ -25,6 +25,6 @@ security:
 
     # Règles d'accès
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY } #accessible sans authentification
+        - { path: ^/login, roles: PUBLIC_ACCESS } #accessible sans authentification
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin, roles: ROLE_ADMIN }

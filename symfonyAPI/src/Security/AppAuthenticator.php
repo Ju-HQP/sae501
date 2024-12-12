@@ -34,10 +34,10 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $mailB);
 
         return new Passport(
-            new UserBadge($mailB),
-            new PasswordCredentials($password),
+            new UserBadge("hedrjul@gmail.com"),
+            new PasswordCredentials("1234"),
             [
-                new CsrfTokenBadge('authenticate', $csrfToken),
+                new CsrfTokenBadge('authenticate', "c9080451.57cMKkmySx0dLM6R-LN6bzmfstsoFOculvUmfnFGcAU.gYQ5HXj2B293ao_2n_8oXlPG67J3TIZGpIFKGEIRRGC22XxLHMsTdm18mw"),
             ]
         );
     }
