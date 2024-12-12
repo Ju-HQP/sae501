@@ -113,6 +113,8 @@ class AdminController extends AbstractController
     
             //return new Response(null, 'benevole resource deleted' . $id); 
             $response = new Response;
+			$response->headers->set('Content-Type', 'application/json'); 
+            $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->setStatusCode(Response::HTTP_NO_CONTENT);
             $response->setContent(json_encode(array(['message' => 'benevole ressource deleted: benevole was deleted ' . $id])));
             
@@ -121,9 +123,9 @@ class AdminController extends AbstractController
         } else {
             $response = new Response;
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            $response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
             $response->headers->set('Content-Type', 'application/json'); 
             $response->headers->set('Access-Control-Allow-Origin', '*');
+            $response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
             return $response;
             // 404 Not Found
         }
