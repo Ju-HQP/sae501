@@ -25,6 +25,22 @@ class AppFixtures extends Fixture
 	{
 		if (count($manager->getRepository("App\Entity\Benevole")->findAll()) == 0) {
 		
+			$competence = new Competence();
+			$competence->setNom("Graphiste");
+			$manager->persist($competence);
+
+			$competence = new Competence();
+			$competence->setNom("Designer");
+			$manager->persist($competence);
+
+			$competence = new Competence();
+			$competence->setNom("Soudeur");
+			$manager->persist($competence);
+
+			$competence = new Competence();
+			$competence->setNom("Fraiseur");
+			$manager->persist($competence);
+
 			$benevole = new Benevole();
 			$benevole->setNom("Trobu");
 			$benevole->setPrenom("Berranger");
@@ -56,6 +72,7 @@ class AppFixtures extends Fixture
 			$benevole->setTel("0672284157");
 			$benevole->setPhoto("https://thispersondoesnotexist.com/");
 			$benevole->setRoles(1);
+			$benevole->setComp("Test");
 			$manager->persist($benevole);
 
 			$benevole = new Benevole();
@@ -69,14 +86,6 @@ class AppFixtures extends Fixture
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
-
-			$competence = new Competence();
-			$competence->setNom("Tavernier");
-			$manager->persist($competence);
-
-			$competence = new Competence();
-			$competence->setNom("Roturier");
-			$manager->persist($competence);
 
 			$manager->flush();
 		}

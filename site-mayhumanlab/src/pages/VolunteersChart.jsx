@@ -21,8 +21,8 @@ function VolunteersChart() {
     <>
       <Header />
       <main>
-        <h1 className="font-bold text-xl text-center">Trombinoscope</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2">
+      <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>Trombinoscope</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2">
           {loading ? (
             <p>Chargement des données...</p>
           ) : (
