@@ -4,7 +4,7 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 
              algorithm: 'bcrypt'
              # lvl of hashing, mini 4 pour le test, mais on indiquera 13 lors de la mise en prod
-                   cost:  4
+             cost:  8
     # Fournisseurs d'utilisateurs
     providers:
         benevole_provider:

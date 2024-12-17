@@ -91,7 +91,7 @@ class AdminController extends AbstractController
 
 		// --- Génération du mdp aléatoire
 		$randomMdp = random_bytes(10);
-		$test = "carotte";
+		$test = "test";
 		// --- Hash du mot de passe
 		$hashedPassword = $passwordHasher->hashPassword($benevole, $test);
 		// ajout à l'objet Benevole
