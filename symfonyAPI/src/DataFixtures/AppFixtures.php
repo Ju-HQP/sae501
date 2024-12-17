@@ -72,7 +72,6 @@ class AppFixtures extends Fixture
 			$benevole->setTel("0672284157");
 			$benevole->setPhoto("https://thispersondoesnotexist.com/");
 			$benevole->setRoles(1);
-			$benevole->setComp("Test");
 			$manager->persist($benevole);
 
 			$benevole = new Benevole();
