@@ -21,9 +21,7 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
-    {
-    }
+    public function __construct(private UrlGeneratorInterface $urlGenerator) {}
 
     public function authenticate(Request $request): Passport
     {
@@ -34,25 +32,25 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $mailB);
 
         return new Passport(
-            new UserBadge("hedrjul@gmail.com"),
-            new PasswordCredentials("1234"),
+            new UserBadge($mailB),
+            new PasswordCredentials($password),
             [
-                new CsrfTokenBadge('authenticate', "c9080451.57cMKkmySx0dLM6R-LN6bzmfstsoFOculvUmfnFGcAU.gYQ5HXj2B293ao_2n_8oXlPG67J3TIZGpIFKGEIRRGC22XxLHMsTdm18mw"),
+                new CsrfTokenBadge('authenticate', $csrfToken),
             ]
         );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
-    
+        // if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+        //     return new RedirectResponse($targetPath);
+        // }
+
         // Redirigez uniquement si l'utilisateur n'est pas sur /login
         if ($request->getPathInfo() === '/login') {
-            return new RedirectResponse('/admin/dashboard');
+            return new RedirectResponse('/admin/benevoles');
         }
-    
+
         return new RedirectResponse('/connected');
     }
 

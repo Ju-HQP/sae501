@@ -30,7 +30,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255,name: 'mdp_b')]
     private ?string $mdp_b = null;
 
-    #[ORM\Column(length: 100,name: 'mail_b')]
+    #[ORM\Column(length: 100,name: 'mail_b', unique:true)]
     private ?string $mail_b = null;
 
     // nullable pour autoriser la valeur null

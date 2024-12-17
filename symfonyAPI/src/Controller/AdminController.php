@@ -37,40 +37,6 @@ class AdminController extends AbstractController
 		$this->entityManager = $entityManager;
 		$this->logger = $logger;
 	}
-	// #[IsGranted('ROLE_ADMIN')]
-	#[Route('/connected', name: 'connexion')]
-	public function index(): Response
-	{
-		return $this->render('admin/index.html');
-	}
-	#pareil
-	#[Route('/admin/dashboard', name: 'admin_dashboard', methods: ['GET'])]
-	#[IsGranted('ROLE_ADMIN')]
-	public function adminDashboard()
-	{
-		// Accessible uniquement aux administrateurs
-
-		if (!$this->isGranted('ROLE_ADMIN')) {
-			return new JsonResponse(['error' => 'Access denied'], 403);
-		}
-
-		return new JsonResponse(['message' => 'Welcome, Admin!']);
-	}
-
-	#[Route('/api/user', name: 'api_user', methods: ['GET'])]
-	public function getUserInfo(Security $security): JsonResponse
-	{
-		$user = $security->getUser();
-
-		if (!$user) {
-			return new JsonResponse(['error' => 'Not authenticated'], 401);
-		}
-
-		return $this->json([
-			'email' => $user->getUserIdentifier(),
-			'roles' => $user->getRoles(),
-		]);
-	}
 
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response
