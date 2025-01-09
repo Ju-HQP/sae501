@@ -5,9 +5,9 @@ function Home() {
     return (
         <>
             <Header />
-            <main>
+            <main className="fixed top-0 parallax">
                 {/* <div className="fixed top-12 w-full h-32 bg-url[('/accueil/bg-banniere.webp')]"></div> */}
-                <img className="w-full" src="/accueil/bg-banniere.webp" alt="bannière" />
+                <img className="w-full" src="" alt="bannière" />
                 <section>
                     <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>May'HumanLab</h1>
                     <p className="px-8">Le LAB-LAB devient May'HumanLab pour plusieurs raisons :
