@@ -5,20 +5,23 @@ function Home() {
     return (
         <>
             <Header />
-            <main className="fixed top-0 parallax">
+            <main className="font-roboto leading-8">
                 {/* <div className="fixed top-12 w-full h-32 bg-url[('/accueil/bg-banniere.webp')]"></div> */}
-                <img className="w-full" src="" alt="bannière" />
-                <section>
+                <img className="w-full" src="/accueil/banner.jpg" alt="bannière" />
+                <section className="px-12">
                     <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>May'HumanLab</h1>
-                    <p className="px-8">Le LAB-LAB devient May'HumanLab pour plusieurs raisons :
+                    <p className="">Le LAB-LAB devient May'HumanLab pour plusieurs raisons :
 
                         - Revendiquer l'appartenance à un territoire
                         - Une meilleure compréhension de nos actions
                         - La certification HumanLab (convention des fablabs handicap)
 
+
+                    </p>
+                    <p className="mt-4">
                         Notre association conserve son authenticité, ses équipes, ses actions, rien ne change, juste le nom.
                     </p>
-                    <p className="px-8 mt-4">
+                    <p className="mt-4">
                         L'association May'HumanLab crée des aides techniques sur-mesure pour les personnes en situation de handicap.
 
                         Nous sommes le premier Fablab orienté handicap en Mayenne.
