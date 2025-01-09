@@ -150,7 +150,7 @@ class AdminController extends AbstractController
 				]);
 			}
 		} else {
-			return $reponse;
+			return $this->redirectToRoute("adminBenevoles");
 		}
 	}
 
@@ -209,22 +209,52 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/actualites', name: 'adminActualitesSupprimer')]
+	#[Route('/admin/actualites/{id}', name: 'adminActualitesSupprimer', methods: ['DELETE'])]
 	public function adminActualitesSupprimerAction(Request $request): Response
 	{
-		$idActualite = $request->query->get("id_actualite");
+
+		// Récupérer les données JSON
+		$idActualite = $request->query->get("id");
 		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
 
 		if ($actualite) {
 			$this->entityManager->remove($actualite);
 			$this->entityManager->flush();
-			return new Response(null, Response::HTTP_NO_CONTENT);
+
+			//return new Response(null, 'actualite resource deleted' . $id); 
+			$response = new Response;
+			$response->setContent(json_encode(array(['message' => 'actualite ressource deleted: actualite was deleted ' . $idActualite])));
+			$response->setStatusCode(Response::HTTP_NO_CONTENT);
+			$response->headers->set('Content-Type', 'application/json'); 
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			
+			return $response;
+			// 204 No Content
+
+		} else {
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_NOT_FOUND);
+			$response->headers->set('Content-Type', 'application/json'); 
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode(array(['message' => 'Resource not found: No actualite found for id ' . $idActualite])));
+			return $response;
+			// 404 Not Found
+
 		}
 
-		return new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
+//		$idActualite = $request->query->get("id_actualite");
+//		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
+//
+//		if ($actualite) {
+//			$this->entityManager->remove($actualite);
+//			$this->entityManager->flush();
+//			return new Response(null, Response::HTTP_NO_CONTENT);
+//		}
+//
+//		return new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
 	}
 
-	#[Route('/admin/actualites', name: 'adminActualitesModifier', methods: ["PUT"])]
+	#[Route('/admin/actualites/modifier', name: 'adminActualitesModifier', methods: ["PUT"])]
 	public function adminActualitesModifierAction(Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
