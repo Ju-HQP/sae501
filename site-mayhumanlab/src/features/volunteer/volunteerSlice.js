@@ -60,7 +60,7 @@ const slice = createSlice({
         })
         .addCase(deleteVolunteer.fulfilled, (state, action)=>{
             const index = state.volunteers.findIndex((volunteer)=> volunteer.id === Number(action.payload));
-            state.volunteers.splice(index, 1);
+            state.volunteers.splice(index+1, 1);
             state.errors.apiErrorDelete = null;
         })
         .addCase(deleteVolunteer.rejected, (state, action)=>{
