@@ -85,7 +85,7 @@ export const deleteVolunteer = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
             });
-            return await response.json();
+            return datas.id;
         }catch(errorJson){
             return rejectWithValue(errorJson.response.data.error.message);
         };

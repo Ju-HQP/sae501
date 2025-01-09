@@ -59,7 +59,7 @@ const slice = createSlice({
             state.volunteerModifying = false;
         })
         .addCase(deleteVolunteer.fulfilled, (state, action)=>{
-            const index = state.volunteers.findIndex((volunteer)=> volunteer.id === action.payload);
+            const index = state.volunteers.findIndex((volunteer)=> volunteer.id === Number(action.payload));
             state.volunteers.splice(index, 1);
             state.errors.apiErrorDelete = null;
         })
