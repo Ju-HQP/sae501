@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 
 use App\Entity\Benevole;
-
+use App\Entity\Competence;
 use Psr\Log\LoggerInterface;
 
 class AppFixtures extends Fixture
@@ -24,6 +24,22 @@ class AppFixtures extends Fixture
 	{
 		if (count($manager->getRepository("App\Entity\Benevole")->findAll()) == 0) {
 		
+			$competence2 = new Competence();
+			$competence2->setNom("Graphiste");
+			$manager->persist($competence2);
+
+			$competence = new Competence();
+			$competence->setNom("Designer");
+			$manager->persist($competence);
+
+			$competence = new Competence();
+			$competence->setNom("Soudeur");
+			$manager->persist($competence);
+
+			$competence = new Competence();
+			$competence->setNom("Fraiseur");
+			$manager->persist($competence);
+
 			$benevole = new Benevole();
 			$benevole->setNom("HEDREUL");
 			$benevole->setPrenom("Julien");
@@ -49,8 +65,21 @@ class AppFixtures extends Fixture
 			$benevole->setPrenom("Berranger");
 			$randomMdp = random_bytes(20);
 			$benevole->setPassword($randomMdp);
-			$benevole->setMail("berranger.rt@gmail.com");
-			$benevole->setPhoto("https://www.leparisien.fr/resizer/ct_WYEsReoHHR5VZonx9QrYcJq0=/622x971/cloudfront-eu-central-1.images.arcpublishing.com/leparisien/O7DVELRLZVHOFH3ZLPNV53EEVI.jpg");
+			$benevole->setMail("ahlanaconda@hotmail.com");
+			$benevole->setTel("0672284157");
+			$benevole->setPhoto("https://thispersondoesnotexist.com/");
+			$benevole->setRoles(1);
+			$benevole->setComp($competence2);
+			$manager->persist($benevole);
+
+			$benevole = new Benevole();
+			$benevole->setNom("Tano");
+			$benevole->setPrenom("Marie");
+			$randomMdp = random_bytes(20);
+			$benevole->setPassword($randomMdp);
+			$benevole->setMail("m.tano@gmail.com");
+			$benevole->setTel("0764412869");
+			$benevole->setPhoto("https://cache.cosmopolitan.fr/data/photo/w1000_c17/3y/femme_sourire.jpg");
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
