@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 
 use App\Entity\Benevole;
 use App\Entity\Competence;
-
+use App\Entity\Projet;
 use Psr\Log\LoggerInterface;
 
 class AppFixtures extends Fixture
@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
 	public function load(ObjectManager $manager): void
 	{
 		if (count($manager->getRepository("App\Entity\Benevole")->findAll()) == 0) {
-		
+
 			$competence = new Competence();
 			$competence->setNom("Graphiste");
 			$manager->persist($competence);
@@ -85,6 +85,21 @@ class AppFixtures extends Fixture
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
+			$manager->flush();
+		}
+		
+		if (count($manager->getRepository("App\Entity\Projet")->findAll()) == 0) {
+			$project = new Projet();
+			$project->setTitre('Orthèse');
+			$project->setDescription("Réalisation d'une orthèse pour une personne amputée des 2 bras, avec support pour stylo et couvert (fourchette, cuillère...), sur la base d'un scan 3D du bras, modélisation et impression 3D");
+			$project->setImage('https://www.mayhumanlab.fr/wp-content/themes/lablab/img/projet_orthese.jpg');
+			$manager->persist($project);
+
+			$project = new Projet();
+			$project->setTitre('Projet Cendrillon');
+			$project->setDescription("Réalisation d'un dispositif d'assistance à l'enfilage de chaussure pour une personne en fauteuil roulant, conception, modélisation, impression 3D et découpe bois");
+			$project->setImage('https://www.mayhumanlab.fr/wp-content/themes/lablab/img/projet_cendrillon.jpg');
+			$manager->persist($project);
 
 			$manager->flush();
 		}
