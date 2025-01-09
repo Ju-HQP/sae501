@@ -58,6 +58,15 @@ const slice = createSlice({
             state.errors.apiErrorAdd = action.payload;
             state.volunteerModifying = false;
         })
+        .addCase(deleteVolunteer.fulfilled, (state, action)=>{
+            const index = state.volunteers.findIndex((volunteer)=> volunteer.id === action.payload);
+            state.volunteers.splice(index, 1);
+            state.errors.apiErrorDelete = null;
+        })
+        .addCase(deleteVolunteer.rejected, (state, action)=>{
+            console.log(action.error.message);
+            state.errors.apiErrorDelete = action.payload;
+        })
     }
 })
 
