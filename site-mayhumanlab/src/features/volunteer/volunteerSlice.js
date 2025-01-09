@@ -1,14 +1,18 @@
 import {
     createSlice
 } from '@reduxjs/toolkit';
-import { addVolunteer, loadVolunteer, updateVolunteer } from './volunteerAsyncAction';
+import {
+    addVolunteer,
+    loadVolunteer,
+    updateVolunteer
+} from './volunteerAsyncAction';
 
 const slice = createSlice({
     name: 'volunteer',
     initialState: {
         volunteers: [],
         loading: false,
-        connected: true,
+        connected: false,
         admin: true,
         volunteerModifying: false,
         idVolunteerModifying: null,
@@ -29,37 +33,48 @@ const slice = createSlice({
             state.idVolunteerModifying = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+        },
+        startConnecting(state, action) {
+            state.connected = true;
+        },
+        stopConnecting(state, action) {
+            state.connected = false;
         }
     },
     extraReducers: (builder) => {
         builder
-        .addCase(loadVolunteer.pending, (state, action) =>{
-            state.loading = true;
-            state.errors.apiErrorLoad = null;
-        })
-        .addCase(loadVolunteer.fulfilled, (state, action)=>{
-            state.volunteers = action.payload;
-            state.loading = false;
-            state.errors.apiErrorLoad = null;
-        })
-        .addCase(loadVolunteer.rejected, (state, action)=>{
-            state.loading = false;
-            state.errors.apiErrorLoad = action.payload;
-        })
-        .addCase(addVolunteer.fulfilled, (state, action)=>{
-            state.volunteers = [...state.volunteers, action.payload];
-            state.volunteerModifying = false;
-            state.loading = false;
-        })
-        .addCase(addVolunteer.pending, (state, action)=>{
-            state.loading = true;
-        })
-        .addCase(addVolunteer.rejected, (state, action)=>{
-            state.errors.apiErrorAdd = action.payload;
-            state.volunteerModifying = false;
-        })
+            .addCase(loadVolunteer.pending, (state, action) => {
+                state.loading = true;
+                state.errors.apiErrorLoad = null;
+            })
+            .addCase(loadVolunteer.fulfilled, (state, action) => {
+                state.volunteers = action.payload;
+                state.loading = false;
+                state.errors.apiErrorLoad = null;
+            })
+            .addCase(loadVolunteer.rejected, (state, action) => {
+                state.loading = false;
+                state.errors.apiErrorLoad = action.payload;
+            })
+            .addCase(addVolunteer.fulfilled, (state, action) => {
+                state.volunteers = [...state.volunteers, action.payload];
+                state.volunteerModifying = false;
+                state.loading = false;
+            })
+            .addCase(addVolunteer.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(addVolunteer.rejected, (state, action) => {
+                state.errors.apiErrorAdd = action.payload;
+                state.volunteerModifying = false;
+            })
     }
 })
 
-export const {startVolunteerEdit, stopVolunteerEdit} = slice.actions;
+export const {
+    startVolunteerEdit,
+    stopVolunteerEdit,
+    startConnecting,
+    stopConnecting
+} = slice.actions;
 export default slice.reducer;
