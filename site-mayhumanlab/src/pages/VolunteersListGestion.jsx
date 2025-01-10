@@ -50,7 +50,8 @@ function VolunteersListGestion() {
                         ?
                         /**Pour les écrans inférieurs à 1024px*/
                         volunteerList.map((volunteer) =>
-                            <VolunteerListItem key={volunteer.id_b} volunteer={volunteer} width={width} />)
+                            <VolunteerListItem key={volunteer.id_benevole} volunteer={volunteer} width={width} />
+                        )
                         :
                         /**Pour les écrans supérieurs à 1024px, les comptes sont présentés sous forme de tableau*/
                         <table className='mt-8 w-11/12 min-w-fit'>
@@ -69,7 +70,8 @@ function VolunteersListGestion() {
                             <tbody>
                                 {
                                     volunteerList.map((volunteer) =>
-                                        <VolunteerListItem key={volunteer.id_benevole} volunteer={volunteer} width={width} />)
+                                        <VolunteerListItem key={volunteer.id_benevole} volunteer={volunteer} width={width} />
+                                    )
                                 }
                             </tbody>
                         </table>
