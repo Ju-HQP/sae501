@@ -44,7 +44,6 @@ export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
     async (datas, {rejectWithValue}) => {
         try {
-            console.log(datas)
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
                 headers: {
