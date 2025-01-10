@@ -53,13 +53,14 @@ export const addActu = createAsyncThunk(
 export const updateActu = createAsyncThunk(
     'actualites/updateActu',
     async (dataToSend, {rejectWithValue}) => {
-        console.log(dataToSend);
+        console.log(dataToSend.id_actualite);
         try {
-            const response = await fetch(`${URL_API_ACTUS}/${dataToSend.id}`, {
+            const response = await fetch(`${URL_API_ACTUS}/${dataToSend.id_actualite}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(dataToSend),
             });
             return await response.json();
         } catch (error) {
