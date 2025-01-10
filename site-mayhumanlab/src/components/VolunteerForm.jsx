@@ -91,25 +91,6 @@ function VolunteerForm() {
                                                             <div className="flex px-2">
                                                                 <ExclamationTriangleIcon className="w-6 text-red-900" />
                                                                 <p className="text-red-900 text-sm p-2">{meta.error}</p>
-                                                            </div>}
-                                                    </div>
-                                                )}
-                                            >
-                                            </Field>
-                                            <Field
-                                                validate={required}
-                                                name="prenom_b"
-                                                render={({ input, meta }) => (
-                                                    <div className="flex flex-col md:px-4">
-                                                        <label htmlFor='prenom_b' className="mt-3 mb-2 font-semibold">Prénom</label>
-                                                        <input {...input} placeholder="Michelle" id='prenom_b' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
-                                                        {meta.touched
-                                                            &&
-                                                            meta.invalid
-                                                            &&
-                                                            <div className="flex px-2">
-                                                                <ExclamationTriangleIcon className="w-6 text-red-900" />
-                                                                <p className="text-red-900 text-sm p-2">{meta.error}</p>
                                                             </div>
                                                         }
                                                     </div>

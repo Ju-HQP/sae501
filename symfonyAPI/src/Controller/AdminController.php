@@ -77,6 +77,7 @@ class AdminController extends AbstractController
 		
 		// Créer un nouvel objet Benevole
 		$benevole = new Benevole();
+		//$photo = str_replace("blob:",'', $data['photo_b']); 
 		$benevole->setNom($data['nom_b'] ?? '')
 			->setPrenom($data['prenom_b'] ?? '')
 			 // le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
@@ -84,6 +85,8 @@ class AdminController extends AbstractController
 			->setTel($data['tel_b'] ?? null)
 			->setPhoto($data['photo_b'] ?? null)
 			->setRoles($data['role_b'] ?? 0);
+
+		
 
 		// --- Génération du mdp aléatoire
         $randomMdp= random_bytes(10);

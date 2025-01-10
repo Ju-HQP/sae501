@@ -12,7 +12,7 @@ function VolunteerListItem({ volunteer, width }) {
         width < 1024
             ?
             <section className="mt-12 grid grid-cols-2 w-full gap-2 max-w-md">
-                <img src={volunteer.photo_b} className="col-end-3 m-auto row-start-1 row-end-4 w-24 h-24 rounded-full"/>
+                <img src={volunteer.photo_b} className="col-end-3 m-auto row-start-1 row-end-4 w-24 h-24 rounded-full object-cover"/>
                 <p className="col-start-1 text-xl font-semibold">{volunteer.prenom_b} {volunteer.nom_b}</p>
                 <p className="col-start-1">164574518456</p>
                 <p className="col-start-1">{volunteer.tel_b}</p>
@@ -30,7 +30,7 @@ function VolunteerListItem({ volunteer, width }) {
             <tr className="h-16">
                 <td className="text-center">164574518456</td>
                 <td className="flex justify-center">
-                    <p className="text-center rounded-full bg-slate-500 w-12 h-12"></p>
+                    <img src={volunteer.photo_b} className="text-center rounded-full w-12 h-12 object-cover"></img>
                 </td>
                 <td className="text-center">{volunteer.prenom_b}</td>
                 <td className="text-center">{volunteer.nom_b}</td>
