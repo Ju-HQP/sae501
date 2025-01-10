@@ -41,7 +41,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $photo_b = null;
 
     #[ORM\Column(length: 50,name: 'role_b')]
-    private ?string $role_b = null;
+    private ?int $role_b = null; //0 pour un bénévole, 1 pour un admin
 
     // Many To Many bidirectionnelle pour les compétences et les bénévoles
         // Table jointe
@@ -55,6 +55,12 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->competences = new ArrayCollection();
+    }
+
+    public function setComp(string $comp):static{
+       $this->competences->add($comp);
+
+       return $this;
     }
 
     public function getId(): int
@@ -133,7 +139,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function getRole(): ?string
+    public function getRole(): ?int
     {
         return $this->role_b;
     }
@@ -143,7 +149,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
         return [$this->role_b];
     }
     
-    public function setRoles(string $role): static
+    public function setRoles(int $role): static
     {
         $this->role_b = $role;
 
