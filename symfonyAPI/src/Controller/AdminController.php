@@ -206,7 +206,7 @@ class AdminController extends AbstractController
 		$this->entityManager->flush();
 
 		$response = new Response();
-	    $response->setContent(json_encode(['id' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
+	    $response->setContent(json_encode(['id_actualite' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
 			'Content-Type' => 'application/json',
 		]);
 		$response->setStatusCode(Response::HTTP_CREATED);
@@ -265,7 +265,7 @@ class AdminController extends AbstractController
 		}
 	
 		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
-	
+
 		if ($actualite) {
 			$actualite->setTitre($data['titre_a'] ?? $actualite->getTitre())
 					  ->setDescription($data['description_a'] ?? $actualite->getDescription())
@@ -279,15 +279,18 @@ class AdminController extends AbstractController
 			$response->setStatusCode(Response::HTTP_OK);
 			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
-			$response->setContent(json_encode(['message' => 'Actualité mise à jour avec succès']));
+			$response->setContent(json_encode(['id_actualite' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
+				'Content-Type' => 'application/json',
+			]);
 			return $response;
+			
 		}else{
 			$response = new Response;
-		$response->setStatusCode(Response::HTTP_NOT_FOUND);
-		$response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
-		$response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idActualite]));
-		return $response;
+			$response->setStatusCode(Response::HTTP_NOT_FOUND);
+			$response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idActualite]));
+			return $response;
 		}
 	}
 }

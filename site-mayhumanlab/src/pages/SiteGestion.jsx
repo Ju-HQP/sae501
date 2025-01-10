@@ -88,7 +88,7 @@ function SiteGestion(){
               </thead>
               <tbody>
               {listeActualite.map((actualite) => (
-                <ActualiteRow key={actualite.id_actualite} actualite={actualite} handleDelete={handleDelete} />
+                <ActualiteRow key={actualite.titre_a} actualite={actualite} handleDelete={handleDelete} />
               ))}
               </tbody>
             </table>

@@ -26,9 +26,9 @@ export const selectInitialFormValues = createSelector(
     selectIdActu,
     (actualites, id) => {
         if (!id) {
-            return "aaaaa";
+            return null;
         }
-        return actualites.find(actualite => actualite.id_actualite === id) || "bbbbbb";
+        return actualites.find(actualite => actualite.id_actualite === id) || null;
     }
 )
 

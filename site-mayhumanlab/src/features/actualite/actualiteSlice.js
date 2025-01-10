@@ -61,7 +61,8 @@ const actualiteSlice = createSlice({
             state.errors.apiErrorUpdate = null;
         })
         .addCase(updateActu.fulfilled, (state, action)=>{
-            state.tabActus[state.tabActus.findIndex((actualite)=>state.idActu === actualite.id)] = action.payload;
+            console.log(action.payload);
+            state.tabActus[state.tabActus.findIndex((actualite)=>state.idActu === actualite.id_actualite)] = action.payload;
             state.idActu = null;
             state.editActu = false;
         })
@@ -73,7 +74,7 @@ const actualiteSlice = createSlice({
             state.errors.apiErrorDelete = null;
         })
         .addCase(deleteActu.fulfilled, (state, action)=>{
-            const index = state.tabActus.findIndex((actualite) => actualite.id === action.payload);
+            const index = state.tabActus.findIndex((actualite) => actualite.id_actualite === Number(action.payload));
             state.tabActus.splice(index,1);
         })
 

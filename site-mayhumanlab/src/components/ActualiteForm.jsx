@@ -19,7 +19,7 @@ const ActualiteForm = () => {
 
     const handleSubmit = async (values, form) => {
         const dataToSend = { ...values };
-        console.log(dataToSend);
+        console.log(values);
         dispatch(saveActu(dataToSend));
     };
 
