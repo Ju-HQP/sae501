@@ -10,7 +10,7 @@ function Home() {
             <main className="font-roboto leading-8">
                 {/* <div className="fixed top-12 w-full h-32 bg-url[('/accueil/bg-banniere.webp')]"></div> */}
                 <img className="w-full" src="/accueil/banner.jpg" alt="bannière" />
-                <section className="px-12">
+                <section className="px-12 my-8">
                     <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>May'HumanLab</h1>
                     <p className="">Le LAB-LAB devient May'HumanLab pour plusieurs raisons :
 
@@ -31,9 +31,9 @@ function Home() {
                         Notre volonté est de se rapprocher du 100% inclusif dans le département en apportant un savoir-faire technologique, des aides techniques créatives et pertinentes, de l'innovation sociale et environnementale, de la valorisation et la connaissance du handicap par la culture, du militantisme pour une équité sociétale.
                     </p>
                 </section>
-                <section className="px-12">
-                    <h2>Projets</h2>
-                    {projects.map((project, id)=><ProjectsItemAccueil project={project} key={id}/>)}
+                <section className="px-12 my-8">
+                    <h2 className="text-2xl font-bold text-center my-6">Projets</h2>
+                    <ul>{projects.map((project, id) => <ProjectsItemAccueil project={project} key={id} />)}</ul>
                 </section>
             </main>
         </>)
