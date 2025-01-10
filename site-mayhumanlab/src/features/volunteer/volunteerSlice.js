@@ -47,10 +47,12 @@ const slice = createSlice({
             state.errors.apiErrorLoad = action.payload;
         })
         .addCase(addVolunteer.fulfilled, (state, action)=>{
-            console.log(state.volunteers)
             state.volunteers = [...state.volunteers, action.payload];
             state.volunteerModifying = false;
-            console.log(state.volunteers)
+            state.loading = false;
+        })
+        .addCase(addVolunteer.pending, (state, action)=>{
+            state.loading = true;
         })
         .addCase(addVolunteer.rejected, (state, action)=>{
             state.errors.apiErrorAdd = action.payload;
