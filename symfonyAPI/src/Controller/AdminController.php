@@ -200,7 +200,7 @@ class AdminController extends AbstractController
 		$this->entityManager->flush();
 
 		$response = new Response();
-	    $response->setContent(json_encode(['id' => $actualite->getId()]), Response::HTTP_CREATED, [
+	    $response->setContent(json_encode(['id' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
 			'Content-Type' => 'application/json',
 		]);
 		$response->setStatusCode(Response::HTTP_CREATED);
@@ -209,12 +209,11 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/actualites/{id}', name: 'adminActualitesSupprimer', methods: ['DELETE'])]
-	public function adminActualitesSupprimerAction(Request $request): Response
+	#[Route('/admin/actualites/{idActualite}', name: 'adminActualitesSupprimer', methods: ['DELETE'])]
+	public function adminActualitesSupprimerAction(string $idActualite): Response
 	{
 
 		// Récupérer les données JSON
-		$idActualite = $request->query->get("id");
 		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
 
 		if ($actualite) {
@@ -242,28 +241,20 @@ class AdminController extends AbstractController
 
 		}
 
-//		$idActualite = $request->query->get("id_actualite");
-//		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
-//
-//		if ($actualite) {
-//			$this->entityManager->remove($actualite);
-//			$this->entityManager->flush();
-//			return new Response(null, Response::HTTP_NO_CONTENT);
-//		}
-//
-//		return new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
 	}
+	
 
-	#[Route('/admin/actualites/modifier', name: 'adminActualitesModifier', methods: ["PUT"])]
-	public function adminActualitesModifierAction(Request $request): Response
+	#[Route('/admin/actualites/{idActualite}', name: 'adminActualitesModifier', methods: ['PUT'])]
+	public function adminActualitesModifierAction(string $idActualite, Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
-		var_dump($data);
-		$idActualite = $data['id_actualite'] ?? null;
 	
-		if (!$idActualite) {
-			$response = new Response('ID manquant', Response::HTTP_BAD_REQUEST);
+		if (!$data) {
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode(['message' => 'Invalid or missing JSON data']));
 			return $response;
 		}
 	
@@ -274,18 +265,24 @@ class AdminController extends AbstractController
 					  ->setDescription($data['description_a'] ?? $actualite->getDescription())
 					  ->setDate($data['date_a'] ?? $actualite->getDate())
 					  ->setImage($data['image_a'] ?? $actualite->getImage());
+	
 			$this->entityManager->persist($actualite);
 			$this->entityManager->flush();
-	        $response = new Response('Actualité mise à jour', Response::HTTP_OK);
-			// $response->headers->set('Content-Type', 'application/json');
-			$response->headers->set('Access-Control-Allow-Origin', '*');
-
-			return $response;
-		}
 	
-		$response = new Response('Actualité non trouvée', Response::HTTP_NOT_FOUND);
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_OK);
+			$response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode(['message' => 'Actualité mise à jour avec succès']));
+			return $response;
+		}else{
+			$response = new Response;
+		$response->setStatusCode(Response::HTTP_NOT_FOUND);
+		$response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
+		$response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idActualite]));
 		return $response;
+		}
 	}
 }
 

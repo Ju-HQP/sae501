@@ -62,28 +62,28 @@ class AppFixtures extends Fixture
 			
 			$actualite = new Actualite();
             $actualite->setTitre("Actu 1");
-            $actualite->setDate("12/12/12");
+            $actualite->setDate("2012-12-12");
             $actualite->setDescription("Ceci est un essai numéro 1 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
             $actualite->setImage("imageActu1.png");
             $manager->persist($actualite);
 
             $actualite = new Actualite();
             $actualite->setTitre("Actu 2");
-            $actualite->setDate("11/11/11");
+            $actualite->setDate("2011-11-11");
             $actualite->setDescription("Ceci est un essai numéro 2 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
             $actualite->setImage("imageActu2.png");
             $manager->persist($actualite);
 
             $actualite = new Actualite();
             $actualite->setTitre("Actu 3");
-            $actualite->setDate("10/10/10");
+            $actualite->setDate("2010-10-10");
             $actualite->setDescription("Ceci est un essai numéro 3 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
             $actualite->setImage("imageActu3.png");
             $manager->persist($actualite);
 
             $actualite = new Actualite();
             $actualite->setTitre("Actu 4");
-            $actualite->setDate("09/09/09");
+            $actualite->setDate("2009-09-09");
             $actualite->setDescription("Ceci est un essai numéro 4 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
             $actualite->setImage("imageActu4.png");
             $manager->persist($actualite);

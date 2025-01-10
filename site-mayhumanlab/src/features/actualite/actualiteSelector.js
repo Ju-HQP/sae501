@@ -24,11 +24,11 @@ export const selectFormTitle = createSelector(
 export const selectInitialFormValues = createSelector(
     selectActus,
     selectIdActu,
-    (actualities, id) => {
+    (actualites, id) => {
         if (!id) {
-            return null;
+            return "aaaaa";
         }
-        return actualities.find(actualite => actualite.id === id) || null;
+        return actualites.find(actualite => actualite.id_actualite === id) || "bbbbbb";
     }
 )
 

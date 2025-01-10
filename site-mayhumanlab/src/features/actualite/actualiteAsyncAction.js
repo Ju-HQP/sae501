@@ -52,12 +52,10 @@ export const addActu = createAsyncThunk(
 
 export const updateActu = createAsyncThunk(
     'actualites/updateActu',
-    async (dataToSend, {
-        rejectWithValue
-    }) => {
+    async (dataToSend, {rejectWithValue}) => {
+        console.log(dataToSend);
         try {
-            const queryString = new URLSearchParams(dataToSend).toString();
-            const response = await fetch(`${URL_API_ACTUS}?${queryString}`, {
+            const response = await fetch(`${URL_API_ACTUS}/${dataToSend.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,10 +70,7 @@ export const updateActu = createAsyncThunk(
 
 export const saveActu = createAsyncThunk(
     'actualites/saveActu',
-    async (dataToSend, {
-        dispatch,
-        getState
-    }) => {
+    async (dataToSend, {dispatch,getState}) => {
         try {
             if (getState().actualite.idActu) {
                 dispatch(updateActu(dataToSend));
@@ -90,18 +85,15 @@ export const saveActu = createAsyncThunk(
 
 export const deleteActu = createAsyncThunk(
     'actualites/deleteActu',
-    async (dataToSend, {
-        rejectWithValue
-    }) => {
+    async (dataToSend, {rejectWithValue}) => {
         try {
-            const queryString = new URLSearchParams(dataToSend).toString();
-            const response = await fetch(`${URL_API_ACTUS}?${queryString}`, {
+            const response = await fetch(`${URL_API_ACTUS}/${dataToSend.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-            return await response.json();
+            return dataToSend.id;
         } catch (error) {
             return rejectWithValue("Erreur lors de la suppression de l'actualité.");
         }
