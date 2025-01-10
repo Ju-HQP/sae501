@@ -9,13 +9,13 @@ export function required(string) {
 
 export function phoneValidated(nums) {
     //const regex = /(\d\d\s){4}\d\d/;
-    const regex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/g;
+    /* const regex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/g;
 
     if(regex.test(nums) && nums.length < 15) {
         return '';
     } else {
         return 'Le numero doit être au format xx xx xx xx xx';
-    }  
+    }   */
 }
 
 export function combineValidators(...filterFunctions) {

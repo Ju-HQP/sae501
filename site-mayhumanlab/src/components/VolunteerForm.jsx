@@ -70,16 +70,13 @@ function VolunteerForm() {
                                                 render={({ input, meta }) => (
 
                                                     <div className="flex flex-col justify-center items-center col-span-2 md:mb-4">
-                                                        <p className="font-semibold">Photo de profil</p>
+                                                        <label htmlFor='photo_b' className="font-semibold">Photo de profil</label>
                                                         <ImageUpload {...input} avatarURL={avatarURL} setAvatarURL={setAvatarURL} />
-                                                        {/* <label htmlFor='photo_b' className="mt-3 mb-2 border-2 border-dashed border-gray-300 w-28 h-28 mx-auto flex justify-center items-center bg-slate-100 rounded-full text-sm text-center md:w-32 md:h-32">
-                                                    Cliquez pour sélectionner une image
-                                                    <input {...input} placeholder="" id='photo_b' type='file' className="hidden border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
-                                                </label> */}
                                                     </div>
                                                 )}
                                             >
                                             </Field>
+                                            {/* <Field name="file" component={ImageUpload} /> */}
                                             <Field
                                                 validate={required}
                                                 name="prenom_b"

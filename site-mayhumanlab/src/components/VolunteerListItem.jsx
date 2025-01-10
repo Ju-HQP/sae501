@@ -12,7 +12,7 @@ function VolunteerListItem({ volunteer, width }) {
         width < 1024
             ?
             <section className="mt-12 grid grid-cols-2 w-full gap-2 max-w-md">
-                <p className="col-end-3 m-auto row-start-1 row-end-4 w-24 h-24 rounded-full bg-slate-500"></p>
+                <img src={volunteer.photo_b} className="col-end-3 m-auto row-start-1 row-end-4 w-24 h-24 rounded-full"/>
                 <p className="col-start-1 text-xl font-semibold">{volunteer.prenom_b} {volunteer.nom_b}</p>
                 <p className="col-start-1">164574518456</p>
                 <p className="col-start-1">{volunteer.tel_b}</p>
