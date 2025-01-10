@@ -9,7 +9,6 @@ use GuzzleHttp\Client;
 
 use App\Entity\Benevole;
 use App\Entity\Competence;
-use App\Entity\Competence;
 
 use Psr\Log\LoggerInterface;
 
