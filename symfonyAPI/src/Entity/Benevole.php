@@ -57,7 +57,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
         $this->competences = new ArrayCollection();
     }
 
-    public function setComp(Competence $comp):static{
+    public function setComp(string $comp):static{
        $this->competences->add($comp);
 
        return $this;

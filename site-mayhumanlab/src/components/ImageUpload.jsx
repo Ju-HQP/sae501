@@ -11,7 +11,7 @@ function ImageUpload({avatarURL, setAvatarURL}) {
 
     async function uploadImageDisplay() {
         const uploadedFile = fileUploadRef.current.files[0]; //on récupère le premier fichier de l'input
-        const cachedURL = URL.createObjectURL(uploadedFile);
+        const cachedURL = window.URL.createObjectURL(uploadedFile);
         console.log(cachedURL);
         setAvatarURL(cachedURL);
 

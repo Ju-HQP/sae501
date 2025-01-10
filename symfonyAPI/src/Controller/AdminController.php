@@ -38,7 +38,8 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response
 	{
-		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
+		// $query = $this->entityManager->createQuery("SELECT b FROM App\Entity\Benevole b JOIN benevole_competence ON benevole.id_benevole == benevole_competence.id_benevole JOIN competence ON benevole_comptence.id_competence == competence.id_competence");
+		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();
 		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
@@ -96,10 +97,15 @@ class AdminController extends AbstractController
 		$this->entityManager->persist($benevole);
 		$this->entityManager->flush();
 
-		// Retourner la réponse avec l'ID du nouvel objet
-		return new Response(json_encode(['id' => $benevole->getId()]), Response::HTTP_CREATED, [
-			'Content-Type' => 'application/json',
-		]);
+		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
+		$benevoles = $query->getArrayResult(); // ou getResult();
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_CREATED);
+		//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
+		$response->setContent(json_encode($benevoles[sizeof($benevoles)-1]));
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		return $response;
 	}
 
 	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
