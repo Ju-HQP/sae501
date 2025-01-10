@@ -4,15 +4,15 @@ import {
 import {
     URL_API_CSRF,
     URL_API_LOGIN
-} from '../utils/config.js';
+} from '../../utils/config.js';
 import {
     URL_API_LOGOUT
-} from '../utils/config.js';
+} from '../../utils/config.js';
 //fonctions asynchrones pour communiquer avec l'api
 
 // récupération du jeton de session pour la connexion
 export const csrfToken = createAsyncThunk(
-    'auth/csrf',
+    'user/csrf',
     async (_, {
         rejectWithValue
     }) => {
@@ -33,7 +33,7 @@ export const csrfToken = createAsyncThunk(
 )
 
 export const login = createAsyncThunk(
-    'auth/login',
+    'user/login',
     async (datas, {
         dispatch,
         rejectWithValue
@@ -57,7 +57,7 @@ export const login = createAsyncThunk(
     });
 
 export const logout = createAsyncThunk(
-    'auth/logout',
+    'user/logout',
     async (_, {
         rejectWithValue
     }) => {

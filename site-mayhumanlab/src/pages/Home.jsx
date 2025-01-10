@@ -1,24 +1,26 @@
 import { useSelector, useDispatch } from "react-redux";
 import Header from "../components/Header";
 import ConnectionForm from "./ConnectionForm";
-import { selectUserConnecting } from "../features/volunteer/volunteerSelector";
-import { startConnecting, stopConnecting } from "../features/volunteer/volunteerSlice";
-import { logout } from "../features/connexion";
+import { startConnecting } from "../features/user/userSlice";
+import { selectUserIsConnected, selectUserIsConnecting } from "../features/user/userSelector";
+import { logout } from "../features/user/connexion";
 
 function Home() {
   const dispatch = useDispatch();
 
-  const isConnecting = useSelector(selectUserConnecting);
+  // pour l'état de connexion (utilisateur connecté ou non)
+  const isConnected = useSelector(selectUserIsConnected);
+
+  // pour le Call to action de connexion
+  const isConnecting = useSelector(selectUserIsConnecting);
 
   function handleConnecting() {
     dispatch(startConnecting()); //isModifying passe à true
   }
 
-  function handleDisconnecting() {
-        dispatch(logout);
-    // à refaire en fonction du résultat
-    dispatch(stopConnecting());
-  }
+  const handleDisconnecting = async () => {
+      dispatch(logout());
+    };
 
   return (
     <>
@@ -28,7 +30,7 @@ function Home() {
           Accueil
         </h1>
         <div className="w-full flex justify-end">
-          { isConnecting?
+          { isConnected?
           <button
           onClick={handleDisconnecting}
           className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"

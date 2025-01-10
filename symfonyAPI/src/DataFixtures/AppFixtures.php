@@ -85,17 +85,6 @@ class AppFixtures extends Fixture
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
-
-			$benevole = new Benevole();
-			$benevole->setNom("Beta");
-			$benevole->setPrenom("Test");
-			$benevole->setPassword("vide");
-			$benevole->setMail("test@free.fr");
-			$benevole->setTel("0764412869");
-			$benevole->setPhoto("https://cache.cosmopolitan.fr/data/photo/w1000_c17/3y/femme_sourire.jpg");
-			$benevole->setRoles(1);
-			$manager->persist($benevole);
-
 			$benevole = new Benevole();
 			$benevole->setNom("Beta");
 			$benevole->setPrenom("Test");

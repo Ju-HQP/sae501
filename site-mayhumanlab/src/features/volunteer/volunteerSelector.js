@@ -9,12 +9,12 @@ export const selectLoading = (state) => state.volunteer.loading;
 export const selectIdVolunteerModifying = (state) => state.volunteer.idVolunteerModifying;
 export const selectUserConnecting = (state) => state.volunteer.connected;
 
-export const selectErrorLoad = (state) => state.film.errors.apiErrorLoad;
-export const selectErrorDelete = (state) => state.film.errors.apiErrorDelete;
+export const selectErrorLoad = (state) => state.volunteer.errors.apiErrorLoad;
+export const selectErrorDelete = (state) => state.volunteer.errors.apiErrorDelete;
 export const selectErrorSave = (state) => {
-    if(state.film.editFilmId){
-        return state.film.errors.apiErrorUpdate;
+    if(state.volunteer.idVolunteerModifying){
+        return state.volunteer.errors.apiErrorUpdate;
     } else {
-        return state.film.errors.apiErrorAdd;
+        return state.volunteer.errors.apiErrorAdd;
     }
 }

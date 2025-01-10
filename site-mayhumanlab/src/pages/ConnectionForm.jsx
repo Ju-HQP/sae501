@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
-import { stopConnecting } from "../features/volunteer/volunteerSlice";
+import { stopConnecting } from "../features/user/userSlice";
 import { Field, Form } from "react-final-form";
 import {
   required,
 } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
-import { login } from "../features/connexion.js";
+import { login } from "../features/user/connexion.js";
 
 function ConnectionForm() {
   const dispatch = useDispatch();

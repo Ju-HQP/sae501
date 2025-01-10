@@ -12,8 +12,6 @@ const slice = createSlice({
     initialState: {
         volunteers: [],
         loading: false,
-        connected: false,
-        admin: true,
         volunteerModifying: false,
         idVolunteerModifying: null,
         errors: {
@@ -34,12 +32,6 @@ const slice = createSlice({
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
         },
-        startConnecting(state, action) {
-            state.connected = true;
-        },
-        stopConnecting(state, action) {
-            state.connected = false;
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -74,7 +66,5 @@ const slice = createSlice({
 export const {
     startVolunteerEdit,
     stopVolunteerEdit,
-    startConnecting,
-    stopConnecting
 } = slice.actions;
 export default slice.reducer;

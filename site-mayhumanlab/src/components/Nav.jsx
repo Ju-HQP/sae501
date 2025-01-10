@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { selectAdmin, selectConnected } from "../features/volunteer/volunteerSelector";
 import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { selectUserIsAdmin, selectUserIsConnected } from "../features/user/userSelector";
 
 function Nav() {
-    // const isConnected = useSelector(selectConnected);
-     const isConnected = true;
-    const isAdmin = useSelector(selectAdmin);
+    const isConnected = useSelector(selectUserIsConnected);
+    const isAdmin = useSelector(selectUserIsAdmin);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
