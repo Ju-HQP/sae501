@@ -6,11 +6,13 @@ import { useState } from "react";
 import { combineValidators, phoneValidated, required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Select from 'react-select';
-import { selectLoading } from "../features/volunteer/volunteerSelector";
+import { selectFormTitle, selectIdVolunteerModifying, selectInitialFormValues, selectLoading } from "../features/volunteer/volunteerSelector";
 
 function VolunteerForm() {
     const dispatch = useDispatch();
     const loading = useSelector(selectLoading);
+    const initialValues = useSelector(selectInitialFormValues);
+    const title = useSelector(selectFormTitle);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const options = [
@@ -25,6 +27,7 @@ function VolunteerForm() {
             values.role_b = 0;
         }
         dispatch(saveVolunteer(values));
+        form.reset();
     }
 
     function handleExit() {
@@ -53,8 +56,9 @@ function VolunteerForm() {
                         :
                         <dialog open onClose={handleExit} className="w-screen shadow-2xl rounded-lg relative px-4 md:m-12 lg:mx-32">
                             <span className="flex justify-center flex-col mt-8 lg:mt-12">
-                                <h2 className="text-2xl font-bold text-center md:text-4xl">Créer un compte</h2>
+                                <h2 className="text-2xl font-bold text-center md:text-4xl">{title}</h2>
                                 <Form
+                                    initialValues={initialValues}
                                     onSubmit={handleSubmit}
                                     render={({ handleSubmit }) => (
                                         <form onSubmit={handleSubmit} className="my-4 px-2 md:grid grid-cols-2 lg:px-8">

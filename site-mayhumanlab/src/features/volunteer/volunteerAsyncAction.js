@@ -25,12 +25,12 @@ export const loadVolunteer = createAsyncThunk(
 )
 
 export const saveVolunteer = createAsyncThunk(
-    'benevoles/saveBenevole',
+    'benevoles/saveVolunteer',
     (datas,{
         dispatch,
         getState
     }) => {
-        const id= getState().idVolunteerModifying
+        const id= getState().volunteer.idVolunteerModifying;
         if(id){
             dispatch(updateVolunteer(datas));
         } else {
@@ -43,7 +43,6 @@ export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
     async (datas, {rejectWithValue}) => {
         try {
-            console.log(datas)
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
                 headers: {
@@ -62,7 +61,7 @@ export const updateVolunteer = createAsyncThunk(
     'benevoles/updateVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id}`, {
+            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id_benevole}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,7 +77,6 @@ export const updateVolunteer = createAsyncThunk(
 export const deleteVolunteer = createAsyncThunk(
     'benevoles/deleteVolunteer',
     async (datas, { rejectWithValue }) => {
-        console.log(datas);
         try {
             const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id}`, {
                 method: 'DELETE',

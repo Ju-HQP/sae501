@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectVolunteer } from "../features/volunteer/volunteerSelector";
 import { deleteVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import DeleteButton from "./DeleteButton";
+import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
 
 function VolunteerListItem({ volunteer, width }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -11,6 +12,10 @@ function VolunteerListItem({ volunteer, width }) {
     
     const handleDeleteVolunteer = (id) => {
         dispatch(deleteVolunteer({id}));
+    }
+
+    const handlePlay = () => {
+        dispatch(startVolunteerEdit(volunteer.id_benevole));
     }
 
     /*constante de TEST */
@@ -33,7 +38,7 @@ function VolunteerListItem({ volunteer, width }) {
                     <p className="rounded-full px-4 py-2 bg-slate-300">Compétence 2</p>
                 </span>
                 <div className="flex col-span-2 m-auto w-full">
-                    <button className='primary-btn-small mr-2 w-full'>Modifier</button>
+                    <button className='primary-btn-small mr-2 w-full' onClick={handlePlay}>Modifier</button>
                     <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </div>
             </section>
@@ -57,7 +62,7 @@ function VolunteerListItem({ volunteer, width }) {
                 <td className="text-center">{volunteer.tel_b}</td>
                 <td className="text-center">{volunteer.mail_b}</td>
                 <td className="text-end">
-                    <button className='primary-btn-small mr-2'>Modifier</button>
+                    <button className='primary-btn-small mr-2' onClick={handlePlay}>Modifier</button>
                     <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </td>
             </tr>

@@ -11,7 +11,6 @@ const slice = createSlice({
         connected: true,
         admin: true,
         volunteerModifying: false,
-        volunteerDeleting: false,
         idVolunteerModifying: null,
         idVolunteerDeleting: null,
         errors: {
@@ -59,6 +58,16 @@ const slice = createSlice({
         .addCase(addVolunteer.rejected, (state, action)=>{
             state.errors.apiErrorAdd = action.payload;
             state.volunteerModifying = false;
+        })
+        .addCase(updateVolunteer.fulfilled, (state, action)=>{
+            state.volunteers[state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === state.idVolunteerModifying)] = action.payload;
+            state.idVolunteerModifying = null;
+            state.volunteerModifying = false;
+            state.errors.apiErrorUpdate = null;
+        })
+        .addCase(updateVolunteer.rejected, (state, action)=>{
+            //console.log(action.error.message);
+            state.errors.apiErrorUpdate = action.payload;
         })
         .addCase(deleteVolunteer.fulfilled, (state, action)=>{
             const index = state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === Number(action.payload));
