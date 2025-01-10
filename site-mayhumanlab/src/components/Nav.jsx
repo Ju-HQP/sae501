@@ -5,7 +5,8 @@ import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outli
 import { useState } from "react";
 
 function Nav() {
-    const isConnected = useSelector(selectConnected);
+    // const isConnected = useSelector(selectConnected);
+     const isConnected = true;
     const isAdmin = useSelector(selectAdmin);
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);

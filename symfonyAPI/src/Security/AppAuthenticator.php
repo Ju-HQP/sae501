@@ -66,17 +66,11 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         if ($request->getPathInfo() === '/login') {
             return new RedirectResponse('/admin/benevoles');
         }
+        
+        $response = new Response();
+		$response->setStatusCode(Response::HTTP_OK);
 
-        //     // Vérifiez si la requête attend un JSON
-        // if ($request->isXmlHttpRequest() || str_contains($request->getRequestUri(), '/api')) {
-        //     return new JsonResponse([
-        //         'message' => 'Connexion réussie',
-        //         'user' => $token->getUser()->getUserIdentifier(),
-        //         'roles' => $token->getUser()->getRoles(),
-        //     ]);
-        // }
-
-        return new RedirectResponse('/connected');
+        return $response;
     }
 
     protected function getLoginUrl(Request $request): string

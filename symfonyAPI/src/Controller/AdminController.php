@@ -43,6 +43,7 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response
 	{
+		// session_start();
 		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();

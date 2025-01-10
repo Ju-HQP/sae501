@@ -25,7 +25,7 @@ function Home() {
             onClick={handleConnecting}
             className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
           >
-            Créer un bénévole
+            Connexion
           </button>
         </div>
         {isConnecting && <ConnectionForm />}

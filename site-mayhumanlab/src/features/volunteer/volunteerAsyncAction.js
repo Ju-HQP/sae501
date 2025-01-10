@@ -12,6 +12,7 @@ export const loadVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include' // important pour conserver le cookie de session
             });
             if (!response.ok) {
                 throw new Error(`Erreur HTTP : ${response.status}`);
