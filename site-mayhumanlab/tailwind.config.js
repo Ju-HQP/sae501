@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        roboto: 'Roboto, sans-serif', // Adds a new `font-display` class
+        roboto: 'Roboto, sans-serif',
+        montserrat: 'Montserrat',
       }
     },
   },

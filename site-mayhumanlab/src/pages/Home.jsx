@@ -1,28 +1,39 @@
 
+import { useEffect } from "react";
 import Header from "../components/Header";
-import ProjectsItemAccueil from "../components/ProjectItemAccueil";
+import ProjectsItemAccueil from "../components/accueil/ProjectItemAccueil";
 import projects from '../projects.json';
+import { useDispatch, useSelector } from "react-redux";
+import { selectLoadingActu, selectSortedActusByReleaseDate } from "../features/actualite/actualiteSelector";
+import { loadActus } from "../features/actualite/actualiteAsyncAction";
+import ActualiteItemAccueil from "../components/accueil/ActualiteItemAccueil";
 
 function Home() {
+    const dispatch = useDispatch();
+    const loadingActu = useSelector(selectLoadingActu);
+    const listeActualite = useSelector(selectSortedActusByReleaseDate);
+
+    useEffect(() => {
+        dispatch(loadActus());
+    }, []);
 
     return (
         <>
             <Header />
-            <main className="font-roboto leading-8">
-                {/* {width < 1024
-                    ? */}
+            <main className="font-roboto leading-8 mb-12">
                 <>
                     <div className="w-full">
                         <img className="w-full h-96 object-cover" src="/accueil/banner.jpg" alt="bannière" />
                     </div>
                     <section className="px-12 my-8 max-w-6xl m-auto">
-                        <h1 className='text-center my-8 font-thin text-4xl lg:text-5xl  lg:my-12'>May'HumanLab</h1>
+                        <h1 className='text-center font-montserrat my-8 font-extralight text-4xl lg:text-6xl lg:my-12'>May'HumanLab</h1>
                         <p className="">Le LAB-LAB devient May'HumanLab pour plusieurs raisons :
+                            <ul>
 
-                            - Revendiquer l'appartenance à un territoire
-                            - Une meilleure compréhension de nos actions
-                            - La certification HumanLab (convention des fablabs handicap)
-
+                                <li>- Revendiquer l'appartenance à un territoire</li>
+                                <li>- Une meilleure compréhension de nos actions</li>
+                                <li>- La certification HumanLab (convention des fablabs handicap)</li>
+                            </ul>
 
                         </p>
                         <p className="mt-4">
@@ -36,14 +47,21 @@ function Home() {
                             Notre volonté est de se rapprocher du 100% inclusif dans le département en apportant un savoir-faire technologique, des aides techniques créatives et pertinentes, de l'innovation sociale et environnementale, de la valorisation et la connaissance du handicap par la culture, du militantisme pour une équité sociétale.
                         </p>
                     </section>
+                    <section className="px-16 my-12 max-w-7xl m-auto">
+                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Actualités</h2>
+
+                        {loadingActu
+                            ?
+                            <p>Chargement des actualités...</p>
+                            :
+                            <ul className="lg:grid lg:grid-cols-4">{listeActualite.map((actualite, id)=> <ActualiteItemAccueil actualite={actualite} key={id}/>)}</ul>
+                        }
+                    </section>
                     <section className="px-12 my-8 max-w-6xl m-auto">
-                        <h2 className="text-4xl font-thin text-center my-8">Projets</h2>
+                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Projets</h2>
                         <ul>{projects.map((project, id) => <ProjectsItemAccueil project={project} key={id} />)}</ul>
                     </section>
                 </>
-                {/*  :
-                    <></>
-                }  */}
             </main>
         </>)
 };

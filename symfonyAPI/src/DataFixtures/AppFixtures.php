@@ -88,7 +88,7 @@ class AppFixtures extends Fixture
 
 			$manager->flush();
 		}
-		
+
 		if (count($manager->getRepository("App\Entity\Projet")->findAll()) == 0) {
 			$project = new Projet();
 			$project->setTitre('Orthèse');
@@ -106,36 +106,36 @@ class AppFixtures extends Fixture
 		}
 
 		if (count($manager->getRepository("App\Entity\Actualite")->findAll()) == 0) {
-			
+
 			$actualite = new Actualite();
-            $actualite->setTitre("Actu 1");
-            $actualite->setDate("2012-12-12");
-            $actualite->setDescription("Ceci est un essai numéro 1 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
-            $actualite->setImage("imageActu1.png");
-            $manager->persist($actualite);
+			$actualite->setTitre("Actu 1");
+			$actualite->setDate("2012-12-12");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
 
-            $actualite = new Actualite();
-            $actualite->setTitre("Actu 2");
-            $actualite->setDate("2011-11-11");
-            $actualite->setDescription("Ceci est un essai numéro 2 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
-            $actualite->setImage("imageActu2.png");
-            $manager->persist($actualite);
+			$actualite = new Actualite();
+			$actualite->setTitre("Actu 2");
+			$actualite->setDate("2011-11-11");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1605647540924-852290f6b0d5?q=80&w=1737&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
 
-            $actualite = new Actualite();
-            $actualite->setTitre("Actu 3");
-            $actualite->setDate("2010-10-10");
-            $actualite->setDescription("Ceci est un essai numéro 3 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
-            $actualite->setImage("imageActu3.png");
-            $manager->persist($actualite);
+			$actualite = new Actualite();
+			$actualite->setTitre("Actu 3");
+			$actualite->setDate("2010-10-10");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
 
-            $actualite = new Actualite();
-            $actualite->setTitre("Actu 4");
-            $actualite->setDate("2009-09-09");
-            $actualite->setDescription("Ceci est un essai numéro 4 pour les actualités. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
-            $actualite->setImage("imageActu4.png");
-            $manager->persist($actualite);
+			$actualite = new Actualite();
+			$actualite->setTitre("Actu 4");
+			$actualite->setDate("2009-09-09");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1706700722877-1b014f34f383?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
 
-            $manager->flush();
+			$manager->flush();
 		}
 	}
 }
