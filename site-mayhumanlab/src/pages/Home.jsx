@@ -3,7 +3,6 @@ import ProjectsItemAccueil from "../components/ProjectItemAccueil";
 import projects from '../projects.json';
 
 function Home() {
-    console.log(projects);
 
     return (
         <>
@@ -32,9 +31,9 @@ function Home() {
                         Notre volonté est de se rapprocher du 100% inclusif dans le département en apportant un savoir-faire technologique, des aides techniques créatives et pertinentes, de l'innovation sociale et environnementale, de la valorisation et la connaissance du handicap par la culture, du militantisme pour une équité sociétale.
                     </p>
                 </section>
-                <section>
+                <section className="px-12">
                     <h2>Projets</h2>
-                    {projects.map((project)=><ProjectsItemAccueil project={project}/>)}
+                    {projects.map((project, id)=><ProjectsItemAccueil project={project} key={id}/>)}
                 </section>
             </main>
         </>)
