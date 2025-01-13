@@ -7,11 +7,13 @@ import { combineValidators, phoneValidated, required } from "../utils/validators
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Select from 'react-select';
 import ImageUpload from "./ImageUpload";
+import { selectLoading } from "../features/volunteer/volunteerSelector";
 
 
 
 function VolunteerForm() {
     const dispatch = useDispatch();
+    const loading = useSelector(selectLoading);
     const [avatarURL, setAvatarURL] = useState('/default-user.png');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
