@@ -64,6 +64,7 @@ export const logout = createAsyncThunk(
         try {
             const res = await fetch(URL_API_LOGOUT, {
                 method: 'POST',
+                credentials: 'include',
                 // headers: {
                 //     'Content-Type': 'application/json',
                 // },
@@ -71,6 +72,7 @@ export const logout = createAsyncThunk(
             });
             return await res.json();
         } catch (er) {
+            console.log("erreur" + er);
             return rejectWithValue(+er.response.data.error.message)
         }
     });

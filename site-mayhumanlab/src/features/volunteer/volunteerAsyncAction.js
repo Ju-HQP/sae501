@@ -1,11 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { URL_API_VOLUNTEERS } from '../../utils/config.js';
+import { URL_API_AUTH, URL_API_VOLUNTEERS } from '../../utils/config.js';
 
 //fonctions asynchrones pour communiquer avec l'api
+
+// const checkAuthStatus = async () => {
+//     const res = await fetch(URL_API_AUTH, {
+//         method: 'GET',
+//         credentials: 'include',
+//     });
+
+//     const data = await res.json();
+
+//     if (data.isAuthenticated) {
+//        return true; 
+//     }
+
+//     return false;
+// };
 
 export const loadVolunteer = createAsyncThunk(
     'benevoles/loadVolunteer',
     async (_, { rejectWithValue }) => {
+        // if(checkAuthStatus){
         try{
             const response = await fetch(URL_API_VOLUNTEERS, {
                 method: 'GET',
@@ -22,6 +38,9 @@ export const loadVolunteer = createAsyncThunk(
         }catch (error){
             return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
         };
+    // }else {
+        return rejectWithValue("Vous n'êtes pas connecté");
+    // }
     }
 )
 

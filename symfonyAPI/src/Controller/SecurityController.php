@@ -67,11 +67,11 @@ class SecurityController extends AbstractController
         //$sentToken = $request->request->get('_csrf_token');
 
         // Récupérer le token attendu
-       // $expectedToken = $csrfTokenManager->getToken('authenticate')->getValue();
+        // $expectedToken = $csrfTokenManager->getToken('authenticate')->getValue();
 
         // Debug: Afficher les tokens
-       // var_dump('Sent Token:', $sentToken);
-       // var_dump('Expected Token:', $expectedToken);
+        // var_dump('Sent Token:', $sentToken);
+        // var_dump('Expected Token:', $expectedToken);
 
         $error = $authenticationUtils->getLastAuthenticationError();
         $identifiant = $authenticationUtils->getLastUsername();
@@ -86,19 +86,36 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        $response = new Response();
+        $response->headers->clearCookie('PHPSESSID');
+        $response->send();
+
+        
+        // throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+
     }
 
-    #[Route(path: '/auth', name: 'app_auth', methods: ['GET'])]
-    public function auth(AuthenticationUtils $authenticationUtils): Response
+    #[Route('/auth', name: 'api_auth', methods: ['GET'])]
+    public function authStatus(Security $security): JsonResponse
     {
+        $user = $security->getUser();
 
-
-        if ($this->getUser()) {
-            $identifiant = $authenticationUtils->getLastUsername();
-            return new JsonResponse(['message' => 'Connecté en tant que' . $identifiant], 200);
+        if (!$user) {
+            return new JsonResponse(['isAuthenticated' => false], 200);
         }
 
-        return new JsonResponse(['error' => "Vous n'êtes pas connecté"], 401);
+        return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);
     }
+    // #[Route(path: '/auth', name: 'app_auth', methods: ['GET'])]
+    // public function auth(AuthenticationUtils $authenticationUtils): Response
+    // {
+
+
+    //     if ($this->getUser()) {
+    //         $identifiant = $authenticationUtils->getLastUsername();
+    //         return new JsonResponse(['message' => 'Connecté en tant que' . $identifiant], 200);
+    //     }
+
+    //     return new JsonResponse(['error' => "Vous n'êtes pas connecté"], 401);
+    // }
 }

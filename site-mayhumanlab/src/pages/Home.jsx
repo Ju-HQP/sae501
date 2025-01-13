@@ -30,21 +30,21 @@ function Home() {
           Accueil
         </h1>
         <div className="w-full flex justify-end">
-          { isConnected?
+          {/* { isConnected? */}
           <button
           onClick={handleDisconnecting}
           className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
         >
           Déconnexion
         </button>
-          :
+          {/* : */}
           <button
             onClick={handleConnecting}
             className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
           >
             Connexion
           </button>
-}
+{/* } */}
         </div>
         {isConnecting && <ConnectionForm />}
       </main>
