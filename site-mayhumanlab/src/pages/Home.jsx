@@ -3,10 +3,12 @@ import { useEffect } from "react";
 import Header from "../components/Header";
 import ProjectsItemAccueil from "../components/accueil/ProjectItemAccueil";
 import projects from '../projects.json';
+import axes from '../axes.json';
 import { useDispatch, useSelector } from "react-redux";
 import { selectLoadingActu, selectSortedActusByReleaseDate } from "../features/actualite/actualiteSelector";
 import { loadActus } from "../features/actualite/actualiteAsyncAction";
 import ActualiteItemAccueil from "../components/accueil/ActualiteItemAccueil";
+import Axe from "../components/accueil/Axe";
 
 function Home() {
     const dispatch = useDispatch();
@@ -46,6 +48,10 @@ function Home() {
 
                             Notre volonté est de se rapprocher du 100% inclusif dans le département en apportant un savoir-faire technologique, des aides techniques créatives et pertinentes, de l'innovation sociale et environnementale, de la valorisation et la connaissance du handicap par la culture, du militantisme pour une équité sociétale.
                         </p>
+                    </section>
+                    <section className="px-12 my-8 max-w-6xl m-auto">
+                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Nos Axes</h2>
+                        <ul>{axes.map((axe, id) => <Axe axe={axe} key={id} />)}</ul>
                     </section>
                     <section className="px-16 my-12 max-w-7xl m-auto">
                         <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Actualités</h2>
