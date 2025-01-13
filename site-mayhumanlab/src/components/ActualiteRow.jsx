@@ -20,18 +20,18 @@ function ActualiteRow({ actualite, width, handleDelete }) {
         <td className="text-center">{actualite.image_a}</td>
         <td className="text-end">
           <button className='primary-btn-small mr-2' onClick={handleEdit}>Modifier</button>
-          <DeleteModale title={actualite.titre_a} id={actualite.id_actualite} handleDelete={handleDelete}/>
+          <DeleteModale title={actualite.titre_a} id={actualite.id_actualite} handleDelete={handleDelete} />
         </td>
       </tr>
       :
       <tr className="h-16">
         <td className="text-center">{actualite.titre_a}</td>
         <td className="text-center">{actualite.date_a}</td>
-        <td className="text-center">{actualite.image_a}</td>
+        <td><img src={actualite.image_a} className="text-center rounded-full w-12 h-12 object-cover" /></td>
         <td className="text-center">{actualite.description_a}</td>
         <td className="text-end">
           <button className='primary-btn-small mr-2' onClick={handleEdit}>Modifier</button>
-          <DeleteModale title={actualite.titre_a} id={actualite.id_actualite} handleDelete={handleDelete}/>
+          <DeleteModale title={actualite.titre_a} id={actualite.id_actualite} handleDelete={handleDelete} />
         </td>
       </tr>
   );
