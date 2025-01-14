@@ -26,17 +26,13 @@ export const loadVolunteer = createAsyncThunk(
 
 export const saveVolunteer = createAsyncThunk(
     'benevoles/saveVolunteer',
-    (datas,{
-        dispatch,
-        getState
-    }) => {
-        const id= getState().volunteer.idVolunteerModifying;
-        if(id){
-            dispatch(updateVolunteer(datas));
-        } else {
-            dispatch(addVolunteer(datas));
-        }
-    }
+    async (datas,{dispatch,getState}) => {
+           if(getState().volunteer.idVolunteerModifying){
+               dispatch(updateVolunteer(datas));
+           } else {
+               dispatch(addVolunteer(datas));
+           }
+       }
 )
 
 export const addVolunteer = createAsyncThunk(
@@ -52,7 +48,7 @@ export const addVolunteer = createAsyncThunk(
             });
             return await res.json();
         } catch (er) {
-            return rejectWithValue(+ er.response.data.error.message)
+            return rejectWithValue(er.response.data.error.message)
         }
     }
 )
@@ -66,6 +62,7 @@ export const updateVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify(datas),
             });
             return await response.json();
         } catch (errorJson){
@@ -78,7 +75,7 @@ export const deleteVolunteer = createAsyncThunk(
     'benevoles/deleteVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id}`, {
+            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id_benevole}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

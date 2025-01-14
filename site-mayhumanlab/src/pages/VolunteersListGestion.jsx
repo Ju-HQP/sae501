@@ -49,8 +49,8 @@ function VolunteersListGestion() {
                     width < 1024
                         ?
                         /**Pour les écrans inférieurs à 1024px*/
-                        volunteerList.map((volunteer) =>
-                            <VolunteerListItem key={volunteer.id_benevole} volunteer={volunteer} width={width} />
+                        volunteerList.map((volunteer, id) =>
+                            <VolunteerListItem key={id} volunteer={volunteer} width={width} />
                         )
                         :
                         /**Pour les écrans supérieurs à 1024px, les comptes sont présentés sous forme de tableau*/
@@ -69,8 +69,8 @@ function VolunteersListGestion() {
                             </thead>
                             <tbody>
                                 {
-                                    volunteerList.map((volunteer) =>
-                                        <VolunteerListItem key={volunteer.id_benevole} volunteer={volunteer} width={width} />
+                                    volunteerList.map((volunteer, id) =>
+                                        <VolunteerListItem key={id} volunteer={volunteer} width={width} />
                                     )
                                 }
                             </tbody>

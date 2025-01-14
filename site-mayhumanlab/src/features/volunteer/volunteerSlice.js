@@ -59,6 +59,9 @@ const slice = createSlice({
             state.errors.apiErrorAdd = action.payload;
             state.volunteerModifying = false;
         })
+        .addCase(updateVolunteer.pending, (state, action)=>{
+            state.errors.apiErrorUpdate = action.payload;
+        })
         .addCase(updateVolunteer.fulfilled, (state, action)=>{
             state.volunteers[state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === state.idVolunteerModifying)] = action.payload;
             state.idVolunteerModifying = null;
