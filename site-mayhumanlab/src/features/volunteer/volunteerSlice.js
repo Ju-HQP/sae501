@@ -23,6 +23,8 @@ const slice = createSlice({
     },
     reducers: {
         startVolunteerEdit(state, action) {
+            state.errors.apiErrorAdd = null;
+            state.errors.apiErrorUpdate = null;
             state.volunteerModifying = true;
             state.idVolunteerModifying = action.payload;
         },
@@ -60,7 +62,6 @@ const slice = createSlice({
                 state.loading = true;
             })
             .addCase(addVolunteer.rejected, (state, action) => {
-                console.log(action.payload);
                 state.errors.apiErrorAdd = action.payload;
                 state.volunteerModifying = false;
                 state.loading = false;
