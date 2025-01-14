@@ -9,14 +9,19 @@ import { selectLoadingActu, selectSortedActusByReleaseDate } from "../features/a
 import { loadActus } from "../features/actualite/actualiteAsyncAction";
 import ActualiteItemAccueil from "../components/accueil/ActualiteItemAccueil";
 import Axe from "../components/accueil/Axe";
+import { selectLoadingProject, selectProjects } from "../features/project/projectSelector";
+import { loadProjects } from "../features/project/projectAsyncAction";
 
 function Home() {
     const dispatch = useDispatch();
     const loadingActu = useSelector(selectLoadingActu);
     const listeActualite = useSelector(selectSortedActusByReleaseDate);
+    const loadingProject = useSelector(selectLoadingProject);
+    const listeProjets = useSelector(selectProjects);
 
     useEffect(() => {
         dispatch(loadActus());
+        dispatch(loadProjects());
     }, []);
 
     return (
@@ -53,7 +58,7 @@ function Home() {
                         <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Nos Axes</h2>
                         <div className="relative bg-white w-full p-6 rounded-lg">
                             <ul className="lg:flex">{axes.map((axe, id) => <Axe axe={axe} key={id} />)}</ul>
-                            <div aria-hidden="true" class="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-4 lg:rounded-3xl blur-md bg-gradient-to-br from-pink-600 via-cyan-500 to-violet-500 opacity-50"></div>
+                            <div aria-hidden="true" className="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-4 lg:rounded-3xl blur-md bg-gradient-to-br from-pink-600 via-cyan-500 to-violet-500 opacity-50"></div>
                         </div>
                     </section>
                     <section id='actu' className="px-16 my-12 max-w-7xl m-auto">
@@ -68,7 +73,12 @@ function Home() {
                     </section>
                     <section id='projets' className="px-12 my-8 max-w-6xl m-auto">
                         <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Projets</h2>
-                        <ul>{projects.map((project, id) => <ProjectsItemAccueil project={project} key={id} />)}</ul>
+                        {loadingProject
+                            ?
+                            <p>Chargement des projets...</p>
+                            :
+                            <ul>{listeProjets.map((project, id) => <ProjectsItemAccueil project={project} key={id} />)}</ul>
+                        }
                     </section>
                 </>
             </main>
