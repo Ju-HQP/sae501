@@ -39,7 +39,6 @@ const actualiteSlice = createSlice({
         .addCase(loadActus.fulfilled, (state, action)=>{
             state.tabActus = action.payload;
             state.loading = false;
-            console.log(state.tabActus);
         })
         .addCase(loadActus.rejected, (state, action)=>{
             state.loading = false;

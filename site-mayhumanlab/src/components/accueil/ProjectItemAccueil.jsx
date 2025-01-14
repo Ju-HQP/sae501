@@ -10,9 +10,9 @@ function ProjectsItemAccueil({ project }) {
                 <p className="m-6 col-start-2 lg:mx-8">
                     {project.description_p}
                 </p>
-                <img src={project.image_p} className="object-cover h-52 w-full rounded-b-lg row-start-1 row-end-3 lg:rounded-b-none lg:rounded-l-3xl lg:h-60" />
+                <img alt={project.titre_p} src={project.image_p} className="object-cover h-52 w-full rounded-b-lg row-start-1 row-end-3 lg:rounded-b-none lg:rounded-l-3xl lg:h-60" />
             </div>
-            <div aria-hidden="true" class="bottom-0 absolute -z-10 inset-x-0 inset-y-4 lg:rounded-3xl blur-md bg-gradient-to-br from-pink-600 via-cyan-500 to-violet-500 opacity-50"></div>
+            <div aria-hidden="true" className="bottom-0 absolute -z-10 inset-x-0 inset-y-4 lg:rounded-3xl blur-md bg-gradient-to-br from-pink-600 via-cyan-500 to-violet-500 opacity-50"></div>
             
         </li>)
 };
