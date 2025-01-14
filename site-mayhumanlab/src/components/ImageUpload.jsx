@@ -7,7 +7,7 @@ function ImageUpload({ avatarURL, setAvatarURL }) {
     function handleImageUpload(event) {
          event.preventDefault();
          fileUploadRef.current.click();
-     }
+     } 
 
      async function uploadImageDisplay() {
          const uploadedFile = fileUploadRef.current.files[0]; //on récupère le premier fichier de l'input

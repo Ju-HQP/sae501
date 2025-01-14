@@ -8,6 +8,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Select from 'react-select';
 import ImageUpload from "./ImageUpload";
 import { selectLoading } from "../features/volunteer/volunteerSelector";
+import FileInputWithPreview from "./FileInputWithPreview";
 
 
 
@@ -23,7 +24,7 @@ function VolunteerForm() {
     ];
 
     const handleSubmit = async (values, form) => {
-        values.photo_b = avatarURL;
+        //values.photo_b = avatarURL;
         values.role_b = values.role_b.value;
         if (values.role_b) {
             values.role_b = values.role_b.value;
@@ -67,13 +68,14 @@ function VolunteerForm() {
                                             <Field
                                                 validate=''
                                                 name="photo_b"
-                                                render={({ input, meta }) => (
+                                                component={FileInputWithPreview}
+                                                /* render={({ input, meta }) => (
 
                                                     <div className="flex flex-col justify-center items-center col-span-2 md:mb-4">
                                                         <label htmlFor='photo_b' className="font-semibold">Photo de profil</label>
                                                         <ImageUpload {...input} avatarURL={avatarURL} setAvatarURL={setAvatarURL} />
                                                     </div>
-                                                )}
+                                                )} */
                                             >
                                             </Field>
                                             {/* <Field name="file" component={ImageUpload} /> */}
