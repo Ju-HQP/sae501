@@ -58,17 +58,16 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-        //     return new RedirectResponse($targetPath);
-        // }
 
         // Redirigez uniquement si l'utilisateur n'est pas sur /login
-        if ($request->getPathInfo() === '/login') {
-            return new RedirectResponse('/admin/benevoles');
-        }
-        
+        // if ($request->getPathInfo() === '/login') {
+        //     return new RedirectResponse('/admin/benevoles');
+        // }
+
         $response = new Response();
-		$response->setStatusCode(Response::HTTP_OK);
+        $response->setContent(json_encode(['message' => 'Connexion réussie']));
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setStatusCode(Response::HTTP_OK);
 
         return $response;
     }
