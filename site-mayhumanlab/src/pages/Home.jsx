@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import Header from "../components/Header";
 import ProjectsItemAccueil from "../components/accueil/ProjectItemAccueil";
-import projects from '../projects.json';
 import axes from '../axes.json';
 import { useDispatch, useSelector } from "react-redux";
 import { selectLoadingActu, selectSortedActusByReleaseDate } from "../features/actualite/actualiteSelector";
