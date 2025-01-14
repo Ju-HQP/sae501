@@ -20,6 +20,7 @@ use Psr\Log\LoggerInterface;
 // Pour l'entité
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Benevole;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 // Pour la gestion du mot de passe
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -34,6 +35,14 @@ class AdminController extends AbstractController
 		$this->entityManager = $entityManager;
 		$this->logger = $logger;
 	}
+	
+	public function onKernelResponse(ResponseEvent $event)
+    {
+        $response = $event->getResponse();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    }
 
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(): Response
@@ -51,7 +60,7 @@ class AdminController extends AbstractController
 
 	#[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-volunteer', methods: ['OPTIONS'])]
 	#[Route('/admin/benevoles', name: 'allow-create-a-volunteer', methods: ['OPTIONS'])]
-	public function allowCreateAProduct(Request $request): Response
+	public function allowCreateAVolunteer(Request $request): Response
 	{
 		$response = new Response(); // Action qui autorise le options
 		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
@@ -108,10 +117,17 @@ class AdminController extends AbstractController
 	}
 
 	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
-    public function adminBenevolesSupprimerAction(string $id): Response
+    public function adminBenevolesSupprimerAction(String $id): Response
     {
         // Récupérer les données JSON
         $benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+
+		if(!$benevole){
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_NOT_FOUND);
+			$response->setContent(json_encode(array(['message' => 'Bénévole non trouvé'])));
+			return $response;
+		}
 
         if ($benevole) {
             $this->entityManager->remove($benevole);
@@ -139,47 +155,55 @@ class AdminController extends AbstractController
 
 
 	#[Route('/admin/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
-	public function adminBenevolesModifierAction(Request $request): Response
+	public function adminBenevolesModifierAction(Request $request, String $id): Response
 	{
 
-		// Récupérer les données JSON
 		$data = json_decode($request->getContent(), true);
 
 		if (!$data) {
-			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode(['message' => 'Invalid or missing JSON data']));
+			return $response;
 		}
 
-		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get($data["id_benevole"]));
-		if ($entity === null)
-			$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->request->get($data["id_benevole"]));
-		if ($entity !== null) {
-			$formBuilder = $this->createFormBuilder($entity);
-			$formBuilder->add("id_benevole", HiddenType::class);
-			$formBuilder->add("nom_b", TextType::class);
-			$formBuilder->add("prenom_b", TextType::class);
-			$formBuilder->add("mdp_b", TextType::class);
-			$formBuilder->add("mail_b", TextType::class);
-			$formBuilder->add("tel_b", TextType::class);
-			$formBuilder->add("photo_b", TextType::class);
-			$formBuilder->add("role_b", TextType::class);
-			// $formBuilder->add("category", SubmitType::class);
-			// Generate form
-			$form = $formBuilder->getForm();
+		// Récupérer les données JSON
+		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
 
-			$form->handleRequest($request);
+		if ($benevole) {
+			$benevole->setPrenom($data['prenom_b'] ?? $benevole->getPrenom())
+					  ->setNom($data['nom_b'] ?? $benevole->getNom())
+					//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
+					  ->setMail($data['mail_b'] ?? $benevole->getMail())
+					  ->setTel($data['tel_b'] ?? $benevole->getTel())
+					  ->setRoles($data['role_b'] ?? $benevole->getRoles());
+					//  ->setComp($data[''] ?? $benevole->getComp())
+					//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
+			$this->entityManager->persist($benevole);
+			$this->entityManager->flush();
 
-			if ($form->isSubmitted()) {
-				$entity = $form->getData();
-				$this->entityManager->persist($entity);
-				$this->entityManager->flush();
-				return $this->redirectToRoute("adminBenevoles");
-			} else {
-				return $this->render('admin.form.html.twig', [
-					'form' => $form->createView(),
-				]);
-			}
+			// $query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
+			// $benevoles = $query->getArrayResult();
+
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_OK);
+			$response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode(['id_benevole' => $benevole->getId(), 'nom_b' => $benevole->getNom(), 'prenom_b' => $benevole->getPrenom(), 'mail_b' => $benevole->getMail(), 'tel_b' => $benevole->getTel(), 'role_b' => $benevole->getRoles()]), Response::HTTP_CREATED, [
+                'Content-Type' => 'application/json',
+            ]);
+			return $response;
 		} else {
-			return $this->redirectToRoute("adminBenevoles");
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_NOT_FOUND);
+			$response->headers->set('Content-Type', 'application/json'); 
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode(array(['message' => 'Bénévole non trouvé'] . $id)));
+			return $response;
+			// 404 Not Found
 		}
 	}
+	
 }
