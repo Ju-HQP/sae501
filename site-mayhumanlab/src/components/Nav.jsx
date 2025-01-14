@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { selectAdmin, selectConnected } from "../features/volunteer/volunteerSelector";
 import { Bars3Icon, ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { HashLink } from 'react-router-hash-link';
 
 function Nav() {
     const isConnected = useSelector(selectConnected);
@@ -30,19 +31,19 @@ function Nav() {
                                         &&
                                         <ul onMouseOver={() => setIsMenuOpen(true)} onMouseOut={() => setIsMenuOpen(false)} className=" absolute top-6 flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100">
                                             <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                                                <Link className="p-2" to='/#presentation'>Présentation</Link>
+                                                <HashLink className="p-2" to='/#presentation'>Présentation</HashLink>
                                             </li>
                                             <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                                                <Link className="p-2" to='/#axes'>Axes</Link>
+                                                <HashLink className="p-2" to='/#axes'>Axes</HashLink>
                                             </li>
                                             <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                                                <Link className="p-2" to='/#projects'>Projets</Link>
+                                                <HashLink className="p-2" to='/#projets'>Projets</HashLink>
                                             </li>
                                             <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                                                <Link className="p-2" to='/#actu'>Actualités</Link>
+                                                <HashLink className="p-2" to='/#actu'>Actualités</HashLink>
                                             </li>
                                             <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                                                <Link className="p-2" to='/#contacts'>Contacts</Link>
+                                                <HashLink className="p-2" to='/#contacts'>Contacts</HashLink>
                                             </li>
                                         </ul>
                                     }
@@ -72,22 +73,22 @@ function Nav() {
                             /**Nav pour les utilisateurs non connectés */
                                 <ul className="text-lg flex justify-between items-center">
                                     <li className="my-3 ">
-                                        <Link to='/'>Accueil</Link>
+                                        <HashLink to='/'>Accueil</HashLink>
                                     </li>
                                     <li className="my-3 ">
-                                        <Link to='/#presentation'>Présentation</Link>
+                                        <HashLink to='/#presentation'>Présentation</HashLink>
                                     </li>
                                     <li className="my-3 ">
-                                        <Link to='/#axes'>Axes</Link>
+                                        <HashLink to='/#axes'>Axes</HashLink>
                                     </li>
                                     <li className="my-3 ">
-                                        <Link to='/#projects'>Projets</Link>
+                                        <HashLink to='/#projects'>Projets</HashLink>
                                     </li>
                                     <li className="my-3 ">
-                                        <Link to='/#actu'>Actualités</Link>
+                                        <HashLink to='/#actu'>Actualités</HashLink>
                                     </li>
                                     <li className="my-3 ">
-                                        <Link to='/#contacts'>Contacts</Link>
+                                        <HashLink to='/#contacts'>Contacts</HashLink>
                                     </li>
                                 </ul>
                     }
@@ -118,19 +119,19 @@ function Nav() {
                                                     &&
                                                     <ul className="flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100">
                                                         <li className="my-3">
-                                                            <Link to='/#presentation'>Présentation</Link>
+                                                            <HashLink to='/#presentation'>Présentation</HashLink>
                                                         </li>
                                                         <li className="my-3">
-                                                            <Link to='/#axes'>Axes</Link>
+                                                            <HashLink to='/#axes'>Axes</HashLink>
                                                         </li>
                                                         <li className="my-3">
-                                                            <Link to='/#projects'>Projets</Link>
+                                                            <HashLink to='/#projets'>Projets</HashLink>
                                                         </li>
                                                         <li className="my-3">
-                                                            <Link to='/#actu'>Actualités</Link>
+                                                            <HashLink to='/#actu'>Actualités</HashLink>
                                                         </li>
                                                         <li className="my-3">
-                                                            <Link to='/#contacts'>Contacts</Link>
+                                                            <HashLink to='/#contacts'>Contacts</HashLink>
                                                         </li>
                                                     </ul>
                                                 }
@@ -170,22 +171,22 @@ function Nav() {
                                         <XMarkIcon className="w-12" onClick={() => setIsNavOpen(false)} />
                                         <ul className="text-lg p-6 flex flex-col justify-between items-end">
                                             <li className="my-3 ">
-                                                <Link to='/' onClick={() => setIsNavOpen(false)}>Accueil</Link>
+                                                <HashLink to='/' onClick={() => setIsNavOpen(false)}>Accueil</HashLink>
                                             </li>
                                             <li className="my-3 ">
-                                                <Link to='/#presentation' onClick={() => setIsNavOpen(false)}>Présentation</Link>
+                                                <HashLink to='/#presentation' onClick={() => setIsNavOpen(false)}>Présentation</HashLink>
                                             </li>
                                             <li className="my-3 ">
-                                                <Link to='/#axes' onClick={() => setIsNavOpen(false)}>Axes</Link>
+                                                <HashLink to='/#axes' onClick={() => setIsNavOpen(false)}>Axes</HashLink>
                                             </li>
                                             <li className="my-3 ">
-                                                <Link to='/#projects' onClick={() => setIsNavOpen(false)}>Projets</Link>
+                                                <HashLink to='/#projets' onClick={() => setIsNavOpen(false)}>Projets</HashLink>
                                             </li>
                                             <li className="my-3 ">
-                                                <Link to='/#actu' onClick={() => setIsNavOpen(false)}>Actualités</Link>
+                                                <HashLink to='/#actu' onClick={() => setIsNavOpen(false)}>Actualités</HashLink>
                                             </li>
                                             <li className="my-3 ">
-                                                <Link to='/#contacts' onClick={() => setIsNavOpen(false)}>Contacts</Link>
+                                                <HashLink to='/#contacts' onClick={() => setIsNavOpen(false)}>Contacts</HashLink>
                                             </li>
                                         </ul>
                                     </div>
