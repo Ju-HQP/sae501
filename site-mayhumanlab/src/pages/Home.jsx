@@ -10,6 +10,7 @@ import ActualiteItemAccueil from "../components/accueil/ActualiteItemAccueil";
 import Axe from "../components/accueil/Axe";
 import { selectLoadingProject, selectProjects } from "../features/project/projectSelector";
 import { loadProjects } from "../features/project/projectAsyncAction";
+import partenaires from '../partenaires.json';
 
 function Home() {
     const dispatch = useDispatch();
@@ -78,6 +79,15 @@ function Home() {
                             :
                             <ul>{listeProjets.map((project, id) => <ProjectsItemAccueil project={project} key={id} />)}</ul>
                         }
+                    </section>
+                    <section id='projets' className="px-12 my-8 max-w-6xl m-auto">
+                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Partenaires</h2>
+                        <ul>{partenaires.map((partenaire, id) =>
+                            <li key={id}>
+                                <img src={"/accueil/logo-partenaires/" + partenaire.nom + ".png"} />
+                            </li>
+                        )}
+                        </ul>
                     </section>
                 </>
             </main>
