@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import {
   Bars3Icon,
@@ -9,18 +9,37 @@ import { useState } from "react";
 import {
   selectUserIsAdmin,
   selectUserIsConnected,
+  selectUserIsConnecting,
 } from "../features/user/userSelector";
+import ConnectionForm from "../pages/ConnectionForm";
+import { startConnecting } from "../features/user/userSlice";
+import { logout } from "../features/user/connexion";
 
 function Nav() {
+  const dispatch = useDispatch();
+  // pour l'état de connexion (utilisateur connecté ou non)
   const isConnected = useSelector(selectUserIsConnected);
+
+  // pour le Formulaire de connexion
+  const isConnecting = useSelector(selectUserIsConnecting);
+
   var isAdmin = useSelector(selectUserIsAdmin);
-  isAdmin = true; // à suppr
+  isAdmin = true; // debug à suppr
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function handleConnecting() {
+    dispatch(startConnecting()); //isModifying passe à true
+  }
+
+  const handleDisconnecting = async () => {
+    dispatch(logout());
+  };
 
   return (
     <>
       <nav className="w-full">
+        {isConnecting && <ConnectionForm />}
         {/**nav pour les écrans grands */}
         <section className="hidden lg:block">
           {isConnected ? (
@@ -132,24 +151,20 @@ function Nav() {
                   </li>
                 )
               }
+              <li className="my-3">
+                <button
+                  onClick={handleDisconnecting}
+                  className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                >
+                  Déconnexion
+                </button>
+              </li>
             </ul>
           ) : (
             /**Nav pour les utilisateurs non connectés */
             <ul className="text-lg flex justify-between items-center">
               <li className="my-3 font-bold">
                 <Link to="/">Accueil</Link>
-              </li>
-              <li className="my-3 font-bold">
-                <NavLink
-                  to="/trombinoscope"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded"
-                      : "py-2 px-4 font-bold hover:bg-slate-100 rounded"
-                  }
-                >
-                  Trombinoscope
-                </NavLink>
               </li>
               <li className="my-3 font-bold">
                 <Link to="/#presentation">Présentation</Link>
@@ -165,6 +180,14 @@ function Nav() {
               </li>
               <li className="my-3 font-bold">
                 <Link to="/#contacts">Contacts</Link>
+              </li>
+              <li className="my-3">
+                <button
+                  onClick={handleConnecting}
+                  className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                >
+                  Connexion
+                </button>
               </li>
             </ul>
           )}
@@ -274,6 +297,14 @@ function Nav() {
                         </li>
                       )
                     }
+                    <li className="my-3 font-bold">
+                      <button
+                        onClick={handleDisconnecting}
+                        className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                      >
+                        Déconnexion
+                      </button>
+                    </li>
                   </ul>
                 </div>
               )}
@@ -324,6 +355,14 @@ function Nav() {
                       <Link to="/#contacts" onClick={() => setIsNavOpen(false)}>
                         Contacts
                       </Link>
+                    </li>
+                    <li className="my-3 font-bold">
+                      <button
+                        onClick={handleConnecting}
+                        className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                      >
+                        Connexion
+                      </button>
                     </li>
                   </ul>
                 </div>

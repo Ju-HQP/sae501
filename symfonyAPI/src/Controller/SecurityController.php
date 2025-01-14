@@ -37,10 +37,8 @@ class SecurityController extends AbstractController
         $session = $requestStack->getSession();
         if (!$session->isStarted()) {
             $session->start();
-            echo "Début de sessions \n";
         }
-        //dd($session);
-
+        
         $token = $csrfTokenManager->getToken('authenticate')->getValue();
         return new JsonResponse(['csrfToken' => $token,]);
     }

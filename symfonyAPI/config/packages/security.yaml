@@ -39,3 +39,5 @@ security:
         - { path: ^/admin, roles: ROLE_USER, methods: [GET] }
         - { path: ^/admin, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
         - { path: ^/csrf_token, roles: PUBLIC_ACCESS }
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER] #permet à l'admin d'hérité par défaut de tous les accès du user
