@@ -68,8 +68,12 @@ export const addVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include', // important pour conserver le cookie de session
                 body: JSON.stringify(datas)
             });
+            if (res.status === 403){
+                return rejectWithValue("Vous n'avez pas les autorisations requises pour effectuer cette action.");
+            }
             return await res.json();
         } catch (er) {
             return rejectWithValue(+ er.response.data.error.message)
@@ -87,6 +91,7 @@ export const updateVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include',
             });
             return await response.json();
         } catch (errorAxio){
@@ -105,6 +110,7 @@ export const deleteVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include',
             });
             return await response.json();
         }catch(errorAxio){

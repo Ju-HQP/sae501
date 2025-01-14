@@ -13,7 +13,8 @@ import {
 
 function Nav() {
   const isConnected = useSelector(selectUserIsConnected);
-  const isAdmin = useSelector(selectUserIsAdmin);
+  var isAdmin = useSelector(selectUserIsAdmin);
+  isAdmin = true; // à suppr
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

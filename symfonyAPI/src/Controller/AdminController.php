@@ -45,8 +45,7 @@ class AdminController extends AbstractController
 	{
 
 		$user = $security->getUser();
-		$this->logger->info($user->getUserIdentifier());
-
+	
 		if (!$user) {
 			return new JsonResponse(['error' => 'Access denied'], 403);
 		}

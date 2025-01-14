@@ -78,7 +78,6 @@ export const logout = createAsyncThunk(
             }
             // return await res.json();
         } catch (er) {
-            console.log("erreur" + er);
             return rejectWithValue(+er.response.data.error.message)
         }
     });

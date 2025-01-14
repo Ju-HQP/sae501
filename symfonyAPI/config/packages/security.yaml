@@ -36,5 +36,6 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] } #accessible sans authentification
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/admin, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
         - { path: ^/csrf_token, roles: PUBLIC_ACCESS }
