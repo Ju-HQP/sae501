@@ -41,8 +41,15 @@ class AdminController extends AbstractController
 			// $this->denyAccessUnlessGranted('ROLE_USER');
 
 	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
-	public function adminBenevolesAction(): Response
+	public function adminBenevolesAction(Security $security): Response
 	{
+
+		$user = $security->getUser();
+		$this->logger->info($user->getUserIdentifier());
+
+		if (!$user) {
+			return new JsonResponse(['error' => 'Access denied'], 403);
+		}
 		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();

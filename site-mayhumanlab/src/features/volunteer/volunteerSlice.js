@@ -32,6 +32,9 @@ const slice = createSlice({
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
         },
+        resetDatas(state, action){
+            state.volunteers = [];
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -66,5 +69,6 @@ const slice = createSlice({
 export const {
     startVolunteerEdit,
     stopVolunteerEdit,
+    resetDatas
 } = slice.actions;
 export default slice.reducer;

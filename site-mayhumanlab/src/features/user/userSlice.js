@@ -49,6 +49,7 @@ const slice = createSlice({
                 state.isAdmin = false;
                 state.userId = null;
                 state.errors.apiErrorLogout = null;
+                // SUPPRIMER LES DONNEES DU VOLUNTEER SLICE
             })
             .addCase(logout.pending, (state, action) => {
                 state.errors.apiErrorLogout = null;
