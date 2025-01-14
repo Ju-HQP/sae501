@@ -7,7 +7,6 @@ function VolunteerListItem({ volunteer, width }) {
         "Soudeur", "Graphiste", "Designeur"
     ]
 
-
     return (
         width < 1024
             ?

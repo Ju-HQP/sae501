@@ -19,6 +19,9 @@ class Actualite
     #[ORM\Column(type:'text', length:65535, name: 'description_a')]
     private ?string $description_a = null;
 
+    #[ORM\Column(length: 255, name: 'date_a')]
+    private ?string $date_a = null;
+
     #[ORM\Column(length: 255, name: 'image_a')]
     private ?string $image_a = null;
 
@@ -35,6 +38,18 @@ class Actualite
     public function setTitre(string $titre): static
     {
         $this->titre_a = $titre;
+
+        return $this;
+    }
+
+    public function getDate(): ?string
+    {
+        return $this->date_a;
+    }
+
+    public function setDate(string $date): static
+    {
+        $this->date_a = $date;
 
         return $this;
     }

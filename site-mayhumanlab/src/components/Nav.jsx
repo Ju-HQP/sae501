@@ -14,6 +14,7 @@ import {
 import ConnectionForm from "../pages/ConnectionForm";
 import { startConnecting } from "../features/user/userSlice";
 import { logout } from "../features/user/connexion";
+import { HashLink } from "react-router-hash-link";
 
 function Nav() {
   const dispatch = useDispatch();
@@ -49,8 +50,8 @@ function Nav() {
                   <NavLink
                     className={({ isActive }) =>
                       isActive
-                        ? "text-pink-600 underline underline-offset-8 py-2 px-4 font-bold"
-                        : "py-2 px-4 font-bold "
+                        ? "text-pink-600 underline underline-offset-8 py-2 px-4 "
+                        : "py-2 px-4  "
                     }
                     to="/"
                     onMouseOver={() => setIsMenuOpen(true)}
@@ -70,29 +71,29 @@ function Nav() {
                     className=" absolute top-6 flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100"
                   >
                     <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                      <Link className="p-2" to="/#presentation">
+                      <HashLink className="p-2" to="/#presentation">
                         Présentation
-                      </Link>
+                      </HashLink>
                     </li>
                     <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                      <Link className="p-2" to="/#axes">
+                      <HashLink className="p-2" to="/#axes">
                         Axes
-                      </Link>
+                      </HashLink>
                     </li>
                     <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                      <Link className="p-2" to="/#projects">
+                      <HashLink className="p-2" to="/#projets">
                         Projets
-                      </Link>
+                      </HashLink>
                     </li>
                     <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                      <Link className="p-2" to="/#actu">
+                      <HashLink className="p-2" to="/#actu">
                         Actualités
-                      </Link>
+                      </HashLink>
                     </li>
                     <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                      <Link className="p-2" to="/#contacts">
+                      <HashLink className="p-2" to="/#contacts">
                         Contacts
-                      </Link>
+                      </HashLink>
                     </li>
                   </ul>
                 )}
@@ -102,8 +103,8 @@ function Nav() {
                   to="/agenda"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded"
-                      : "py-2 px-4 font-bold hover:bg-slate-100 rounded"
+                      ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
+                      : "py-2 px-4  hover:bg-slate-100 rounded"
                   }
                 >
                   Agenda
@@ -114,8 +115,8 @@ function Nav() {
                   to="/trombinoscope"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded"
-                      : "py-2 px-4 font-bold hover:bg-slate-100 rounded"
+                      ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
+                      : "py-2 px-4  hover:bg-slate-100 rounded"
                   }
                 >
                   Trombinoscope
@@ -126,8 +127,8 @@ function Nav() {
                   to="/gestion-du-site"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded"
-                      : "py-2 px-4 font-bold hover:bg-slate-100 rounded"
+                      ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
+                      : "py-2 px-4  hover:bg-slate-100 rounded"
                   }
                 >
                   Gestion du site
@@ -142,8 +143,8 @@ function Nav() {
                       to="/gestion-des-benevoles"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-pink-600 underline underline-offset-8 py-2 px-4 font-bold hover:bg-slate-100 rounded"
-                          : "py-2 px-4 font-bold hover:bg-slate-100 rounded"
+                          ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
+                          : "py-2 px-4  hover:bg-slate-100 rounded"
                       }
                     >
                       Gestion des comptes
@@ -151,6 +152,7 @@ function Nav() {
                   </li>
                 )
               }
+
               <li className="my-3">
                 <button
                   onClick={handleDisconnecting}
@@ -163,23 +165,23 @@ function Nav() {
           ) : (
             /**Nav pour les utilisateurs non connectés */
             <ul className="text-lg flex justify-between items-center">
-              <li className="my-3 font-bold">
-                <Link to="/">Accueil</Link>
+              <li className="my-3">
+                <HashLink to="/">Accueil</HashLink>
               </li>
-              <li className="my-3 font-bold">
-                <Link to="/#presentation">Présentation</Link>
+              <li className="my-3">
+                <HashLink to="/#presentation">Présentation</HashLink>
               </li>
-              <li className="my-3 font-bold">
-                <Link to="/#axes">Axes</Link>
+              <li className="my-3">
+                <HashLink to="/#axes">Axes</HashLink>
               </li>
-              <li className="my-3 font-bold">
-                <Link to="/#projects">Projets</Link>
+              <li className="my-3">
+                <HashLink to="/#projects">Projets</HashLink>
               </li>
-              <li className="my-3 font-bold">
-                <Link to="/#actu">Actualités</Link>
+              <li className="my-3">
+                <HashLink to="/#actu">Actualités</HashLink>
               </li>
-              <li className="my-3 font-bold">
-                <Link to="/#contacts">Contacts</Link>
+              <li className="my-3">
+                <HashLink to="/#contacts">Contacts</HashLink>
               </li>
               <li className="my-3">
                 <button
@@ -199,7 +201,7 @@ function Nav() {
           {isConnected ? (
             <>
               <Bars3Icon
-                className="w-12 "
+                className="w-12"
                 onClick={() => setIsNavOpen((prev) => !prev)}
               />
               {isNavOpen && (
@@ -220,8 +222,8 @@ function Nav() {
                           onClick={() => setIsMenuOpen((prev) => !prev)}
                           className={({ isActive }) =>
                             isActive
-                              ? "text-pink-600 underline underline-offset-8 font-bold"
-                              : "font-bold"
+                              ? "text-pink-600 underline underline-offset-8 "
+                              : ""
                           }
                         >
                           Accueil
@@ -230,51 +232,53 @@ function Nav() {
                       {isMenuOpen && (
                         <ul className="flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100">
                           <li className="my-3">
-                            <Link to="/#presentation">Présentation</Link>
+                            <HashLink to="/#presentation">
+                              Présentation
+                            </HashLink>
                           </li>
                           <li className="my-3">
-                            <Link to="/#axes">Axes</Link>
+                            <HashLink to="/#axes">Axes</HashLink>
                           </li>
                           <li className="my-3">
-                            <Link to="/#projects">Projets</Link>
+                            <HashLink to="/#projets">Projets</HashLink>
                           </li>
                           <li className="my-3">
-                            <Link to="/#actu">Actualités</Link>
+                            <HashLink to="/#actu">Actualités</HashLink>
                           </li>
                           <li className="my-3">
-                            <Link to="/#contacts">Contacts</Link>
+                            <HashLink to="/#contacts">Contacts</HashLink>
                           </li>
                         </ul>
                       )}
                     </li>
-                    <li className="my-3 font-bold">
+                    <li className="my-3">
                       <NavLink
                         to="/agenda"
                         className={({ isActive }) =>
                           isActive &&
-                          "text-pink-600 underline underline-offset-8 font-bold"
+                          "text-pink-600 underline underline-offset-8 "
                         }
                       >
                         Agenda
                       </NavLink>
                     </li>
-                    <li className="my-3 font-bold">
+                    <li className="my-3">
                       <NavLink
                         to="/trombinoscope"
                         className={({ isActive }) =>
                           isActive &&
-                          "text-pink-600 underline underline-offset-8 font-bold"
+                          "text-pink-600 underline underline-offset-8 "
                         }
                       >
                         Trombinoscope
                       </NavLink>
                     </li>
-                    <li className="my-3 font-bold">
+                    <li className="my-3">
                       <NavLink
                         to="/gestion-du-site"
                         className={({ isActive }) =>
                           isActive &&
-                          "text-pink-600 underline underline-offset-8 font-bold"
+                          "text-pink-600 underline underline-offset-8 "
                         }
                       >
                         Gestion du site
@@ -284,12 +288,12 @@ function Nav() {
                     {
                       /**QUE POUR LES ADMINS */
                       isAdmin && (
-                        <li className="my-3 font-bold">
+                        <li className="my-3">
                           <NavLink
                             to="/gestion-des-benevoles"
                             className={({ isActive }) =>
                               isActive &&
-                              "text-pink-600 underline underline-offset-8 font-bold"
+                              "text-pink-600 underline underline-offset-8 "
                             }
                           >
                             Gestion des comptes
@@ -297,7 +301,8 @@ function Nav() {
                         </li>
                       )
                     }
-                    <li className="my-3 font-bold">
+
+                    <li className="my-3">
                       <button
                         onClick={handleDisconnecting}
                         className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
@@ -323,40 +328,46 @@ function Nav() {
                     onClick={() => setIsNavOpen(false)}
                   />
                   <ul className="text-lg p-6 flex flex-col justify-between items-end">
-                    <li className="my-3 font-bold">
-                      <Link to="/" onClick={() => setIsNavOpen(false)}>
+                    <li className="my-3">
+                      <HashLink to="/" onClick={() => setIsNavOpen(false)}>
                         Accueil
-                      </Link>
+                      </HashLink>
                     </li>
-                    <li className="my-3 font-bold">
-                      <Link
+                    <li className="my-3">
+                      <HashLink
                         to="/#presentation"
                         onClick={() => setIsNavOpen(false)}
                       >
                         Présentation
-                      </Link>
+                      </HashLink>
                     </li>
-                    <li className="my-3 font-bold">
-                      <Link to="/#axes" onClick={() => setIsNavOpen(false)}>
+                    <li className="my-3">
+                      <HashLink to="/#axes" onClick={() => setIsNavOpen(false)}>
                         Axes
-                      </Link>
+                      </HashLink>
                     </li>
-                    <li className="my-3 font-bold">
-                      <Link to="/#projects" onClick={() => setIsNavOpen(false)}>
+                    <li className="my-3">
+                      <HashLink
+                        to="/#projets"
+                        onClick={() => setIsNavOpen(false)}
+                      >
                         Projets
-                      </Link>
+                      </HashLink>
                     </li>
-                    <li className="my-3 font-bold">
-                      <Link to="/#actu" onClick={() => setIsNavOpen(false)}>
+                    <li className="my-3">
+                      <HashLink to="/#actu" onClick={() => setIsNavOpen(false)}>
                         Actualités
-                      </Link>
+                      </HashLink>
                     </li>
-                    <li className="my-3 font-bold">
-                      <Link to="/#contacts" onClick={() => setIsNavOpen(false)}>
+                    <li className="my-3">
+                      <HashLink
+                        to="/#contacts"
+                        onClick={() => setIsNavOpen(false)}
+                      >
                         Contacts
-                      </Link>
+                      </HashLink>
                     </li>
-                    <li className="my-3 font-bold">
+                    <li className="my-3">
                       <button
                         onClick={handleConnecting}
                         className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"

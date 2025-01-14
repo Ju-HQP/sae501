@@ -8,8 +8,9 @@ use Doctrine\Persistence\ObjectManager;
 use GuzzleHttp\Client;
 
 use App\Entity\Benevole;
+use App\Entity\Actualite;
 use App\Entity\Competence;
-
+use App\Entity\Projet;
 use Psr\Log\LoggerInterface;
 
 class AppFixtures extends Fixture
@@ -91,9 +92,59 @@ class AppFixtures extends Fixture
 			$benevole->setPassword("$2y$08\$z5cHfGcwwPoahQ7q3QXHI.1BLjzOXIzfxQrpCFpBMdaeNYQ39QqPy");
 			$benevole->setMail("test@free.fr");
 			$benevole->setTel("0764412869");
-			$benevole->setPhoto("https://cache.cosmopolitan.fr/data/photo/w1000_c17/3y/femme_sourire.jpg");
+			$benevole->setPhoto("https://thispersondoesnotexist.com/");
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
+
+			$manager->flush();
+		}
+
+		if (count($manager->getRepository("App\Entity\Projet")->findAll()) == 0) {
+			$project = new Projet();
+			$project->setTitre('Orthèse');
+			$project->setDescription("Réalisation d'une orthèse pour une personne amputée des 2 bras, avec support pour stylo et couvert (fourchette, cuillère...), sur la base d'un scan 3D du bras, modélisation et impression 3D");
+			$project->setImage('https://www.mayhumanlab.fr/wp-content/themes/lablab/img/projet_orthese.jpg');
+			$manager->persist($project);
+
+			$project = new Projet();
+			$project->setTitre('Projet Cendrillon');
+			$project->setDescription("Réalisation d'un dispositif d'assistance à l'enfilage de chaussure pour une personne en fauteuil roulant, conception, modélisation, impression 3D et découpe bois");
+			$project->setImage('https://www.mayhumanlab.fr/wp-content/themes/lablab/img/projet_cendrillon.jpg');
+			$manager->persist($project);
+
+			$manager->flush();
+		}
+
+		if (count($manager->getRepository("App\Entity\Actualite")->findAll()) == 0) {
+
+			$actualite = new Actualite();
+			$actualite->setTitre("Actu 1");
+			$actualite->setDate("2012-12-12");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
+
+			$actualite = new Actualite();
+			$actualite->setTitre("Actu 2");
+			$actualite->setDate("2011-11-11");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1605647540924-852290f6b0d5?q=80&w=1737&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
+
+			$actualite = new Actualite();
+			$actualite->setTitre("Actu 3");
+			$actualite->setDate("2010-10-10");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1598520106830-8c45c2035460?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
+
+			$actualite = new Actualite();
+			$actualite->setTitre("Actu 4");
+			$actualite->setDate("2009-09-09");
+			$actualite->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. ");
+			$actualite->setImage("https://images.unsplash.com/photo-1706700722877-1b014f34f383?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+			$manager->persist($actualite);
+
 			$manager->flush();
 		}
 	}
