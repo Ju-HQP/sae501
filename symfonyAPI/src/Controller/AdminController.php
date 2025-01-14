@@ -41,7 +41,7 @@ class AdminController extends AbstractController
 	}
 
 	// #[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
-	#[Route('/admin/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
+	#[Route('/api/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
 	public function allowCreateAProduct(Request $request): Response
 	{
 		$response = new Response(); // Action qui autorise le options
@@ -53,7 +53,7 @@ class AdminController extends AbstractController
 	}
 
 
-	#[Route('/admin/benevoles', name: 'adminBenevoles', methods: ['GET'])]
+	#[Route('/api/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(Security $security): Response
 	{
 
@@ -76,7 +76,7 @@ class AdminController extends AbstractController
 	// Fonction pour l'ajout d'un nouveau Bénévole
 	// le paramètre passwordhasher vient du fichier security.yaml
 
-	#[Route('/admin/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
+	#[Route('/api/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
 	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
 		// Récupérer les données JSON
@@ -121,7 +121,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
+	#[Route('/api/benevoles/supprimer', name: 'adminBenevolesSupprimer')]
 	public function adminBenevolesSupprimerAction(Request $request): Response
 	{
 		$entityBenevole = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
@@ -133,7 +133,7 @@ class AdminController extends AbstractController
 	}
 
 
-	#[Route('/admin/benevoles/modifier', name: 'adminBenevolesModifier', methods:["PUT"])]
+	#[Route('/api/benevoles/modifier', name: 'adminBenevolesModifier', methods:["PUT"])]
 	public function adminBenevolesModifierAction(Request $request): Response
 	{
 		$entity = $this->entityManager->getReference("App\Entity\Benevole", $request->query->get("id_benevole"));
@@ -172,8 +172,8 @@ class AdminController extends AbstractController
 
 	//------------------------------------ ACTUALITE ------------------------------------//
 
-	#[Route('/admin/actualites/{id}', name: 'allow-retrieve-actuality', methods: ['OPTIONS'])]
-   	#[Route('/admin/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
+	#[Route('/api/actualites/{id}', name: 'allow-retrieve-actuality', methods: ['OPTIONS'])]
+   	#[Route('/api/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
    	public function allowActuality(Request $request): Response
    	{
        $response = new Response(); // Action qui autorise le options
@@ -184,7 +184,7 @@ class AdminController extends AbstractController
        return $response;
    	}
 	
-	#[Route('/admin/actualites', name: 'adminActualites', methods: ['GET'])]
+	#[Route('/api/actualites', name: 'adminActualites', methods: ['GET'])]
 	public function adminActualitesAction(): Response
 	{
 		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Actualite a");
@@ -197,7 +197,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/actualites', name: 'adminActualitesAjouter', methods: ['POST'])]
+	#[Route('/api/actualites', name: 'adminActualitesAjouter', methods: ['POST'])]
 	public function adminActualitesAjouterAction(Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
@@ -225,7 +225,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/actualites/{idActualite}', name: 'adminActualitesSupprimer', methods: ['DELETE'])]
+	#[Route('/api/actualites/{idActualite}', name: 'adminActualitesSupprimer', methods: ['DELETE'])]
 	public function adminActualitesSupprimerAction(string $idActualite): Response
 	{
 
@@ -260,7 +260,7 @@ class AdminController extends AbstractController
 	}
 	
 
-	#[Route('/admin/actualites/{idActualite}', name: 'adminActualitesModifier', methods: ['PUT'])]
+	#[Route('/api/actualites/{idActualite}', name: 'adminActualitesModifier', methods: ['PUT'])]
 	public function adminActualitesModifierAction(string $idActualite, Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
@@ -305,8 +305,8 @@ class AdminController extends AbstractController
 	}
 
 	/**-----------------------------------------PROJETS------------------------------------------------ */
-	#[Route('/admin/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
-   	#[Route('/admin/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
+	#[Route('/api/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
+   	#[Route('/api/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
    	public function allowProject(Request $request): Response
    	{
        $response = new Response(); // Action qui autorise le options
@@ -317,7 +317,7 @@ class AdminController extends AbstractController
        return $response;
    	}
 
-	#[Route('/admin/projets', name: 'adminProjets', methods: ['GET'])]
+	#[Route('/api/projets', name: 'adminProjets', methods: ['GET'])]
 	public function adminProjetsAction(): Response
 	{
 		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Projet a");

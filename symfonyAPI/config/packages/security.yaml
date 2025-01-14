@@ -34,10 +34,11 @@ security:
 
     # Règles d'accès
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] } #accessible sans authentification
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/admin, roles: ROLE_USER, methods: [GET] }
-        - { path: ^/admin, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
         - { path: ^/csrf_token, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] } #accessible sans authentification
+        - { path: ^/api/actualites, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/projets, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
     role_hierarchy:
         ROLE_ADMIN: [ROLE_USER] #permet à l'admin d'hérité par défaut de tous les accès du user
