@@ -293,5 +293,31 @@ class AdminController extends AbstractController
 			return $response;
 		}
 	}
+
+	/**-----------------------------------------PROJETS------------------------------------------------ */
+	#[Route('/admin/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
+   	#[Route('/admin/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
+   	public function allowProject(Request $request): Response
+   	{
+       $response = new Response(); // Action qui autorise le options
+       $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+       $response->headers->set('Access-Control-Allow-Origin', '*');
+       $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+       $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+       return $response;
+   	}
+
+	#[Route('/admin/projets', name: 'adminProjets', methods: ['GET'])]
+	public function adminProjetsAction(): Response
+	{
+		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Projet a");
+		$projets = $query->getArrayResult();
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_OK);
+		$response->setContent(json_encode($projets));
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		return $response;
+	}
 }
 
