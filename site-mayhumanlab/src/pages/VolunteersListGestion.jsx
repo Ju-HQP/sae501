@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
-import { selectLoading, selectVolunteer, selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
+import { selectErrorLoad, selectLoading, selectVolunteer, selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
 import VolunteerForm from "../components/VolunteerForm";
 import Header from '../components/Header';
 import VolunteerListItem from '../components/VolunteerListItem';
@@ -11,6 +11,7 @@ function VolunteersListGestion() {
     const dispatch = useDispatch();
     const isModifying = useSelector(selectVolunteerModifying);
     const loading = useSelector(selectLoading);
+    const errorLoading = useSelector(selectErrorLoad);
     const volunteerList = useSelector(selectVolunteer);
     const [width, setWidth] = useState(window.innerWidth);
 
@@ -44,6 +45,8 @@ function VolunteersListGestion() {
                 loading
                     ?
                     <p>Chargement des données...</p>
+                    : errorLoading
+                    ? <p>{errorLoading}</p>
                     :
 
                     width < 1024

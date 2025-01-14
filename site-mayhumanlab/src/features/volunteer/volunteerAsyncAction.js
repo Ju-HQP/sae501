@@ -30,6 +30,9 @@ export const loadVolunteer = createAsyncThunk(
                 },
                 credentials:'include' // important pour conserver le cookie de session
             });
+            if (response.redirected){
+                return rejectWithValue("Vous n'êtes pas connecté");
+             }
             if (!response.ok) {
                 throw new Error(`Erreur HTTP : ${response.status}`);
             }
@@ -38,9 +41,6 @@ export const loadVolunteer = createAsyncThunk(
         }catch (error){
             return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
         };
-    // }else {
-        return rejectWithValue("Vous n'êtes pas connecté");
-    // }
     }
 )
 
