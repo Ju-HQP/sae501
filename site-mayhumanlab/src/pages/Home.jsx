@@ -111,8 +111,8 @@ function Home() {
                             </ul>
                         )}
                     </section>
-                    <section id='projets' className="px-12 my-8 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">Partenaires</h2>
+                    <section id='projets' className="px-12 my-12 max-w-6xl m-auto">
+                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-16 lg:my-12">Partenaires</h2>
                         <ul className="grid grid-cols-2 gap-y-4 md:grid-cols-5">{partenaires.map((partenaire, id) =>
                             <li key={id} className="flex">
                                 <img src={"/accueil/logo-partenaires/" + partenaire.nom + ".webp"} className="m-auto max-w-24" />

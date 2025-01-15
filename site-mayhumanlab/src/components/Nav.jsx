@@ -56,7 +56,7 @@ function Nav() {
         {/**nav pour les écrans grands */}
         <section className="hidden lg:block">
           {isConnected ? (
-            <ul className="text-lg flex justify-between items-center">
+            <ul className="text-base flex justify-between items-center">
               <li className="flex flex-col items-center relative hover:bg-slate-100 rounded">
                 <span className="flex justify-between w-28">
                   <NavLink
@@ -176,7 +176,7 @@ function Nav() {
             </ul>
           ) : (
             /**Nav pour les utilisateurs non connectés */
-            <ul className="text-lg flex justify-between items-center">
+            <ul className="text-base flex justify-between items-center">
               <li className="my-3">
                 <HashLink to="/#top">Accueil</HashLink>
               </li>
@@ -222,7 +222,7 @@ function Nav() {
                     className="w-12"
                     onClick={() => setIsNavOpen(false)}
                   />
-                  <ul className="text-lg p-6 flex flex-col justify-between items-end">
+                  <ul className="text-base p-6 flex flex-col justify-between items-end">
                     <li className="flex flex-col items-end mb-3">
                       <span className="flex justify-between w-20">
                         <ChevronDownIcon
@@ -339,7 +339,7 @@ function Nav() {
                     className="w-12"
                     onClick={() => setIsNavOpen(false)}
                   />
-                  <ul className="text-lg p-6 flex flex-col justify-between items-end">
+                  <ul className="text-base p-6 flex flex-col justify-between items-end">
                     <li className="my-3">
                       <HashLink to="/#top" onClick={() => setIsNavOpen(false)}>
                         Accueil
