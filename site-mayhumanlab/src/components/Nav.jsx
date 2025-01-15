@@ -178,7 +178,7 @@ function Nav() {
             /**Nav pour les utilisateurs non connectés */
             <ul className="text-lg flex justify-between items-center">
               <li className="my-3">
-                <HashLink to="/">Accueil</HashLink>
+                <HashLink to="/#top">Accueil</HashLink>
               </li>
               <li className="my-3">
                 <HashLink to="/#presentation">Présentation</HashLink>
@@ -187,7 +187,7 @@ function Nav() {
                 <HashLink to="/#axes">Axes</HashLink>
               </li>
               <li className="my-3">
-                <HashLink to="/#projects">Projets</HashLink>
+                <HashLink to="/#projets">Projets</HashLink>
               </li>
               <li className="my-3">
                 <HashLink to="/#actu">Actualités</HashLink>
@@ -341,7 +341,7 @@ function Nav() {
                   />
                   <ul className="text-lg p-6 flex flex-col justify-between items-end">
                     <li className="my-3">
-                      <HashLink to="/" onClick={() => setIsNavOpen(false)}>
+                      <HashLink to="/#top" onClick={() => setIsNavOpen(false)}>
                         Accueil
                       </HashLink>
                     </li>
