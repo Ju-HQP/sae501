@@ -30,18 +30,6 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/csrf_token', name: 'allow-create-csrfToken', methods: ['OPTIONS'])]
-	public function allowCreateToken(Request $request): Response
-	{
-		$response = new Response(); // Action qui autorise le options
-		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-		$response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-        $response->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-		return $response;
-	}
-
 
     #[Route('/csrf_token', name: 'api_csrf_token', methods: ['GET'])]
     public function getCsrfToken(RequestStack $requestStack, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
@@ -52,7 +40,7 @@ class SecurityController extends AbstractController
             $session->start();
         }
         // Récupération de l'origine de la requête (annulée car dangereux si laisser en prod)
-        
+
         $token = $csrfTokenManager->getToken('authenticate')->getValue();
         $res = new JsonResponse(['csrfToken' => $token,]);
 
@@ -64,32 +52,19 @@ class SecurityController extends AbstractController
         return $res;
     }
 
-    #[Route('/login', name: 'allow-login', methods: ['OPTIONS'])]
-	public function allowLogin(Request $request): Response
-	{
-		$response = new Response(); // Action qui autorise le options
-		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-		$response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-        $response->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-		return $response;
-	}
+    // Utile quand les identifiants sont incorrects
+    #[Route(path: '/login', name: 'app_login1', methods: ["GET"])]
+    public function login1(AuthenticationUtils $authenticationUtils): Response
+    {
+        // if ($this->getUser()) {
+        //     return $this->redirectToRoute('admin_dashboard');
+        // }
 
-
-
-    // #[Route(path: '/login', name: 'app_login1', methods: ["GET"])]
-    // public function login1(AuthenticationUtils $authenticationUtils): Response
-    // {
-    //     // if ($this->getUser()) {
-    //     //     return $this->redirectToRoute('admin_dashboard');
-    //     // }
-
-    //     return $this->render('security/login.html.twig', [
-    //         'last_username' => $authenticationUtils->getLastUsername(),
-    //         'error' => $authenticationUtils->getLastAuthenticationError(),
-    //     ]);
-    // }
+        return $this->render('security/login.html.twig', [
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error' => $authenticationUtils->getLastAuthenticationError(),
+        ]);
+    }
 
     #[Route(path: '/login', name: 'app_login', methods: ['POST'])]
     public function login(Request $request, CsrfTokenManagerInterface $csrfTokenManager, AuthenticationUtils $authenticationUtils): Response
@@ -109,21 +84,9 @@ class SecurityController extends AbstractController
         return new JsonResponse(['message' => 'Connecté en tant que']);
     }
 
-    #[Route('/logout', name: 'allow-logout', methods: ['OPTIONS'])]
-	public function allowLogout(Request $request): Response
-	{
-		$response = new Response(); // Action qui autorise le options
-		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-		$response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-        $response->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-		return $response;
-	}
-
     // Fonction executée pour la deconnexion simple
     #[Route(path: '/logout', name: 'app_logout', methods: ['POST'])]
-    public function logout(Request $request, TokenStorageInterface $tokenStorage): Response
+    public function logout(Request $request, TokenStorageInterface $tokenStorage): JsonResponse
     {
         try {
             // Invalide la session
@@ -133,14 +96,14 @@ class SecurityController extends AbstractController
             }
             $tokenStorage->setToken(null);
 
-            $response = new Response();
+            $response = new JsonResponse(['message' => 'Déconnexion réussie']);
+
             // Supprimer le cookie PHPSESSID
             $response->headers->clearCookie('PHPSESSID');
-            $response->setContent(json_encode(['message' => 'Déconnexion réussie']));
-            $response->headers->set('Content-Type', 'application/json');
-            $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-        $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-        $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
 
             return $response;
         } catch (\Exception $e) {
@@ -149,7 +112,7 @@ class SecurityController extends AbstractController
     }
 
     // Fonction pour renvoyer un message JSON au front au lieu d'une redirection (par défaut)
-    #[Route(path: '/logout_msg', name: 'app_logout_msg')]
+    #[Route(path: '/logout_msg', name: 'app_logout_msg', methods:['GET'])]
     public function logoutmsg(Request $request, TokenStorageInterface $tokenStorage): JsonResponse
     {
         try {
@@ -159,6 +122,7 @@ class SecurityController extends AbstractController
             $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
             $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
             $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            $res->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
             return $res;
         } catch (\Exception $e) {
             return new JsonResponse(['message' => 'Erreur lors de la déconnexion', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
