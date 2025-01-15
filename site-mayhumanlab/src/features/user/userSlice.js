@@ -2,6 +2,7 @@ import {
     createSlice
 } from '@reduxjs/toolkit';
 import {
+    getAuth,
     login,
     logout,
 } from './connexion';
@@ -37,7 +38,6 @@ const slice = createSlice({
                 state.connected = true;
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
-                                // state.isLogging = false;
                 state.userId = action.payload;
             })
             .addCase(login.rejected, (state, action) => {
@@ -49,13 +49,16 @@ const slice = createSlice({
                 state.isAdmin = false;
                 state.userId = null;
                 state.errors.apiErrorLogout = null;
-                // SUPPRIMER LES DONNEES DU VOLUNTEER SLICE
             })
             .addCase(logout.pending, (state, action) => {
                 state.errors.apiErrorLogout = null;
             })
             .addCase(logout.rejected, (state, action) => {
                 state.errors.apiErrorLogout = action.payload;
+            })
+            // Fonction pour palier le reload de la page qui reset les states
+            .addCase(getAuth.fulfilled, (state, action) => {
+               state.connected = true;
             })
             // A compléter pour la page profil (modif)
     }

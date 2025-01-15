@@ -142,7 +142,7 @@ class SecurityController extends AbstractController
         $user = $security->getUser();
 
         if (!$user) {
-            return new JsonResponse(['isAuthenticated' => false], 200);
+            return new JsonResponse(['isAuthenticated' => false], 404);
         }
 
         return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);

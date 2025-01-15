@@ -45,7 +45,7 @@ function Nav() {
     if (isConnected && location.pathname === "/") {
       navigate("/trombinoscope");
     } else if (!isConnected) {
-      // navigate("/");
+      navigate("/");
     }
   }, [isConnected, navigate, location.pathname]);
 
