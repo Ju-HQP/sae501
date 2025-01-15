@@ -67,6 +67,8 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $response = new Response();
         $response->setContent(json_encode(['message' => 'Connexion réussie']));
         $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        $response->headers->set('Access-Control-Allow-Credentials', 'true');
         $response->setStatusCode(Response::HTTP_OK);
 
         return $response;

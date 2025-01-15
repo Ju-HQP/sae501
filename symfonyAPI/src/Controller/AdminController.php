@@ -52,6 +52,18 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
+	// #[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
+	// #[Route('/api/actualites', name: 'allow-create-a-product', methods: ['OPTIONS'])]
+	// public function allowActualities(Request $request): Response
+	// {
+	// 	$response = new Response(); // Action qui autorise le options
+	// 	$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+	// 	$response->headers->set('Access-Control-Allow-Origin', '*');
+	// 	$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+	// 	$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+	// 	return $response;
+	// }
+
 
 	#[Route('/api/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(Security $security): Response
