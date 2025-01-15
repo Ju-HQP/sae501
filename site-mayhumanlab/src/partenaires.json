@@ -2,5 +2,41 @@
     {
         "id": 1,
         "nom": "apess"
+    },
+    {
+        "id": 2,
+        "nom": "collectif-r"
+    },
+    {
+        "id": 3,
+        "nom": "creavenir"
+    },
+    {
+        "id": 4,
+        "nom": "konica-minolta"
+    },
+    {
+        "id": 5,
+        "nom": "laval"
+    },
+    {
+        "id": 6,
+        "nom": "mayenne"
+    },
+    {
+        "id": 7,
+        "nom": "mda_mayenne"
+    },
+    {
+        "id": 8,
+        "nom": "mma-fondation-solidarite"
+    },
+    {
+        "id": 9,
+        "nom": "RFF"
+    },
+    {
+        "id": 10,
+        "nom": "seconde-vie"
     }
 ]
