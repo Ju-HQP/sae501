@@ -16,6 +16,7 @@ import {
 } from "../features/project/projectSelector";
 import { loadProjects } from "../features/project/projectAsyncAction";
 import partenaires from '../partenaires.json';
+import Footer from "../components/Footer";
 
 function Home() {
     const dispatch = useDispatch();
@@ -122,6 +123,7 @@ function Home() {
                     </section>
                 </>
             </main>
+            <Footer/>
         </>
     );
 }
