@@ -75,7 +75,7 @@ export const deleteVolunteer = createAsyncThunk(
     'benevoles/deleteVolunteer',
     async (datas, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id_benevole}`, {
+            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

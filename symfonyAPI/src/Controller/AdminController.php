@@ -122,13 +122,6 @@ class AdminController extends AbstractController
         // Récupérer les données JSON
         $benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
 
-		if(!$benevole){
-			$response = new Response;
-			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->setContent(json_encode(array(['message' => 'Bénévole non trouvé'])));
-			return $response;
-		}
-
         if ($benevole) {
             $this->entityManager->remove($benevole);
             $this->entityManager->flush();
