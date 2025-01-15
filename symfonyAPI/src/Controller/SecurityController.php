@@ -54,16 +54,23 @@ class SecurityController extends AbstractController
 
     // Utile quand les identifiants sont incorrects
     #[Route(path: '/login', name: 'app_login1', methods: ["GET"])]
-    public function login1(AuthenticationUtils $authenticationUtils): Response
+    public function loginErrorMsg(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('admin_dashboard');
         // }
 
-        return $this->render('security/login.html.twig', [
-            'last_username' => $authenticationUtils->getLastUsername(),
-            'error' => $authenticationUtils->getLastAuthenticationError(),
-        ]);
+        $response = new Response();
+        $response->setContent(json_encode(['message' => 'Identifiants invalides']));
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setStatusCode(Response::HTTP_UNAUTHORIZED); // 401 Error
+
+        return $response;
+
+        // return $this->render('security/login.html.twig', [
+        //     'last_username' => $authenticationUtils->getLastUsername(),
+        //     'error' => $authenticationUtils->getLastAuthenticationError(),
+        // ]);
     }
 
     #[Route(path: '/login', name: 'app_login', methods: ['POST'])]

@@ -51,6 +51,9 @@ export const login = createAsyncThunk(
                 credentials: 'include',
                 body: JSON.stringify(datas)
             });
+            if (res.status === 401){
+                return rejectWithValue("Identifiants invalides");
+            }
             return await res.json();
         } catch (er) {
             return rejectWithValue(+er.response.data.error.message);

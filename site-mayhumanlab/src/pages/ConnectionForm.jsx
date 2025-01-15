@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { stopConnecting } from "../features/user/userSlice";
 import { Field, Form } from "react-final-form";
 import {
@@ -6,9 +6,11 @@ import {
 } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { login } from "../features/user/connexion.js";
+import { selectErrorLogin } from "../features/user/userSelector.js";
 
 function ConnectionForm() {
   const dispatch = useDispatch();
+  const errorLogin = useSelector(selectErrorLogin);
 
   const handleExit = () => {
     dispatch(stopConnecting());
@@ -30,6 +32,13 @@ function ConnectionForm() {
             <h2 className="text-2xl font-bold text-center md:text-4xl">
               Connexion
             </h2>
+            {errorLogin ?
+            <div className="flex px-2">
+            <ExclamationTriangleIcon className="w-6 text-red-900" />
+            <p className="text-red-900 text-sm p-2">
+              {errorLogin}
+            </p>
+          </div> : ""}
             <Form
               onSubmit={handleSubmit}
               render={({ handleSubmit }) => (
