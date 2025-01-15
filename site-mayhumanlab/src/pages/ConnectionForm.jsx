@@ -90,7 +90,7 @@ function ConnectionForm() {
                           {...input}
                           placeholder="Votre mot de passe"
                           id="mdp_b"
-                          type="text"
+                          type="password"
                           className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
                         ></input>
                         {meta.touched && meta.invalid && (
