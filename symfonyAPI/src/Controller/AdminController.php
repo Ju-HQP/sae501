@@ -176,7 +176,7 @@ class AdminController extends AbstractController
     }
 
 
-	#[Route('/api/benevoles/{id}', name: 'adminBenevolesModifier', methods:["PUT"], methods: ['PUT'])]
+	#[Route('/api/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
 	public function adminBenevolesModifierAction(Request $request, String $id): Response
 	{
 
