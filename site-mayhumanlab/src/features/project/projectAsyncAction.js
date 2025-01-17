@@ -41,7 +41,8 @@ export const addProject = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(dataToSend)
+                body: JSON.stringify(dataToSend),
+                credentials: 'include'
             });
             return await response.json();
         } catch (error) {
@@ -60,6 +61,7 @@ export const updateProject = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(dataToSend),
+                credentials: 'include'
             });
             return await response.json();
         } catch (error) {
@@ -92,6 +94,7 @@ export const deleteProject = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include'
             });
             return dataToSend.id;
         } catch (error) {
