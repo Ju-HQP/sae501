@@ -52,6 +52,7 @@ export const addVolunteer = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
+            console.log(datas);
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
                 headers: {
@@ -59,7 +60,7 @@ export const addVolunteer = createAsyncThunk(
                 },
                 body: datas
             });
-            console.log(datas);
+            
             return await res.json();
         } catch (er) {
             return rejectWithValue(+er.response.data.error.message)

@@ -5,6 +5,11 @@ const FileInputWithPreview = ({ input, meta }) => { //récuperer en parametre la
   const [preview, setPreview] = useState("/default-user.png");
   const fileUploadRef = useRef();
 
+  function handleKeyDown(e){
+    if(e.key === "Enter" || e.key === ' '){
+      handleImageUpload(e);
+    }
+  }
 
   function handleImageUpload(event) {
     event.preventDefault();
@@ -26,9 +31,9 @@ const FileInputWithPreview = ({ input, meta }) => { //récuperer en parametre la
 
   return (
     <div  className='flex flex-col justify-center items-center col-span-2 md:mb-4'>
-      <label htmlFor={input.name} className='font-semibold'>Télécharger un fichier</label>
+      <label htmlFor={input.name} className='font-semibold mb-4'>Photo de profil</label>
       <img src={preview} alt="Avatar" tabIndex="0"
-        className="h-32 w-32 rounded-full object-cover cursor-pointer" onClick={handleImageUpload}/>
+        className="h-32 w-32 rounded-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload}/>
 
       <input hidden
         id={input.name}

@@ -71,7 +71,7 @@ class AdminController extends AbstractController
 
 		$data = $request->getContent();
 		if (!$data) {
-			return new Response($request->getContent(), Response::HTTP_BAD_REQUEST);
+			return new Response('Invalid', Response::HTTP_BAD_REQUEST);
 		}
 
 		$uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/profile-pictures';

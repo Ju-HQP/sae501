@@ -22,11 +22,19 @@ code {
   background-color: black;
   border-radius: 0.5rem;
   text-align: center;
-  padding : 0.75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
+
 .primary-btn-large:hover {
   background-color: #db2777;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
+
 .secondary-btn-large {
   color: black;
   font-size: 1.25rem;
@@ -34,11 +42,18 @@ code {
   border: solid 2px black;
   border-radius: 0.5rem;
   text-align: center;
-  padding : 0.75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
+
 .secondary-btn-large:hover {
   color: #db2777;
   border-color: #db2777;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 .primary-btn-small {
@@ -47,11 +62,17 @@ code {
   background-color: black;
   border-radius: 0.5rem;
   text-align: center;
-  padding : 0.25rem 1.25rem;
+  padding: 0.25rem 1.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 .primary-btn-small:hover {
   background-color: #db2777;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 .secondary-btn-small {
@@ -61,11 +82,16 @@ code {
   border: solid 2px black;
   border-radius: 0.5rem;
   text-align: center;
-  padding : 0.25rem 1.25rem;
+  padding: 0.25rem 1.25rem;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 .secondary-btn-small:hover {
   color: #db2777;
   border-color: #db2777;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
-

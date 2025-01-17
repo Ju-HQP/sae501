@@ -34,7 +34,7 @@ function VolunteersListGestion() {
             <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>Gestion des comptes</h1>
 
             <div className='w-full flex justify-end'>
-                <button onClick={handleAddVolunteer} className=' text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center'>Créer un bénévole</button>
+                <button onClick={handleAddVolunteer} className='primary-btn-large'>Créer un bénévole</button>
             </div>
 
             {
