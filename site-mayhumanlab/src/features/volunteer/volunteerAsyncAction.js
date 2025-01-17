@@ -53,11 +53,15 @@ export const addVolunteer = createAsyncThunk(
                 body: JSON.stringify(datas)
             });
             if (res.status === 403){
-                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+                throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+            }
+            if (res.status === 409){
+                const error = await res.json();
+                throw new Error(error.message);
             }
             return await res.json();
-        } catch (er) {
-            return rejectWithValue(er.response.data.error.message)
+        } catch (error) {
+            return rejectWithValue(error.message?error.message: "Désolé, l'ajout d'un bénévole a rencontré une erreur.");
         }
     }
 )
@@ -77,9 +81,13 @@ export const updateVolunteer = createAsyncThunk(
             if (response.status === 403){
                 return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
             }
+            if (response.status === 409){
+                const error = await response.json();
+                throw new Error(error.message);
+            }
             return await response.json();
         } catch (error){
-            return rejectWithValue(error.response.data.error.message);
+            return rejectWithValue(error.message?error.message: "Désolé, la mise à jour d'un bénévole a rencontré une erreur.");
         };
     }
 )

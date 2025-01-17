@@ -64,20 +64,27 @@ const slice = createSlice({
             })
             .addCase(addVolunteer.rejected, (state, action) => {
                 state.errors.apiErrorAdd = action.payload;
-                state.volunteerModifying = false;
                 state.loading = false;
+                state.volunteerModifying = true;
+                startVolunteerEdit();
             })
         .addCase(updateVolunteer.pending, (state, action)=>{
             state.errors.apiErrorUpdate = null;
+            state.loading = true;
         })
         .addCase(updateVolunteer.fulfilled, (state, action)=>{
             state.volunteers[state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === state.idVolunteerModifying)] = action.payload;
             state.idVolunteerModifying = null;
             state.volunteerModifying = false;
             state.errors.apiErrorUpdate = null;
+            state.loading = false;
         })
         .addCase(updateVolunteer.rejected, (state, action)=>{
+            // Quand la mis à
             state.errors.apiErrorUpdate = action.payload;
+            state.loading = false;
+            state.volunteerModifying = true;
+            startVolunteerEdit(state.idVolunteerModifying);
         })
         .addCase(deleteVolunteer.pending, (state, action) => {
             state.errors.apiErrorDelete = null;

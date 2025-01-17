@@ -58,7 +58,7 @@ class AdminController extends AbstractController
 	{
 
 		$user = $security->getUser();
-	
+
 		if (!$user) {
 			return new JsonResponse(['error' => 'Access denied'], 403);
 		}
@@ -81,11 +81,25 @@ class AdminController extends AbstractController
 		// Récupérer les données JSON
 		$data = json_decode($request->getContent(), true);
 
+		// ------ Gestion des erreurs
+
 		if (!$data) {
-			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+			return new Response('Les données envoyées n\'ont pas pu être traitées.', Response::HTTP_BAD_REQUEST);
 		}
 
-		// Créer un nouvel objet Benevole
+		$mail = $data["mail_b"];
+
+		$benevoleWithMail = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $mail]);
+
+		if ($benevoleWithMail) {
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_CONFLICT);
+			$response->setContent(json_encode(['message' => 'Cet e-mail est déjà utilisé. Veuillez réessayer avec un autre e-mail.']));
+			return $response;
+		}
+
+
+		// ------ Créer un nouvel objet Benevole
 		$benevole = new Benevole();
 		$benevole->setNom($data['nom_b'] ?? '')
 			->setPrenom($data['prenom_b'] ?? '')
@@ -113,35 +127,35 @@ class AdminController extends AbstractController
 		$response = new Response();
 		$response->setStatusCode(Response::HTTP_CREATED);
 		//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
-		$response->setContent(json_encode($benevoles[sizeof($benevoles)-1]));
+		$response->setContent(json_encode($benevoles[sizeof($benevoles) - 1]));
 		return $response;
 	}
 
 	#[Route('/api/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
-    public function adminBenevolesSupprimerAction(String $id): Response
-    {
-        // Récupérer les données JSON
-        $benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+	public function adminBenevolesSupprimerAction(String $id): Response
+	{
+		// Récupérer les données JSON
+		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
 
-        if ($benevole) {
-            $this->entityManager->remove($benevole);
-            $this->entityManager->flush();
-    
-            //return new Response(null, 'benevole resource deleted' . $id); 
-            $response = new Response;
-            $response->setStatusCode(Response::HTTP_NO_CONTENT);
-            $response->setContent(json_encode(array(['message' => 'benevole ressource deleted: benevole was deleted ' . $id])));
-            
-            return $response;
-            // 204 No Content
-        } else {
-            $response = new Response;
-            $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            $response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
-            return $response;
-            // 404 Not Found
-        }
-    }
+		if ($benevole) {
+			$this->entityManager->remove($benevole);
+			$this->entityManager->flush();
+
+			//return new Response(null, 'benevole resource deleted' . $id); 
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_NO_CONTENT);
+			$response->setContent(json_encode(array(['message' => 'benevole ressource deleted: benevole was deleted ' . $id])));
+
+			return $response;
+			// 204 No Content
+		} else {
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_NOT_FOUND);
+			$response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
+			return $response;
+			// 404 Not Found
+		}
+	}
 
 
 	#[Route('/api/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
@@ -151,35 +165,46 @@ class AdminController extends AbstractController
 		$data = json_decode($request->getContent(), true);
 
 		if (!$data) {
-			$response = new Response;
-			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
-			$response->setContent(json_encode(['message' => 'Invalid or missing JSON data']));
-			return $response;
+			return new Response('Les données envoyées n\'ont pas pu être traitées.', Response::HTTP_BAD_REQUEST);
 		}
 
 		// Récupérer les données JSON
 		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
 
 		if ($benevole) {
+
+			$mailReq = $data["mail_b"];
+
+			// Cas où le mail mis à jour est différent du mail actuel du bénévole ->
+			if ($mailReq !== $benevole->getMail()) {
+
+				// Et où un bénévole aurait déjà ce mail
+				$benevoleWithMail = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $mailReq]);
+
+				if ($benevoleWithMail) {
+					$response = new Response();
+					$response->setStatusCode(Response::HTTP_CONFLICT);
+					$response->setContent(json_encode(['message' => 'Cet e-mail est déjà utilisé. Veuillez réessayer avec un autre e-mail.']));
+					return $response;
+				}
+			}
+
 			$benevole->setPrenom($data['prenom_b'] ?? $benevole->getPrenom())
-					  ->setNom($data['nom_b'] ?? $benevole->getNom())
-					//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
-					  ->setMail($data['mail_b'] ?? $benevole->getMail())
-					  ->setTel($data['tel_b'] ?? $benevole->getTel())
-					  ->setRoles($data['role_b'] ?? $benevole->getRoles());
-					//  ->setComp($data[''] ?? $benevole->getComp())
-					//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
+				->setNom($data['nom_b'] ?? $benevole->getNom())
+				//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
+				->setMail($data['mail_b'] ?? $benevole->getMail())
+				->setTel($data['tel_b'] ?? $benevole->getTel())
+				->setRoles($data['role_b'] ?? $benevole->getRoles());
+			//  ->setComp($data[''] ?? $benevole->getComp())
+			//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
 			$this->entityManager->persist($benevole);
 			$this->entityManager->flush();
-
-			// $query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
-			// $benevoles = $query->getArrayResult();
 
 			$response = new Response();
 			$response->setStatusCode(Response::HTTP_OK);
 			$response->setContent(json_encode(['id_benevole' => $benevole->getId(), 'nom_b' => $benevole->getNom(), 'prenom_b' => $benevole->getPrenom(), 'mail_b' => $benevole->getMail(), 'tel_b' => $benevole->getTel(), 'role_b' => $benevole->getRoles()]), Response::HTTP_CREATED, [
-                'Content-Type' => 'application/json',
-            ]);
+				'Content-Type' => 'application/json',
+			]);
 			return $response;
 		} else {
 			$response = new Response;
@@ -189,22 +214,22 @@ class AdminController extends AbstractController
 			// 404 Not Found
 		}
 	}
-	
+
 
 	//------------------------------------ ACTUALITE ------------------------------------//
 
 	// #[Route('/api/actualites/{id}', name: 'allow-retrieve-actuality', methods: ['OPTIONS'])]
-   	// #[Route('/api/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
-   	// public function allowActuality(Request $request): Response
-   	// {
-    //    $response = new Response(); // Action qui autorise le options
-    //    $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-    //    $response->headers->set('Access-Control-Allow-Origin', '*');
-    //    $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-    //    $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-    //    return $response;
-   	// }
-	
+	// #[Route('/api/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
+	// public function allowActuality(Request $request): Response
+	// {
+	//    $response = new Response(); // Action qui autorise le options
+	//    $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+	//    $response->headers->set('Access-Control-Allow-Origin', '*');
+	//    $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+	//    $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+	//    return $response;
+	// }
+
 	#[Route('/api/actualites', name: 'adminActualites', methods: ['GET'])]
 	public function adminActualitesAction(): Response
 	{
@@ -224,18 +249,18 @@ class AdminController extends AbstractController
 		if (!$data) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
-	
+
 		$actualite = new Actualite();
 		$actualite->setTitre($data['titre_a'] ?? '')
-				  ->setDescription($data['description_a'] ?? '')
-				  ->setDate($data['date_a'] ?? '')
-				  ->setImage($data['image_a'] ?? '');
-	
+			->setDescription($data['description_a'] ?? '')
+			->setDate($data['date_a'] ?? '')
+			->setImage($data['image_a'] ?? '');
+
 		$this->entityManager->persist($actualite);
 		$this->entityManager->flush();
 
 		$response = new Response();
-	    $response->setContent(json_encode(['id_actualite' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
+		$response->setContent(json_encode(['id_actualite' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
 			'Content-Type' => 'application/json',
 		]);
 		$response->setStatusCode(Response::HTTP_CREATED);
@@ -257,7 +282,7 @@ class AdminController extends AbstractController
 			$response = new Response;
 			$response->setContent(json_encode(array(['message' => 'actualite ressource deleted: actualite was deleted ' . $idActualite])));
 			$response->setStatusCode(Response::HTTP_NO_CONTENT);
-			
+
 			return $response;
 			// 204 No Content
 
@@ -269,41 +294,39 @@ class AdminController extends AbstractController
 			// 404 Not Found
 
 		}
-
 	}
-	
+
 
 	#[Route('/api/actualites/{idActualite}', name: 'adminActualitesModifier', methods: ['PUT'])]
 	public function adminActualitesModifierAction(string $idActualite, Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
-	
+
 		if (!$data) {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
 			$response->setContent(json_encode(['message' => 'Invalid or missing JSON data']));
 			return $response;
 		}
-	
+
 		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
 
 		if ($actualite) {
 			$actualite->setTitre($data['titre_a'] ?? $actualite->getTitre())
-					  ->setDescription($data['description_a'] ?? $actualite->getDescription())
-					  ->setDate($data['date_a'] ?? $actualite->getDate())
-					  ->setImage($data['image_a'] ?? $actualite->getImage());
-	
+				->setDescription($data['description_a'] ?? $actualite->getDescription())
+				->setDate($data['date_a'] ?? $actualite->getDate())
+				->setImage($data['image_a'] ?? $actualite->getImage());
+
 			$this->entityManager->persist($actualite);
 			$this->entityManager->flush();
-	
+
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_OK);
 			$response->setContent(json_encode(['id_actualite' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
 				'Content-Type' => 'application/json',
 			]);
 			return $response;
-			
-		}else{
+		} else {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
 			$response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idActualite]));
@@ -313,16 +336,16 @@ class AdminController extends AbstractController
 
 	/**-----------------------------------------PROJETS------------------------------------------------ */
 	// #[Route('/api/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
-   	// #[Route('/api/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
-   	// public function allowProject(Request $request): Response
-   	// {
-    //    $response = new Response(); // Action qui autorise le options
-    //    $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-    //    $response->headers->set('Access-Control-Allow-Origin', '*');
-    //    $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-    //    $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-    //    return $response;
-   	// }
+	// #[Route('/api/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
+	// public function allowProject(Request $request): Response
+	// {
+	//    $response = new Response(); // Action qui autorise le options
+	//    $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+	//    $response->headers->set('Access-Control-Allow-Origin', '*');
+	//    $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+	//    $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+	//    return $response;
+	// }
 
 	#[Route('/api/projets', name: 'adminProjets', methods: ['GET'])]
 	public function adminProjetsAction(): Response
@@ -337,4 +360,3 @@ class AdminController extends AbstractController
 		return $response;
 	}
 }
-
