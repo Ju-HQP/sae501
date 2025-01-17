@@ -14,17 +14,16 @@ import FileInputWithPreview from "./FileInputWithPreview";
 
 function VolunteerForm() {
     const dispatch = useDispatch();
-    const [avatarURL, setAvatarURL] = useState('/default-user.png');
+    //const [avatarURL, setAvatarURL] = useState('/default-user.png');
     const loading = useSelector(selectLoading);
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    //const [password, setPassword] = useState('');
+    //const [confirmPassword, setConfirmPassword] = useState('');
     const options = [
         { value: 0, label: 'Bénévole' },
         { value: 1, label: 'Administrateur' }
     ];
 
-    const handleSubmit = async (values, form) => {
-        //values.photo_b = avatarURL;
+    const handleSubmit = (values, form) => {
         values.role_b = values.role_b.value;
         if (values.role_b) {
             values.role_b = values.role_b.value;
@@ -38,13 +37,13 @@ function VolunteerForm() {
         dispatch(stopVolunteerEdit());
     }
 
-    function handlePassChange() {
+    /* function handlePassChange() {
         setPassword()
     }
 
     function handleConfirmPassChange() {
         setConfirmPassword()
-    }
+    } */
 
     return (
         <>
@@ -64,21 +63,20 @@ function VolunteerForm() {
                                 <Form
                                     onSubmit={handleSubmit}
                                     render={({ handleSubmit }) => (
-                                        <form onSubmit={handleSubmit} className="my-4 px-2 md:grid grid-cols-2 lg:px-8">
-                                            <Field
+                                        <form onSubmit={handleSubmit} className="my-4 px-2 md:grid grid-cols-2 lg:px-8" enctype="multipart/form-data">
+                                            {/* <Field
                                                 validate=''
                                                 name="photo_b"
-                                                component={FileInputWithPreview}
-                                                /* render={({ input, meta }) => (
+                                                 render={({ input, meta }) => (
 
                                                     <div className="flex flex-col justify-center items-center col-span-2 md:mb-4">
                                                         <label htmlFor='photo_b' className="font-semibold">Photo de profil</label>
                                                         <ImageUpload {...input} avatarURL={avatarURL} setAvatarURL={setAvatarURL} />
                                                     </div>
-                                                )} */
+                                                )}
                                             >
-                                            </Field>
-                                            {/* <Field name="file" component={ImageUpload} /> */}
+                                            </Field> */}
+                                            <Field name="photo_b" id="photo_b" component={FileInputWithPreview} />
                                             <Field
                                                 validate={required}
                                                 name="prenom_b"

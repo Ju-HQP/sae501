@@ -1,12 +1,18 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { URL_API_VOLUNTEERS } from '../../utils/config.js';
+import {
+    createAsyncThunk
+} from '@reduxjs/toolkit';
+import {
+    URL_API_VOLUNTEERS
+} from '../../utils/config.js';
 
 //fonctions asynchrones pour communiquer avec l'api
 
 export const loadVolunteer = createAsyncThunk(
     'benevoles/loadVolunteer',
-    async (_, { rejectWithValue }) => {
-        try{
+    async (_, {
+        rejectWithValue
+    }) => {
+        try {
             const response = await fetch(URL_API_VOLUNTEERS, {
                 method: 'GET',
                 headers: {
@@ -18,7 +24,7 @@ export const loadVolunteer = createAsyncThunk(
             }
             const data = await response.json();
             return data;
-        }catch (error){
+        } catch (error) {
             return rejectWithValue("L'application est actuellement indisponible. Veuillez réessayer ultérieurement");
         };
     }
@@ -26,13 +32,13 @@ export const loadVolunteer = createAsyncThunk(
 
 export const saveVolunteer = createAsyncThunk(
     'benevoles/saveBenevole',
-    (datas,{
+    (datas, {
         dispatch,
         getState
     }) => {
         console.log(datas);
-        const id= getState().idVolunteerModifying
-        if(id){
+        const id = getState().idVolunteerModifying
+        if (id) {
             dispatch(updateVolunteer(datas));
         } else {
             dispatch(addVolunteer(datas));
@@ -42,35 +48,40 @@ export const saveVolunteer = createAsyncThunk(
 
 export const addVolunteer = createAsyncThunk(
     'benevoles/addVolunteer',
-    async (datas, {rejectWithValue}) => {
+    async (datas, {
+        rejectWithValue
+    }) => {
         try {
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data ; boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
                 },
-                body: JSON.stringify(datas)
+                body: datas
             });
+            console.log(datas);
             return await res.json();
         } catch (er) {
-            return rejectWithValue(+ er.response.data.error.message)
+            return rejectWithValue(+er.response.data.error.message)
         }
     }
 )
 
 export const updateVolunteer = createAsyncThunk(
     'benevoles/updateVolunteer',
-    async (datas, { rejectWithValue }) => {
+    async (datas, {
+        rejectWithValue
+    }) => {
         try {
             const queryString = new URLSearchParams(datas).toString();
             const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
             });
             return await response.json();
-        } catch (errorAxio){
+        } catch (errorAxio) {
             return rejectWithValue(errorAxio.response.data.error.message);
         };
     }
@@ -78,7 +89,9 @@ export const updateVolunteer = createAsyncThunk(
 
 export const deleteVolunteer = createAsyncThunk(
     'benevoles/deleteVolunteer',
-    async (datas, { rejectWithValue }) => {
+    async (datas, {
+        rejectWithValue
+    }) => {
         try {
             const queryString = new URLSearchParams(datas).toString();
             const response = await fetch(`${URL_API_VOLUNTEERS}?${queryString}`, {
@@ -88,7 +101,7 @@ export const deleteVolunteer = createAsyncThunk(
                 },
             });
             return await response.json();
-        }catch(errorAxio){
+        } catch (errorAxio) {
             return rejectWithValue(errorAxio.response.data.error.message);
         };
     }

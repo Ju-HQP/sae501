@@ -1,31 +1,44 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
-const FileInputWithPreview = ({ input, meta }) => {
+const FileInputWithPreview = ({ input, meta }) => { //récuperer en parametre la photo de profil de base pour la modification
   var file;
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState("/default-user.png");
+  const fileUploadRef = useRef();
+
+
+  function handleImageUpload(event) {
+    event.preventDefault();
+    fileUploadRef.current.click();
+  }
+
   const handleFileChange = (e) => {
     file = e.target.files[0];
     input.onChange(file); // Met à jour le formulaire localement
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = () => setPreview(reader.result); // On récupère les données au format base64
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(null); // Réinitialiser l'aperçu si ce n'est pas une image
+    }
   };
 
-  if (file && file.type.startsWith('image/')) {
-    const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result); // On récupère les données au format base64
-    reader.readAsDataURL(file);
-  } else {
-    setPreview(null); // Réinitialiser l'aperçu si ce n'est pas une image
-  }
-
   return (
-    <div>
-      <label htmlFor={input.name}>Télécharger un fichier</label>
-      <input
+    <div  className='flex flex-col justify-center items-center col-span-2 md:mb-4'>
+      <label htmlFor={input.name} className='font-semibold'>Télécharger un fichier</label>
+      <img src={preview} alt="Avatar" tabIndex="0"
+        className="h-32 w-32 rounded-full object-cover cursor-pointer" onClick={handleImageUpload}/>
+
+      <input hidden
         id={input.name}
-        name={input.name}
+        name="photo_b"
         type="file"
+        ref={fileUploadRef}
         accept="image/*"
         onChange={handleFileChange}
       />
+
       {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
     </div>
   );

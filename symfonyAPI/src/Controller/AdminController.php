@@ -67,31 +67,34 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
 	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
-		// Récupérer les données JSON
-		$data = json_decode($request->getContent(), true);
+		$file = $request->files->get('file');
 
+		$data = $request->getContent();
 		if (!$data) {
-			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+			return new Response($request->getContent(), Response::HTTP_BAD_REQUEST);
 		}
 
-		
+		$uploadDir = $this->getParameter('kernel.project_dir') . '/public/uploads/profile-pictures';
+		$fileName = $data['prenom_b'] . $data['nom_b'] . '.' . $file->guessExtension();
+		$file->move($uploadDir, $fileName);
+
 		// Créer un nouvel objet Benevole
 		$benevole = new Benevole();
 		//$photo = str_replace("blob:",'', $data['photo_b']); 
 		$benevole->setNom($data['nom_b'] ?? '')
 			->setPrenom($data['prenom_b'] ?? '')
-			 // le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
+			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
-			->setPhoto($data['photo_b'] ?? null)
+			->setPhoto($uploadDir ?? null)
 			->setRoles($data['role_b'] ?? 0);
 
-		
+
 
 		// --- Génération du mdp aléatoire
-        $randomMdp= random_bytes(10);
+		$randomMdp = random_bytes(10);
 		// --- Hash du mot de passe
-        $hashedPassword = $passwordHasher->hashPassword($benevole, $randomMdp);
+		$hashedPassword = $passwordHasher->hashPassword($benevole, $randomMdp);
 		// ajout à l'objet Benevole
 		$benevole->setPassword($hashedPassword);
 
@@ -105,7 +108,7 @@ class AdminController extends AbstractController
 		$response = new Response();
 		$response->setStatusCode(Response::HTTP_CREATED);
 		//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
-		$response->setContent(json_encode($benevoles[sizeof($benevoles)-1]));
+		$response->setContent(json_encode($benevoles[sizeof($benevoles) - 1]));
 		$response->headers->set('Content-Type', 'application/json');
 		$response->headers->set('Access-Control-Allow-Origin', '*');
 		return $response;
