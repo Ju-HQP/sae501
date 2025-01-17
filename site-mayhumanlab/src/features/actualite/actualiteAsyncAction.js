@@ -106,7 +106,9 @@ export const deleteActu = createAsyncThunk(
             if (response.status === 403){
                 return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
             }
-            return dataToSend.id;
+            if(response.status === 204){
+                return dataToSend.id;
+            }
         } catch (error) {
             return rejectWithValue("Erreur lors de la suppression de l'actualité.");
         }

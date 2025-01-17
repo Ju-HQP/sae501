@@ -98,9 +98,11 @@ export const deleteVolunteer = createAsyncThunk(
             if (response.status === 403){
                 return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
             }
-            return await response.json();
-        }catch(errorAxio){
-            return rejectWithValue(errorAxio.response.data.error.message);
+            if(response.status === 204){
+                return datas.id;
+            }
+        }catch(error){
+            return rejectWithValue(error.response.data.error.message);
         };
     }
 )
