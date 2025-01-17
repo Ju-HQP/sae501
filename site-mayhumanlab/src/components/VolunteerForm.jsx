@@ -251,7 +251,7 @@ function VolunteerForm() {
                       )}
                     ></Field>
                     <Field
-                      validate=""
+                    //   validate={required} COUCOU ELEA
                       name="role_b"
                       render={({ input, meta }) => (
                         <div className="flex flex-col col-start-2 md:px-4">

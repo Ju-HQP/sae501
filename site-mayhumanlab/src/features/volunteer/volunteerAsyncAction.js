@@ -87,7 +87,7 @@ export const updateVolunteer = createAsyncThunk(
             }
             return await response.json();
         } catch (error){
-            return rejectWithValue(error.message?error.message: "Désolé, la mise à jour d'un bénévole a rencontré une erreur.");
+            return rejectWithValue(error.message??"Désolé, la mise à jour d'un bénévole a rencontré une erreur.");
         };
     }
 )

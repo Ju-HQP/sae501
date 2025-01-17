@@ -1,4 +1,8 @@
 export function required(string) {
+    // Pour le champ Select des rôles
+    if (typeof string === 'object'){
+        string = string.label;
+    }
     const trimed = string?.trim(); //ne fait trim que si string est défini
     if(!trimed) {
         return 'Ce champ est obligatoire';
