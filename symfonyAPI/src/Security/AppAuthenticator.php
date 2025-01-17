@@ -35,15 +35,12 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $csrfToken = $request->request->get('_csrf_token', '');
 
         if (isset($data["mail_b"])) {
-            $this->logger->info('Changement §§§§§§§§');
             $mailB = $data["mail_b"];
             $password = $data["mdp_b"];
             $csrfToken = $data["_csrf_token"];
         }
 
-        $this->logger->info('Mail requête : ' . $mailB);
-        $this->logger->info('Mot de passe requête : ' . $password);
-        $this->logger->info('Token de la requête : ' . $csrfToken);
+        // $this->logger->info('Mail requête : ' . $mailB);
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $mailB);
 
