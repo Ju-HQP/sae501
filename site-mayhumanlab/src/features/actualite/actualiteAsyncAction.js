@@ -41,11 +41,15 @@ export const addActu = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(dataToSend)
+                body: JSON.stringify(dataToSend),
+                credentials: 'include'
             });
+            if (response.status === 403){
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises.');
+            }
             return await response.json();
         } catch (error) {
-            return rejectWithValue("Erreur lors de l'ajout de l'actualité.");
+            return rejectWithValue(error.message);
         }
     }
 )
@@ -61,7 +65,11 @@ export const updateActu = createAsyncThunk(
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(dataToSend),
+                credentials: 'include'
             });
+            if (response.status === 403){
+                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
+            }
             return await response.json();
         } catch (error) {
             return rejectWithValue("Erreur lors de la modification de l'actualité.");
@@ -93,8 +101,14 @@ export const deleteActu = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include'
             });
-            return dataToSend.id;
+            if (response.status === 403){
+                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
+            }
+            if(response.status === 204){
+                return dataToSend.id;
+            }
         } catch (error) {
             return rejectWithValue("Erreur lors de la suppression de l'actualité.");
         }

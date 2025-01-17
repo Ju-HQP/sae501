@@ -18,3 +18,19 @@ export const selectErrorSave = (state) => {
         return state.volunteer.errors.apiErrorAdd;
     }
 }
+
+export const selectInitialFormValues = createSelector(
+    selectVolunteer, selectIdVolunteerModifying,
+    (volunteer, id) => {
+        if (!id){
+            return null;
+        } else {
+            return volunteer.find((volunteer) => volunteer.id_benevole === id) || null;
+        }
+    }
+);
+
+export const selectFormTitle = createSelector(
+    selectIdVolunteerModifying,
+    (editVolunteer) => (editVolunteer ? "Modifier un bénévole" : "Ajouter un bénévole")
+);

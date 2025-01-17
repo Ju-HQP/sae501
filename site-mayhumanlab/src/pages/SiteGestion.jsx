@@ -70,8 +70,8 @@ function SiteGestion(){
                 </tr>
               </thead>
               <tbody>
-              {listeActualite.map((actualite) => (
-                <ActualiteRow key={actualite.id_actualite} actualite={actualite} handleDelete={handleDelete} width={width}/>
+              {listeActualite.map((actualite, id) => (
+                <ActualiteRow key={id} actualite={actualite} handleDelete={handleDelete} width={width}/>
               ))}
               </tbody>
             </table>

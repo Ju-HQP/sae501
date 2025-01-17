@@ -30,6 +30,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
+
     #[Route('/csrf_token', name: 'api_csrf_token', methods: ['GET'])]
     public function getCsrfToken(RequestStack $requestStack, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
     {
@@ -38,22 +39,38 @@ class SecurityController extends AbstractController
         if (!$session->isStarted()) {
             $session->start();
         }
-        
+        // Récupération de l'origine de la requête (annulée car dangereux si laisser en prod)
+
         $token = $csrfTokenManager->getToken('authenticate')->getValue();
-        return new JsonResponse(['csrfToken' => $token,]);
+        $res = new JsonResponse(['csrfToken' => $token,]);
+
+        // Entêtes CORS
+        $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+        $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
+        $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+        return $res;
     }
 
+    // Utile quand les identifiants sont incorrects
     #[Route(path: '/login', name: 'app_login1', methods: ["GET"])]
-    public function login1(AuthenticationUtils $authenticationUtils): Response
+    public function loginErrorMsg(AuthenticationUtils $authenticationUtils): Response
     {
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('admin_dashboard');
         // }
 
-        return $this->render('security/login.html.twig', [
-            'last_username' => $authenticationUtils->getLastUsername(),
-            'error' => $authenticationUtils->getLastAuthenticationError(),
-        ]);
+        $response = new Response();
+        $response->setContent(json_encode(['message' => 'Identifiants invalides']));
+        $response->headers->set('Content-Type', 'application/json');
+        $response->setStatusCode(Response::HTTP_UNAUTHORIZED); // 401 Error Pas authentifié
+
+        return $response;
+
+        // return $this->render('security/login.html.twig', [
+        //     'last_username' => $authenticationUtils->getLastUsername(),
+        //     'error' => $authenticationUtils->getLastAuthenticationError(),
+        // ]);
     }
 
     #[Route(path: '/login', name: 'app_login', methods: ['POST'])]
@@ -71,14 +88,12 @@ class SecurityController extends AbstractController
         if ($error) {
             return new JsonResponse(['error' => $error->getMessageKey()], 401);
         }
-
-        return new JsonResponse(['message' => 'Connecté en tant que'], 200);
+        return new JsonResponse(['message' => 'Connecté en tant que']);
     }
 
-
     // Fonction executée pour la deconnexion simple
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(Request $request, TokenStorageInterface $tokenStorage): Response
+    #[Route(path: '/logout', name: 'app_logout', methods: ['POST'])]
+    public function logout(Request $request, TokenStorageInterface $tokenStorage): JsonResponse
     {
         try {
             // Invalide la session
@@ -88,11 +103,14 @@ class SecurityController extends AbstractController
             }
             $tokenStorage->setToken(null);
 
-            $response = new Response();
+            $response = new JsonResponse(['message' => 'Déconnexion réussie']);
+
             // Supprimer le cookie PHPSESSID
             $response->headers->clearCookie('PHPSESSID');
-            $response->setContent(json_encode(['message' => 'Déconnexion réussie']));
-            $response->headers->set('Content-Type', 'application/json');
+            $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+            $response->headers->set('Access-Control-Allow-Credentials', 'true');
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
 
             return $response;
         } catch (\Exception $e) {
@@ -101,12 +119,18 @@ class SecurityController extends AbstractController
     }
 
     // Fonction pour renvoyer un message JSON au front au lieu d'une redirection (par défaut)
-    #[Route(path: '/logout_msg', name: 'app_logout_msg')]
+    #[Route(path: '/logout_msg', name: 'app_logout_msg', methods:['GET'])]
     public function logoutmsg(Request $request, TokenStorageInterface $tokenStorage): JsonResponse
     {
         try {
             // La session et le token sont déjà invalidés par la route /logout
-            return new JsonResponse(['message' => 'Déconnexion réussie'], Response::HTTP_OK);
+            $res = new JsonResponse(['message' => 'Déconnexion réussie'], Response::HTTP_OK);
+            $res->headers->set('Content-Type', 'application/json');
+            $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
+            $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
+            $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+            $res->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
+            return $res;
         } catch (\Exception $e) {
             return new JsonResponse(['message' => 'Erreur lors de la déconnexion', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -118,7 +142,7 @@ class SecurityController extends AbstractController
         $user = $security->getUser();
 
         if (!$user) {
-            return new JsonResponse(['isAuthenticated' => false], 200);
+            return new JsonResponse(['isAuthenticated' => false], 404);
         }
 
         return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);

@@ -2,6 +2,7 @@ import {
     createAsyncThunk
 } from '@reduxjs/toolkit';
 import {
+    URL_API_AUTH,
     URL_API_CSRF,
     URL_API_LOGIN
 } from '../../utils/config.js';
@@ -51,6 +52,9 @@ export const login = createAsyncThunk(
                 credentials: 'include',
                 body: JSON.stringify(datas)
             });
+            if (res.status === 401){
+                return rejectWithValue("Identifiants invalides");
+            }
             return await res.json();
         } catch (er) {
             return rejectWithValue(+er.response.data.error.message);
@@ -81,3 +85,25 @@ export const logout = createAsyncThunk(
             return rejectWithValue(+er.response.data.error.message)
         }
     });
+
+export const getAuth = createAsyncThunk(
+    'user/getAuth',
+    async(_, {rejectWithValue}) => {
+        try {
+            const reponse = await fetch(URL_API_AUTH, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            });
+            if (reponse.status === 404){
+              return rejectWithValue("Vous n'êtes pas connecté");
+            }
+            const isAuth = await reponse.json();
+            return isAuth;
+        } catch (error) {
+            return rejectWithValue(error.response.data.error.message);
+        }
+    }
+)

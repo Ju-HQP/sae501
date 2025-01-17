@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
 			$benevole->setNom("Tano");
 			$benevole->setPrenom("Marie");
 			$randomMdp = random_bytes(20);
-			$benevole->setPassword($randomMdp);
+			$benevole->setPassword("$2y$08\$W9HPfteJJ42GLyzynauqw.0.AOxSV6vMlLN6POETyyjGLj6AA7mEe");
 			$benevole->setMail("m.tano@gmail.com");
 			$benevole->setTel("0764412869");
 			$benevole->setPhoto("https://cache.cosmopolitan.fr/data/photo/w1000_c17/3y/femme_sourire.jpg");
