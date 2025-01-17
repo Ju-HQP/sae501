@@ -13,7 +13,7 @@ export const selectErrorDeleteActu = (state) => state.actualite.errors.apiErrorD
 
 export const selectSortedActusByReleaseDate = createSelector(
     selectActus,
-    (listActu) => [...listActu].sort((a,b)=> Date.parse(b.releaseDate) - Date.parse(a.releaseDate))
+    (listActu) => [...listActu].sort((a,b)=> Date.parse(b.date_a) - Date.parse(a.date_a))
 )
 
 export const selectFormTitle = createSelector(

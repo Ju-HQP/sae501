@@ -25,6 +25,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use App\Entity\Projet;
 // Pour la gestion du mot de passe
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -334,29 +335,137 @@ class AdminController extends AbstractController
 		}
 	}
 
-	/**-----------------------------------------PROJETS------------------------------------------------ */
-	// #[Route('/api/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
-	// #[Route('/api/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
-	// public function allowProject(Request $request): Response
-	// {
-	//    $response = new Response(); // Action qui autorise le options
-	//    $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-	//    $response->headers->set('Access-Control-Allow-Origin', '*');
-	//    $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-	//    $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-	//    return $response;
-	// }
 
-	#[Route('/api/projets', name: 'adminProjets', methods: ['GET'])]
-	public function adminProjetsAction(): Response
-	{
-		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Projet a");
-		$projets = $query->getArrayResult();
-		$response = new Response();
-		$response->setStatusCode(Response::HTTP_OK);
-		$response->setContent(json_encode($projets));
-		$response->headers->set('Content-Type', 'application/json');
+
+
+		//------------------------------------ PROJET ------------------------------------//
+
+		#[Route('/api/projects/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
+		#[Route('/api/projects', name: 'allow-create-project', methods: ['OPTIONS'])]
+		public function allowProject(Request $request): Response
+		{
+		$response = new Response(); // Action qui autorise le options
+		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
 		$response->headers->set('Access-Control-Allow-Origin', '*');
+		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
 		return $response;
-	}
+		}
+	 
+	 #[Route('/api/projects', name: 'adminProjects', methods: ['GET'])]
+	 public function adminProjectsAction(): Response
+	 {
+		 $query = $this->entityManager->createQuery("SELECT p FROM App\Entity\Projet p");
+		 $project = $query->getArrayResult();
+		 $response = new Response();
+		 $response->setStatusCode(Response::HTTP_OK);
+		 $response->setContent(json_encode($project));
+		 $response->headers->set('Content-Type', 'application/json');
+		 $response->headers->set('Access-Control-Allow-Origin', '*');
+		 return $response;
+	 }
+ 
+	 #[Route('/api/projects', name: 'adminProjectsAjouter', methods: ['POST'])]
+	 public function adminProjectsAjouterAction(Request $request): Response
+	 {
+		 $data = json_decode($request->getContent(), true);
+ 
+		 if (!$data) {
+			 return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+		 }
+	 
+		 $project = new Projet();
+		 $project->setTitre($data['titre_p'] ?? '')
+				   ->setDescription($data['description_p'] ?? '')
+				   ->setImage($data['image_p'] ?? '');
+	 
+		 $this->entityManager->persist($project);
+		 $this->entityManager->flush();
+ 
+		 $response = new Response();
+		 $response->setContent(json_encode(['id_projet' => $project->getId(), 'titre_p' => $project->getTitre(), 'description_p' => $project->getDescription(), 'image_p' => $project->getImage()]), Response::HTTP_CREATED, [
+			 'Content-Type' => 'application/json',
+		 ]);
+		 $response->setStatusCode(Response::HTTP_CREATED);
+		 $response->headers->set('Content-Type', 'application/json');
+		 $response->headers->set('Access-Control-Allow-Origin', '*');
+		 return $response;
+	 }
+ 
+	 #[Route('/api/projects/{idProject}', name: 'adminProjectsSupprimer', methods: ['DELETE'])]
+	 public function adminProjectsSupprimerAction(string $idProject): Response
+	 {
+ 
+		 // Récupérer les données JSON
+		 $project = $this->entityManager->getRepository(Projet::class)->find($idProject);
+ 
+		 if ($project) {
+			 $this->entityManager->remove($project);
+			 $this->entityManager->flush();
+ 
+			 //return new Response(null, 'project resource deleted' . $id); 
+			 $response = new Response;
+			 $response->setContent(json_encode(array(['message' => 'project ressource deleted: project was deleted ' . $idProject])));
+			 $response->setStatusCode(Response::HTTP_NO_CONTENT);
+			 $response->headers->set('Content-Type', 'application/json'); 
+			 $response->headers->set('Access-Control-Allow-Origin', '*');
+			 
+			 return $response;
+			 // 204 No Content
+ 
+		 } else {
+			 $response = new Response;
+			 $response->setStatusCode(Response::HTTP_NOT_FOUND);
+			 $response->headers->set('Content-Type', 'application/json'); 
+			 $response->headers->set('Access-Control-Allow-Origin', '*');
+			 $response->setContent(json_encode(array(['message' => 'Resource not found: No project found for id ' . $idProject])));
+			 return $response;
+			 // 404 Not Found
+ 
+		 }
+	 }
+	 
+ 
+	 #[Route('/api/projects/{idProject}', name: 'adminProjectsModifier', methods: ['PUT'])]
+	 public function adminProjectsModifierAction(string $idProject, Request $request): Response
+	 {
+		 $data = json_decode($request->getContent(), true);
+	 
+		 if (!$data) {
+			 $response = new Response;
+			 $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			 $response->headers->set('Content-Type', 'application/json');
+			 $response->headers->set('Access-Control-Allow-Origin', '*');
+			 $response->setContent(json_encode(['message' => 'Invalid or missing JSON data']));
+			 return $response;
+		 }
+	 
+		 $project = $this->entityManager->getRepository(Projet::class)->find($idProject);
+ 
+		 if ($project) {
+			 $project->setTitre($data['titre_p'] ?? $project->getTitre())
+					   ->setDescription($data['description_p'] ?? $project->getDescription())
+					   ->setImage($data['image_p'] ?? $project->getImage());
+	 
+			 $this->entityManager->persist($project);
+			 $this->entityManager->flush();
+	 
+			 $response = new Response;
+			 $response->setStatusCode(Response::HTTP_OK);
+			 $response->headers->set('Content-Type', 'application/json');
+			 $response->headers->set('Access-Control-Allow-Origin', '*');
+			 $response->setContent(json_encode(['id_projet' => $project->getId(), 'titre_p' => $project->getTitre(), 'description_p' => $project->getDescription(), 'image_p' => $project->getImage()]), Response::HTTP_CREATED, [
+				 'Content-Type' => 'application/json',
+			 ]);
+			 return $response;
+			 
+		 }else{
+			 $response = new Response;
+			 $response->setStatusCode(Response::HTTP_NOT_FOUND);
+			 $response->headers->set('Content-Type', 'application/json');
+			 $response->headers->set('Access-Control-Allow-Origin', '*');
+			 $response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idProject]));
+			 return $response;
+		 }
+	 }
 }
