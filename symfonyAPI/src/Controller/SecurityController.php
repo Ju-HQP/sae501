@@ -44,11 +44,6 @@ class SecurityController extends AbstractController
         $token = $csrfTokenManager->getToken('authenticate')->getValue();
         $res = new JsonResponse(['csrfToken' => $token,]);
 
-        // Entêtes CORS
-        $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-        $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-        $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-
         return $res;
     }
 
@@ -107,10 +102,6 @@ class SecurityController extends AbstractController
 
             // Supprimer le cookie PHPSESSID
             $response->headers->clearCookie('PHPSESSID');
-            $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
 
             return $response;
         } catch (\Exception $e) {
@@ -126,10 +117,6 @@ class SecurityController extends AbstractController
             // La session et le token sont déjà invalidés par la route /logout
             $res = new JsonResponse(['message' => 'Déconnexion réussie'], Response::HTTP_OK);
             $res->headers->set('Content-Type', 'application/json');
-            $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-            $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-            $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-            $res->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
             return $res;
         } catch (\Exception $e) {
             return new JsonResponse(['message' => 'Erreur lors de la déconnexion', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -147,16 +134,4 @@ class SecurityController extends AbstractController
 
         return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);
     }
-    // #[Route(path: '/auth', name: 'app_auth', methods: ['GET'])]
-    // public function auth(AuthenticationUtils $authenticationUtils): Response
-    // {
-
-
-    //     if ($this->getUser()) {
-    //         $identifiant = $authenticationUtils->getLastUsername();
-    //         return new JsonResponse(['message' => 'Connecté en tant que' . $identifiant], 200);
-    //     }
-
-    //     return new JsonResponse(['error' => "Vous n'êtes pas connecté"], 401);
-    // }
 }

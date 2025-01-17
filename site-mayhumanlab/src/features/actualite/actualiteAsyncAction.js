@@ -57,7 +57,6 @@ export const addActu = createAsyncThunk(
 export const updateActu = createAsyncThunk(
     'actualites/updateActu',
     async (dataToSend, {rejectWithValue}) => {
-        console.log(dataToSend.id_actualite);
         try {
             const response = await fetch(`${URL_API_ACTUS}/${dataToSend.id_actualite}`, {
                 method: 'PUT',

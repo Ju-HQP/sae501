@@ -41,21 +41,9 @@ class AdminController extends AbstractController
 		$this->logger = $logger;
 	}
 
-	// #[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
-	#[Route('/api/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
-	public function allowCreateAProduct(Request $request): Response
-	{
-		$response = new Response(); // Action qui autorise le options
-		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-		$response->headers->set('Access-Control-Allow-Origin', '*');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-		return $response;
-	}
-
-	// #[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
-	// #[Route('/api/actualites', name: 'allow-create-a-product', methods: ['OPTIONS'])]
-	// public function allowActualities(Request $request): Response
+	// // #[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-product', methods: ['OPTIONS'])]
+	// #[Route('/api/benevoles', name: 'allow-create-a-product', methods: ['OPTIONS'])]
+	// public function allowCreateAProduct(Request $request): Response
 	// {
 	// 	$response = new Response(); // Action qui autorise le options
 	// 	$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
@@ -64,7 +52,6 @@ class AdminController extends AbstractController
 	// 	$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
 	// 	return $response;
 	// }
-
 
 	#[Route('/api/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(Security $security): Response
@@ -85,19 +72,6 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/admin/benevoles/{id}', name: 'allow-retrieve-a-volunteer', methods: ['OPTIONS'])]
-	#[Route('/admin/benevoles', name: 'allow-create-a-volunteer', methods: ['OPTIONS'])]
-	public function allowCreateAVolunteer(Request $request): Response
-	{
-		$response = new Response(); // Action qui autorise le options
-		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-		$response->headers->set('Access-Control-Allow-Origin', '*');
-		$response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-		$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-		return $response;
-	}
-
-	
 	// Fonction pour l'ajout d'un nouveau Bénévole
 	// le paramètre passwordhasher vient du fichier security.yaml
 
@@ -140,8 +114,6 @@ class AdminController extends AbstractController
 		$response->setStatusCode(Response::HTTP_CREATED);
 		//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
 		$response->setContent(json_encode($benevoles[sizeof($benevoles)-1]));
-		$response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
 		return $response;
 	}
 
@@ -157,8 +129,6 @@ class AdminController extends AbstractController
     
             //return new Response(null, 'benevole resource deleted' . $id); 
             $response = new Response;
-			$response->headers->set('Content-Type', 'application/json'); 
-            $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->setStatusCode(Response::HTTP_NO_CONTENT);
             $response->setContent(json_encode(array(['message' => 'benevole ressource deleted: benevole was deleted ' . $id])));
             
@@ -167,8 +137,6 @@ class AdminController extends AbstractController
         } else {
             $response = new Response;
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
-            $response->headers->set('Content-Type', 'application/json'); 
-            $response->headers->set('Access-Control-Allow-Origin', '*');
             $response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
             return $response;
             // 404 Not Found
@@ -185,8 +153,6 @@ class AdminController extends AbstractController
 		if (!$data) {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
-			$response->headers->set('Content-Type', 'application/json');
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode(['message' => 'Invalid or missing JSON data']));
 			return $response;
 		}
@@ -211,8 +177,6 @@ class AdminController extends AbstractController
 
 			$response = new Response();
 			$response->setStatusCode(Response::HTTP_OK);
-			$response->headers->set('Content-Type', 'application/json');
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode(['id_benevole' => $benevole->getId(), 'nom_b' => $benevole->getNom(), 'prenom_b' => $benevole->getPrenom(), 'mail_b' => $benevole->getMail(), 'tel_b' => $benevole->getTel(), 'role_b' => $benevole->getRoles()]), Response::HTTP_CREATED, [
                 'Content-Type' => 'application/json',
             ]);
@@ -220,8 +184,6 @@ class AdminController extends AbstractController
 		} else {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->headers->set('Content-Type', 'application/json'); 
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode(array(['message' => 'Bénévole non trouvé'] . $id)));
 			return $response;
 			// 404 Not Found
@@ -231,17 +193,17 @@ class AdminController extends AbstractController
 
 	//------------------------------------ ACTUALITE ------------------------------------//
 
-	#[Route('/api/actualites/{id}', name: 'allow-retrieve-actuality', methods: ['OPTIONS'])]
-   	#[Route('/api/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
-   	public function allowActuality(Request $request): Response
-   	{
-       $response = new Response(); // Action qui autorise le options
-       $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-       $response->headers->set('Access-Control-Allow-Origin', '*');
-       $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-       $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-       return $response;
-   	}
+	// #[Route('/api/actualites/{id}', name: 'allow-retrieve-actuality', methods: ['OPTIONS'])]
+   	// #[Route('/api/actualites', name: 'allow-create-actuality', methods: ['OPTIONS'])]
+   	// public function allowActuality(Request $request): Response
+   	// {
+    //    $response = new Response(); // Action qui autorise le options
+    //    $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+    //    $response->headers->set('Access-Control-Allow-Origin', '*');
+    //    $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+    //    $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+    //    return $response;
+   	// }
 	
 	#[Route('/api/actualites', name: 'adminActualites', methods: ['GET'])]
 	public function adminActualitesAction(): Response
@@ -251,8 +213,6 @@ class AdminController extends AbstractController
 		$response = new Response();
 		$response->setStatusCode(Response::HTTP_OK);
 		$response->setContent(json_encode($actualites));
-		$response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
 		return $response;
 	}
 
@@ -279,8 +239,6 @@ class AdminController extends AbstractController
 			'Content-Type' => 'application/json',
 		]);
 		$response->setStatusCode(Response::HTTP_CREATED);
-		$response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
 		return $response;
 	}
 
@@ -299,8 +257,6 @@ class AdminController extends AbstractController
 			$response = new Response;
 			$response->setContent(json_encode(array(['message' => 'actualite ressource deleted: actualite was deleted ' . $idActualite])));
 			$response->setStatusCode(Response::HTTP_NO_CONTENT);
-			$response->headers->set('Content-Type', 'application/json'); 
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			
 			return $response;
 			// 204 No Content
@@ -308,8 +264,6 @@ class AdminController extends AbstractController
 		} else {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->headers->set('Content-Type', 'application/json'); 
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode(array(['message' => 'Resource not found: No actualite found for id ' . $idActualite])));
 			return $response;
 			// 404 Not Found
@@ -327,8 +281,6 @@ class AdminController extends AbstractController
 		if (!$data) {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
-			$response->headers->set('Content-Type', 'application/json');
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode(['message' => 'Invalid or missing JSON data']));
 			return $response;
 		}
@@ -346,8 +298,6 @@ class AdminController extends AbstractController
 	
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_OK);
-			$response->headers->set('Content-Type', 'application/json');
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode(['id_actualite' => $actualite->getId(), 'titre_a' => $actualite->getTitre(), 'description_a' => $actualite->getDescription(), 'date_a' => $actualite->getDate(), 'image_a' => $actualite->getImage()]), Response::HTTP_CREATED, [
 				'Content-Type' => 'application/json',
 			]);
@@ -356,25 +306,23 @@ class AdminController extends AbstractController
 		}else{
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->headers->set('Content-Type', 'application/json');
-			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idActualite]));
 			return $response;
 		}
 	}
 
 	/**-----------------------------------------PROJETS------------------------------------------------ */
-	#[Route('/api/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
-   	#[Route('/api/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
-   	public function allowProject(Request $request): Response
-   	{
-       $response = new Response(); // Action qui autorise le options
-       $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-       $response->headers->set('Access-Control-Allow-Origin', '*');
-       $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
-       $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
-       return $response;
-   	}
+	// #[Route('/api/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
+   	// #[Route('/api/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
+   	// public function allowProject(Request $request): Response
+   	// {
+    //    $response = new Response(); // Action qui autorise le options
+    //    $response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+    //    $response->headers->set('Access-Control-Allow-Origin', '*');
+    //    $response->headers->set('Access-Control-Allow-Methods', $request->headers->get('Access-Control-Request-Method'));
+    //    $response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
+    //    return $response;
+   	// }
 
 	#[Route('/api/projets', name: 'adminProjets', methods: ['GET'])]
 	public function adminProjetsAction(): Response

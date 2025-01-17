@@ -77,7 +77,6 @@ const slice = createSlice({
             state.errors.apiErrorUpdate = null;
         })
         .addCase(updateVolunteer.rejected, (state, action)=>{
-            //console.log(action.error.message);
             state.errors.apiErrorUpdate = action.payload;
         })
         .addCase(deleteVolunteer.pending, (state, action) => {
