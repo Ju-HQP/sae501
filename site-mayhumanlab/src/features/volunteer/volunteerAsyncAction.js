@@ -1,18 +1,38 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { URL_API_VOLUNTEERS } from '../../utils/config.js';
+import { URL_API_AUTH, URL_API_VOLUNTEERS } from '../../utils/config.js';
 
 //fonctions asynchrones pour communiquer avec l'api
+
+// const checkAuthStatus = async () => {
+//     const res = await fetch(URL_API_AUTH, {
+//         method: 'GET',
+//         credentials: 'include',
+//     });
+
+//     const data = await res.json();
+
+//     if (data.isAuthenticated) {
+//        return true; 
+//     }
+
+//     return false;
+// };
 
 export const loadVolunteer = createAsyncThunk(
     'benevoles/loadVolunteer',
     async (_, { rejectWithValue }) => {
+        // if(checkAuthStatus){
         try{
             const response = await fetch(URL_API_VOLUNTEERS, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include' // important pour conserver le cookie de session
             });
+            if (response.redirected){
+                return rejectWithValue("Vous n'êtes pas connecté");
+             }
             if (!response.ok) {
                 throw new Error(`Erreur HTTP : ${response.status}`);
             }
@@ -44,8 +64,12 @@ export const addVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include', // important pour conserver le cookie de session
                 body: JSON.stringify(datas)
             });
+            if (res.status === 403){
+                return rejectWithValue("Vous n'avez pas les autorisations requises pour effectuer cette action.");
+            }
             return await res.json();
         } catch (er) {
             return rejectWithValue(er.response.data.error.message)
@@ -62,6 +86,7 @@ export const updateVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include',
                 body: JSON.stringify(datas),
             });
             return await response.json();
@@ -80,6 +105,7 @@ export const deleteVolunteer = createAsyncThunk(
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials:'include',
             });
             return datas.id;
         }catch(errorJson){

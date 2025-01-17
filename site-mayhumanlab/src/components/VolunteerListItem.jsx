@@ -23,7 +23,6 @@ function VolunteerListItem({ volunteer, width }) {
         "Soudeur", "Graphiste", "Designeur"
     ]
 
-
     return (
         width < 1024
             ?
@@ -45,7 +44,9 @@ function VolunteerListItem({ volunteer, width }) {
             :
             <tr className="h-16">
                 <td className="text-center px-2">164574518456</td>
-                <td className="text-center px-2">hjgiguiiiuv</td>
+                <td className="flex justify-center">
+                    <p className="text-center px-2 rounded-full bg-slate-500 w-12 h-12"></p>
+                </td>
                 <td className="text-center px-2">{volunteer.prenom_b}</td>
                 <td className="text-center px-2">{volunteer.nom_b}</td>
                 <td className="text-center relative font-semibold p-2" onMouseOver={()=>{setIsDropdownOpen(true)}} onMouseLeave={()=>{setIsDropdownOpen(false)}}>
@@ -54,7 +55,7 @@ function VolunteerListItem({ volunteer, width }) {
                     isDropdownOpen
                     &&
                     <ul className="absolute top-0 left-0 right-0 bg-white z-10 rounded-lg shadow-md p-4 flex flex-col gap-2">
-                        {competences.map((comp, index)=><li key={`${comp}-${index}`} className="rounded-full px-4 bg-slate-300">{comp}</li>)}
+                        {competences.map((comp)=><li className="rounded-full px-4 py-2 bg-slate-300">{comp}</li>)}
                     </ul>
                 }
                     

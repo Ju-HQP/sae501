@@ -1,25 +1,44 @@
 security:
+    # Pour les mots de passe
     password_hashers:
-        # auto hasher with default options for the Benevole class (and children)
-        App\Entity\Benevole: 'auto'
-
-        # auto hasher with custom options for all PasswordAuthenticatedUserInterface instances
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-            algorithm: 'bcrypt'
-            # lvl of hashing, mini 4 pour le test, mais on indiquera 13 lors de la mise en prod
-            cost:  4 
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 
+             algorithm: 'bcrypt'
+             # lvl of hashing, mini 4 pour le test, mais on indiquera 13 lors de la mise en prod
+             cost:  8
+    # Fournisseurs d'utilisateurs
     providers:
-        benevoles_provider:
+        benevole_provider:
             entity:
                 class: App\Entity\Benevole
-                property: nom_b # ou mail_b si vous utilisez l'email comme identifiant
+                property: mail_b # Champ unique pour identifier l'utilisateur
 
+    # Définition des firewalls
     firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
         main:
-            provider: benevoles_provider
-            form_login:
-                login_path: app_login
+        
+            # lazy: true
+            provider: benevole_provider
+            custom_authenticators:
+                - App\Security\AppAuthenticator 
+            json_login:
                 check_path: app_login
             logout:
-                path: app_logout
+                path: /logout
+                target: /logout_msg
+                invalidate_session: true
+            entry_point: App\Security\AppAuthenticator
 
+    # Règles d'accès
+    access_control:
+        - { path: ^/csrf_token, roles: PUBLIC_ACCESS }
+        - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] } #accessible sans authentification
+        - { path: ^/api/actualites, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/projets, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/api, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER] #permet à l'admin d'hérité par défaut de tous les accès du user

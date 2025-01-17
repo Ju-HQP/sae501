@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
+use App\Repository\BenevoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Symfony\Bundle\MakerBundle\Str;
-
 // UserInterface pour la gestion du mot de passe
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: BenevoleRepository::class)]
 class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 { 
     #[ORM\Id]
@@ -30,7 +30,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255,name: 'mdp_b')]
     private ?string $mdp_b = null;
 
-    #[ORM\Column(length: 100,name: 'mail_b')]
+    #[ORM\Column(length: 100,name: 'mail_b', unique:true)]
     private ?string $mail_b = null;
 
     // nullable pour autoriser la valeur null
@@ -146,12 +146,21 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        return [$this->role_b];
+        // Convertir la valeur stockée en int dans role_b en rôle Symfony
+        $roles = [];
+        
+        if ($this->role_b === 1) {
+            $roles[] = 'ROLE_ADMIN'; // Administrateur
+        } else {
+            $roles[] = 'ROLE_USER'; // Utilisateur standard
+        }
+    
+        return array_unique($roles);
     }
     
-    public function setRoles(int $role): static
+    public function setRoles(int $roles): static
     {
-        $this->role_b = $role;
+        $this->role_b = $roles;
 
         return $this;
     }
@@ -159,7 +168,7 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         // Utilisez un identifiant unique, comme l'email ou le nom
-        return $this->nom_b;
+        return $this->mail_b;
     }
 
     public function eraseCredentials(): void

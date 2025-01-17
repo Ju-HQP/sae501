@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectErrorLoad,
   selectLoading,
   selectVolunteer,
 } from "../features/volunteer/volunteerSelector";
@@ -11,6 +12,7 @@ import Header from "../components/Header";
 function VolunteersChart() {
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
+  const errorLoading = useSelector(selectErrorLoad);
   const volunteerList = useSelector(selectVolunteer);
 
   useEffect(() => {
@@ -21,19 +23,20 @@ function VolunteersChart() {
     <>
       <Header />
       <main>
-      <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>Trombinoscope</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2">
-          {loading ? (
-            <p>Chargement des données...</p>
-          ) : (
-            volunteerList.map((volunteer, id) => (
-              <VolunteersChartItem
-                key={id}
-                volunteer={volunteer}
-              />
-            ))
-          )}
-        </div>
+        <h1 className="text-center my-6 font-bold text-2xl lg:text-4xl">
+          Trombinoscope
+        </h1>
+        {loading ? (
+          <p className="text-center">Chargement des données...</p>
+        ) : errorLoading ? (
+          <p className="text-center">{errorLoading}</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {volunteerList.map((volunteer, id) => (
+              <VolunteersChartItem key={id} volunteer={volunteer} />
+            ))}
+          </div>
+        )}
       </main>
     </>
   );
