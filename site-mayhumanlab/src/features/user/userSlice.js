@@ -39,6 +39,7 @@ const slice = createSlice({
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
                 state.userId = action.payload;
+                console.log(state.userId);
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;

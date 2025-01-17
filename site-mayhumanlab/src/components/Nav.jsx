@@ -173,6 +173,9 @@ function Nav() {
                   Déconnexion
                 </button>
               </li>
+              <li>
+                <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
+              </li>
             </ul>
           ) : (
             /**Nav pour les utilisateurs non connectés */
@@ -321,6 +324,9 @@ function Nav() {
                       >
                         Déconnexion
                       </button>
+                    </li>
+                    <li>
+                      <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
                     </li>
                   </ul>
                 </div>
