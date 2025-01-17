@@ -1,22 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { URL_API_AUTH, URL_API_VOLUNTEERS } from '../../utils/config.js';
+import { URL_API_VOLUNTEERS } from '../../utils/config.js';
 
 //fonctions asynchrones pour communiquer avec l'api
-
-// const checkAuthStatus = async () => {
-//     const res = await fetch(URL_API_AUTH, {
-//         method: 'GET',
-//         credentials: 'include',
-//     });
-
-//     const data = await res.json();
-
-//     if (data.isAuthenticated) {
-//        return true; 
-//     }
-
-//     return false;
-// };
 
 export const loadVolunteer = createAsyncThunk(
     'benevoles/loadVolunteer',
@@ -72,7 +57,7 @@ export const addVolunteer = createAsyncThunk(
                 body: JSON.stringify(datas)
             });
             if (res.status === 403){
-                return rejectWithValue("Vous n'avez pas les autorisations requises pour effectuer cette action.");
+                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
             }
             return await res.json();
         } catch (er) {
@@ -93,9 +78,12 @@ export const updateVolunteer = createAsyncThunk(
                 },
                 credentials:'include',
             });
+            if (response.status === 403){
+                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+            }
             return await response.json();
-        } catch (errorAxio){
-            return rejectWithValue(errorAxio.response.data.error.message);
+        } catch (error){
+            return rejectWithValue(error.response.data.error.message);
         };
     }
 )
@@ -112,6 +100,9 @@ export const deleteVolunteer = createAsyncThunk(
                 },
                 credentials:'include',
             });
+            if (response.status === 403){
+                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+            }
             return await response.json();
         }catch(errorAxio){
             return rejectWithValue(errorAxio.response.data.error.message);

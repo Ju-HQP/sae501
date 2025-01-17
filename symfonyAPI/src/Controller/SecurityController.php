@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
         $response = new Response();
         $response->setContent(json_encode(['message' => 'Identifiants invalides']));
         $response->headers->set('Content-Type', 'application/json');
-        $response->setStatusCode(Response::HTTP_UNAUTHORIZED); // 401 Error
+        $response->setStatusCode(Response::HTTP_UNAUTHORIZED); // 401 Error Pas authentifié
 
         return $response;
 
