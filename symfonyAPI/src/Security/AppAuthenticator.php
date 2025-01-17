@@ -2,6 +2,9 @@
 
 namespace App\Security;
 
+use App\Entity\Benevole;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface as LogLoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +27,12 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private LoggerInterface $logger) {}
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager, private UrlGeneratorInterface $urlGenerator, private LoggerInterface $logger)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function authenticate(Request $request): Passport
     {
@@ -61,8 +69,24 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         //     return new RedirectResponse('/admin/benevoles');
         // }
 
+        // Récupération de l'utilisateur (User)
+
+        $userMail = $token->getUserIdentifier();
+
+        $benevoleConnecte = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $userMail]);
+
         $response = new Response();
-        $response->setContent(json_encode(['message' => 'Connexion réussie']));
+        $benevoleInfos = [
+            'id_benevole' => $benevoleConnecte->getId(),
+            'nom_b' => $benevoleConnecte->getNom(),
+            'prenom_b' => $benevoleConnecte->getPrenom(),
+            'mail_b' => $benevoleConnecte->getMail(),
+            'tel_b' => $benevoleConnecte->getTel(),
+            'role_b' => $benevoleConnecte->getRoles()
+        ];
+
+        $response->setContent(json_encode(['message' => 'Connexion réussie', 'utilisateur' => $benevoleInfos]));
+
         $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode(Response::HTTP_OK);
 
