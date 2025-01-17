@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use App\Entity\Benevole;
 use App\Entity\Actualite;
 use App\Entity\Competence;
+use App\Entity\Projet;
 
 use Psr\Log\LoggerInterface;
 
@@ -121,6 +122,23 @@ class AppFixtures extends Fixture
             $manager->persist($actualite);
 
             $manager->flush();
+		}
+
+		if (count($manager->getRepository("App\Entity\Projet")->findAll()) == 0) {
+			
+			$projet = new Projet();
+            $projet->setTitre("Projet 1");
+            $projet->setDescription("Ceci est un essai numéro 1 pour les projets. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
+            $projet->setImage("imageProjet1.png");
+            $manager->persist($projet);
+
+            $projet = new Projet();
+            $projet->setTitre("Projet 2");
+            $projet->setDescription("Ceci est un essai numéro 2 pour les projets. Blabla blublabla bleblibla bla bloblibloblo blablabla blu.");
+            $projet->setImage("imageProjet2.png");
+            $manager->persist($projet);
+
+			$manager->flush();
 		}
 	}
 }

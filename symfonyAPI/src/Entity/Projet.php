@@ -27,13 +27,6 @@ class Projet
         return $this->id_projet;
     }
 
-    public function setId(string $id): ?string
-    {
-        $this->id_projet = $id;
-
-        return $this->id_projet;
-    }
-
     public function getTitre(): ?string
     {
         return $this->titre_p;

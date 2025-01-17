@@ -39,7 +39,6 @@ const actualiteSlice = createSlice({
         .addCase(loadActus.fulfilled, (state, action)=>{
             state.tabActus = action.payload;
             state.loading = false;
-            console.log(state.tabActus);
         })
         .addCase(loadActus.rejected, (state, action)=>{
             state.loading = false;
@@ -61,7 +60,6 @@ const actualiteSlice = createSlice({
             state.errors.apiErrorUpdate = null;
         })
         .addCase(updateActu.fulfilled, (state, action)=>{
-            console.log(action.payload);
             state.tabActus[state.tabActus.findIndex((actualite)=>state.idActu === actualite.id_actualite)] = action.payload;
             state.idActu = null;
             state.editActu = false;
