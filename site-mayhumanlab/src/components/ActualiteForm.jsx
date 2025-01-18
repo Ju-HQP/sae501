@@ -28,8 +28,8 @@ const ActualiteForm = () => {
     return (
         <div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
             <dialog open className="w-screen shadow-2xl rounded-lg relative p-4">
-                <div className="flex flex-col justify-center">
-                    <h2 className="text-2xl font-bold text-center mb-4">{title}</h2>
+                <div className="flex flex-col justify-center mt-8 lg:mt-10">
+                    <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">{title}</h2>
 
                     {errorSave && (
                         <div className="bg-red-100 text-red-700 p-3 rounded mb-4">

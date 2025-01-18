@@ -96,6 +96,15 @@ class AppFixtures extends Fixture
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
+			$benevole = new Benevole();
+			$benevole->setNom("Ben");
+			$benevole->setPrenom("Ben");
+			$benevole->setPassword("$2y$08\$Q7y54/MZNwi85tm2a/06TOgDvl3.wPJRvlAkDP9gLqrUH6eWGvTd6");
+			$benevole->setMail("ben@free.fr");
+			$benevole->setTel("0485956514");
+			$benevole->setRoles(0);
+			$manager->persist($benevole);
+
 			$manager->flush();
 		}
 
