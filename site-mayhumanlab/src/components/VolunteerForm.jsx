@@ -47,7 +47,6 @@ function VolunteerForm() {
 
     function handleExit() {
         dispatch(stopVolunteerEdit());
-        console.log(initialValues);
     }
 
     function handlePassChange() {

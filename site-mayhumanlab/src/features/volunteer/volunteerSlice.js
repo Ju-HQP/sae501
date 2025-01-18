@@ -80,7 +80,6 @@ const slice = createSlice({
             state.loading = false;
         })
         .addCase(updateVolunteer.rejected, (state, action)=>{
-            // Quand la mis à
             state.errors.apiErrorUpdate = action.payload;
             state.loading = false;
             state.volunteerModifying = true;

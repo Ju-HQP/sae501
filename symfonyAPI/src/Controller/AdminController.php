@@ -194,15 +194,19 @@ class AdminController extends AbstractController
 				//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
 				->setMail($data['mail_b'] ?? $benevole->getMail())
 				->setTel($data['tel_b'] ?? $benevole->getTel())
-				->setRoles($data['role_b'] ?? $benevole->getRoles());
+
+				// getRole renvoie l'int du rôle correspondant
+				
+				->setRoles($data['role_b'] ?? $benevole->getRole());
 			//  ->setComp($data[''] ?? $benevole->getComp())
 			//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
 			$this->entityManager->persist($benevole);
 			$this->entityManager->flush();
 
+
 			$response = new Response();
 			$response->setStatusCode(Response::HTTP_OK);
-			$response->setContent(json_encode(['id_benevole' => $benevole->getId(), 'nom_b' => $benevole->getNom(), 'prenom_b' => $benevole->getPrenom(), 'mail_b' => $benevole->getMail(), 'tel_b' => $benevole->getTel(), 'role_b' => $benevole->getRoles()]), Response::HTTP_CREATED, [
+			$response->setContent(json_encode(['id_benevole' => $benevole->getId(), 'nom_b' => $benevole->getNom(), 'prenom_b' => $benevole->getPrenom(), 'mail_b' => $benevole->getMail(), 'tel_b' => $benevole->getTel(), 'role_b' => $benevole->getRole()]), Response::HTTP_CREATED, [
 				'Content-Type' => 'application/json',
 			]);
 			return $response;
