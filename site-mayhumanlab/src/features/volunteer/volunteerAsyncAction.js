@@ -135,7 +135,12 @@ export const deleteVolunteer = createAsyncThunk(
             if (response.status === 204) {
                 return datas.id;
             }
+            if(response.status === 404){
+                const error = await response.json();
+                return rejectWithValue({message : error.message, id: datas.id});
+            }
         } catch (error) {
+            console.log("test");
             return rejectWithValue(error.response.data.error.message);
         };
     }

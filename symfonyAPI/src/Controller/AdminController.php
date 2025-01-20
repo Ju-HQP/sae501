@@ -152,7 +152,7 @@ class AdminController extends AbstractController
 		} else {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
+			$response->setContent(json_encode(['message' => 'Ce bénévole n\'existe pas ou a déjà été supprimé.']));
 			return $response;
 			// 404 Not Found
 		}
@@ -284,7 +284,7 @@ class AdminController extends AbstractController
 
 			//return new Response(null, 'actualite resource deleted' . $id); 
 			$response = new Response;
-			$response->setContent(json_encode(array(['message' => 'actualite ressource deleted: actualite was deleted ' . $idActualite])));
+			$response->setContent(json_encode(array(['message' => 'L\'actualité a bien été supprimée' . $idActualite])));
 			$response->setStatusCode(Response::HTTP_NO_CONTENT);
 
 			return $response;
@@ -293,7 +293,7 @@ class AdminController extends AbstractController
 		} else {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->setContent(json_encode(array(['message' => 'Resource not found: No actualite found for id ' . $idActualite])));
+			$response->setContent(json_encode(array(['message' => 'Cette actualité n\'existe pas ou a déjà été supprimée.'])));
 			return $response;
 			// 404 Not Found
 
@@ -433,7 +433,7 @@ class AdminController extends AbstractController
 
 			//return new Response(null, 'project resource deleted' . $id); 
 			$response = new Response;
-			$response->setContent(json_encode(array(['message' => 'project ressource deleted: project was deleted ' . $idProject])));
+			$response->setContent(json_encode(array(['message' => 'Ce projet n\'existe pas ou a déjà été supprimé.' . $idProject])));
 			$response->setStatusCode(Response::HTTP_NO_CONTENT);
 			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
@@ -446,7 +446,7 @@ class AdminController extends AbstractController
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
 			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
-			$response->setContent(json_encode(array(['message' => 'Resource not found: No project found for id ' . $idProject])));
+			$response->setContent(json_encode(array(['message' => 'Ce projet n\'existe pas ou a déjà été supprimé.'])));
 			return $response;
 			// 404 Not Found
 

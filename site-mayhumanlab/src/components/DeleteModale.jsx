@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIdVolunteerModifying } from '../features/volunteer/volunteerSelector';
+import { startVolunteerEdit, stopVolunteerEdit } from '../features/volunteer/volunteerSlice';
 
 function DeleteModale({ title, id, handleDelete }){
 
-    const [open, setOpen] = React.useState(false);
+    const dispatch = useDispatch();
+
+    const [open, setOpen] = useState(false);
+
+    const idDeleting = useSelector(selectIdVolunteerModifying);
 
     const handleClickOpen = () => {
+      dispatch(startVolunteerEdit(idDeleting));
       setOpen(true);
     };
   
     const handleClose = () => {
+      dispatch(stopVolunteerEdit());
       setOpen(false);
-    };
+     };
   
     const handleDeleteItem = () => {
       handleDelete(id);
-      setOpen(false);
+      dispatch(stopVolunteerEdit());
     };
   
     return (
