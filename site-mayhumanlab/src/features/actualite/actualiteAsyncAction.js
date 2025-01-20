@@ -54,7 +54,7 @@ export const addActu = createAsyncThunk(
             return await response.json();
         } catch (error) {
             const errorObj = {
-                message: error.message ?? "Désolé, l'ajout d'une actualité a rencontré une erreur.",
+                message: error.message ?? "Désolé, l'ajout de l'actualité a rencontré une erreur.",
                 dataSend: dataToSend
             }
             return rejectWithValue(errorObj);
@@ -84,7 +84,7 @@ export const updateActu = createAsyncThunk(
             return await response.json();
         } catch (error) {
             const errorObj = {
-                message: error.message ?? "Désolé, la mise à jour d'une actualité a rencontré une erreur.",
+                message: error.message ?? "Désolé, la mise à jour de l'actualité a rencontré une erreur.",
                 dataSend: dataToSend
             }
             return rejectWithValue(errorObj);

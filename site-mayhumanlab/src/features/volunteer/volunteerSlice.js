@@ -35,7 +35,7 @@ const slice = createSlice({
             state.idVolunteerModifying = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
-            state.dataSend = [];
+            state.dataSend = {};
         },
         resetDatas(state, action){
             state.volunteers = [];
@@ -56,14 +56,14 @@ const slice = createSlice({
                 state.loading = false;
                 state.errors.apiErrorLoad = action.payload;
             })
+            .addCase(addVolunteer.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(addVolunteer.fulfilled, (state, action) => {
                 state.volunteers = [...state.volunteers, action.payload];
                 state.volunteerModifying = false;
                 state.loading = false;
-                state.dataSend = [];
-            })
-            .addCase(addVolunteer.pending, (state, action) => {
-                state.loading = true;
+                state.dataSend = {};
             })
             .addCase(addVolunteer.rejected, (state, action) => {
                 state.errors.apiErrorAdd = action.payload.message;
@@ -82,7 +82,7 @@ const slice = createSlice({
             state.volunteerModifying = false;
             state.errors.apiErrorUpdate = null;
             state.loading = false;
-            state.dataSend = [];
+            state.dataSend = {};
         })
         .addCase(updateVolunteer.rejected, (state, action)=>{
             state.errors.apiErrorUpdate = action.payload.message;

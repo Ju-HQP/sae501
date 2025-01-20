@@ -75,7 +75,7 @@ export const addVolunteer = createAsyncThunk(
         } catch (error) {
             // création de l'objet errorObj pour transmettre les données écrites précédemment
             const errorObj = {
-                message: error.message ?? "Désolé, l'ajout d'un bénévole a rencontré une erreur.",
+                message: error.message ?? "Désolé, l'ajout du bénévole a rencontré une erreur.",
                 dataSend: datas
             }
             return rejectWithValue(errorObj);
@@ -108,7 +108,7 @@ export const updateVolunteer = createAsyncThunk(
         } catch (error) {
             // création de l'objet errorObj pour transmettre les données écrites précédemment
             const errorObj = {
-                message: error.message ?? "Désolé, la mise à jour d'un bénévole a rencontré une erreur.",
+                message: error.message ?? "Désolé, la mise à jour du bénévole a rencontré une erreur.",
                 dataSend: datas
             }
             return rejectWithValue(errorObj);
