@@ -12,7 +12,7 @@ const slice = createSlice({
     initialState: {
         connected: false,
         isConnecting: false,
-        userId:null,
+        userInfos:null,
         isAdmin: false,
         errors: {
             apiErrorLogin: null,
@@ -38,8 +38,8 @@ const slice = createSlice({
                 state.connected = true;
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
-                state.userId = action.payload;
-                console.log(state.userId);
+                state.userInfos = action.payload.utilisateur;
+                console.log(state.userInfos);
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;
@@ -48,7 +48,7 @@ const slice = createSlice({
             .addCase(logout.fulfilled, (state, action) => {
                 state.connected = false;
                 state.isAdmin = false;
-                state.userId = null;
+                state.userInfos = null;
                 state.errors.apiErrorLogout = null;
             })
             .addCase(logout.pending, (state, action) => {

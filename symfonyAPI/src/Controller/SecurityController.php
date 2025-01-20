@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Benevole;
+use Doctrine\Common\Lexer\Token;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -124,9 +128,24 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/auth', name: 'api_auth', methods: ['GET'])]
-    public function authStatus(Security $security): JsonResponse
+    public function authStatus(Security $security, EntityManager $entityManager): JsonResponse
     {
         $user = $security->getUser();
+        $mail = $user->getUserIdentifier();
+
+        $benevoleConnecte = $entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $mail]);
+
+        $response = new Response();
+        $benevoleInfos = [
+            'id_benevole' => $benevoleConnecte->getId(),
+            'nom_b' => $benevoleConnecte->getNom(),
+            'prenom_b' => $benevoleConnecte->getPrenom(),
+            'mail_b' => $benevoleConnecte->getMail(),
+            'tel_b' => $benevoleConnecte->getTel(),
+            'role_b' => $benevoleConnecte->getRoles()
+        ];
+
+        $response->setContent(json_encode(['message' => 'Connexion réussie', 'utilisateur' => $benevoleInfos]));
 
         if (!$user) {
             return new JsonResponse(['isAuthenticated' => false], 404);
