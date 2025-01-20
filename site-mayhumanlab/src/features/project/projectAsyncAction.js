@@ -44,16 +44,30 @@ export const addProject = createAsyncThunk(
                 body: JSON.stringify(dataToSend),
                 credentials: 'include'
             });
+            if (response.status === 403) {
+                throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+            }
+            if (response.status === 409) { // Conflit avec les autres données
+                const error = await response.json();
+                throw new Error(error.message);
+            }
             return await response.json();
         } catch (error) {
-            return rejectWithValue("Erreur lors de l'ajout du projet.");
+            // création de l'objet errorObj pour transmettre les données écrites précédemment
+            const errorObj = {
+                message: error.message ?? "Désolé, l'ajout du projet a rencontré une erreur.",
+                dataSend: dataToSend
+            }
+            return rejectWithValue(errorObj);
         }
     }
 )
 
 export const updateProject = createAsyncThunk(
     'projects/updateProject',
-    async (dataToSend, {rejectWithValue}) => {
+    async (dataToSend, {
+        rejectWithValue
+    }) => {
         try {
             const response = await fetch(`${URL_API_PROJECTS}/${dataToSend.id_projet}`, {
                 method: 'PUT',
@@ -63,16 +77,31 @@ export const updateProject = createAsyncThunk(
                 body: JSON.stringify(dataToSend),
                 credentials: 'include'
             });
+            if (response.status === 403) {
+                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+            }
+            if (response.status === 409) { // Conflit avec les autres données
+                const error = await response.json();
+                throw new Error(error.message);
+            }
             return await response.json();
         } catch (error) {
-            return rejectWithValue("Erreur lors de la modification du projet.");
+            // création de l'objet errorObj pour transmettre les données écrites précédemment
+            const errorObj = {
+                message: error.message ?? "Désolé, la mise à jour du projet a rencontré une erreur.",
+                dataSend: dataToSend
+            }
+            return rejectWithValue(errorObj);
         }
     }
 )
 
 export const saveProject = createAsyncThunk(
     'projects/saveProject',
-    async (dataToSend, {dispatch,getState}) => {
+    async (dataToSend, {
+        dispatch,
+        getState
+    }) => {
         try {
             if (getState().project.idProject) {
                 dispatch(updateProject(dataToSend));
@@ -87,7 +116,9 @@ export const saveProject = createAsyncThunk(
 
 export const deleteProject = createAsyncThunk(
     'projects/deleteProject',
-    async (dataToSend, {rejectWithValue}) => {
+    async (dataToSend, {
+        rejectWithValue
+    }) => {
         try {
             const response = await fetch(`${URL_API_PROJECTS}/${dataToSend.id}`, {
                 method: 'DELETE',

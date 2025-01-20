@@ -5,6 +5,7 @@ export const selectTotalActus = (state) => state.actualite.tabActus.length;
 export const selectLoadingActu = (state) => state.actualite.loading;
 export const selectEditActu = (state) => state.actualite.editActu;
 export const selectIdActu = (state) => state.actualite.idActu;
+export const selectDatasSend = (state) => state.actualite.dataSend;
 
 export const selectErrorLoadActu = (state) => state.actualite.errors.apiErrorLoad;
 export const selectErrorAddActu = (state) => state.actualite.errors.apiErrorAdd;
@@ -24,11 +25,19 @@ export const selectFormTitle = createSelector(
 export const selectInitialFormValues = createSelector(
     selectActus,
     selectIdActu,
-    (actualites, id) => {
+    selectDatasSend,
+    (actualites, id, datas) => {
         if (!id) {
+            if (Object.keys(datas).length > 0) {
+                return datas;
+            }
             return null;
+        } else{
+            if (Object.keys(datas).length > 0) { // si l'objet data à une d
+                return datas;
+            }
+            return actualites.find(actualite => actualite.id_actualite === id) || null;
         }
-        return actualites.find(actualite => actualite.id_actualite === id) || null;
     }
 )
 

@@ -5,6 +5,7 @@ export const selectTotalProjects = (state) => state.project.tabProjects.length;
 export const selectLoadingProject = (state) => state.project.loading;
 export const selectEditProject = (state) => state.project.editProject;
 export const selectIdProject = (state) => state.project.idProject;
+export const selectDatasSend = (state) => state.project.dataSend;
 
 export const selectErrorLoadProject = (state) => state.project.errors.apiErrorLoad;
 export const selectErrorAddProject = (state) => state.project.errors.apiErrorAdd;
@@ -24,11 +25,19 @@ export const selectFormTitle = createSelector(
 export const selectInitialFormValues = createSelector(
     selectProjects,
     selectIdProject,
-    (projects, id) => {
+    selectDatasSend,
+    (projects, id, datas) => {
         if (!id) {
+            if (Object.keys(datas).length > 0) {
+                return datas;
+            }
             return null;
+        }else{
+            if (Object.keys(datas).length > 0) { // si l'objet data à une d
+                return datas;
+            }
+            return projects.find(project => project.id_projet === id) || null;
         }
-        return projects.find(project => project.id_projet === id) || null;
     }
 )
 

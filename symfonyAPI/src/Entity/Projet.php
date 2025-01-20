@@ -13,7 +13,7 @@ class Projet
     #[ORM\Column(name: "id_projet")]
     private int $id_projet;
 
-    #[ORM\Column(length: 200, name: 'titre_p')]
+    #[ORM\Column(length: 200, name: 'titre_p', unique:true)]
     private ?string $titre_p = null;
 
     #[ORM\Column(type:'text', length:65535, name: 'description_p')]

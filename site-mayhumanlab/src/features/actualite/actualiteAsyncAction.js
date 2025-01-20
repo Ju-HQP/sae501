@@ -45,11 +45,19 @@ export const addActu = createAsyncThunk(
                 credentials: 'include'
             });
             if (response.status === 403){
-                throw new Error('Désolé, vous n\'avez pas les autorisations requises.');
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
+            }
+            if (response.status === 409) { // Conflit avec les autres données
+                const error = await response.json();
+                throw new Error(error.message);
             }
             return await response.json();
         } catch (error) {
-            return rejectWithValue(error.message);
+            const errorObj = {
+                message: error.message ?? "Désolé, l'ajout de l'actualité a rencontré une erreur.",
+                dataSend: dataToSend
+            }
+            return rejectWithValue(errorObj);
         }
     }
 )
@@ -69,9 +77,17 @@ export const updateActu = createAsyncThunk(
             if (response.status === 403){
                 return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
             }
+            if (response.status === 409) { // Conflit avec les autres données
+                const error = await response.json();
+                throw new Error(error.message);
+            }
             return await response.json();
         } catch (error) {
-            return rejectWithValue("Erreur lors de la modification de l'actualité.");
+            const errorObj = {
+                message: error.message ?? "Désolé, la mise à jour de l'actualité a rencontré une erreur.",
+                dataSend: dataToSend
+            }
+            return rejectWithValue(errorObj);
         }
     }
 )

@@ -9,6 +9,7 @@ const projectSlice = createSlice({
         admin: true,
         editProject : false,
         idProject : null,
+        dataSend:{},//objet vide
         errors: {
             apiErrorLoad: null,
             apiErrorAdd: null,
@@ -27,6 +28,7 @@ const projectSlice = createSlice({
             state.idProject = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.dataSend = {};
         }
     },
 
@@ -51,9 +53,13 @@ const projectSlice = createSlice({
         .addCase(addProject.fulfilled, (state, action)=>{
             state.tabProjects.push(action.payload);
             state.editProject = false;
+            state.dataSend = {};
         })
         .addCase(addProject.rejected, (state, action)=>{
-            state.errors.apiErrorAdd = action.payload;
+            state.errors.apiErrorAdd = action.payload.message;
+            state.dataSend = action.payload.dataSend;
+            state.editProject = true;
+            startEditProject();
         })
 
         .addCase(updateProject.pending, (state) => {
@@ -63,11 +69,16 @@ const projectSlice = createSlice({
             state.tabProjects[state.tabProjects.findIndex((project)=>state.idProject === project.id_projet)] = action.payload;
             state.idProject = null;
             state.editProject = false;
+            state.errors.apiErrorUpdate = null;
+            state.loading = false;
+            state.dataSend = {};
         })
         .addCase(updateProject.rejected, (state, action)=>{
-            state.errors.apiErrorUpdate = action.payload;
+            state.errors.apiErrorUpdate = action.payload.message;
+            state.dataSend = action.payload.dataSend;
+            state.editProject = true;
+            startEditProject(state.idProject);
         })
-
         .addCase(deleteProject.pending, (state) => {
             state.errors.apiErrorDelete = null;
         })
@@ -75,7 +86,6 @@ const projectSlice = createSlice({
             const index = state.tabProjects.findIndex((project) => project.id_projet === Number(action.payload));
             state.tabProjects.splice(index,1);
         })
-
         .addCase(deleteProject.rejected, (state, action)=>{
             state.errors.apiErrorDelete = action.payload;
         })

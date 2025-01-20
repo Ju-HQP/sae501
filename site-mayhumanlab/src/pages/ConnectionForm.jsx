@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { stopConnecting } from "../features/user/userSlice";
 import { Field, Form } from "react-final-form";
-import {
-  required,
-} from "../utils/validators";
+import { required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { login } from "../features/user/connexion.js";
 import { selectErrorLogin } from "../features/user/userSelector.js";
@@ -28,23 +26,20 @@ function ConnectionForm() {
           onClose={handleExit}
           className="w-full md:w-7/12 shadow-2xl rounded-lg relative px-4 mx-2"
         >
-          <span className="flex justify-center flex-col items-center mt-8 lg:mt-12">
-            <h2 className="text-2xl font-bold text-center md:text-4xl">
+          <span className="flex justify-center flex-col mt-8 lg:mt-12">
+            <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">
               Connexion
             </h2>
-            {errorLogin ?
-            <div className="flex px-2">
-            <ExclamationTriangleIcon className="w-6 text-red-900" />
-            <p className="text-red-900 text-sm p-2">
-              {errorLogin}
-            </p>
-          </div> : ""}
+            {errorLogin && (
+              <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+                {errorLogin}
+              </div>
+            )}
             <Form
               onSubmit={handleSubmit}
               render={({ handleSubmit }) => (
                 <form
                   onSubmit={handleSubmit}
-                  className="my-4 px-2 w-4/5 lg:px-8"
                 >
                   <Field
                     validate={required}

@@ -15,6 +15,7 @@ const slice = createSlice({
         volunteerModifying: false,
         idVolunteerModifying: null,
         idVolunteerDeleting: null,
+        dataSend:{},//objet vide
         errors: {
             apiErrorLoad: null,
             apiErrorAdd: null,
@@ -34,6 +35,7 @@ const slice = createSlice({
             state.idVolunteerModifying = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.dataSend = {};
         },
         resetDatas(state, action){
             state.volunteers = [];
@@ -54,16 +56,18 @@ const slice = createSlice({
                 state.loading = false;
                 state.errors.apiErrorLoad = action.payload;
             })
+            .addCase(addVolunteer.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(addVolunteer.fulfilled, (state, action) => {
                 state.volunteers = [...state.volunteers, action.payload];
                 state.volunteerModifying = false;
                 state.loading = false;
-            })
-            .addCase(addVolunteer.pending, (state, action) => {
-                state.loading = true;
+                state.dataSend = {};
             })
             .addCase(addVolunteer.rejected, (state, action) => {
-                state.errors.apiErrorAdd = action.payload;
+                state.errors.apiErrorAdd = action.payload.message;
+                state.dataSend = action.payload.dataSend;
                 state.loading = false;
                 state.volunteerModifying = true;
                 startVolunteerEdit();
@@ -78,10 +82,11 @@ const slice = createSlice({
             state.volunteerModifying = false;
             state.errors.apiErrorUpdate = null;
             state.loading = false;
+            state.dataSend = {};
         })
         .addCase(updateVolunteer.rejected, (state, action)=>{
-            // Quand la mis à
-            state.errors.apiErrorUpdate = action.payload;
+            state.errors.apiErrorUpdate = action.payload.message;
+            state.dataSend = action.payload.dataSend;
             state.loading = false;
             state.volunteerModifying = true;
             startVolunteerEdit(state.idVolunteerModifying);

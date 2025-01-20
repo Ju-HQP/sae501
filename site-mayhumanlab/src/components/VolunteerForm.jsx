@@ -47,7 +47,6 @@ function VolunteerForm() {
 
     function handleExit() {
         dispatch(stopVolunteerEdit());
-        console.log(initialValues);
     }
 
     function handlePassChange() {
@@ -75,15 +74,13 @@ function VolunteerForm() {
                         className="w-screen shadow-2xl rounded-lg relative px-4 md:m-12 lg:mx-32"
                     >
                         <span className="flex justify-center flex-col mt-8 lg:mt-12">
-                            <h2 className="text-2xl font-bold text-center md:text-4xl">
+                            <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">
                                 {title}
                             </h2>
-                            {errorSave ? (
+                            {errorSave && (
                                 <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
                                     {errorSave}
                                 </div>
-                            ) : (
-                                ""
                             )}
                             <Form
                                 initialValues={initialValues}
