@@ -254,6 +254,17 @@ class AdminController extends AbstractController
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
 
+		$titreActu = $data["titre_a"];
+
+		$actuWithTitle = $this->entityManager->getRepository(Actualite::class)->findOneBy(['titre_a' => $titreActu]);
+
+		if ($actuWithTitle) {
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_CONFLICT);
+			$response->setContent(json_encode(['message' => 'Le titre de l\'actualité est déjà utilisé. Veuillez réessayer avec un autre titre.']));
+			return $response;
+		}
+
 		$actualite = new Actualite();
 		$actualite->setTitre($data['titre_a'] ?? '')
 			->setDescription($data['description_a'] ?? '')
@@ -316,6 +327,23 @@ class AdminController extends AbstractController
 		$actualite = $this->entityManager->getRepository(Actualite::class)->find($idActualite);
 
 		if ($actualite) {
+
+			$titreActu = $data["titre_a"];
+
+			// Cas où le titre mis à jour est différent du titre actuel du bénévole ->
+			if ($titreActu !== $actualite->getTitre()) {
+
+				// Et où une actu aurait déjà ce titre
+				$actuWithTitle = $this->entityManager->getRepository(Actualite::class)->findOneBy(['titre_a' => $titreActu]);
+
+				if ($actuWithTitle) {
+					$response = new Response();
+					$response->setStatusCode(Response::HTTP_CONFLICT);
+					$response->setContent(json_encode(['message' => 'Le titre de l\'actualité est déjà utilisé. Veuillez réessayer avec un autre titre.']));
+					return $response;
+				}
+			}
+
 			$actualite->setTitre($data['titre_a'] ?? $actualite->getTitre())
 				->setDescription($data['description_a'] ?? $actualite->getDescription())
 				->setDate($data['date_a'] ?? $actualite->getDate())

@@ -13,7 +13,7 @@ class Actualite
     #[ORM\Column(name: "id_actualite")]
     private int $id_actualite;
 
-    #[ORM\Column(length: 200, name: 'titre_a')]
+    #[ORM\Column(length: 200, name: 'titre_a', unique:true)]
     private ?string $titre_a = null;
 
     #[ORM\Column(type:'text', length:65535, name: 'description_a')]
