@@ -60,6 +60,8 @@ const slice = createSlice({
             // Fonction pour palier le reload de la page qui reset les states
             .addCase(getAuth.fulfilled, (state, action) => {
                state.connected = true;
+               state.userInfos = action.payload.utilisateur;
+               console.log(action.payload);
             })
             // A compléter pour la page profil (modif)
     }
