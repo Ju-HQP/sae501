@@ -39,7 +39,6 @@ const slice = createSlice({
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
                 state.userInfos = action.payload.utilisateur;
-                console.log(state.userInfos);
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;
@@ -61,7 +60,6 @@ const slice = createSlice({
             .addCase(getAuth.fulfilled, (state, action) => {
                state.connected = true;
                state.userInfos = action.payload.utilisateur;
-               console.log(action.payload);
             })
             // A compléter pour la page profil (modif)
     }
