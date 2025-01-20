@@ -54,7 +54,7 @@ function SiteGestion(){
     dispatch(loadProjects());
     window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [dispatch]);
 
   return(
   <>

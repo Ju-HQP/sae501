@@ -100,7 +100,7 @@ const slice = createSlice({
             state.errors.apiErrorDelete = null;
         })
         .addCase(deleteVolunteer.rejected, (state, action)=>{
-            state.errors.apiErrorDelete = action.payload;
+            state.errors.apiErrorDelete = action.payload.message;
         })
     }
 })

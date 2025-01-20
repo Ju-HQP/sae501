@@ -44,11 +44,11 @@ export const addProject = createAsyncThunk(
                 body: JSON.stringify(dataToSend),
                 credentials: 'include'
             });
-            if (res.status === 403) {
+            if (response.status === 403) {
                 throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
             }
-            if (res.status === 409) { // Conflit avec les autres données
-                const error = await res.json();
+            if (response.status === 409) { // Conflit avec les autres données
+                const error = await response.json();
                 throw new Error(error.message);
             }
             return await response.json();
@@ -56,7 +56,7 @@ export const addProject = createAsyncThunk(
             // création de l'objet errorObj pour transmettre les données écrites précédemment
             const errorObj = {
                 message: error.message ?? "Désolé, l'ajout du projet a rencontré une erreur.",
-                dataSend: datas
+                dataSend: dataToSend
             }
             return rejectWithValue(errorObj);
         }
@@ -89,7 +89,7 @@ export const updateProject = createAsyncThunk(
             // création de l'objet errorObj pour transmettre les données écrites précédemment
             const errorObj = {
                 message: error.message ?? "Désolé, la mise à jour du projet a rencontré une erreur.",
-                dataSend: datas
+                dataSend: dataToSend
             }
             return rejectWithValue(errorObj);
         }
