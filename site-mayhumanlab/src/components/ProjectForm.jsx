@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stopEditProject } from '../features/project/projectSlice';
 import { saveProject } from '../features/project/projectAsyncAction';
 import { selectErrorSave, selectFormTitle, selectInitialFormValues } from '../features/project/projectSelector';
+import { required } from '../utils/validators';
 
 const ProjectForm = () => {
 
@@ -42,6 +43,7 @@ const ProjectForm = () => {
                         render={({ handleSubmit }) => (
                             <form onSubmit={handleSubmit}>
                                 <Field
+                                    validate={required}
                                     name="titre_p"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
@@ -61,6 +63,7 @@ const ProjectForm = () => {
                                 />
 
                                 <Field
+                                    validate={required}
                                     name="image_p"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
@@ -80,6 +83,7 @@ const ProjectForm = () => {
                                 />
 
                                 <Field
+                                    validate={required}
                                     name="description_p"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">

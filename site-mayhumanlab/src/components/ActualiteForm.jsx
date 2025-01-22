@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stopEditActu } from '../features/actualite/actualiteSlice';
 import { saveActu } from '../features/actualite/actualiteAsyncAction';
 import { selectErrorSave, selectFormTitle, selectInitialFormValues } from '../features/actualite/actualiteSelector';
+import { required } from '../utils/validators';
 
 const ActualiteForm = () => {
 
@@ -42,6 +43,7 @@ const ActualiteForm = () => {
                         render={({ handleSubmit }) => (
                             <form onSubmit={handleSubmit}>
                                 <Field
+                                    validate={required}
                                     name="titre_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
@@ -61,6 +63,7 @@ const ActualiteForm = () => {
                                 />
 
                                 <Field
+                                    validate={required}
                                     name="image_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
@@ -80,6 +83,7 @@ const ActualiteForm = () => {
                                 />
 
                                 <Field
+                                    validate={required}
                                     name="description_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
@@ -99,6 +103,7 @@ const ActualiteForm = () => {
                                 />
 
                                 <Field
+                                    validate={required}
                                     name="date_a"
                                     render={({ input, meta }) => (
                                         <div className="flex flex-col">
