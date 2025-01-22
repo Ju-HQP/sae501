@@ -13,6 +13,7 @@ import { deleteProject, loadProjects } from "../features/project/projectAsyncAct
 import ProjectForm from "../components/ProjectForm";
 import { startEditProject } from "../features/project/projectSlice";
 import ProjectRow from "../components/ProjectRow";
+import Footer from "../components/Footer";
 
 function SiteGestion(){
     
@@ -165,6 +166,7 @@ function SiteGestion(){
         }
 
       </main>
+      <Footer contactVisible={false}/>
   </>)
 
 };
