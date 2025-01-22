@@ -6,7 +6,6 @@ import { useState } from "react";
 import { combineValidators, phoneValidated, required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Select from 'react-select';
-import ImageUpload from "./ImageUpload";
 import { selectLoading } from "../features/volunteer/volunteerSelector";
 import FileInputWithPreview from "./FileInputWithPreview";
 
@@ -64,18 +63,6 @@ function VolunteerForm() {
                                     onSubmit={handleSubmit}
                                     render={({ handleSubmit }) => (
                                         <form onSubmit={handleSubmit} className="my-4 px-2 md:grid grid-cols-2 lg:px-8" enctype="multipart/form-data">
-                                            {/* <Field
-                                                validate=''
-                                                name="photo_b"
-                                                 render={({ input, meta }) => (
-
-                                                    <div className="flex flex-col justify-center items-center col-span-2 md:mb-4">
-                                                        <label htmlFor='photo_b' className="font-semibold">Photo de profil</label>
-                                                        <ImageUpload {...input} avatarURL={avatarURL} setAvatarURL={setAvatarURL} />
-                                                    </div>
-                                                )}
-                                            >
-                                            </Field> */}
                                             <Field name="photo_b" id="photo_b" component={FileInputWithPreview} />
                                             <Field
                                                 validate={required}

@@ -56,7 +56,7 @@ export const addVolunteer = createAsyncThunk(
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'multipart/form-data ; boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
+                    'Content-Type': 'multipart/form-data',
                 },
                 body: datas
             });

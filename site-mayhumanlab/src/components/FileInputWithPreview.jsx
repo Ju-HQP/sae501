@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-const FileInputWithPreview = ({ input, meta }) => { //récuperer en parametre la photo de profil de base pour la modification
+const FileInputWithPreview = ({ input, meta }) => {
   var file;
   const [preview, setPreview] = useState("/default-user.png");
   const fileUploadRef = useRef();
