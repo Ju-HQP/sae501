@@ -37,6 +37,7 @@ function Nav() {
   }
 
   const handleDisconnecting = async () => {
+    navigate("/");
     dispatch(logout());
   };
 
@@ -168,10 +169,13 @@ function Nav() {
               <li className="my-3">
                 <button
                   onClick={handleDisconnecting}
-                  className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                  className="secondary-btn-small"
                 >
                   Déconnexion
                 </button>
+              </li>
+              <li>
+                <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
               </li>
             </ul>
           ) : (
@@ -198,7 +202,7 @@ function Nav() {
               <li className="my-3">
                 <button
                   onClick={handleConnecting}
-                  className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                  className=" primary-btn-small"
                 >
                   Connexion
                 </button>
@@ -317,10 +321,13 @@ function Nav() {
                     <li className="my-3">
                       <button
                         onClick={handleDisconnecting}
-                        className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                        className="secondary-btn-small"
                       >
                         Déconnexion
                       </button>
+                    </li>
+                    <li>
+                      <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
                     </li>
                   </ul>
                 </div>
@@ -382,7 +389,7 @@ function Nav() {
                     <li className="my-3">
                       <button
                         onClick={handleConnecting}
-                        className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                        className="primary-btn-small"
                       >
                         Connexion
                       </button>
