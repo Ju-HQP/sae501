@@ -37,6 +37,7 @@ function Nav() {
   }
 
   const handleDisconnecting = async () => {
+    navigate("/");
     dispatch(logout());
   };
 
