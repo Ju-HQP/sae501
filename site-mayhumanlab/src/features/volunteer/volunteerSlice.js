@@ -26,6 +26,7 @@ const slice = createSlice({
         startVolunteerEdit(state, action) {
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.errors.apiErrorDelete = null;
             state.volunteerModifying = true;
             state.idVolunteerModifying = action.payload;
         },

@@ -93,13 +93,11 @@ function VolunteerListItem({ volunteer, width }) {
           id={volunteer.id_benevole}
           deleteEntityById={handleDeleteVolunteer}
         ></DeleteButton>
-        {errorDelete? (
-          <div className="absolute bottom-0 right-0 bg-red-100 text-red-700 p-3 rounded mb-4">
+        {errorDelete &&
+          <div className="fixed top-40 left-0 bg-red-100 text-red-700 p-3 rounded mb-4">
             {errorDelete}
           </div>
-        ) : (
-          ""
-        )}
+        }
       </td>
     </tr>
   );

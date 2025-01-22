@@ -1,14 +1,14 @@
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import ActualiteForm from "../components/ActualiteForm";
-import { selectEditActu, selectLoadingActu } from "../features/actualite/actualiteSelector";
+import { selectEditActu, selectErrorDeleteActu, selectLoadingActu } from "../features/actualite/actualiteSelector";
 import { loadActus } from "../features/actualite/actualiteAsyncAction";
 import { useEffect, useState } from "react";
 import { selectSortedActusByReleaseDate } from "../features/actualite/actualiteSelector";
 import { startEditActu } from '../features/actualite/actualiteSlice';
 import { deleteActu } from "../features/actualite/actualiteAsyncAction";
 import ActualiteRow from "../components/ActualiteRow";
-import { selectEditProject, selectLoadingProject, selectSortedProjectsByTitle } from "../features/project/projectSelector";
+import { selectEditProject, selectErrorDeleteProject, selectLoadingProject, selectSortedProjectsByTitle } from "../features/project/projectSelector";
 import { deleteProject, loadProjects } from "../features/project/projectAsyncAction";
 import ProjectForm from "../components/ProjectForm";
 import { startEditProject } from "../features/project/projectSlice";
@@ -21,6 +21,8 @@ function SiteGestion(){
 
   const editActu = useSelector(selectEditActu);
   const loadingActu = useSelector(selectLoadingActu);
+  const errorDeleteProject = useSelector(selectErrorDeleteProject);
+  const errorDeleteActu = useSelector(selectErrorDeleteActu);
   const listeActualite = useSelector(selectSortedActusByReleaseDate);
 
   const editProject = useSelector(selectEditProject);
@@ -69,7 +71,16 @@ function SiteGestion(){
             Créer une nouvelle actualité
           </button>
         </div>
-        
+        {errorDeleteActu &&
+          <div className="fixed top-40 left-0 bg-red-100 text-red-700 p-3 rounded mb-4">
+            {errorDeleteActu}
+          </div>
+        }
+        {errorDeleteProject &&
+          <div className="fixed top-56 left-0 bg-red-100 text-red-700 p-3 rounded mb-4">
+            {errorDeleteProject}
+          </div>
+        }
         {editActu ? <ActualiteForm/> : null}
 
         {loadingActu 

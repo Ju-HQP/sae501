@@ -141,7 +141,7 @@ export const deleteVolunteer = createAsyncThunk(
             }
         } catch (error) {
            console.log("delete catch error");
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message?? "Erreur lors de la suppression du bénévole.");
         };
     }
 )
