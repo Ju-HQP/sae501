@@ -64,14 +64,7 @@ function SiteGestion(){
         
       <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>Gestion du site</h1>
         
-
-        <div className='w-full flex justify-end'>
-          <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
-            Créer une nouvelle actualité
-          </button>
-        </div>
-        
-        {editActu ? <ActualiteForm/> : null}
+        {editActu && <ActualiteForm/>}
 
         {loadingActu 
         
@@ -81,29 +74,35 @@ function SiteGestion(){
 
           width < 1024 
           ?
-            <table className='mt-8 w-11/12 min-w-fit'>
-              <thead className='h-16'>
-                <tr>
-                  <th>Titre</th>
-                  <th>Date</th>
-                  <th>Image</th>
-                  <th className='text-end'>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
+            <div>
+              <div className='w-full flex justify-between mt-14'>
+                <h3 className="font-montserrat font-extralight text-3xl text-center">Actualités</h3>
+                <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+                  +
+                </button>
+              </div>
+
               {listeActualite.map((actualite) => (
                 <ActualiteRow key={actualite.id_actualite} actualite={actualite} handleDelete={handleDeleteActu} width={width}/>
               ))}
-              </tbody>
-            </table>
+            </div>
           :
-            <table className='mt-8 w-11/12 min-w-fit'>
+
+          <div className='w-full px-14'>
+            <div className='w-full flex justify-between mt-14'>
+              <h3 className="font-montserrat font-extralight text-3xl text-center">Actualités</h3>
+              <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+                Créer une nouvelle actualité
+              </button>
+            </div>
+
+            <table className='mt-8 w-full min-w-fit'>
               <thead className='h-16'>
                 <tr>
-                  <th>Titre</th>
-                  <th>Date</th>
-                  <th>Image</th>
-                  <th>Description</th>
+                  <th className='px-2'>Titre</th>
+                  <th className='px-2'>Date</th>
+                  <th className='px-2'>Image</th>
+                  <th className='px-2'>Description</th>
                   <th className='text-end'>Actions</th>
                 </tr>
               </thead>
@@ -113,17 +112,11 @@ function SiteGestion(){
               ))}
               </tbody>
             </table>
+          </div>
         }
 
-
-
-        <div className='w-full flex justify-end'>
-          <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
-            Créer un nouveau projet
-          </button>
-        </div>
         
-        {editProject ? <ProjectForm/> : null}
+        {editProject && <ProjectForm/>}
 
         {loadingProject
         
@@ -132,28 +125,38 @@ function SiteGestion(){
           : 
 
           width < 1024 
+
           ?
-            <table className='mt-8 w-11/12 min-w-fit'>
-              <thead className='h-16'>
-                <tr>
-                  <th>Titre</th>
-                  <th>Image</th>
-                  <th className='text-end'>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-              {listeProject.map((project) => (
-                <ProjectRow key={project.id_projet} project={project} handleDelete={handleDeleteProject} width={width}/>
-              ))}
-              </tbody>
-            </table>
+
+          <div className='mt-14'>
+            <div className='w-full flex justify-between mt-14'>
+              <h3 className="font-montserrat font-extralight text-3xl text-center">Projets</h3>
+              <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+                +
+              </button>
+            </div>
+
+            {listeProject.map((project) => (
+              <ProjectRow key={project.id_projet} project={project} handleDelete={handleDeleteProject} width={width}/>
+            ))}
+          </div>
+
           :
-            <table className='mt-8 w-11/12 min-w-fit'>
+
+          <div className='w-full px-14'>
+            <div className='w-full flex justify-between mt-14'>
+              <h3 className="font-montserrat font-extralight text-3xl text-center">Projets</h3>
+              <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+                Créer un nouveau projet
+              </button>
+            </div>
+
+            <table className='mt-8 w-full min-w-fit'>
               <thead className='h-16'>
                 <tr>
-                  <th>Titre</th>
-                  <th>Image</th>
-                  <th>Description</th>
+                  <th className='px-2'>Titre</th>
+                  <th className='px-2'>Image</th>
+                  <th className='px-2'>Description</th>
                   <th className='text-end'>Actions</th>
                 </tr>
               </thead>
@@ -163,6 +166,7 @@ function SiteGestion(){
               ))}
               </tbody>
             </table>
+          </div>
         }
 
       </main>

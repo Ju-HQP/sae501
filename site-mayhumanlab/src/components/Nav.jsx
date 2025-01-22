@@ -44,7 +44,7 @@ function Nav() {
   useEffect(() => {
     // Connexion possible que depuis l'accueil
     if (isConnected && location.pathname === "/") {
-      navigate("/trombinoscope");
+      navigate("/");
     } else if (!isConnected) {
       navigate("/");
     }
