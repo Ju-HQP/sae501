@@ -6,6 +6,7 @@ import {
     login,
     logout,
 } from './connexion';
+import { redirect } from 'react-router-dom';
 
 const slice = createSlice({
     name: 'user',
@@ -14,6 +15,7 @@ const slice = createSlice({
         isConnecting: false,
         userInfos:null,
         isAdmin: false,
+        redirectToAgenda: false,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
@@ -39,6 +41,7 @@ const slice = createSlice({
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
                 state.userInfos = action.payload.utilisateur;
+                state.redirectToAgenda = true;
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;
