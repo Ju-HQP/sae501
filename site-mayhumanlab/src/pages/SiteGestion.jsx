@@ -9,6 +9,7 @@ import { selectErrorDeleteActu } from "../features/actualite/actualiteSelector";
 import { startEditActu } from '../features/actualite/actualiteSlice';
 import { deleteActu } from "../features/actualite/actualiteAsyncAction";
 import ActualiteRow from "../components/ActualiteRow";
+import Footer from "../components/Footer";
 
 function SiteGestion(){
     
@@ -94,6 +95,7 @@ function SiteGestion(){
             </table>
         }
       </main>
+      <Footer contactVisible={false}/>
   </>)
 
 };

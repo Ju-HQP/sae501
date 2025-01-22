@@ -12,6 +12,7 @@ import Header from "../components/Header";
 import VolunteerListItem from "../components/VolunteerListItem";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import { useEffect, useState } from "react";
+import Footer from "../components/Footer";
 
 function VolunteersListGestion() {
   const dispatch = useDispatch();
@@ -96,6 +97,7 @@ function VolunteersListGestion() {
           </table>
         )}
       </main>
+      <Footer contactVisible={false}/>
     </>
   );
 }
