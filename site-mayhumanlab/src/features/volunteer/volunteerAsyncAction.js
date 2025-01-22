@@ -137,11 +137,11 @@ export const deleteVolunteer = createAsyncThunk(
             }
             if(response.status === 404){
                 const error = await response.json();
-                return rejectWithValue({message : error.message, id: datas.id});
+                throw new Error(error.message);
             }
         } catch (error) {
-            console.log("test");
-            return rejectWithValue(error.response.data.error.message);
+           console.log("delete catch error");
+            return rejectWithValue(error.message);
         };
     }
 )

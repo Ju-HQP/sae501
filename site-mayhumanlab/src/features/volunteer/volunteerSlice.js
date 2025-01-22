@@ -14,7 +14,6 @@ const slice = createSlice({
         loading: false,
         volunteerModifying: false,
         idVolunteerModifying: null,
-        idVolunteerDeleting: null,
         dataSend:{},//objet vide
         errors: {
             apiErrorLoad: null,
@@ -93,7 +92,6 @@ const slice = createSlice({
         })
         .addCase(deleteVolunteer.pending, (state, action) => {
             state.errors.apiErrorDelete = null;
-            state.idVolunteerDeleting = null;
         })
         .addCase(deleteVolunteer.fulfilled, (state, action)=>{
             const index = state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === Number(action.payload));
@@ -101,8 +99,7 @@ const slice = createSlice({
             state.errors.apiErrorDelete = null;
         })
         .addCase(deleteVolunteer.rejected, (state, action)=>{
-            state.errors.apiErrorDelete = action.payload.message;
-            state.idVolunteerDeleting = action.payload.id;
+            state.errors.apiErrorDelete = action.payload;
         })
     }
 })

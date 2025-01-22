@@ -8,7 +8,7 @@ import {
 } from "../features/volunteer/volunteerSelector";
 import { deleteVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import DeleteButton from "./DeleteButton";
-import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
+import { startVolunteerEdit, stopVolunteerEdit } from "../features/volunteer/volunteerSlice";
 
 function VolunteerListItem({ volunteer, width }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -21,9 +21,13 @@ function VolunteerListItem({ volunteer, width }) {
     dispatch(deleteVolunteer({ id }));
   };
 
-  const handlePlay = () => {
+  const handleModify = () => {
     dispatch(startVolunteerEdit(volunteer.id_benevole));
   };
+
+  const handleDelete = () => {
+    dispatch(stopVolunteerEdit());
+  }
 
   /*constante de TEST */
   const competences = ["Soudeur", "Graphiste", "Designeur"];
@@ -42,7 +46,7 @@ function VolunteerListItem({ volunteer, width }) {
         <p className="rounded-full px-4 bg-slate-300">Compétence 2</p>
       </span>
       <div className="flex col-span-2 m-auto w-full">
-        <button className="primary-btn-small mr-2 w-full" onClick={handlePlay}>
+        <button className="primary-btn-small mr-2 w-full" onClick={handleModify}>
           Modifier
         </button>
         <DeleteButton
@@ -81,16 +85,16 @@ function VolunteerListItem({ volunteer, width }) {
       <td className="text-center px-2">{volunteer.tel_b}</td>
       <td className="text-center px-2">{volunteer.mail_b}</td>
       <td className="text-end p-2">
-        <button className="primary-btn-small m-2" onClick={handlePlay}>
+        <button className="primary-btn-small m-2" onClick={handleModify}>
           Modifier
         </button>
         <DeleteButton
           name={volunteer.nom_b}
           id={volunteer.id_benevole}
-          deleteVolunteerById={handleDeleteVolunteer}
+          deleteEntityById={handleDeleteVolunteer}
         ></DeleteButton>
-        {errorDelete && volunteer.id_benevole === idVolunteerDeleting ? (
-          <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+        {errorDelete? (
+          <div className="absolute bottom-0 right-0 bg-red-100 text-red-700 p-3 rounded mb-4">
             {errorDelete}
           </div>
         ) : (

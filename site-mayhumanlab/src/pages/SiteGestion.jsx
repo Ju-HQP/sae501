@@ -142,7 +142,7 @@ function SiteGestion(){
               </thead>
               <tbody>
               {listeProject.map((project) => (
-                <ProjectRow key={project.id_projet} project={project} handleDelete={handleDeleteProject} width={width}/>
+                <ProjectRow key={project.id_projet} projet={project} handleDelete={handleDeleteProject} width={width}/>
               ))}
               </tbody>
             </table>
@@ -158,7 +158,7 @@ function SiteGestion(){
               </thead>
               <tbody>
               {listeProject.map((project) => (
-                <ProjectRow key={project.id_projet} project={project} handleDelete={handleDeleteProject} />
+                <ProjectRow key={project.id_projet} projet={project} handleDelete={handleDeleteProject} />
               ))}
               </tbody>
             </table>

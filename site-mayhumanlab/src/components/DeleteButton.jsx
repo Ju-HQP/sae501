@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 
-function DeleteButton({name, id, deleteVolunteerById}) {
+function DeleteButton({name, id, deleteEntityById}) {
   const dispatch= useDispatch();
 
   const [open, setOpen] = React.useState(false);
@@ -16,7 +16,7 @@ function DeleteButton({name, id, deleteVolunteerById}) {
   };
 
   const handleDelete = () => {
-    deleteVolunteerById(id);
+    deleteEntityById(id);
     setOpen(false);
   }
   return (
