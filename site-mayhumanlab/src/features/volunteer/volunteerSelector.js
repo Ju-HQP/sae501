@@ -25,7 +25,14 @@ export const selectInitialFormValues = createSelector(
         if (!id){
             return null;
         } else {
-            return volunteer.find((volunteer) => volunteer.id_benevole === id) || null;
+            const selectedVolunteer = volunteer.find((volunteer) => volunteer.id_benevole === id) || null;
+            if(selectedVolunteer && Array.isArray(selectedVolunteer.competences)){
+                const nomComp = selectedVolunteer.competences.map((comp) => comp.nom_c);
+                return {
+                    ...selectedVolunteer, nom_c : nomComp.join('-')
+                }
+            }
+            return selectedVolunteer
         }
     }
 );

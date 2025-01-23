@@ -54,6 +54,7 @@ const slice = createSlice({
             })
             .addCase(addVolunteer.fulfilled, (state, action) => {
                 state.volunteers = [...state.volunteers, action.payload];
+                console.log(action.payload);
                 state.volunteerModifying = false;
                 state.loading = false;
             })
@@ -65,30 +66,31 @@ const slice = createSlice({
                 state.volunteerModifying = false;
                 state.loading = false;
             })
-        .addCase(updateVolunteer.pending, (state, action)=>{
-            state.errors.apiErrorUpdate = null;
-        })
-        .addCase(updateVolunteer.fulfilled, (state, action)=>{
-            state.volunteers[state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === state.idVolunteerModifying)] = action.payload;
-            state.idVolunteerModifying = null;
-            state.volunteerModifying = false;
-            state.errors.apiErrorUpdate = null;
-        })
-        .addCase(updateVolunteer.rejected, (state, action)=>{
-            //console.log(action.error.message);
-            state.errors.apiErrorUpdate = action.payload;
-        })
-        .addCase(deleteVolunteer.pending, (state, action) => {
-            state.errors.apiErrorDelete = null;
-        })
-        .addCase(deleteVolunteer.fulfilled, (state, action)=>{
-            const index = state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === Number(action.payload));
-            state.volunteers.splice(index, 1);
-            state.errors.apiErrorDelete = null;
-        })
-        .addCase(deleteVolunteer.rejected, (state, action)=>{
-            state.errors.apiErrorDelete = action.payload;
-        })
+            .addCase(updateVolunteer.pending, (state, action)=>{
+                state.errors.apiErrorUpdate = null;
+            })
+            .addCase(updateVolunteer.fulfilled, (state, action)=>{
+                console.log(action.payload);
+                state.volunteers[state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === state.idVolunteerModifying)] = action.payload;
+                state.idVolunteerModifying = null;
+                state.volunteerModifying = false;
+                state.errors.apiErrorUpdate = null;
+            })
+            .addCase(updateVolunteer.rejected, (state, action)=>{
+                //console.log(action.error.message);
+                state.errors.apiErrorUpdate = action.payload;
+            })
+            .addCase(deleteVolunteer.pending, (state, action) => {
+                state.errors.apiErrorDelete = null;
+            })
+            .addCase(deleteVolunteer.fulfilled, (state, action)=>{
+                const index = state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === Number(action.payload));
+                state.volunteers.splice(index, 1);
+                state.errors.apiErrorDelete = null;
+            })
+            .addCase(deleteVolunteer.rejected, (state, action)=>{
+                state.errors.apiErrorDelete = action.payload;
+            })
     }
 })
 

@@ -163,12 +163,12 @@ function VolunteerForm() {
                                             </Field>
                                             <Field
                                                 validate=''
-                                                name="nom_competence"
+                                                name="nom_c"
                                                 render={({ input, meta }) => (
 
                                                     <div className="flex flex-col col-start-2 row-start-3 md:px-4">
-                                                        <label htmlFor='nom_competence' className="mt-3 mb-2 font-semibold">Compétences</label>
-                                                        <input {...input} placeholder="soudeur-graphiste-designer" id='nom_competence' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
+                                                        <label htmlFor='nom_c' className="mt-3 mb-2 font-semibold">Compétences</label>
+                                                        <input {...input} placeholder="soudeur-graphiste-designer" id='nom_c' type='text' className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"></input>
                                                         {meta.touched
                                                             &&
                                                             meta.invalid

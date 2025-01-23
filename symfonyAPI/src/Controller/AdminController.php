@@ -21,6 +21,7 @@ use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Benevole;
 use App\Entity\Actualite;
+use App\Entity\Competence;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -107,12 +108,15 @@ class AdminController extends AbstractController
 		// Récupérer les données JSON
 		$data = json_decode($request->getContent(), true);
 
-		if (!$data) {
+		if (!$data || empty($data['nom_c'])) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
 
+
 		// Créer un nouvel objet Benevole
 		$benevole = new Benevole();
+		$comp = $this->entityManager->createQuery("SELECT c.nom_c FROM App\Entity\Competence c")->getResult(); // ou getResult();
+
 		$benevole->setNom($data['nom_b'] ?? '')
 			->setPrenom($data['prenom_b'] ?? '')
 			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
@@ -120,6 +124,24 @@ class AdminController extends AbstractController
 			->setTel($data['tel_b'] ?? null)
 			->setPhoto($data['photo_b'] ?? null)
 			->setRoles($data['role_b'] ?? 0);
+
+			$this->logger->info("Liste des compétences récupérées : " . json_encode($comp));
+
+			$tabComp = explode("-", $data['nom_c']); //"soudeur-designer" -> ["soudeur", "designer"]
+			foreach($tabComp as $nomComp){
+				$comp = $this->entityManager->getRepository(Competence::class)
+				->findOneBy(['nom_c' => $nomComp]);
+				if (!$comp) {
+					// Créer une nouvelle compétence si elle n'existe pas
+					$comp = new Competence();
+					$comp->setNom(ucfirst($nomComp));
+					$this->entityManager->persist($comp);
+					$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
+				}
+				$benevole->setComp($comp);
+				$this->logger->info("Ajout de la compétence existante au bénévole");
+			};
+
 
 		// --- Génération du mdp aléatoire
 		$randomMdp = random_bytes(10);
@@ -134,7 +156,7 @@ class AdminController extends AbstractController
 		$this->entityManager->persist($benevole);
 		$this->entityManager->flush();
 
-		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
+		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();
 		$response->setStatusCode(Response::HTTP_CREATED);
@@ -200,20 +222,41 @@ class AdminController extends AbstractController
 					//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
 					  ->setMail($data['mail_b'] ?? $benevole->getMail())
 					  ->setTel($data['tel_b'] ?? $benevole->getTel())
-					  ->setRoles($data['role_b'] ?? $benevole->getRoles());
-					//  ->setComp($data[''] ?? $benevole->getComp())
+					  ->setRoles($data['role_b'] ?? $benevole->getRoles())
+					  ->clearComp();
 					//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
+			
+			if ($data['nom_c']){
+				$tabComp = explode("-", $data['nom_c']); //"soudeur-designer" -> ["soudeur", "designer"]
+				foreach($tabComp as $nomComp){
+					$comp = $this->entityManager->getRepository(Competence::class)
+					->findOneBy(['nom_c' => $nomComp]);
+					if (!$comp) {
+						// Créer une nouvelle compétence si elle n'existe pas
+						$comp = new Competence();
+						$comp->setNom(ucfirst($nomComp));
+						$this->entityManager->persist($comp);
+						$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
+					}
+					$benevole->setComp($comp);
+					$this->logger->info("Ajout de la compétence existante au bénévole");
+				};
+			}
+			
+
 			$this->entityManager->persist($benevole);
 			$this->entityManager->flush();
 
-			// $query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
-			// $benevoles = $query->getArrayResult();
+			$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole like :id");
+            $query->setParameter("id", $benevole->getId());
+            $benevoleUpdate = $query->getArrayResult();
+			$benevoleUpdate = $benevoleUpdate[0];
 
 			$response = new Response();
 			$response->setStatusCode(Response::HTTP_OK);
 			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
-			$response->setContent(json_encode(['id_benevole' => $benevole->getId(), 'nom_b' => $benevole->getNom(), 'prenom_b' => $benevole->getPrenom(), 'mail_b' => $benevole->getMail(), 'tel_b' => $benevole->getTel(), 'role_b' => $benevole->getRoles()]), Response::HTTP_CREATED, [
+			$response->setContent(json_encode($benevoleUpdate), Response::HTTP_CREATED, [
                 'Content-Type' => 'application/json',
             ]);
 			return $response;
