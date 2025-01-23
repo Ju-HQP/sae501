@@ -28,22 +28,7 @@ function VolunteerForm() {
         } else {
             values.role_b = 0;
         }
-        console.log(values.photo_b);
-        var formData = new FormData();
-        formData.append('photo_b', values.photo_b);
-        formData.append('nom_b', values.nom_b);
-        formData.append('prenom_b', values.prenom_b);
-        formData.append('mail_b', values.mail_b);
-        formData.append('tel_b', values.tel_b);
-        formData.append('role_b', values.role_b);
-        formData.append('nom_competence', values.nom_competence);
-
-        for (const value in formData.values()) {
-            console.log(value);
-        }
-
-        //dispatch(saveVolunteer(values));
-        dispatch(saveVolunteer(formData));
+        dispatch(saveVolunteer(values));
     }
 
     function handleExit() {

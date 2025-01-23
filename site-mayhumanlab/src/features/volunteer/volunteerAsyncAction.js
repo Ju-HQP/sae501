@@ -51,14 +51,14 @@ export const addVolunteer = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
+            const formData = new FormData();
+            Object.entries(datas).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
             console.log(datas);
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
-                /* headers: {
-                    'Content-Type': 'multipart/form-data',
-                }, */
-                //body: JSON.stringify(datas)
-                body: datas
+                body: formData
             });
             return await res.json();
         } catch (er) {

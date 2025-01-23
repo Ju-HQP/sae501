@@ -67,37 +67,29 @@ class AdminController extends AbstractController
 	#[Route('/admin/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
 	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
-		//$file = $request->files->get('file');
 		$file = $request->files->get('photo_b');
+		$host = $request->getHost();
+		$port = $request->getPort();
+		$scheme = $request->getScheme();
 
-		/*$data = $request->getContent();
-		//$data = $request->get('prenom_b');
+		 $data = $request->request->all();
 		 if (!$data) {
-			return new Response($file->getClientOriginalName(), Response::HTTP_BAD_REQUEST);
-		} */
+			return new Response('Invalid datas', Response::HTTP_BAD_REQUEST);
+		} 
 
 		$uploadDir = '/uploads/profile-pictures';
-		$fileName = $request->get('prenom_b') . $request->get('nom_b') . '.' . $file->guessExtension();
-		$file->move($this->getParameter('kernel.project_dir'). "/public" . $uploadDir, $fileName);
+		$fileName = uniqid() . $file->guessExtension();
+		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		// Créer un nouvel objet Benevole
 		$benevole = new Benevole();
-		//$photo = str_replace("blob:",'', $data['photo_b']); 
-		/* $benevole->setNom($data['nom_b'] ?? '')
+		$benevole->setNom($data['nom_b'] ?? '')
 			->setPrenom($data['prenom_b'] ?? '')
 			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
-			->setPhoto($uploadDir ?? null)
-			->setRoles($data['role_b'] ?? 0); */
-
-		$benevole->setNom($request->get('nom_b') ?? '')
-			->setPrenom($request->get('prenom_b') ?? '')
-			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
-			->setMail($request->get('mail_b') ?? '')
-			->setTel($request->get('tel_b') ?? null)
-			->setPhoto($uploadDir . "/" . $fileName ?? null)
-			->setRoles($request->get('role_b') ?? 0);
+			->setPhoto($scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName ?? null)
+			->setRoles($data['role_b'] ?? 0);
 
 		// --- Génération du mdp aléatoire
 		$randomMdp = random_bytes(10);
