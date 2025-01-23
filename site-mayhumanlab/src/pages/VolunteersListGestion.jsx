@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import {
   selectErrorLoad,
-  selectErrorSave,
   selectLoading,
   selectVolunteer,
   selectVolunteerModifying,
@@ -12,13 +11,13 @@ import Header from "../components/Header";
 import VolunteerListItem from "../components/VolunteerListItem";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import { useEffect, useState } from "react";
+import Footer from "../components/Footer";
 
 function VolunteersListGestion() {
   const dispatch = useDispatch();
   const isModifying = useSelector(selectVolunteerModifying);
   const loading = useSelector(selectLoading);
   const errorLoading = useSelector(selectErrorLoad);
-  const errorAddVolunteer = useSelector(selectErrorSave);
   const volunteerList = useSelector(selectVolunteer);
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -30,7 +29,7 @@ function VolunteersListGestion() {
     dispatch(loadVolunteer());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [dispatch]);
 
   function handleAddVolunteer() {
     dispatch(startVolunteerEdit()); //isModifying passe à true
@@ -43,7 +42,6 @@ function VolunteersListGestion() {
         <h1 className="text-center my-6 font-bold text-2xl lg:text-4xl">
           Gestion des comptes
         </h1>
-
         <div className="w-full flex justify-end">
           <button
             onClick={handleAddVolunteer}
@@ -52,13 +50,6 @@ function VolunteersListGestion() {
             Créer un bénévole
           </button>
         </div>
-        {errorAddVolunteer ? (
-          <div className="w-full flex justify-end">
-            <p>{errorAddVolunteer}</p>
-          </div>
-        ) : (
-          ""
-        )}
         {isModifying && <VolunteerForm />}
         {loading ? (
           <p>Chargement des données...</p>
@@ -96,6 +87,7 @@ function VolunteersListGestion() {
           </table>
         )}
       </main>
+      <Footer contactVisible={false}/>
     </>
   );
 }

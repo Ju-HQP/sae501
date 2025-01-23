@@ -9,6 +9,7 @@ const actualiteSlice = createSlice({
         admin: true,
         editActu : false,
         idActu : null,
+        dataSend:{},//objet vide pour sauvegarder données form
         errors: {
             apiErrorLoad: null,
             apiErrorAdd: null,
@@ -19,6 +20,8 @@ const actualiteSlice = createSlice({
 
     reducers: {
         startEditActu(state,action){
+            state.errors.apiErrorAdd = null;
+            state.errors.apiErrorUpdate = null;
             state.editActu = true;
             state.idActu = action.payload;
         },
@@ -27,6 +30,7 @@ const actualiteSlice = createSlice({
             state.idActu = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.dataSend = {};
         }
     },
 
@@ -51,24 +55,30 @@ const actualiteSlice = createSlice({
         .addCase(addActu.fulfilled, (state, action)=>{
             state.tabActus.push(action.payload);
             state.editActu = false;
+            state.dataSend = {};
         })
         .addCase(addActu.rejected, (state, action)=>{
-            state.errors.apiErrorAdd = action.payload;
+            state.errors.apiErrorAdd = action.payload.message;
+            state.dataSend = action.payload.dataSend;
+            state.editActu = true;
+            startEditActu();
         })
-
         .addCase(updateActu.pending, (state) => {
             state.errors.apiErrorUpdate = null;
         })
         .addCase(updateActu.fulfilled, (state, action)=>{
-            console.log(action.payload);
             state.tabActus[state.tabActus.findIndex((actualite)=>state.idActu === actualite.id_actualite)] = action.payload;
             state.idActu = null;
             state.editActu = false;
+            state.errors.apiErrorUpdate = null;
+            state.dataSend = {};
         })
         .addCase(updateActu.rejected, (state, action)=>{
-            state.errors.apiErrorUpdate = action.payload;
+            state.errors.apiErrorUpdate = action.payload.message;
+            state.dataSend = action.payload.dataSend;
+            state.editActu = true;
+            startEditActu(state.idActu);
         })
-
         .addCase(deleteActu.pending, (state) => {
             state.errors.apiErrorDelete = null;
         })

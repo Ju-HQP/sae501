@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Benevole;
+use Doctrine\Common\Lexer\Token;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,6 +21,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     //temp 
     #[Route('/debug/csrf', name: 'debug_csrf', methods: ['POST'])]
     public function debugCsrf(Request $request, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
@@ -43,11 +55,6 @@ class SecurityController extends AbstractController
 
         $token = $csrfTokenManager->getToken('authenticate')->getValue();
         $res = new JsonResponse(['csrfToken' => $token,]);
-
-        // Entêtes CORS
-        $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-        $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-        $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
 
         return $res;
     }
@@ -107,10 +114,6 @@ class SecurityController extends AbstractController
 
             // Supprimer le cookie PHPSESSID
             $response->headers->clearCookie('PHPSESSID');
-            $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-            $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-            $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
 
             return $response;
         } catch (\Exception $e) {
@@ -119,17 +122,13 @@ class SecurityController extends AbstractController
     }
 
     // Fonction pour renvoyer un message JSON au front au lieu d'une redirection (par défaut)
-    #[Route(path: '/logout_msg', name: 'app_logout_msg', methods:['GET'])]
+    #[Route(path: '/logout_msg', name: 'app_logout_msg', methods: ['GET'])]
     public function logoutmsg(Request $request, TokenStorageInterface $tokenStorage): JsonResponse
     {
         try {
             // La session et le token sont déjà invalidés par la route /logout
             $res = new JsonResponse(['message' => 'Déconnexion réussie'], Response::HTTP_OK);
             $res->headers->set('Content-Type', 'application/json');
-            $res->headers->set('Access-Control-Allow-Origin', 'http://localhost:3000');
-            $res->headers->set('Access-Control-Allow-Credentials', 'true'); // Permet les cookies
-            $res->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-            $res->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
             return $res;
         } catch (\Exception $e) {
             return new JsonResponse(['message' => 'Erreur lors de la déconnexion', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -137,26 +136,32 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/auth', name: 'api_auth', methods: ['GET'])]
-    public function authStatus(Security $security): JsonResponse
+    public function authStatus(Security $security): ?Response
     {
         $user = $security->getUser();
+        $mail = $user->getUserIdentifier();
+
+        $benevoleConnecte = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $mail]);
+
+        $response = new Response();
+        $benevoleInfos = [
+            'id' => $benevoleConnecte->getId(),
+            'photo' => $benevoleConnecte->getPhoto(),
+            'nom' => $benevoleConnecte->getNom(),
+            'prenom' => $benevoleConnecte->getPrenom(),
+            'mail' => $benevoleConnecte->getMail(),
+            'tel' => $benevoleConnecte->getTel(),
+            'role' => $benevoleConnecte->getRoles()
+        ];
+
+        $response->setContent(json_encode(['isAuthenticated' => true, 'user' => $user->getUserIdentifier(), 'utilisateur' => $benevoleInfos], 200));
 
         if (!$user) {
-            return new JsonResponse(['isAuthenticated' => false], 404);
+            $response->setContent(json_encode(['isAuthenticated' => false], 404));
+            //return new JsonResponse(['isAuthenticated' => false], 404);
         }
 
-        return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);
+        //return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);
+        return $response;
     }
-    // #[Route(path: '/auth', name: 'app_auth', methods: ['GET'])]
-    // public function auth(AuthenticationUtils $authenticationUtils): Response
-    // {
-
-
-    //     if ($this->getUser()) {
-    //         $identifiant = $authenticationUtils->getLastUsername();
-    //         return new JsonResponse(['message' => 'Connecté en tant que' . $identifiant], 200);
-    //     }
-
-    //     return new JsonResponse(['error' => "Vous n'êtes pas connecté"], 401);
-    // }
 }

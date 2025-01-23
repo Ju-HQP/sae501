@@ -2,6 +2,9 @@
 
 namespace App\Security;
 
+use App\Entity\Benevole;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface as LogLoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +27,12 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private LoggerInterface $logger) {}
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager, private UrlGeneratorInterface $urlGenerator, private LoggerInterface $logger)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function authenticate(Request $request): Passport
     {
@@ -35,15 +43,12 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         $csrfToken = $request->request->get('_csrf_token', '');
 
         if (isset($data["mail_b"])) {
-            $this->logger->info('Changement §§§§§§§§');
             $mailB = $data["mail_b"];
             $password = $data["mdp_b"];
             $csrfToken = $data["_csrf_token"];
         }
 
-        $this->logger->info('Mail requête : ' . $mailB);
-        $this->logger->info('Mot de passe requête : ' . $password);
-        $this->logger->info('Token de la requête : ' . $csrfToken);
+        // $this->logger->info('Mail requête : ' . $mailB);
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $mailB);
 
@@ -64,8 +69,25 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
         //     return new RedirectResponse('/admin/benevoles');
         // }
 
+        // Récupération de l'utilisateur (User)
+
+        $userMail = $token->getUserIdentifier();
+
+        $benevoleConnecte = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $userMail]);
+
         $response = new Response();
-        $response->setContent(json_encode(['message' => 'Connexion réussie']));
+        $benevoleInfos = [
+            'id' => $benevoleConnecte->getId(),
+            'photo' => $benevoleConnecte->getPhoto(),
+            'nom' => $benevoleConnecte->getNom(),
+            'prenom' => $benevoleConnecte->getPrenom(),
+            'mail' => $benevoleConnecte->getMail(),
+            'tel' => $benevoleConnecte->getTel(),
+            'role' => $benevoleConnecte->getRoles()
+        ];
+
+        $response->setContent(json_encode(['message' => 'Connexion réussie', 'utilisateur' => $benevoleInfos]));
+
         $response->headers->set('Content-Type', 'application/json');
         $response->setStatusCode(Response::HTTP_OK);
 

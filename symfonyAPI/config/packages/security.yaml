@@ -34,10 +34,10 @@ security:
 
     # Règles d'accès
     access_control:
-        - { path: ^/csrf_token, roles: PUBLIC_ACCESS }
-        - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] } #accessible sans authentification
+        - { path: ^/csrf_token, roles: PUBLIC_ACCESS }  #accessible sans authentification
+        - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] }
         - { path: ^/api/actualites, roles: PUBLIC_ACCESS, methods: [GET] }
-        - { path: ^/api/projets, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/projects, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api, roles: ROLE_USER, methods: [GET] }
         - { path: ^/api, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
     role_hierarchy:

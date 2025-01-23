@@ -15,6 +15,7 @@ const slice = createSlice({
         volunteerModifying: false,
         idVolunteerModifying: null,
         idVolunteerDeleting: null,
+        dataSend:{},//objet vide
         errors: {
             apiErrorLoad: null,
             apiErrorAdd: null,
@@ -24,6 +25,8 @@ const slice = createSlice({
     },
     reducers: {
         startVolunteerEdit(state, action) {
+            state.errors.apiErrorAdd = null;
+            state.errors.apiErrorUpdate = null;
             state.volunteerModifying = true;
             state.idVolunteerModifying = action.payload;
         },
@@ -32,6 +35,7 @@ const slice = createSlice({
             state.idVolunteerModifying = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.dataSend = {};
         },
         resetDatas(state, action){
             state.volunteers = [];
@@ -52,45 +56,53 @@ const slice = createSlice({
                 state.loading = false;
                 state.errors.apiErrorLoad = action.payload;
             })
+            .addCase(addVolunteer.pending, (state, action) => {
+                state.loading = true;
+            })
             .addCase(addVolunteer.fulfilled, (state, action) => {
                 state.volunteers = [...state.volunteers, action.payload];
                 console.log(action.payload);
                 state.volunteerModifying = false;
                 state.loading = false;
-            })
-            .addCase(addVolunteer.pending, (state, action) => {
-                state.loading = true;
+                state.dataSend = {};
             })
             .addCase(addVolunteer.rejected, (state, action) => {
-                state.errors.apiErrorAdd = action.payload;
-                state.volunteerModifying = false;
+                state.errors.apiErrorAdd = action.payload.message;
+                state.dataSend = action.payload.dataSend;
                 state.loading = false;
+                state.volunteerModifying = true;
+                startVolunteerEdit();
             })
-            .addCase(updateVolunteer.pending, (state, action)=>{
-                state.errors.apiErrorUpdate = null;
-            })
-            .addCase(updateVolunteer.fulfilled, (state, action)=>{
-                console.log(action.payload);
-                state.volunteers[state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === state.idVolunteerModifying)] = action.payload;
-                state.idVolunteerModifying = null;
-                state.volunteerModifying = false;
-                state.errors.apiErrorUpdate = null;
-            })
-            .addCase(updateVolunteer.rejected, (state, action)=>{
-                //console.log(action.error.message);
-                state.errors.apiErrorUpdate = action.payload;
-            })
-            .addCase(deleteVolunteer.pending, (state, action) => {
-                state.errors.apiErrorDelete = null;
-            })
-            .addCase(deleteVolunteer.fulfilled, (state, action)=>{
-                const index = state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === Number(action.payload));
-                state.volunteers.splice(index, 1);
-                state.errors.apiErrorDelete = null;
-            })
-            .addCase(deleteVolunteer.rejected, (state, action)=>{
-                state.errors.apiErrorDelete = action.payload;
-            })
+        .addCase(updateVolunteer.pending, (state, action)=>{
+            state.errors.apiErrorUpdate = null;
+            state.loading = true;
+        })
+        .addCase(updateVolunteer.fulfilled, (state, action)=>{
+            state.volunteers[state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === state.idVolunteerModifying)] = action.payload;
+            state.idVolunteerModifying = null;
+            state.volunteerModifying = false;
+            state.errors.apiErrorUpdate = null;
+            state.loading = false;
+            state.dataSend = {};
+        })
+        .addCase(updateVolunteer.rejected, (state, action)=>{
+            state.errors.apiErrorUpdate = action.payload.message;
+            state.dataSend = action.payload.dataSend;
+            state.loading = false;
+            state.volunteerModifying = true;
+            startVolunteerEdit(state.idVolunteerModifying);
+        })
+        .addCase(deleteVolunteer.pending, (state, action) => {
+            state.errors.apiErrorDelete = null;
+        })
+        .addCase(deleteVolunteer.fulfilled, (state, action)=>{
+            const index = state.volunteers.findIndex((volunteer)=> volunteer.id_benevole === Number(action.payload));
+            state.volunteers.splice(index, 1);
+            state.errors.apiErrorDelete = null;
+        })
+        .addCase(deleteVolunteer.rejected, (state, action)=>{
+            state.errors.apiErrorDelete = action.payload;
+        })
     }
 })
 

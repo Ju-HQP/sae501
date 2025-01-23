@@ -20,6 +20,7 @@ function Nav() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [redirectToAgenda, setRedirectToAgenda] = useState(false);
 
   // pour l'état de connexion (utilisateur connecté ou non)
   const isConnected = useSelector(selectUserIsConnected);
@@ -34,20 +35,23 @@ function Nav() {
 
   function handleConnecting() {
     dispatch(startConnecting()); //isModifying passe à true
+    setRedirectToAgenda(true);
   }
 
   const handleDisconnecting = async () => {
+    navigate("/");
     dispatch(logout());
   };
 
   useEffect(() => {
     // Connexion possible que depuis l'accueil
-    if (isConnected && location.pathname === "/") {
-      navigate("/trombinoscope");
+    if (isConnected && redirectToAgenda) {
+      setRedirectToAgenda(false);
+      navigate("/agenda");  
     } else if (!isConnected) {
       navigate("/");
     }
-  }, [isConnected, navigate, location.pathname]);
+  }, [redirectToAgenda, setRedirectToAgenda, isConnected, navigate]);
 
   return (
     <>
@@ -168,10 +172,13 @@ function Nav() {
               <li className="my-3">
                 <button
                   onClick={handleDisconnecting}
-                  className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                  className="secondary-btn-small"
                 >
                   Déconnexion
                 </button>
+              </li>
+              <li>
+                <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
               </li>
             </ul>
           ) : (
@@ -198,7 +205,7 @@ function Nav() {
               <li className="my-3">
                 <button
                   onClick={handleConnecting}
-                  className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                  className=" primary-btn-small"
                 >
                   Connexion
                 </button>
@@ -317,10 +324,13 @@ function Nav() {
                     <li className="my-3">
                       <button
                         onClick={handleDisconnecting}
-                        className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                        className="secondary-btn-small"
                       >
                         Déconnexion
                       </button>
+                    </li>
+                    <li>
+                      <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
                     </li>
                   </ul>
                 </div>
@@ -382,7 +392,7 @@ function Nav() {
                     <li className="my-3">
                       <button
                         onClick={handleConnecting}
-                        className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                        className="primary-btn-small"
                       >
                         Connexion
                       </button>

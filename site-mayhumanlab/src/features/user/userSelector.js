@@ -2,7 +2,7 @@ export const selectUserIsConnected = (state) => state.user.connected;
 
 export const selectUserIsConnecting = (state) => state.user.isConnecting;
 
-export const selectUserId = (state) => state.user.userId;
+export const selectUserInfos = (state) => state.user.userInfos;
 
 export const selectUserIsAdmin = (state) => state.user.isAdmin;
 

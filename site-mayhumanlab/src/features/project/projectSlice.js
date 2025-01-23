@@ -1,13 +1,15 @@
-import {
-    createSlice
-} from '@reduxjs/toolkit';
-import { loadProjects } from './projectAsyncAction';
+import { createSlice } from '@reduxjs/toolkit';
+import { addProject, updateProject, loadProjects, deleteProject } from './projectAsyncAction';
 
-const slice = createSlice({
-    name: 'project',
-    initialState: {
-        projects: [],
+const projectSlice = createSlice({
+    name : 'project',
+    initialState:{
+        tabProjects : [],
         loading : false,
+        admin: true,
+        editProject : false,
+        idProject : null,
+        dataSend:{},//objet vide
         errors: {
             apiErrorLoad: null,
             apiErrorAdd: null,
@@ -15,24 +17,80 @@ const slice = createSlice({
             apiErrorDelete: null,
         },
     },
-    reducers: {
 
+    reducers: {
+        startEditProject(state,action){
+            state.editProject = true;
+            state.idProject = action.payload;
+        },
+        stopEditProject(state,action){
+            state.editProject = false;
+            state.idProject = null;
+            state.errors.apiErrorAdd = null;
+            state.errors.apiErrorUpdate = null;
+            state.dataSend = {};
+        }
     },
+
     extraReducers: (builder) => {
         builder
-                .addCase(loadProjects.pending, (state, action)=>{
-                    state.loading = true;
-                    state.errors.apiErrorLoad = null;
-                })
-                .addCase(loadProjects.fulfilled, (state, action)=>{
-                    state.projects = action.payload;
-                    state.loading = false;
-                })
-                .addCase(loadProjects.rejected, (state, action)=>{
-                    state.loading = false;
-                    state.errors.apiErrorLoad = action.payload;
-                })
+        .addCase(loadProjects.pending, (state, action)=>{
+            state.loading = true;
+            state.errors.apiErrorLoad = null;
+        })
+        .addCase(loadProjects.fulfilled, (state, action)=>{
+            state.tabProjects = action.payload;
+            state.loading = false;
+        })
+        .addCase(loadProjects.rejected, (state, action)=>{
+            state.loading = false;
+            state.errors.apiErrorLoad = action.payload;
+        })
+
+        .addCase(addProject.pending, (state) => {
+            state.errors.apiErrorAdd = null;
+        })
+        .addCase(addProject.fulfilled, (state, action)=>{
+            state.tabProjects.push(action.payload);
+            state.editProject = false;
+            state.dataSend = {};
+        })
+        .addCase(addProject.rejected, (state, action)=>{
+            state.errors.apiErrorAdd = action.payload.message;
+            state.dataSend = action.payload.dataSend;
+            state.editProject = true;
+            startEditProject();
+        })
+
+        .addCase(updateProject.pending, (state) => {
+            state.errors.apiErrorUpdate = null;
+        })
+        .addCase(updateProject.fulfilled, (state, action)=>{
+            state.tabProjects[state.tabProjects.findIndex((project)=>state.idProject === project.id_projet)] = action.payload;
+            state.idProject = null;
+            state.editProject = false;
+            state.errors.apiErrorUpdate = null;
+            state.loading = false;
+            state.dataSend = {};
+        })
+        .addCase(updateProject.rejected, (state, action)=>{
+            state.errors.apiErrorUpdate = action.payload.message;
+            state.dataSend = action.payload.dataSend;
+            state.editProject = true;
+            startEditProject(state.idProject);
+        })
+        .addCase(deleteProject.pending, (state) => {
+            state.errors.apiErrorDelete = null;
+        })
+        .addCase(deleteProject.fulfilled, (state, action)=>{
+            const index = state.tabProjects.findIndex((project) => project.id_projet === Number(action.payload));
+            state.tabProjects.splice(index,1);
+        })
+        .addCase(deleteProject.rejected, (state, action)=>{
+            state.errors.apiErrorDelete = action.payload;
+        })
     }
 })
 
-export default slice.reducer;
+export const {startEditProject, stopEditProject} = projectSlice.actions;
+export default projectSlice.reducer;

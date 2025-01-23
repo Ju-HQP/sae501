@@ -96,6 +96,15 @@ class AppFixtures extends Fixture
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
+			$benevole = new Benevole();
+			$benevole->setNom("Ben");
+			$benevole->setPrenom("Ben");
+			$benevole->setPassword("$2y$08\$Q7y54/MZNwi85tm2a/06TOgDvl3.wPJRvlAkDP9gLqrUH6eWGvTd6");
+			$benevole->setMail("ben@free.fr");
+			$benevole->setTel("0485956514");
+			$benevole->setRoles(0);
+			$manager->persist($benevole);
+
 			$manager->flush();
 		}
 
@@ -145,7 +154,7 @@ class AppFixtures extends Fixture
 			$actualite->setImage("https://images.unsplash.com/photo-1706700722877-1b014f34f383?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
 			$manager->persist($actualite);
 
-			$manager->flush();
+            $manager->flush();
 		}
 	}
 }

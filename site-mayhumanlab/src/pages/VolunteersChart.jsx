@@ -8,6 +8,7 @@ import VolunteersChartItem from "../components/VolunteersChartItem";
 import { useEffect } from "react";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 function VolunteersChart() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function VolunteersChart() {
           </div>
         )}
       </main>
+      <Footer contactVisible={false}/>
     </>
   );
 }

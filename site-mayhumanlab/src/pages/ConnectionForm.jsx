@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { stopConnecting } from "../features/user/userSlice";
 import { Field, Form } from "react-final-form";
-import {
-  required,
-} from "../utils/validators";
+import { required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { login } from "../features/user/connexion.js";
-import { selectErrorLogin } from "../features/user/userSelector.js";
+import { selectErrorLogin, selectUserIsConnected } from "../features/user/userSelector.js";
+import { useNavigate } from "react-router-dom";
 
 function ConnectionForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const errorLogin = useSelector(selectErrorLogin);
+  const isConnected = useSelector(selectUserIsConnected);
 
   const handleExit = () => {
     dispatch(stopConnecting());
@@ -26,25 +27,22 @@ function ConnectionForm() {
         <dialog
           open
           onClose={handleExit}
-          className="w-screen shadow-2xl rounded-lg relative px-4 md:m-12 lg:mx-32"
+          className="w-full md:w-7/12 shadow-2xl rounded-lg relative px-4 mx-2"
         >
           <span className="flex justify-center flex-col mt-8 lg:mt-12">
-            <h2 className="text-2xl font-bold text-center md:text-4xl">
+            <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">
               Connexion
             </h2>
-            {errorLogin ?
-            <div className="flex px-2">
-            <ExclamationTriangleIcon className="w-6 text-red-900" />
-            <p className="text-red-900 text-sm p-2">
-              {errorLogin}
-            </p>
-          </div> : ""}
+            {errorLogin && (
+              <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+                {errorLogin}
+              </div>
+            )}
             <Form
               onSubmit={handleSubmit}
               render={({ handleSubmit }) => (
                 <form
                   onSubmit={handleSubmit}
-                  className="my-4 px-2 md:grid grid-cols-2 lg:px-8"
                 >
                   <Field
                     validate={required}
@@ -104,18 +102,18 @@ function ConnectionForm() {
                       </div>
                     )}
                   ></Field>
-                  <div className="flex justify-between m-8 col-end-3 md:justify-end md:mx-0 md:px-4">
+                  <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
                     <button
                       onClick={handleExit}
                       variant="contained"
-                      className="font-bold text-xl border-2 border-black hover:border-pink-600 hover:text-pink-600 rounded-lg px-5 py-3 text-center md:mr-4"
+                      className="secondary-btn-large md:mr-4"
                     >
                       Annuler
                     </button>
                     <button
                       type="submit"
                       variant="contained"
-                      className="text-white font-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center md:ml-4"
+                      className="primary-btn-large md:ml-4"
                     >
                       Valider
                     </button>
