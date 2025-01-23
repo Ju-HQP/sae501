@@ -28,6 +28,7 @@ function VolunteerForm() {
         } else {
             values.role_b = 0;
         }
+        console.log(values.photo_b);
         var formData = new FormData();
         formData.append('photo_b', values.photo_b);
         formData.append('nom_b', values.nom_b);
