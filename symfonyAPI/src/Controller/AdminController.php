@@ -80,14 +80,21 @@ class AdminController extends AbstractController
 	#[Route('/api/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
 	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
-		// Récupérer les données JSON
-		$data = json_decode($request->getContent(), true);
-
+		$file = $request->files->get('photo_b');
+		$host = $request->getHost();
+		$port = $request->getPort();
+		$scheme = $request->getScheme();
+		
+		$data = $request->request->all();
 		// ------ Gestion des erreurs
 
 		if (!$data || empty($data['nom_c'])) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
+
+		$uploadDir = '/uploads/profile-pictures';
+		$fileName = uniqid() . $file->guessExtension();
+		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		$mail = $data["mail_b"];
 
@@ -110,7 +117,7 @@ class AdminController extends AbstractController
 			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
-			->setPhoto($data['photo_b'] ?? null)
+			->setPhoto($scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName ?? null)
 			->setRoles($data['role_b'] ?? 0);
 
 			$this->logger->info("Liste des compétences récupérées : " . json_encode($comp));
