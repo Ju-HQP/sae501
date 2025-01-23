@@ -93,7 +93,7 @@ class AdminController extends AbstractController
 		}
 
 		$uploadDir = '/uploads/profile-pictures';
-		$fileName = uniqid() . $file->guessExtension();
+		$fileName = uniqid() . "." . $file->guessExtension();
 		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		$mail = $data["mail_b"];

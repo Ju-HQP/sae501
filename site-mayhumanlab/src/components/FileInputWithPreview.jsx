@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 
-const FileInputWithPreview = ({ input, meta }) => {
+const FileInputWithavatarPreview = ({ input, meta, type }) => {
   var file;
-  const [preview, setPreview] = useState("/default-user.png");
+  const [avatarPreview, setAvatarPreview] = useState("/default-user.png");
+  const [actuPreview, setActuPreview] = useState("/default-user.png");
   const fileUploadRef = useRef();
 
   function handleKeyDown(e){
@@ -22,17 +23,17 @@ const FileInputWithPreview = ({ input, meta }) => {
 
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onload = () => setPreview(reader.result); // On récupère les données au format base64
+      reader.onload = () => setAvatarPreview(reader.result); // On récupère les données au format base64
       reader.readAsDataURL(file);
     } else {
-      setPreview(null); // Réinitialiser l'aperçu si ce n'est pas une image
+      setAvatarPreview(null); // Réinitialiser l'aperçu si ce n'est pas une image
     }
   };
 
   return (
     <div  className='flex flex-col justify-center items-center col-span-2 md:mb-4'>
       <label htmlFor={input.name} className='font-semibold mb-4'>Photo de profil</label>
-      <img src={preview} alt="Avatar" tabIndex="0"
+      <img src={avatarPreview} alt="Avatar" tabIndex="0"
         className="h-32 w-32 rounded-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload}/>
 
       <input hidden
@@ -49,4 +50,4 @@ const FileInputWithPreview = ({ input, meta }) => {
   );
 };
 
-export default FileInputWithPreview;
+export default FileInputWithavatarPreview;
