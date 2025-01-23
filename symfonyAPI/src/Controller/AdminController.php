@@ -530,7 +530,8 @@ class AdminController extends AbstractController
 	#[Route('/test', name: 'testInfo')]
     public function infosphp()
     {
-	echo file_get_contents("https://www.google.com");
-	}
+		echo php_ini_loaded_file();
+		phpinfo();
+		}
 
 }
