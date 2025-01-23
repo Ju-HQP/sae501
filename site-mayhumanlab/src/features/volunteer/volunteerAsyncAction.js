@@ -36,7 +36,6 @@ export const saveVolunteer = createAsyncThunk(
         dispatch,
         getState
     }) => {
-        console.log(datas);
         const id = getState().idVolunteerModifying
         if (id) {
             dispatch(updateVolunteer(datas));
@@ -55,12 +54,12 @@ export const addVolunteer = createAsyncThunk(
             console.log(datas);
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
-                headers: {
+                /* headers: {
                     'Content-Type': 'multipart/form-data',
-                },
+                }, */
+                //body: JSON.stringify(datas)
                 body: datas
             });
-            
             return await res.json();
         } catch (er) {
             return rejectWithValue(+er.response.data.error.message)

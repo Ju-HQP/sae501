@@ -70,9 +70,9 @@ class AdminController extends AbstractController
 		//$file = $request->files->get('file');
 		$file = $request->files->get('photo_b');
 
-		//$data = $request->getContent();
+		/*$data = $request->getContent();
 		//$data = $request->get('prenom_b');
-		/* if (!$data) {
+		 if (!$data) {
 			return new Response($file->getClientOriginalName(), Response::HTTP_BAD_REQUEST);
 		} */
 
@@ -98,8 +98,6 @@ class AdminController extends AbstractController
 			->setTel($request->get('tel_b') ?? null)
 			->setPhoto($uploadDir . "/" . $fileName ?? null)
 			->setRoles($request->get('role_b') ?? 0);
-
-
 
 		// --- Génération du mdp aléatoire
 		$randomMdp = random_bytes(10);
