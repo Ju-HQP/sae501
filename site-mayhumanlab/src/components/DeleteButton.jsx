@@ -21,7 +21,7 @@ function DeleteButton({name, id, deleteVolunteerById}) {
   }
   return (
     <>
-      <button onClick={handleClickOpen} className='secondary-btn-small ml-2'>Supprimer</button>
+      <button onClick={handleClickOpen} className='secondary-btn-small ml-2 w-full lg:w-auto'>Supprimer</button>
       {open &&
         (<div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
           <dialog open onClose={handleClose} className="w-screen shadow-2xl rounded-lg relative px-4 md:m-12 lg:mx-32">
