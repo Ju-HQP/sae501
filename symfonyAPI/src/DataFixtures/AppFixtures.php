@@ -113,6 +113,7 @@ class AppFixtures extends Fixture
 			$benevole->setMail("ben@free.fr");
 			$benevole->setTel("0485956514");
 			$benevole->setRoles(0);
+			$benevole->setPhoto("http://localhost:8000//uploads/profile-pictures/67926c01b80fcjpg");
 			$manager->persist($benevole);
 
 			$manager->flush();
