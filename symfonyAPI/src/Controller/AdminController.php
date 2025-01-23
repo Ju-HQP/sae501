@@ -512,4 +512,10 @@ class AdminController extends AbstractController
 			return $response;
 		}
 	}
+
+	#[Route('/infos', name: 'adminProjectsModifier')]
+	public function infos(Request $request)
+	{
+		phpinfo();
+	}
 }
