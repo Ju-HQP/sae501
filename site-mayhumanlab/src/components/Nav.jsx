@@ -7,7 +7,6 @@ import {
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import {
-  selectRedirectToAgenda,
   selectUserIsAdmin,
   selectUserIsConnected,
   selectUserIsConnecting,
@@ -21,7 +20,7 @@ function Nav() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  var redirectToAgenda = useSelector(selectRedirectToAgenda);
+  const [redirectToAgenda, setRedirectToAgenda] = useState(false);
 
   // pour l'état de connexion (utilisateur connecté ou non)
   const isConnected = useSelector(selectUserIsConnected);
@@ -36,6 +35,7 @@ function Nav() {
 
   function handleConnecting() {
     dispatch(startConnecting()); //isModifying passe à true
+    setRedirectToAgenda(true);
   }
 
   const handleDisconnecting = async () => {
@@ -46,12 +46,12 @@ function Nav() {
   useEffect(() => {
     // Connexion possible que depuis l'accueil
     if (isConnected && redirectToAgenda) {
-      navigate("/agenda");
-      redirectToAgenda = false;
+      setRedirectToAgenda(false);
+      navigate("/agenda");  
     } else if (!isConnected) {
       navigate("/");
     }
-  }, [redirectToAgenda, isConnected, navigate]);
+  }, [redirectToAgenda, setRedirectToAgenda, isConnected, navigate]);
 
   return (
     <>

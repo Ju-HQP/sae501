@@ -15,7 +15,6 @@ const slice = createSlice({
         isConnecting: false,
         userInfos:null,
         isAdmin: false,
-        redirectToAgenda: false,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,

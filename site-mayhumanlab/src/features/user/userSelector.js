@@ -6,8 +6,6 @@ export const selectUserInfos = (state) => state.user.userInfos;
 
 export const selectUserIsAdmin = (state) => state.user.isAdmin;
 
-export const selectRedirectToAgenda = (state) => state.user.redirectToAgenda;
-
 export const selectErrorLogin = (state) => state.user.errors.apiErrorLogin;
 
 export const selectErrorLogout = (state) => state.user.errors.apiErrorLogout;
