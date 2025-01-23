@@ -86,6 +86,7 @@ const slice = createSlice({
         })
         .addCase(updateVolunteer.rejected, (state, action)=>{
             state.errors.apiErrorUpdate = action.payload.message;
+            console.log(action.payload.dataSend);
             state.dataSend = action.payload.dataSend;
             state.loading = false;
             state.volunteerModifying = true;

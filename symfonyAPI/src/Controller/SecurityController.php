@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Benevole;
+use Doctrine\Common\Lexer\Token;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,6 +21,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     //temp 
     #[Route('/debug/csrf', name: 'debug_csrf', methods: ['POST'])]
     public function debugCsrf(Request $request, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
@@ -110,7 +122,7 @@ class SecurityController extends AbstractController
     }
 
     // Fonction pour renvoyer un message JSON au front au lieu d'une redirection (par défaut)
-    #[Route(path: '/logout_msg', name: 'app_logout_msg', methods:['GET'])]
+    #[Route(path: '/logout_msg', name: 'app_logout_msg', methods: ['GET'])]
     public function logoutmsg(Request $request, TokenStorageInterface $tokenStorage): JsonResponse
     {
         try {
@@ -124,14 +136,32 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/auth', name: 'api_auth', methods: ['GET'])]
-    public function authStatus(Security $security): JsonResponse
+    public function authStatus(Security $security): ?Response
     {
         $user = $security->getUser();
+        $mail = $user->getUserIdentifier();
+
+        $benevoleConnecte = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $mail]);
+
+        $response = new Response();
+        $benevoleInfos = [
+            'id' => $benevoleConnecte->getId(),
+            'photo' => $benevoleConnecte->getPhoto(),
+            'nom' => $benevoleConnecte->getNom(),
+            'prenom' => $benevoleConnecte->getPrenom(),
+            'mail' => $benevoleConnecte->getMail(),
+            'tel' => $benevoleConnecte->getTel(),
+            'role' => $benevoleConnecte->getRoles()
+        ];
+
+        $response->setContent(json_encode(['isAuthenticated' => true, 'user' => $user->getUserIdentifier(), 'utilisateur' => $benevoleInfos], 200));
 
         if (!$user) {
-            return new JsonResponse(['isAuthenticated' => false], 404);
+            $response->setContent(json_encode(['isAuthenticated' => false], 404));
+            //return new JsonResponse(['isAuthenticated' => false], 404);
         }
 
-        return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);
+        //return new JsonResponse(['isAuthenticated' => true, 'user' => $user->getUserIdentifier()], 200);
+        return $response;
     }
 }

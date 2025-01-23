@@ -286,14 +286,14 @@ function VolunteerForm() {
                                             <button
                                                 onClick={handleExit}
                                                 variant="contained"
-                                                className="font-bold text-xl border-2 border-black hover:border-pink-600 hover:text-pink-600 rounded-lg px-5 py-3 text-center md:mr-4"
+                                                className="secondary-btn-large md:mr-4"
                                             >
                                                 Annuler
                                             </button>
                                             <button
                                                 type="submit"
                                                 variant="contained"
-                                                className="text-white font-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center md:ml-4"
+                                                className="primary-btn-large md:ml-4"
                                             >
                                                 Valider
                                             </button>

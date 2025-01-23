@@ -12,7 +12,7 @@ const slice = createSlice({
     initialState: {
         connected: false,
         isConnecting: false,
-        userId:null,
+        userInfos:null,
         isAdmin: false,
         errors: {
             apiErrorLogin: null,
@@ -38,7 +38,7 @@ const slice = createSlice({
                 state.connected = true;
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
-                state.userId = action.payload;
+                state.userInfos = action.payload.utilisateur;
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;
@@ -47,7 +47,7 @@ const slice = createSlice({
             .addCase(logout.fulfilled, (state, action) => {
                 state.connected = false;
                 state.isAdmin = false;
-                state.userId = null;
+                state.userInfos = null;
                 state.errors.apiErrorLogout = null;
             })
             .addCase(logout.pending, (state, action) => {
@@ -59,6 +59,7 @@ const slice = createSlice({
             // Fonction pour palier le reload de la page qui reset les states
             .addCase(getAuth.fulfilled, (state, action) => {
                state.connected = true;
+               state.userInfos = action.payload.utilisateur;
             })
             // A compléter pour la page profil (modif)
     }

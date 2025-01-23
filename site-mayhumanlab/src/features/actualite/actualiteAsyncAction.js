@@ -75,7 +75,7 @@ export const updateActu = createAsyncThunk(
                 credentials: 'include'
             });
             if (response.status === 403){
-                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
             if (response.status === 409) { // Conflit avec les autres données
                 const error = await response.json();
@@ -119,7 +119,7 @@ export const deleteActu = createAsyncThunk(
                 credentials: 'include'
             });
             if (response.status === 403){
-                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
             if(response.status === 404){
                 const error = await response.json();
