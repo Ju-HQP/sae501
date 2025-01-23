@@ -52,6 +52,16 @@ class AppFixtures extends Fixture
 			$benevole->setRoles(1);
 			$manager->persist($benevole);
 
+			$benevole = new Benevole();
+			$benevole->setNom("Pierre");
+			$benevole->setPrenom("Cailloux");
+			$benevole->setPassword("$2y$08\$HI4CaSPTqiEvyxnqJFFFmunNEXEGljfUZ6mKOLyaBBO37ALpKhnAy");
+			$benevole->setMail("pierre.cailloux@mail.com");
+			$benevole->setTel("0645232478");
+			$benevole->setPhoto("https://st3.depositphotos.com/1743476/16188/i/450/depositphotos_161885998-stock-photo-mature-mixed-race-man-smiling.jpg");
+			$benevole->setRoles(0);
+			$manager->persist($benevole);
+
 			// Les deux autres bénévoles ont des mdp aléatoires, mais pas hash
 			$benevole = new Benevole();
 			$benevole->setNom("Misstaire");
