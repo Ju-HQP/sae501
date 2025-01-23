@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\EmailServ as ControllerEmailServ;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,6 +27,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use App\Entity\Projet;
+use App\Service\EmailServ;
 // Pour la gestion du mot de passe
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -512,4 +514,23 @@ class AdminController extends AbstractController
 			return $response;
 		}
 	}
+
+	#[Route('/send-email', name: 'send_email')]
+    public function sendEmail(EmailServ $emailService): Response
+    {
+        $emailService->sendEmail(
+            'hedrjul@gmail.com',
+            'Bienvenue sur notre application !',
+            'Merci de vous être inscrit !'
+        );
+
+        return new Response('Email envoyé avec succès !');
+    }
+
+	#[Route('/test', name: 'testInfo')]
+    public function infosphp()
+    {
+	echo file_get_contents("https://www.google.com");
+	}
+
 }
