@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 
-const FileInputWithavatarPreview = ({ input, meta, type }) => {
+const FileInputWithPreview = ({ input, meta }) => {
   var file;
   const [avatarPreview, setAvatarPreview] = useState("/default-user.png");
-  const [actuPreview, setActuPreview] = useState("/default-user.png");
+  const [actuPreview, setActuPreview] = useState("");
   const fileUploadRef = useRef();
 
-  function handleKeyDown(e){
-    if(e.key === "Enter" || e.key === ' '){
+  function handleKeyDown(e) {
+    if (e.key === "Enter" || e.key === ' ') {
       handleImageUpload(e);
     }
   }
@@ -31,23 +31,47 @@ const FileInputWithavatarPreview = ({ input, meta, type }) => {
   };
 
   return (
-    <div  className='flex flex-col justify-center items-center col-span-2 md:mb-4'>
-      <label htmlFor={input.name} className='font-semibold mb-4'>Photo de profil</label>
-      <img src={avatarPreview} alt="Avatar" tabIndex="0"
-        className="h-32 w-32 rounded-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload}/>
+    <>
+      {
+        input.name === 'photo_b'
+          ?
+          <div className='flex flex-col justify-center items-center col-span-2 md:mb-4'>
+            <label htmlFor={input.name} className='font-semibold mb-4'>Photo de profil</label>
+            <img src={avatarPreview} alt="Avatar" tabIndex="0"
+              className="h-32 w-32 rounded-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
 
-      <input hidden
-        id={input.name}
-        name="photo_b"
-        type="file"
-        ref={fileUploadRef}
-        accept="image/*"
-        onChange={handleFileChange}
-      />
+            <input hidden
+              id={input.name}
+              name="photo_b"
+              type="file"
+              ref={fileUploadRef}
+              accept="image/*"
+              onChange={handleFileChange}
+            />
 
-      {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
-    </div>
+            {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
+          </div>
+          : input.name === 'image' &&
+          <div className='flex flex-col justify-center items-center col-span-2 md:mb-4'>
+            <label htmlFor={input.name} className='font-semibold mb-4'>Image de couverture</label>
+            <div className=' w-full border-2 border-dashed'>
+              <img src={actuPreview} alt="image de couverture par défaut" tabIndex="0"
+                className="h-32 w-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
+              <input hidden
+                id={input.name}
+                name={input.name}
+                type="file"
+                ref={fileUploadRef}
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </div>
+
+            {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
+          </div>
+      }
+    </>
   );
 };
 
-export default FileInputWithavatarPreview;
+export default FileInputWithPreview;

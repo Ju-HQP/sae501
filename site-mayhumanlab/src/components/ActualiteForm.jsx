@@ -5,6 +5,7 @@ import { stopEditActu } from '../features/actualite/actualiteSlice';
 import { saveActu } from '../features/actualite/actualiteAsyncAction';
 import { selectErrorSave, selectFormTitle, selectInitialFormValues } from '../features/actualite/actualiteSelector';
 import { required } from '../utils/validators';
+import FileInputWithPreview from './FileInputWithPreview';
 
 const ActualiteForm = () => {
 
@@ -62,7 +63,7 @@ const ActualiteForm = () => {
                                     )}
                                 />
 
-                                <Field
+                                {/* <Field
                                     validate={required}
                                     name="image_a"
                                     render={({ input, meta }) => (
@@ -80,7 +81,8 @@ const ActualiteForm = () => {
                                             )}
                                         </div>
                                     )}
-                                />
+                                /> */}
+                                <Field name="image" id="image" component={FileInputWithPreview}/>
 
                                 <Field
                                     validate={required}
