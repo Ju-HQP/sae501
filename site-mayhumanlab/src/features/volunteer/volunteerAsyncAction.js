@@ -90,13 +90,14 @@ export const updateVolunteer = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
+            const formData = new FormData();
+            Object.entries(datas).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
             const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id_benevole}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 credentials: 'include',
-                body: JSON.stringify(datas),
+                body: formData,
             });
             if (response.status === 403) {
                 throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
