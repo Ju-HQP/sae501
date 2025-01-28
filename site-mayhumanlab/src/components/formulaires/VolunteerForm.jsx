@@ -39,7 +39,6 @@ function VolunteerForm() {
     }
 
     const handleSubmit = async (values, form) => {
-        //values.photo_b = avatarURL;
         values.role_b = selectedValue.value;
         dispatch(saveVolunteer(values));
         form.reset();

@@ -81,20 +81,16 @@ class AdminController extends AbstractController
 	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
 		$file = $request->files->get('photo_b');
-		$host = $request->getHost();
-		$port = $request->getPort();
-		$scheme = $request->getScheme();
-		
+		$uploadDir = '/uploads/profile-pictures';
+
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
 		$data = $request->request->all();
 		// ------ Gestion des erreurs
 
 		if (!$data || empty($data['nom_c'])) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
-
-		$uploadDir = '/uploads/profile-pictures';
-		$fileName = uniqid() . "." . $file->guessExtension();
-		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		$mail = $data["mail_b"];
 
@@ -117,25 +113,25 @@ class AdminController extends AbstractController
 			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
-			->setPhoto($scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName ?? null)
+			->setPhoto($src ?? null)
 			->setRoles($data['role_b'] ?? 0);
 
-			$this->logger->info("Liste des compétences récupérées : " . json_encode($comp));
+		$this->logger->info("Liste des compétences récupérées : " . json_encode($comp));
 
-			$tabComp = explode("-", $data['nom_c']); //"soudeur-designer" -> ["soudeur", "designer"]
-			foreach($tabComp as $nomComp){
-				$comp = $this->entityManager->getRepository(Competence::class)
+		$tabComp = explode("-", $data['nom_c']); //"soudeur-designer" -> ["soudeur", "designer"]
+		foreach ($tabComp as $nomComp) {
+			$comp = $this->entityManager->getRepository(Competence::class)
 				->findOneBy(['nom_c' => $nomComp]);
-				if (!$comp) {
-					// Créer une nouvelle compétence si elle n'existe pas
-					$comp = new Competence();
-					$comp->setNom(ucfirst($nomComp));
-					$this->entityManager->persist($comp);
-					$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
-				}
-				$benevole->setComp($comp);
-				$this->logger->info("Ajout de la compétence existante au bénévole");
-			};
+			if (!$comp) {
+				// Créer une nouvelle compétence si elle n'existe pas
+				$comp = new Competence();
+				$comp->setNom(ucfirst($nomComp));
+				$this->entityManager->persist($comp);
+				$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
+			}
+			$benevole->setComp($comp);
+			$this->logger->info("Ajout de la compétence existante au bénévole");
+		};
 
 
 		// --- Génération du mdp aléatoire
@@ -219,19 +215,19 @@ class AdminController extends AbstractController
 			}
 
 			$benevole->setPrenom($data['prenom_b'] ?? $benevole->getPrenom())
-					  ->setNom($data['nom_b'] ?? $benevole->getNom())
-					//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
-					  ->setMail($data['mail_b'] ?? $benevole->getMail())
-					  ->setTel($data['tel_b'] ?? $benevole->getTel())
-					  ->setRoles($data['role_b'] ?? $benevole->getRoles())
-					  ->clearComp();
-					//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
-			
-			if ($data['nom_c']){
+				->setNom($data['nom_b'] ?? $benevole->getNom())
+				//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
+				->setMail($data['mail_b'] ?? $benevole->getMail())
+				->setTel($data['tel_b'] ?? $benevole->getTel())
+				->setRoles($data['role_b'] ?? $benevole->getRoles())
+				->clearComp();
+			//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
+
+			if ($data['nom_c']) {
 				$tabComp = explode("-", $data['nom_c']); //"soudeur-designer" -> ["soudeur", "designer"]
-				foreach($tabComp as $nomComp){
+				foreach ($tabComp as $nomComp) {
 					$comp = $this->entityManager->getRepository(Competence::class)
-					->findOneBy(['nom_c' => $nomComp]);
+						->findOneBy(['nom_c' => $nomComp]);
 					if (!$comp) {
 						// Créer une nouvelle compétence si elle n'existe pas
 						$comp = new Competence();
@@ -243,14 +239,14 @@ class AdminController extends AbstractController
 					$this->logger->info("Ajout de la compétence existante au bénévole");
 				};
 			}
-			
+
 
 			$this->entityManager->persist($benevole);
 			$this->entityManager->flush();
 
 			$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole like :id");
-            $query->setParameter("id", $benevole->getId());
-            $benevoleUpdate = $query->getArrayResult();
+			$query->setParameter("id", $benevole->getId());
+			$benevoleUpdate = $query->getArrayResult();
 			$benevoleUpdate = $benevoleUpdate[0];
 
 			$response = new Response();
@@ -258,8 +254,8 @@ class AdminController extends AbstractController
 			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
 			$response->setContent(json_encode($benevoleUpdate), Response::HTTP_CREATED, [
-                'Content-Type' => 'application/json',
-            ]);
+				'Content-Type' => 'application/json',
+			]);
 			return $response;
 		} else {
 			$response = new Response;
@@ -287,7 +283,13 @@ class AdminController extends AbstractController
 	#[Route('/api/actualites', name: 'adminActualitesAjouter', methods: ['POST'])]
 	public function adminActualitesAjouterAction(Request $request): Response
 	{
-		$data = json_decode($request->getContent(), true);
+
+		$file = $request->files->get('image');
+		$uploadDir = '/uploads/news';
+
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
+		$data = $request->request->all();
 
 		if (!$data) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
@@ -308,7 +310,7 @@ class AdminController extends AbstractController
 		$actualite->setTitre($data['titre_a'] ?? '')
 			->setDescription($data['description_a'] ?? '')
 			->setDate($data['date_a'] ?? '')
-			->setImage($data['image_a'] ?? '');
+			->setImage($src ?? '');
 
 		$this->entityManager->persist($actualite);
 		$this->entityManager->flush();
@@ -435,7 +437,13 @@ class AdminController extends AbstractController
 	#[Route('/api/projects', name: 'adminProjectsAjouter', methods: ['POST'])]
 	public function adminProjectsAjouterAction(Request $request): Response
 	{
-		$data = json_decode($request->getContent(), true);
+
+		$file = $request->files->get('image');
+		$uploadDir = '/uploads/projects';
+
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
+		$data = $request->request->all();
 
 		if (!$data) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
@@ -455,7 +463,7 @@ class AdminController extends AbstractController
 		$project = new Projet();
 		$project->setTitre($data['titre_p'] ?? '')
 			->setDescription($data['description_p'] ?? '')
-			->setImage($data['image_p'] ?? '');
+			->setImage($src ?? '');
 
 		$this->entityManager->persist($project);
 		$this->entityManager->flush();
@@ -562,4 +570,24 @@ class AdminController extends AbstractController
 			return $response;
 		}
 	}
+
+	private function uploadFile($file, String $uploadDir, Request $request): String
+	{
+
+		$host = $request->getHost();
+		$port = $request->getPort();
+		$scheme = $request->getScheme();
+
+		//on génère le nom du fichier
+		$fileName = uniqid() . "." . $file->guessExtension();
+
+		//on place le fichier dans le dossier voulu
+		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
+
+		//on crée le src qui sera stocké dans la bdd
+		$src= $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
+
+		return $src;
+	}
+
 }

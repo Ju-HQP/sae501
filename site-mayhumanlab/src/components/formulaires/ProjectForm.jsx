@@ -16,7 +16,7 @@ const ProjectForm = () => {
     const dispatch = useDispatch();
 
     const handleClose = () => {
-      dispatch(stopEditProject());
+        dispatch(stopEditProject());
     };
 
     const handleSubmit = async (values, form) => {
@@ -42,7 +42,11 @@ const ProjectForm = () => {
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
                         render={({ handleSubmit }) => (
-                            <form onSubmit={handleSubmit} className='md:grid grid-cols-2 md:p-4 lg:px-8 gap-8 gap-y-4'>
+                            <form
+                                onSubmit={handleSubmit}
+                                className='md:grid grid-cols-2 md:p-4 lg:px-8 gap-8 gap-y-4'
+                                enctype="multipart/form-data"
+                            >
                                 <Field
                                     validate={required}
                                     name="titre_p"
@@ -62,7 +66,7 @@ const ProjectForm = () => {
                                         </div>
                                     )}
                                 />
-                                <Field name="image" id="image" component={FileInputWithPreview}/>
+                                <Field name="image" id="image" component={FileInputWithPreview} />
 
                                 <Field
                                     validate={required}

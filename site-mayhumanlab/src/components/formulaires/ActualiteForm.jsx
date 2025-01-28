@@ -16,7 +16,7 @@ const ActualiteForm = () => {
     const dispatch = useDispatch();
 
     const handleClose = () => {
-      dispatch(stopEditActu());
+        dispatch(stopEditActu());
     };
 
     const handleSubmit = async (values, form) => {
@@ -42,7 +42,11 @@ const ActualiteForm = () => {
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
                         render={({ handleSubmit }) => (
-                            <form onSubmit={handleSubmit} className='md:grid grid-cols-2 md:p-4 lg:px-8 gap-8 gap-y-4'>
+                            <form
+                                onSubmit={handleSubmit}
+                                className='md:grid grid-cols-2 md:p-4 lg:px-8 gap-8 gap-y-4'
+                                enctype="multipart/form-data"
+                            >
                                 <Field
                                     validate={required}
                                     name="titre_a"
@@ -63,7 +67,7 @@ const ActualiteForm = () => {
                                     )}
                                 />
 
-                                <Field name="image" id="image" component={FileInputWithPreview}/>
+                                <Field name="image" id="image" component={FileInputWithPreview} />
 
                                 <Field
                                     validate={required}
