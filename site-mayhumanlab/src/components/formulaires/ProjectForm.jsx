@@ -10,6 +10,7 @@ import FileInputWithPreview from './FileInputWithPreview';
 const ProjectForm = () => {
 
     const initialValues = useSelector(selectInitialFormValues);
+    const initialPicture = initialValues ? initialValues.image_p : null;
     const title = useSelector(selectFormTitle);
     const errorSave = useSelector(selectErrorSave);
 
@@ -66,7 +67,7 @@ const ProjectForm = () => {
                                         </div>
                                     )}
                                 />
-                                <Field name="image" id="image" component={FileInputWithPreview} />
+                                <Field name="image" id="image" component={FileInputWithPreview} picture={initialPicture}/>
 
                                 <Field
                                     validate={required}

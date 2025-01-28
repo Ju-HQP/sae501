@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 
-const FileInputWithPreview = ({ input, meta }) => {
+const FileInputWithPreview = ({ input, meta, picture }) => {
   var file;
-  const [avatarPreview, setAvatarPreview] = useState("/default-user.png");
-  const [actuPreview, setActuPreview] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState(picture ?? "/default-user.png");
+  const [imagePreview, setImagePreview] = useState(picture);
   const fileUploadRef = useRef();
 
   function handleKeyDown(e) {
@@ -26,7 +26,7 @@ const FileInputWithPreview = ({ input, meta }) => {
       if (input.name === 'photo_b') {
         reader.onload = () => setAvatarPreview(reader.result); // On récupère les données au format base64
       } else {
-        reader.onload = () => setActuPreview(reader.result);
+        reader.onload = () => setImagePreview(reader.result);
       }
       reader.readAsDataURL(file);
       
@@ -60,9 +60,9 @@ const FileInputWithPreview = ({ input, meta }) => {
           <div className='flex flex-col justify-end mt-3 col-start-2 row-start-1 row-span-2'>
             <label htmlFor={input.name} className='font-semibold mb-4'>Image de couverture</label>
             <div className='h-40 w-full md:h-56 border-2 border-dashed flex justify-center items-center'>
-              {actuPreview
+              {imagePreview
                 ?
-                <img src={actuPreview} alt="image de couverture par défaut" tabIndex="0"
+                <img src={imagePreview} alt="image de couverture par défaut" tabIndex="0"
                   className="h-40 w-full md:h-56 object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
                 :
                 <button className='primary-btn-small' type='submit' onKeyDown={handleKeyDown} onClick={handleImageUpload}>Sélectionner une image</button>

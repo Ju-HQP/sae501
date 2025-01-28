@@ -22,7 +22,6 @@ import FileInputWithPreview from "./FileInputWithPreview";
 function VolunteerForm() {
     const dispatch = useDispatch();
     const loading = useSelector(selectLoading);
-    const [avatarURL, setAvatarURL] = useState("/default-user.png");
     const initialValues = useSelector(selectInitialFormValues);
     const errorSave = useSelector(selectErrorSave);
     const title = useSelector(selectFormTitle);
@@ -33,6 +32,7 @@ function VolunteerForm() {
         { value: 1, label: "Administrateur" },
     ];
     const [selectedValue, setSelectedValue] = useState(initialValues ? options[initialValues.role_b] : '');
+    const initialPicture = initialValues ? initialValues.photo_b : null;
 
     function handleSelect(value) {
         setSelectedValue(value);
@@ -90,7 +90,7 @@ function VolunteerForm() {
                                         className="my-4 px-2 md:grid grid-cols-2 lg:px-8"
                                         enctype="multipart/form-data"
                                     >
-                                        <Field name="photo_b" id="photo_b" component={FileInputWithPreview} />
+                                        <Field name="photo_b" id="photo_b" component={FileInputWithPreview} picture={initialPicture}/>
                                         <Field
                                             validate={required}
                                             name="prenom_b"

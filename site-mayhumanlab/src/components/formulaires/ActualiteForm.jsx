@@ -12,6 +12,8 @@ const ActualiteForm = () => {
     const initialValues = useSelector(selectInitialFormValues);
     const title = useSelector(selectFormTitle);
     const errorSave = useSelector(selectErrorSave);
+    const initialPicture = initialValues ? initialValues.image_a : null;
+
 
     const dispatch = useDispatch();
 
@@ -67,7 +69,7 @@ const ActualiteForm = () => {
                                     )}
                                 />
 
-                                <Field name="image" id="image" component={FileInputWithPreview} />
+                                <Field name="image" id="image" component={FileInputWithPreview} picture={initialPicture} />
 
                                 <Field
                                     validate={required}
