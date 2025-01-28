@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUserInfos } from "../features/user/userSelector";
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import { selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
-import VolunteerForm from "../components/VolunteerForm";
+import VolunteerForm from "../components/formulaires/VolunteerForm";
 import { logout } from "../features/user/connexion";
 import { useNavigate } from "react-router-dom";
 
