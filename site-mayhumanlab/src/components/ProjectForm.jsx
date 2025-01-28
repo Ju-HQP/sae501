@@ -5,6 +5,7 @@ import { stopEditProject } from '../features/project/projectSlice';
 import { saveProject } from '../features/project/projectAsyncAction';
 import { selectErrorSave, selectFormTitle, selectInitialFormValues } from '../features/project/projectSelector';
 import { required } from '../utils/validators';
+import FileInputWithPreview from './FileInputWithPreview';
 
 const ProjectForm = () => {
 
@@ -61,26 +62,7 @@ const ProjectForm = () => {
                                         </div>
                                     )}
                                 />
-
-                                <Field
-                                    validate={required}
-                                    name="image_p"
-                                    render={({ input, meta }) => (
-                                        <div className="flex flex-col">
-                                            <label htmlFor="image_p" className="mt-3 mb-2 font-semibold">Image</label>
-                                            <input
-                                                {...input}
-                                                id="image_p"
-                                                type="text"
-                                                placeholder="Image d'illustration du projet"
-                                                className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
-                                            />
-                                            {meta.touched && meta.error && (
-                                                <span className="text-red-500 text-sm">{meta.error}</span>
-                                            )}
-                                        </div>
-                                    )}
-                                />
+                                <Field name="image" id="image" component={FileInputWithPreview}/>
 
                                 <Field
                                     validate={required}
