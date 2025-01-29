@@ -10,6 +10,7 @@ import {
     redirect
 } from 'react-router-dom';
 import {
+    updatePicture,
     updateProfile
 } from './userAsyncAction';
 
@@ -21,6 +22,7 @@ const slice = createSlice({
         userInfos: null,
         isAdmin: false,
         redirect: false,
+        imageEdit: false,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
@@ -32,7 +34,13 @@ const slice = createSlice({
         },
         stopConnecting(state, action) {
             state.isConnecting = false;
-        }
+        },
+        startImageEdit(state, action){
+            state.imageEdit = true;
+        },
+        stopImageEdit(state, action){
+            state.imageEdit = false;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -75,13 +83,22 @@ const slice = createSlice({
                 state.redirect = true;
             })
             .addCase(updateProfile.pending, (state, action) => {
-                console.log('pending');
+                
+            })
+            .addCase(updatePicture.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.imageEdit = false;
+            })
+            .addCase(updatePicture.pending, (state, action) => {
+
             })
     }
 })
 
 export const {
     startConnecting,
-    stopConnecting
+    stopConnecting,
+    startImageEdit,
+    stopImageEdit
 } = slice.actions;
 export default slice.reducer;

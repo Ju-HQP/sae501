@@ -61,7 +61,6 @@ const slice = createSlice({
             })
             .addCase(addVolunteer.fulfilled, (state, action) => {
                 state.volunteers = [...state.volunteers, action.payload];
-                console.log(action.payload);
                 state.volunteerModifying = false;
                 state.loading = false;
                 state.dataSend = {};

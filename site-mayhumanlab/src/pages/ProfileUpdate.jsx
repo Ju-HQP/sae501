@@ -12,7 +12,7 @@ function ProfileUpdate() {
 
     const handleSubmit = async (values, form) => {
         values.role_b = null;
-        console.log(values);      
+        console.log(values);
         dispatch(updateProfile(values));
     };
 
@@ -29,7 +29,6 @@ function ProfileUpdate() {
                             className="my-4 px-2 md:grid grid-cols-2 lg:px-8"
                         >
                             <Field
-                                //validate={required}
                                 name="prenom_b"
                                 render={({ input, meta }) => (
                                     <div className="flex flex-col md:px-4">
@@ -58,7 +57,6 @@ function ProfileUpdate() {
                                 )}
                             ></Field>
                             <Field
-                                //validate={required}
                                 name="nom_b"
                                 render={({ input, meta }) => (
                                     <div className="flex flex-col col-start-1 md:px-4">
@@ -87,7 +85,7 @@ function ProfileUpdate() {
                                 )}
                             ></Field>
                             <Field
-                                //validate={required}
+
                                 name="mail_b"
                                 render={({ input, meta }) => (
                                     <div className="flex flex-col col-start-1 md:px-4">

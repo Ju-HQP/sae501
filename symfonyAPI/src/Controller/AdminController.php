@@ -182,6 +182,38 @@ class AdminController extends AbstractController
 		}
 	}
 
+	#[Route('/api/benevoles/{id}/image', name: 'imageModifier', methods: ['POST'])]
+	public function imageModifierAction(Request $request, String $id): Response
+	{
+		$file = $request->files->get('new_image');
+
+		$uploadDir = '/uploads/profile-pictures';
+		if(!$file) {
+			return new Response('Missing File', Response::HTTP_BAD_REQUEST);
+		}
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
+		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+
+		$benevole->setImage($src);
+		
+		$this->entityManager->persist($benevole);
+		$this->entityManager->flush();
+
+		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole like :id");
+		$query->setParameter("id", $benevole->getId());
+		$benevoleUpdate = $query->getArrayResult();
+		$benevoleUpdate = $benevoleUpdate[0];
+
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_OK);
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		$response->setContent(json_encode($benevoleUpdate), Response::HTTP_CREATED, [
+			'Content-Type' => 'application/json',
+		]);
+		return $response;
+	}
 
 	#[Route('/api/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
 	public function adminBenevolesModifierAction(Request $request, String $id): Response
@@ -585,9 +617,8 @@ class AdminController extends AbstractController
 		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		//on crée le src qui sera stocké dans la bdd
-		$src= $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
+		$src = $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
 
 		return $src;
 	}
-
 }

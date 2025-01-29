@@ -20,6 +20,7 @@ const FileInputWithPreview = ({ input, meta, picture }) => {
   const handleFileChange = (e) => {
     file = e.target.files[0];
     input.onChange(file); // Met à jour le formulaire localement
+    console.log("Le fichier est un fichier : "+ file.type instanceof File);
 
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -29,7 +30,7 @@ const FileInputWithPreview = ({ input, meta, picture }) => {
         reader.onload = () => setImagePreview(reader.result);
       }
       reader.readAsDataURL(file);
-      
+
     } else {
       setAvatarPreview(null); // Réinitialiser l'aperçu si ce n'est pas une image
     }
@@ -56,29 +57,56 @@ const FileInputWithPreview = ({ input, meta, picture }) => {
 
             {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
           </div>
-          : input.name === 'image' &&
-          <div className='flex flex-col justify-end mt-3 col-start-2 row-start-1 row-span-2'>
-            <label htmlFor={input.name} className='font-semibold mb-4'>Image de couverture</label>
-            <div className='h-40 w-full md:h-56 border-2 border-dashed flex justify-center items-center'>
-              {imagePreview
-                ?
-                <img src={imagePreview} alt="image de couverture par défaut" tabIndex="0"
-                  className="h-40 w-full md:h-56 object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
-                :
-                <button className='primary-btn-small' type='submit' onKeyDown={handleKeyDown} onClick={handleImageUpload}>Sélectionner une image</button>
+          :
+          input.name === 'image'
+            ?
+            <div className='flex flex-col justify-end mt-3 col-start-2 row-start-1 row-span-2'>
+              <label htmlFor={input.name} className='font-semibold mb-4'>Image de couverture</label>
+              <div className='h-40 w-full md:h-56 border-2 border-dashed flex justify-center items-center'>
+                {imagePreview
+                  ?
+                  <img src={imagePreview} alt="image de couverture par défaut" tabIndex="0"
+                    className="h-40 w-full md:h-56 object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
+                  :
+                  <button className='primary-btn-small' type='submit' onKeyDown={handleKeyDown} onClick={handleImageUpload}>Sélectionner une image</button>
+                }
+                <input hidden
+                  id={input.name}
+                  name={input.name}
+                  type="file"
+                  ref={fileUploadRef}
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
+            </div>
+            :
+            <div className='flex flex-col'>
+              <label htmlFor={input.name} className='font-semibold mb-4'>Photo de Profil</label>
+              <div className='h-40 w-full md:h-56 border-2 border-dashed flex justify-center items-center'>
+                {imagePreview
+                  ?
+                  <img src={imagePreview} alt="image de couverture par défaut" tabIndex="0"
+                    className="h-40 w-40 rounded-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
+                  :
+                  <button className='primary-btn-small' type='submit' onKeyDown={handleKeyDown} onClick={handleImageUpload}>Sélectionner une image</button>
+                }
+                <input hidden
+                  id={input.name}
+                  name={input.name}
+                  type="file"
+                  ref={fileUploadRef}
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </div>
+
+              {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>
               }
-              <input hidden
-                id={input.name}
-                name={input.name}
-                type="file"
-                ref={fileUploadRef}
-                accept="image/*"
-                onChange={handleFileChange}
-              />
             </div>
 
-            {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
-          </div>
       }
     </>
   );
