@@ -18,6 +18,7 @@ import {
     selectLoading,
 } from "../features/volunteer/volunteerSelector";
 import FileInputWithPreview from "./FileInputWithPreview";
+import LoadingModale from "./LoadingModale";
 
 function VolunteerForm() {
     const dispatch = useDispatch();
@@ -61,12 +62,7 @@ function VolunteerForm() {
         <>
             <div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
                 {loading ? (
-                    <div className="h-fit bg-white shadow-xl rounded flex flex-col items-center justify-center w-fit p-4">
-                        <p className="font-semibold mb-3">
-                            Requête en cours de traitement... A FAIRE
-                        </p>
-                        <img src="/loading.svg" className="w-16" />
-                    </div>
+                    <LoadingModale/>
                 ) : (
                     <dialog
                         open

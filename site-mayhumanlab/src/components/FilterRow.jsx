@@ -95,7 +95,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
       <button
         type="button"
         onClick={() => onRemove(index)}
-        className="px-3 py-1 primary-btn-small"
+        className="px-3 py-1 secondary-btn-small"
       >X</button>
     </div>
   );

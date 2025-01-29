@@ -45,7 +45,7 @@ function VolunteersListGestion() {
         <div className="w-full flex justify-end">
           <button
             onClick={handleAddVolunteer}
-            className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+            className=" text-white primary-btn-small"
           >
             Créer un bénévole
           </button>
@@ -65,7 +65,6 @@ function VolunteersListGestion() {
           <table className="mt-8 w-11/12 min-w-fit border-separate border-spacing-4">
             <thead className="h-16">
               <tr>
-                <th>ID</th>
                 <th>Photo</th>
                 <th>Prénom</th>
                 <th>Nom</th>

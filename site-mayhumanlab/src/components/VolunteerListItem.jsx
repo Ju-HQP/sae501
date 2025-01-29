@@ -18,10 +18,7 @@ function VolunteerListItem({ volunteer, width }) {
         dispatch(startVolunteerEdit(volunteer.id_benevole));
     }
 
-    /*constante de TEST */
-    const competences = [
-        "Soudeur", "Graphiste", "Designeur"
-    ]
+    const competence = [...volunteer.competences];
 
     return (
         width < 1024
@@ -29,12 +26,10 @@ function VolunteerListItem({ volunteer, width }) {
             <section className="mt-12 grid grid-cols-2 w-full gap-2 max-w-md">
                 <img src={volunteer.photo_b} className="col-end-3 m-auto row-start-1 row-end-4 w-24 h-24 rounded-full object-cover"/>
                 <p className="col-start-1 text-xl font-semibold">{volunteer.prenom_b} {volunteer.nom_b}</p>
-                <p className="col-start-1">164574518456</p>
                 <p className="col-start-1">{volunteer.tel_b}</p>
                 <p className="col-start-1">{volunteer.mail_b}</p>
                 <span className="flex col-span-2 m-auto my-2 justify-between gap-4">
-                    <p className="rounded-full px-4 bg-slate-300">Compétence 1</p>
-                    <p className="rounded-full px-4 bg-slate-300">Compétence 2</p>
+                    {competence.map((competence)=><p className="rounded-full px-4 bg-slate-300">{competence.nom_c}</p>)}
                 </span>
                 <div className="flex col-span-2 m-auto w-full">
                     <button className='primary-btn-small mr-2 w-full' onClick={handlePlay}>Modifier</button>
@@ -43,19 +38,18 @@ function VolunteerListItem({ volunteer, width }) {
             </section>
             :
             <tr className="h-16">
-                <td className="text-center px-2">164574518456</td>
                 <td className="flex justify-center">
                     <img src={volunteer.photo_b} className="text-center rounded-full w-12 h-12 object-cover"></img>
                 </td>
                 <td className="text-center px-2">{volunteer.prenom_b}</td>
                 <td className="text-center px-2">{volunteer.nom_b}</td>
-                <td className="text-center relative font-semibold p-2" onMouseOver={()=>{setIsDropdownOpen(true)}} onMouseLeave={()=>{setIsDropdownOpen(false)}}>
-                    <p className="rounded-full px-2 bg-slate-300">{competences[0]} ...</p>
+                <td className="text-center relative p-2" onMouseOver={()=>{setIsDropdownOpen(true)}} onMouseLeave={()=>{setIsDropdownOpen(false)}}>
+                    <p className="rounded-full px-2 bg-slate-300">{competence[0]?.nom_c}{competence.length > 1 && " ..."}</p>
                 {
-                    isDropdownOpen
+                    isDropdownOpen && competence.length > 1
                     &&
-                    <ul className="absolute top-0 left-0 right-0 bg-white z-10 rounded-lg shadow-md p-4 flex flex-col gap-2">
-                        {competences.map((comp)=><li className="rounded-full px-4 py-2 bg-slate-300">{comp}</li>)}
+                    <ul className="absolute top-0 left-0 right-0 bg-white z-10 rounded-lg shadow-md p-2 flex flex-col gap-2">
+                        {competence.map((competence)=><li className="rounded-full py-1 bg-slate-300">{competence.nom_c}</li>)}
                     </ul>
                 }
                     

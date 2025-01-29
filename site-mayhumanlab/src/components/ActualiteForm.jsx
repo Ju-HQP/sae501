@@ -3,14 +3,16 @@ import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { stopEditActu } from '../features/actualite/actualiteSlice';
 import { saveActu } from '../features/actualite/actualiteAsyncAction';
-import { selectErrorSave, selectFormTitle, selectInitialFormValues } from '../features/actualite/actualiteSelector';
+import { selectErrorSave, selectFormTitle, selectInitialFormValues, selectLoadingActu } from '../features/actualite/actualiteSelector';
 import { required } from '../utils/validators';
+import LoadingModale from './LoadingModale';
 
 const ActualiteForm = () => {
 
     const initialValues = useSelector(selectInitialFormValues);
     const title = useSelector(selectFormTitle);
     const errorSave = useSelector(selectErrorSave);
+    const loading = useSelector(selectLoadingActu);
 
     const dispatch = useDispatch();
 
@@ -27,6 +29,9 @@ const ActualiteForm = () => {
 
     return (
         <div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
+            {loading ? (
+                    <LoadingModale/>
+                ) : (
             <dialog open className="w-screen shadow-2xl rounded-lg relative p-4">
                 <div className="flex flex-col justify-center mt-8 lg:mt-10">
                     <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">{title}</h2>
@@ -141,6 +146,7 @@ const ActualiteForm = () => {
                     />
                 </div>
             </dialog>
+            )}
         </div>
     );
 };
