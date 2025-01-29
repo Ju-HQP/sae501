@@ -138,13 +138,13 @@ function Nav() {
                   Trombinoscope
                 </NavLink>
               </li>
-              <li className="my-3">
+              <li className="my-3 text-center">
                 <NavLink
                   to="/gestion-du-site"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
-                      : "py-2 px-4  hover:bg-slate-100 rounded"
+                      ? "text-pink-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
+                      : "hover:bg-slate-100 rounded"
                   }
                 >
                   Gestion du site
@@ -154,13 +154,13 @@ function Nav() {
               {
                 /**QUE POUR LES ADMINS */
                 isAdmin && (
-                  <li className="my-3">
+                  <li className="my-3 text-center">
                     <NavLink
                       to="/gestion-des-benevoles"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
-                          : "py-2 px-4  hover:bg-slate-100 rounded"
+                          ? "text-pink-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
+                          : "hover:bg-slate-100 rounded"
                       }
                     >
                       Gestion des comptes
