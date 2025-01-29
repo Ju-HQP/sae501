@@ -16,6 +16,11 @@ function VolunteersChart() {
   const loading = useSelector(selectLoading);
   const errorLoading = useSelector(selectErrorLoad);
   const volunteerList = useSelector(selectVolunteer);
+  const [width, setWidth] = useState(window.innerWidth);
+
+  function handleResize() {
+    setWidth(window.innerWidth);
+  }
 
   const [filters, setFilters] = useState([]);
 
@@ -35,8 +40,9 @@ function VolunteersChart() {
   }
 
   useEffect(() => {
-    dispatch(loadVolunteer());
-  }, []);
+    dispatch(loadVolunteer()); window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [dispatch]);
 
   return (
     <>
@@ -46,13 +52,14 @@ function VolunteersChart() {
           Trombinoscope
         </h1>
 
-        <FilterForm onFilter={onFilter}/>
+        <FilterForm onFilter={onFilter} width={width}/>
 
         {loading ? (
-          <p className="text-center">Chargement des données...</p>
+          <p className="text-center m-16">Chargement des données...</p>
         ) : errorLoading ? (
           <p className="text-center">{errorLoading}</p>
         ) : (
+          
           <div className="grid grid-cols-1 md:grid-cols-2">
             {memorizedValues.map((volunteer) => (
               <VolunteersChartItem key={volunteer.id} volunteer={volunteer} />

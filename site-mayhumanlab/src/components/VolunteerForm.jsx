@@ -63,7 +63,7 @@ function VolunteerForm() {
                 {loading ? (
                     <div className="h-fit bg-white shadow-xl rounded flex flex-col items-center justify-center w-fit p-4">
                         <p className="font-semibold mb-3">
-                            Requête en cours de traitement...
+                            Requête en cours de traitement... A FAIRE
                         </p>
                         <img src="/loading.svg" className="w-16" />
                     </div>

@@ -1,36 +1,56 @@
 import React, { Fragment, useState } from 'react';
 import { Form } from 'react-final-form';
 import FilterRow from './FilterRow.jsx';
-import { filterProperty, filterDate } from '../utils/filters.js';
+import { filterProperty, filterDate, filterCompetence } from '../utils/filters.js';
 
-const FilterForm = ({ onFilter }) => {
+const FilterForm = ({ onFilter, width }) => {
   const [conditions, setConditions] = useState([]);
 
   const mappingFilters = {
     nom_b: filterProperty,
     prenom_b: filterProperty,
+    competences: filterCompetence,
   };
 
   const handleAddCondition = () => {
     setConditions([...conditions, { property: 'nom_b', search: '' }]);
   };
 
-  const handleSubmit = (values) => {
-    setConditions(values.conditions);
+  const handleRemoveCondition = (index) => {
+    const newConditions = conditions.filter((_, i) => i !== index);
+    setConditions(newConditions);
 
-    const filterFunctions = values.conditions.map((condition) =>
+    // Appliquer immédiatement les nouveaux filtres
+    const filterFunctions = newConditions.map((condition) =>
       mappingFilters[condition.property](condition.property)(condition.search)
     );
+    onFilter(filterFunctions);
+  };
 
+  const handleSubmit = (values) => {
+    const filteredConditions = values.conditions.filter(
+      (condition) => condition.search.trim() !== ""
+    );
+  
+    setConditions(filteredConditions);
+  
+    // Appliquer uniquement les filtres valides
+    const filterFunctions = filteredConditions.map((condition) =>
+      mappingFilters[condition.property](condition.property)(condition.search)
+    );
+  
     onFilter(filterFunctions);
   };
 
   const handleReset = (form) => {
     setConditions([]);
+    onFilter([]);
     form.reset();
   };
 
   return (
+    width < 750
+      ?
     <Form
       onSubmit={handleSubmit}
       onReset={handleReset}
@@ -38,48 +58,101 @@ const FilterForm = ({ onFilter }) => {
         <form
           onSubmit={handleSubmit}
           onReset={() => handleReset(form)}
-          className="space-y-4 rounded-lg p-4 mx-16"
+          className="space-y-4 p-6 border-t-2 border-b-2 border-solid m-4"
         >
           <fieldset>
-            <legend className="text-lg font-semibold">Filtres</legend>
+            <div className="flex items-center space-x-4 justify-between w-full">
+              <legend className="text-lg font-semibold">Filtres</legend>
+              <button type="button" onClick={handleAddCondition} className="flex items-center justify-center px-4 py-2 secondary-btn-small">
+                  +
+              </button>
+            </div>
 
             {conditions.map((condition, index) => (
               <Fragment key={index}>
-                <FilterRow conditions={conditions} index={index} />
+                <FilterRow conditions={conditions} index={index} width={width} onRemove={handleRemoveCondition} />
               </Fragment>
             ))}
-
-            <div className="flex items-center space-x-4 mt-4">
-              <button
-                type="button"
-                onClick={handleAddCondition}
-                className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100"
-              >
-                Ajouter un filtre
-              </button>
-
-              {conditions.length > 0 && (
+            {conditions.length > 0 && (
+              <div className="flex items-center space-x-4 mt-4 justify-between w-full">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  className="px-4 py-2 secondary-btn-small mx-2 w-full"
                 >
                   Appliquer
                 </button>
-              )}
-
-              {conditions.length > 0 && (
+              
                 <button
                   type="reset"
-                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+                  className="px-4 py-2 primary-btn-small w-full"
                 >
                   Réinitialiser
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </fieldset>
         </form>
       )}
     />
+
+
+
+
+    :
+
+
+
+
+    <Form
+    onSubmit={handleSubmit}
+    onReset={handleReset}
+    render={({ handleSubmit, form }) => (
+      <form
+        onSubmit={handleSubmit}
+        onReset={() => handleReset(form)}
+        className="space-y-4 p-4 mx-16 border-t-2 border-b-2 border-solid"
+      >
+        <fieldset>
+          <div className="flex items-center space-x-4 justify-between">
+            <legend className="text-lg font-semibold">Filtres</legend>
+            <button
+              type="button"
+              onClick={handleAddCondition}
+              className="flex items-center justify-center px-4 py-2 secondary-btn-small"
+            >
+              Ajouter un filtre
+            </button>
+          </div>
+
+
+
+          {conditions.map((condition, index) => (
+            <Fragment key={index}>
+              <FilterRow conditions={conditions} index={index} width={width} onRemove={handleRemoveCondition} />
+            </Fragment>
+          ))}
+
+          {conditions.length > 0 && (
+            <div className="flex items-center space-x-4 mt-4 justify-between">
+              <button
+                type="submit"
+                className="px-4 py-2 secondary-btn-small mx-2"
+              >
+                Appliquer
+              </button>
+            
+              <button
+                type="reset"
+                className="px-4 py-2 primary-btn-small"
+              >
+                Réinitialiser
+              </button>
+            </div>
+          )}
+        </fieldset>
+      </form>
+    )}
+  />
   );
 };
 
