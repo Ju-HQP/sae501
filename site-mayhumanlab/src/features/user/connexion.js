@@ -4,6 +4,7 @@ import {
 import {
     URL_API_AUTH,
     URL_API_CSRF,
+    URL_API_FORGOUT,
     URL_API_LOGIN
 } from '../../utils/config.js';
 import {
@@ -33,6 +34,27 @@ export const csrfToken = createAsyncThunk(
         }
     }
 )
+
+export const sendMail = createAsyncThunk(
+    'user/mail',
+    async (datas, {
+        rejectWithValue
+    }) => {
+        try {
+            console.log(datas);
+            const res = await fetch(URL_API_FORGOUT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify(datas)
+            });
+            return await res.json();
+        } catch (er) {
+            return rejectWithValue(+er.response.data.error.message);
+        }
+    });
 
 export const login = createAsyncThunk(
     'user/login',
