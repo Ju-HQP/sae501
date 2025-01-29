@@ -49,7 +49,7 @@ class PasswordMailerService
                 ->from(new Address('do-not-answer-pls@gmail.com', 'MayHumanLab Admin'))
                 ->to((string) $user->getMail())
                 ->subject('Obtention du mot de passe de votre compte')
-                ->htmlTemplate('password_manager/email.html.twig')
+                ->htmlTemplate('password_manager/first_email.html.twig')
                 ->context([
                     'token' => $token,
                     'password' => $passwordUser,
@@ -79,6 +79,7 @@ class PasswordMailerService
         ]);
 
         if (!$user) {
+            $this->logger->info("Utilisateur non trouvé");
             $response = new Response();
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $response->setContent(json_encode(['message' => 'Le bénévole n\'existe pas.']));
@@ -88,12 +89,11 @@ class PasswordMailerService
         try {
             // J'utilise le générateur de token de ResetPasswordHelper pour générer un lien
             $token = $this->resetPasswordHelper->generateResetToken($user);
-
             $email = (new TemplatedEmail())
                 ->from(new Address('do-not-answer-pls@gmail.com', 'MayHumanLab Admin'))
                 ->to((string) $user->getMail())
                 ->subject('Obtention du mot de passe de votre compte')
-                ->htmlTemplate('password_manager/email.html.twig')
+                ->htmlTemplate('password_manager/reset_email.html.twig')
                 ->context([
                     'token' => $token,
                 ]);
@@ -105,6 +105,8 @@ class PasswordMailerService
             return $response;
 
         } catch (ResetPasswordExceptionInterface $e) {
+            $this->logger->info("ERRORRRR");
+
             $response = new Response();
             $response->setStatusCode(Response::HTTP_EXPECTATION_FAILED); // Error 417
             $response->setContent(json_encode(['message' => 'Le lien d\'obtention du mot de passe ne s\'est pas généré correctement, merci d\'utiliser la fonction de mot de passe oublié.']));

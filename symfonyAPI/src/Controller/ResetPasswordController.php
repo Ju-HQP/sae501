@@ -24,7 +24,6 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
-#[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
@@ -42,13 +41,13 @@ class ResetPasswordController extends AbstractController
      * Confirmation page after a user has requested a password reset.
      */
     #[Route('/forgot-password', name: 'app_forgot_password', methods:['POST'])]
-    public function checkEmail(PasswordMailerService $passwordMailerService, Request $request): JsonResponse
+    public function checkEmail(PasswordMailerService $passwordMailerService, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
         $mailResetPassword = $data['mail_retrieve'];
 
         if ($mailResetPassword){
-            // $passwordMailRequest = $passwordMailerService->processSendingPasswordEmail($mailResetPassword);
+            $linkMailRequest = $passwordMailerService->processSendingOnlyLinkResetPasswordEmail($mailResetPassword);
         }
         $response = new Response();
 			$response->setStatusCode(Response::HTTP_OK);
@@ -56,7 +55,7 @@ class ResetPasswordController extends AbstractController
 			return $response;
     }
 
-    #[Route('/{token}', name: 'app_reset_password', methods: ['GET', 'POST'])]
+    #[Route('/reset-password/{token}', name: 'app_reset_password', methods: ['GET', 'POST'])]
     public function resetPassword(
         RequestStack $requestStack, Request $request,
         UserPasswordHasherInterface $passwordHasher,
