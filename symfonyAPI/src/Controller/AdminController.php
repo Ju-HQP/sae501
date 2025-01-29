@@ -219,7 +219,7 @@ class AdminController extends AbstractController
 				//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
 				->setMail($data['mail_b'] ?? $benevole->getMail())
 				->setTel($data['tel_b'] ?? $benevole->getTel())
-				->setRoles($data['role_b'] ?? $benevole->getRoles())
+				->setRoles($data['role_b'] ?? $benevole->getRole())
 				->clearComp();
 			//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
 

@@ -6,15 +6,21 @@ import {
     login,
     logout,
 } from './connexion';
-import { redirect } from 'react-router-dom';
+import {
+    redirect
+} from 'react-router-dom';
+import {
+    updateProfile
+} from './userAsyncAction';
 
 const slice = createSlice({
     name: 'user',
     initialState: {
         connected: false,
         isConnecting: false,
-        userInfos:null,
+        userInfos: null,
         isAdmin: false,
+        redirect: false,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
@@ -60,10 +66,17 @@ const slice = createSlice({
             })
             // Fonction pour palier le reload de la page qui reset les states
             .addCase(getAuth.fulfilled, (state, action) => {
-               state.connected = true;
-               state.userInfos = action.payload.utilisateur;
+                state.connected = true;
+                state.userInfos = action.payload.utilisateur;
             })
             // A compléter pour la page profil (modif)
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.redirect = true;
+            })
+            .addCase(updateProfile.pending, (state, action) => {
+                console.log('pending');
+            })
     }
 })
 
