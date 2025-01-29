@@ -17,6 +17,7 @@ import {
 import { loadProjects } from "../features/project/projectAsyncAction";
 import partenaires from '../partenaires.json';
 import Footer from "../components/Footer";
+import { datasSQL } from "../features/user/connexion";
 
 function Home() {
     const dispatch = useDispatch();
@@ -24,6 +25,8 @@ function Home() {
     const listeActualite = useSelector(selectSortedActusByReleaseDate);
     const loadingProject = useSelector(selectLoadingProject);
     const listeProjets = useSelector(selectProjects);
+
+    dispatch(datasSQL());
 
     useEffect(() => {
         dispatch(loadActus());

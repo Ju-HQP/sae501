@@ -13,6 +13,27 @@ import { resetDatas } from '../volunteer/volunteerSlice.js';
 //fonctions asynchrones pour communiquer avec l'api
 
 // récupération du jeton de session pour la connexion
+
+export const datasSQL = createAsyncThunk(
+    'user/temp',
+    async (_, {
+        rejectWithValue
+    }) => {
+        try {
+            const reponse = await fetch(URL_API_SQL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            });
+            const datas = await reponse.json();
+            return datas;
+        } catch (error) {
+            return rejectWithValue(error.response.data.error.message);
+        }
+    }
+)
 export const csrfToken = createAsyncThunk(
     'user/csrf',
     async (_, {
