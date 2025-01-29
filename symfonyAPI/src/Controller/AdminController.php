@@ -412,8 +412,8 @@ class AdminController extends AbstractController
 
 	//------------------------------------ PROJET ------------------------------------//
 
-	#[Route('/api/projects/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
-	#[Route('/api/projects', name: 'allow-create-project', methods: ['OPTIONS'])]
+	#[Route('/api/projets/{id}', name: 'allow-retrieve-project', methods: ['OPTIONS'])]
+	#[Route('/api/projets', name: 'allow-create-project', methods: ['OPTIONS'])]
 	public function allowProject(Request $request): Response
 	{
 		$response = new Response(); // Action qui autorise le options
@@ -424,7 +424,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/api/projects', name: 'adminProjects', methods: ['GET'])]
+	#[Route('/api/projets', name: 'adminProjects', methods: ['GET'])]
 	public function adminProjectsAction(): Response
 	{
 		$query = $this->entityManager->createQuery("SELECT p FROM App\Entity\Projet p");
@@ -437,7 +437,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/api/projects', name: 'adminProjectsAjouter', methods: ['POST'])]
+	#[Route('/api/projets', name: 'adminProjectsAjouter', methods: ['POST'])]
 	public function adminProjectsAjouterAction(Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
@@ -475,7 +475,7 @@ class AdminController extends AbstractController
 		return $response;
 	}
 
-	#[Route('/api/projects/{idProject}', name: 'adminProjectsSupprimer', methods: ['DELETE'])]
+	#[Route('/api/projets/{idProject}', name: 'adminProjectsSupprimer', methods: ['DELETE'])]
 	public function adminProjectsSupprimerAction(string $idProject): Response
 	{
 
@@ -509,7 +509,7 @@ class AdminController extends AbstractController
 	}
 
 
-	#[Route('/api/projects/{idProject}', name: 'adminProjectsModifier', methods: ['PUT'])]
+	#[Route('/api/projets/{idProject}', name: 'adminProjectsModifier', methods: ['PUT'])]
 	public function adminProjectsModifierAction(string $idProject, Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);

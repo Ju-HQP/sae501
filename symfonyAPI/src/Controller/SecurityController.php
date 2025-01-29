@@ -19,6 +19,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+#[Route('/api')]
 class SecurityController extends AbstractController
 {
 
