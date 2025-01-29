@@ -28,6 +28,7 @@ export const datasSQL = createAsyncThunk(
                 credentials: 'include'
             });
             const datas = await reponse.json();
+            console.log(datas);
             return datas;
         } catch (error) {
             return rejectWithValue(error.response.data.error.message);
