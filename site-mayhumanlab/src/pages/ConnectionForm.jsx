@@ -5,6 +5,7 @@ import { required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { login } from "../features/user/connexion.js";
 import { selectErrorLogin } from "../features/user/userSelector.js";
+import { Link } from "react-router-dom";
 
 function ConnectionForm() {
   const dispatch = useDispatch();
@@ -100,6 +101,8 @@ function ConnectionForm() {
                     )}
                   ></Field>
                   <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
+                  <Link to="/mail-reinitialiser">Mot de passe oublié ?</Link>
+
                     <button
                       onClick={handleExit}
                       variant="contained"

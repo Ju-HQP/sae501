@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import { useDispatch } from "react-redux";
 import { logout } from "../features/user/connexion";
 
-function PasswordPage() {
+function MailResetForm() {
   const { token } = useParams(); // Récupère le token dans l'URL
   const [isValidToken, setIsValidToken] = useState(false);
 
@@ -16,41 +16,9 @@ function PasswordPage() {
   const navigate = useNavigate();
 
   const url = token ? `${URL_API_PASSWORD}/${token}` : URL_API_PASSWORD;
-  // Vérifier si le token est valide via une requête API
-  fetch(url, {
-    method: "GET",
-    credentials: "include",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      if (data.redirect) {
-        navigate(data.redirect);
-      }
-      if (data.valid) {
-        setIsValidToken(data.valid);
-      }
-    })
-    .catch(() => {
-      setIsValidToken(false);
-    });
-
-  const handleSubmit = async (values) => {
-    const dataToSend = { ...values };
-    fetch(`${URL_API_PASSWORD}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataToSend),
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          alert("Mot de passe réinitialisé avec succès !");
-        } else {
-          alert("Erreur lors de la réinitialisation du mot de passe.");
-        }
-      });
+  
+  const handleSubmit = async (value) => {
+   dispatch(sendMail(value));
   };
 
   const handleBackHome = async () => {
@@ -76,24 +44,11 @@ function PasswordPage() {
             >
               <span className="flex justify-center flex-col mt-8 lg:mt-12">
                 <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">
-                  Réinitialiser votre mot de passe
+                 Mot de passe oublié ?
                 </h2>
-
-                {!isValidToken && (
-                  <div>
-                    <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-                      Le lien est invalide ou a expiré. Veuillez refaire une
-                      demande de réinitialisation.
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleBackHome}
-                      className="secondary-btn-large md:mr-4"
-                    >
-                      Revenir à l'accueil
-                    </button>
-                  </div>
-                )}
+                <h3 className="text-2xl font-bold text-center md:text-4xl mb-4">
+                 Mot de passe oublié ?
+                </h3>
 
                 {isValidToken && (
                   <Form
@@ -158,4 +113,4 @@ function PasswordPage() {
   );
 }
 
-export default PasswordPage;
+export default MailResetForm;

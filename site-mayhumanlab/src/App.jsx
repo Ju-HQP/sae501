@@ -8,7 +8,8 @@ import { useDispatch } from "react-redux";
 import { getAuth } from "./features/user/connexion";
 import { useEffect } from "react";
 import Profile from "./pages/Profile";
-import PasswordPage from "./pages/PasswordPage";
+import MailResetForm from "./pages/MailResetForm";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,7 +31,8 @@ function App() {
           path="/gestion-des-benevoles"
           element={<VolunteersListGestion />}
         />
-        <Route path="/reset-password/:token?" element={<PasswordPage />} />
+        <Route path="/mail-reinitialiser" element={<MailResetForm />} />
+        <Route path="/reset-password/:token?" element={<ResetPassword />} />
       </Routes>
     </>
   );
