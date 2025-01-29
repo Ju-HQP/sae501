@@ -26,7 +26,7 @@ function Home() {
     const loadingProject = useSelector(selectLoadingProject);
     const listeProjets = useSelector(selectProjects);
 
-    dispatch(datasSQL());
+    // dispatch(datasSQL());
 
     useEffect(() => {
         dispatch(loadActus());
