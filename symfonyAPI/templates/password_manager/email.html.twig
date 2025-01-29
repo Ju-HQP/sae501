@@ -1,0 +1,11 @@
+<h1>Bienvenue sur le mode Bénévole du site de MayHumanLab !</h1>
+
+<p>Voici votre mot de passe actuel, n'hésitez pas à le modifier en suivant le lien ci-dessous :</p>
+
+<a href="{{ frontend_url }}/reset-password/{{ token.token }}">{{ frontend_url }}/reset-password/{{ token.token }}</a>
+
+<p>Le lien expirera dans {{ token.expirationMessageKey|trans(token.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+<p>Mot de passe actuel : {{password}}</p>
+
+<p>Bonne navigation sur Mayhumanlab.fr</p>

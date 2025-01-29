@@ -34,6 +34,7 @@ security:
 
     # Règles d'accès
     access_control:
+        - { path: ^/reset-password, roles: PUBLIC_ACCESS }  #accessible sans authentification (utilisation d'un token URL stocké dans la session depuis le mail)
         - { path: ^/csrf_token, roles: PUBLIC_ACCESS }  #accessible sans authentification
         - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] }
         - { path: ^/api/actualites, roles: PUBLIC_ACCESS, methods: [GET] }

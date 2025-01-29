@@ -26,17 +26,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use App\Entity\Projet;
+use App\Service\PasswordMailerService;
+use Symfony\Component\HttpFoundation\RequestStack;
 // Pour la gestion du mot de passe
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\ByteString;
 
 class AdminController extends AbstractController
 {
 	private EntityManagerInterface $entityManager;
 	private LoggerInterface $logger;
 
-	public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+	public function __construct(EntityManagerInterface $entityManager,LoggerInterface $logger)
 	{
 		$this->entityManager = $entityManager;
 		$this->logger = $logger;
@@ -53,6 +56,25 @@ class AdminController extends AbstractController
 	// 	$response->headers->set('Access-Control-Allow-Headers', $request->headers->get('Access-Control-Request-Headers'));
 	// 	return $response;
 	// }
+
+	#[Route('/test-session', name: 'test_session', methods: ['GET'])]
+    public function testSession(RequestStack $requestStack): Response
+    {
+        $session = $requestStack->getSession();
+
+        if (!$session->isStarted()) {
+            $session->start();
+        }
+
+        // Stockez une valeur dans la session
+        $session->set('test_key', 'test_value');
+
+        // Récupérez la valeur depuis la session
+        $storedValue = $session->get('test_key');
+
+        // Debug : Retournez les données de la session
+        return new Response('Session Value: ' . ($storedValue ?? 'No value stored.'));
+    }
 
 	#[Route('/api/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(Security $security): Response
@@ -77,7 +99,7 @@ class AdminController extends AbstractController
 	// le paramètre passwordhasher vient du fichier security.yaml
 
 	#[Route('/api/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
-	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+	public function adminBenevolesAjouterAction(Request $request, PasswordMailerService $passwordMailerService, UserPasswordHasherInterface $passwordHasher): Response
 	{
 		// Récupérer les données JSON
 		$data = json_decode($request->getContent(), true);
@@ -110,11 +132,10 @@ class AdminController extends AbstractController
 			->setPhoto($data['photo_b'] ?? null)
 			->setRoles($data['role_b'] ?? 0);
 
-		// --- Génération du mdp aléatoire
-		$randomMdp = random_bytes(10);
-		$test = "test";
+		// --- Génération du mdp aléatoire avec Symfony String (Bibliothèque sécu)
+		$randomMdp = ByteString::fromRandom(10)->toString();
 		// --- Hash du mot de passe
-		$hashedPassword = $passwordHasher->hashPassword($benevole, $test);
+		$hashedPassword = $passwordHasher->hashPassword($benevole, $randomMdp);
 		// ajout à l'objet Benevole
 		$benevole->setPassword($hashedPassword);
 
@@ -123,12 +144,20 @@ class AdminController extends AbstractController
 		$this->entityManager->persist($benevole);
 		$this->entityManager->flush();
 
+		// Envoi du mail
+		$passwordMailRequest = $passwordMailerService->processSendingPasswordEmail($benevole->getMail(),$randomMdp);
+		
 		$query = $this->entityManager->createQuery("SELECT a FROM App\Entity\Benevole a");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();
-		$response->setStatusCode(Response::HTTP_CREATED);
-		//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
-		$response->setContent(json_encode($benevoles[sizeof($benevoles) - 1]));
+		if (($passwordMailRequest->getStatusCode()) !== 200){
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => 'L\'envoi du mail au nouveau compte à rencontré une erreur. Veuillez réessayer']));
+		}else{
+			$response->setStatusCode(Response::HTTP_CREATED);
+			//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
+			$response->setContent(json_encode($benevoles[sizeof($benevoles) - 1]));
+		}
 		return $response;
 	}
 
@@ -511,11 +540,5 @@ class AdminController extends AbstractController
 			$response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idProject]));
 			return $response;
 		}
-	}
-
-	#[Route('/infos', name: 'adminProjectsModifier')]
-	public function infos(Request $request)
-	{
-		phpinfo();
 	}
 }
