@@ -63,7 +63,7 @@ const FilterForm = ({ onFilter, width }) => {
           <fieldset>
             <div className="flex items-center space-x-4 justify-between w-full">
               <legend className="text-lg font-semibold">Filtres</legend>
-              <button type="button" onClick={handleAddCondition} className="flex items-center justify-center px-4 py-2 secondary-btn-small">
+              <button type="button" onClick={handleAddCondition} className="flex items-center justify-center px-4 py-2 primary-btn-small">
                   +
               </button>
             </div>
@@ -77,7 +77,7 @@ const FilterForm = ({ onFilter, width }) => {
               <div className="flex items-center space-x-4 mt-4 justify-between w-full">
                 <button
                   type="submit"
-                  className="px-4 py-2 secondary-btn-small mx-2 w-full"
+                  className="px-4 py-2 secondary-btn-small w-full"
                 >
                   Appliquer
                 </button>
@@ -118,7 +118,7 @@ const FilterForm = ({ onFilter, width }) => {
             <button
               type="button"
               onClick={handleAddCondition}
-              className="flex items-center justify-center px-4 py-2 secondary-btn-small"
+              className="flex items-center justify-center px-4 py-2 primary-btn-small"
             >
               Ajouter un filtre
             </button>
@@ -136,14 +136,14 @@ const FilterForm = ({ onFilter, width }) => {
             <div className="flex items-center space-x-4 mt-4 justify-between">
               <button
                 type="submit"
-                className="px-4 py-2 secondary-btn-small mx-2"
+                className="px-4 py-2 primary-btn-small"
               >
                 Appliquer
               </button>
             
               <button
                 type="reset"
-                className="px-4 py-2 primary-btn-small"
+                className="px-4 py-2 secondary-btn-small"
               >
                 Réinitialiser
               </button>

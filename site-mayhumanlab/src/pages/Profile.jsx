@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserInfos } from "../features/user/userSelector";
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
-import { selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
+import { selectVolunteer, selectVolunteerModifying } from "../features/volunteer/volunteerSelector";
 import VolunteerForm from "../components/VolunteerForm";
 import { logout } from "../features/user/connexion";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ function Profile() {
     const navigate = useNavigate();
     const userInfos = useSelector(selectUserInfos);
     const isModifying = useSelector(selectVolunteerModifying);
-    console.log(userInfos);
+
     /*constante de TEST */
     const competences = [
         "Soudeur", "Graphiste", "Designeur"
@@ -46,8 +46,8 @@ function Profile() {
                     {competences.map((comp) => <li className="rounded-full px-4 py-1 bg-slate-300 text-center">{comp}</li>)}
                 </ul>
                 <div className="col-span-2 md:text-end">
-                    <button className="mt-8 secondary-btn-small mr-4" onClick={handleDisconnecting}>Déconnexion</button>
-                    <button className="mt-8 primary-btn-small" onClick={handlePlay}>Modifier</button>
+                    <button className="mt-8 primary-btn-small  mr-4" onClick={handlePlay}>Modifier</button>
+                    <button className="mt-8 secondary-btn-small" onClick={handleDisconnecting}>Déconnexion</button>
                 </div>
             </div>
 

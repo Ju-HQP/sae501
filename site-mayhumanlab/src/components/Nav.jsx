@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import {
+  selectUserInfos,
   selectUserIsAdmin,
   selectUserIsConnected,
   selectUserIsConnecting,
@@ -20,6 +21,7 @@ function Nav() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const userInfos = useSelector(selectUserInfos);
   const [redirectToAgenda, setRedirectToAgenda] = useState(false);
 
   // pour l'état de connexion (utilisateur connecté ou non)
@@ -168,17 +170,8 @@ function Nav() {
                   </li>
                 )
               }
-
-              <li className="my-3">
-                <button
-                  onClick={handleDisconnecting}
-                  className="secondary-btn-small"
-                >
-                  Déconnexion
-                </button>
-              </li>
               <li>
-                <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
+                <NavLink to="/profile"><img className="w-12 rounded-full" src={userInfos.photo} /></NavLink>
               </li>
             </ul>
           ) : (
@@ -322,15 +315,21 @@ function Nav() {
                     }
 
                     <li className="my-3">
+                      <NavLink to="/profile" className={({ isActive }) =>
+                              isActive &&
+                              "text-pink-600 underline underline-offset-8 "
+                            }
+                          >
+                            Mon compte </NavLink>
+                    </li>
+
+                    <li className="mt-10">
                       <button
                         onClick={handleDisconnecting}
                         className="secondary-btn-small"
                       >
                         Déconnexion
                       </button>
-                    </li>
-                    <li>
-                      <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
                     </li>
                   </ul>
                 </div>
