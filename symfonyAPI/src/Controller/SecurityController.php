@@ -38,76 +38,6 @@ class SecurityController extends AbstractController
     {
         if (count($this->entityManager->getRepository("App\Entity\Benevole")->findAll()) == 0) {
 
-			$competence = new Competence();
-			$competence->setNom("Graphiste");
-			$this->entityManager->persist($competence);
-
-			$competence = new Competence();
-			$competence->setNom("Designer");
-			$this->entityManager->persist($competence);
-
-			$competence = new Competence();
-			$competence->setNom("Soudeur");
-			$this->entityManager->persist($competence);
-
-			$competence = new Competence();
-			$competence->setNom("Fraiseur");
-			$this->entityManager->persist($competence);
-
-			$benevole = new Benevole();
-			$benevole->setNom("Trobu");
-			$benevole->setPrenom("Berranger");
-			$benevole->setPassword("1234");
-			$benevole->setMail("brg.trobu@free.fr");
-			$benevole->setTel("0647589501");
-			$benevole->setPhoto("https://st3.depositphotos.com/1743476/16188/i/450/depositphotos_161885998-stock-photo-mature-mixed-race-man-smiling.jpg");
-			$benevole->setRoles(1);
-			$this->entityManager->persist($benevole);
-
-			$benevole = new Benevole();
-			$benevole->setNom("Pierre");
-			$benevole->setPrenom("Cailloux");
-			$benevole->setPassword("$2y$08\$HI4CaSPTqiEvyxnqJFFFmunNEXEGljfUZ6mKOLyaBBO37ALpKhnAy");
-			$benevole->setMail("pierre.cailloux@mail.com");
-			$benevole->setTel("0645232478");
-			$benevole->setPhoto("https://st3.depositphotos.com/1743476/16188/i/450/depositphotos_161885998-stock-photo-mature-mixed-race-man-smiling.jpg");
-			$benevole->setRoles(0);
-			$this->entityManager->persist($benevole);
-
-			// Les deux autres bénévoles ont des mdp aléatoires, mais pas hash
-			$benevole = new Benevole();
-			$benevole->setNom("Misstaire");
-			$benevole->setPrenom("Martun");
-			$randomMdp = random_bytes(20);
-			$benevole->setPassword($randomMdp);
-			$benevole->setMail("mart.mist@gmail.com");
-			$benevole->setTel("0674854751");
-			$benevole->setPhoto("https://www.utopix.com/fr/blog/wp-content/uploads/2024/04/MTc1YWE2ZDQtMThiMi00NTM1LTk3YzctMzk0MmZhMjQ4OGZm_167911d1-0c4c-4aeb-9c3c-3be12e16cdf9_paul-schafer-ndcn_8jiaqw-unsplash-1-scaled.jpeg");
-			$benevole->setRoles(0);
-			$this->entityManager->persist($benevole);
-
-			$benevole = new Benevole();
-			$benevole->setNom("Aconda");
-			$benevole->setPrenom("Ahlan");
-			$randomMdp = random_bytes(20);
-			$benevole->setPassword($randomMdp);
-			$benevole->setMail("ahlanaconda@hotmail.com");
-			$benevole->setTel("0672284157");
-			$benevole->setPhoto("https://thispersondoesnotexist.com/");
-			$benevole->setRoles(1);
-			$this->entityManager->persist($benevole);
-
-			$benevole = new Benevole();
-			$benevole->setNom("Tano");
-			$benevole->setPrenom("Marie");
-			$randomMdp = random_bytes(20);
-			$benevole->setPassword("$2y$08\$W9HPfteJJ42GLyzynauqw.0.AOxSV6vMlLN6POETyyjGLj6AA7mEe");
-			$benevole->setMail("m.tano@gmail.com");
-			$benevole->setTel("0764412869");
-			$benevole->setPhoto("https://cache.cosmopolitan.fr/data/photo/w1000_c17/3y/femme_sourire.jpg");
-			$benevole->setRoles(1);
-			$this->entityManager->persist($benevole);
-
 			$benevole = new Benevole();
 			$benevole->setNom("Beta");
 			$benevole->setPrenom("Test");
@@ -116,16 +46,6 @@ class SecurityController extends AbstractController
 			$benevole->setTel("0764412869");
 			$benevole->setPhoto("https://thispersondoesnotexist.com/");
 			$benevole->setRoles(1);
-			$this->entityManager->persist($benevole);
-
-			$benevole = new Benevole();
-			$benevole->setNom("Ben");
-			$benevole->setPrenom("Ben");
-			$benevole->setPassword("$2y$08\$Q7y54/MZNwi85tm2a/06TOgDvl3.wPJRvlAkDP9gLqrUH6eWGvTd6");
-			$benevole->setMail("ben@free.fr");
-			$benevole->setTel("0485956514");
-			$benevole->setRoles(0);
-			$benevole->setPhoto("http://localhost:8000//uploads/profile-pictures/67926c01b80fcjpg");
 			$this->entityManager->persist($benevole);
 
 			$this->entityManager->flush();
