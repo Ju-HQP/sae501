@@ -31,6 +31,7 @@ const slice = createSlice({
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
+            apiErrorUpdateImage: null
         },
     },
     reducers: {
@@ -111,9 +112,15 @@ const slice = createSlice({
                 state.imageEdit = false;
                 state.redirectToProfile = true;
                 state.loading = false;
+                state.errors.apiErrorUpdateImage = null;
             })
             .addCase(updatePicture.pending, (state, action) => {
                 state.loading = true;
+                state.errors.apiErrorUpdateImage = null;
+            })
+            .addCase(updatePicture.rejected, (state, action) => {
+                state.loading = false;
+                state.errors.apiErrorUpdateImage = action.payload;
             })
     }
 })

@@ -40,10 +40,16 @@ const FileInputWithPreview = ({ input, meta, picture }) => {
         input.name === 'photo_b'
           ?
           <div className='flex flex-col justify-center items-center col-span-2 md:mb-4'>
-            <label htmlFor={input.name} className='font-semibold mb-4'>Photo de profil</label>
-            <img src={avatarPreview} alt="Avatar" tabIndex="0"
-              className="h-32 w-32 rounded-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
 
+            {
+              !picture
+              &&
+              <>
+                <label htmlFor={input.name} className='font-semibold mb-4'>Photo de profil</label>
+                <img src={avatarPreview} alt="Avatar" tabIndex="0"
+                  className="h-32 w-32 rounded-full object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
+              </>
+            }
             <input hidden
               id={input.name}
               name="photo_b"
@@ -58,28 +64,34 @@ const FileInputWithPreview = ({ input, meta, picture }) => {
           :
           input.name === 'image'
             ?
-            <div className='flex flex-col justify-end mt-3 col-start-2 row-start-1 row-span-2'>
-              <label htmlFor={input.name} className='font-semibold mb-4'>Image de couverture</label>
-              <div className='h-40 w-full md:h-56 border-2 border-dashed flex justify-center items-center'>
-                {imagePreview
-                  ?
-                  <img src={imagePreview} alt="image de couverture par défaut" tabIndex="0"
-                    className="h-40 w-full md:h-56 object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
-                  :
-                  <button className='primary-btn-small' type='submit' onKeyDown={handleKeyDown} onClick={handleImageUpload}>Sélectionner une image</button>
-                }
-                <input hidden
-                  id={input.name}
-                  name={input.name}
-                  type="file"
-                  ref={fileUploadRef}
-                  accept="image/*"
-                  onChange={handleFileChange}
-                />
-              </div>
+            (
+              !picture
+              &&
+              <div className='flex flex-col justify-end mt-3 col-start-2 row-start-1 row-span-2'>
 
-              {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
-            </div>
+                <>
+                  <label htmlFor={input.name} className='font-semibold mb-4'>Image de couverture</label>
+                  <div className='h-40 w-full md:h-56 border-2 border-dashed flex justify-center items-center'>
+                    {imagePreview
+                      ?
+                      <img src={imagePreview} alt="image de couverture par défaut" tabIndex="0"
+                        className="h-40 w-full md:h-56 object-cover cursor-pointer grayscale focus:filter-none hover:filter-none transition-all" onKeyDown={handleKeyDown} onClick={handleImageUpload} />
+                      :
+                      <button className='primary-btn-small' type='submit' onKeyDown={handleKeyDown} onClick={handleImageUpload}>Sélectionner une image</button>
+                    }
+                    <input hidden
+                      id={input.name}
+                      name={input.name}
+                      type="file"
+                      ref={fileUploadRef}
+                      accept="image/*"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                </>
+                {meta.touched && meta.error && <span style={{ color: 'red' }}>{meta.error}</span>}
+              </div>
+            )
             :
             <div className='flex flex-col'>
               <label htmlFor={input.name} className='font-semibold mb-4'>Photo de Profil</label>

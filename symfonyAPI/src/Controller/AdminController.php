@@ -193,8 +193,11 @@ class AdminController extends AbstractController
 
 		$uploadDir = '/uploads/profile-pictures';
 		
-		if (!$file) {
-			return new Response('Missing File', Response::HTTP_BAD_REQUEST);
+		if(!$file){
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => "Veuillez sélectionner une image."]));
+			return $response;
 		}
 		$src = $this->uploadFile($file, $uploadDir, $request);
 
@@ -323,7 +326,14 @@ class AdminController extends AbstractController
 	{
 
 		$file = $request->files->get('image');
-		$uploadDir = '/uploads/news';
+		$uploadDir = '/uploads/profile-pictures';
+
+		if(!$file){
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => "Veuillez ajouter une image à l'actualité."]));
+			return $response;
+		}
 
 		$src = $this->uploadFile($file, $uploadDir, $request);
 
@@ -477,7 +487,14 @@ class AdminController extends AbstractController
 	{
 
 		$file = $request->files->get('image');
-		$uploadDir = '/uploads/projects';
+		$uploadDir = '/uploads/profile-pictures';
+
+		if(!$file){
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => 'Veuillez ajouter une image au projet.']));
+			return $response;
+		}
 
 		$src = $this->uploadFile($file, $uploadDir, $request);
 
@@ -623,7 +640,8 @@ class AdminController extends AbstractController
 		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		//on crée le src qui sera stocké dans la bdd
-		$src = $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
+		//$src = $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
+		$src = $scheme . "://" . $host . ":" . $port . $uploadDir . "/" . $fileName;
 
 		return $src;
 	}

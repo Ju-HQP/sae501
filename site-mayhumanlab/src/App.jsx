@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import MailResetForm from "./pages/MailResetForm";
 import ResetPassword from "./pages/ResetPassword";
 import ProfileUpdate from "./pages/ProfileUpdate";
+import LegalsMentions from "./pages/LegalsMentions";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
         <Route exact path="/gestion-du-site" element={<SiteGestion />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/profile/modifier" element={<ProfileUpdate />} />
+        <Route exact path="/mentions-legales" element={<LegalsMentions />} />
         <Route
           exact
           path="/gestion-des-benevoles"

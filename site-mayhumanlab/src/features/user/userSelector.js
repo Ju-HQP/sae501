@@ -14,6 +14,8 @@ export const selectResetMessage = (state) => state.user.resetMessage;
 
 export const selectSendMailMessage = (state) => state.user.sendMailMessage;
 
+export const selectErrorImageUpdate = (state) => state.user.errors.apiErrorUpdateImage;
+
 export const selectImageEdit = (state) => state.user.imageEdit;
 
 export const selectRedirectToProfile = (state) => state.user.redirectToProfile;
