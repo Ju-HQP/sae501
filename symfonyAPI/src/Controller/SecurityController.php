@@ -141,7 +141,12 @@ class SecurityController extends AbstractController
             'prenom_b' => $benevoleConnecte->getPrenom(),
             'mail_b' => $benevoleConnecte->getMail(),
             'tel_b' => $benevoleConnecte->getTel(),
-            'nom_c' => $benevoleConnecte->getComp(),
+            'competences' => $benevoleConnecte->getComp()->map(function ($competence) {
+                return [
+                    'id_competence' => $competence->getId(),
+                    'nom_c' => $competence->getNom()
+                ];
+            })->toArray(),
             'role_b' => $benevoleConnecte->getRoles(),
         ];
 
