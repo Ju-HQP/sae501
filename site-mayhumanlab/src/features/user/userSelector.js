@@ -1,5 +1,3 @@
-import { createSelector } from "@reduxjs/toolkit";
-
 export const selectUserIsConnected = (state) => state.user.connected;
 
 export const selectUserIsConnecting = (state) => state.user.isConnecting;

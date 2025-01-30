@@ -640,7 +640,8 @@ class AdminController extends AbstractController
 		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		//on crée le src qui sera stocké dans la bdd
-		$src = $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
+		//$src = $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
+		$src = $scheme . "://" . $host . ":" . $port . $uploadDir . "/" . $fileName;
 
 		return $src;
 	}
