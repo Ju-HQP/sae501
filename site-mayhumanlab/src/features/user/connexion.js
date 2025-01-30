@@ -4,7 +4,8 @@ import {
 import {
     URL_API_AUTH,
     URL_API_CSRF,
-    URL_API_LOGIN
+    URL_API_LOGIN,
+    URL_API_SQL
 } from '../../utils/config.js';
 import {
     URL_API_LOGOUT
