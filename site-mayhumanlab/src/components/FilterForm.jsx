@@ -110,7 +110,7 @@ const FilterForm = ({ onFilter, width }) => {
       <form
         onSubmit={handleSubmit}
         onReset={() => handleReset(form)}
-        className="space-y-4 p-4 mx-16 border-t-2 border-b-2 border-solid"
+        className="space-y-4 p-4 mx-16 my-6 border-t-2 border-b-2 border-solid"
       >
         <fieldset>
           <div className="flex items-center space-x-4 justify-between">

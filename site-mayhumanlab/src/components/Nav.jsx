@@ -63,6 +63,12 @@ function Nav() {
         <section className="hidden lg:block">
           {isConnected ? (
             <ul className="text-base flex justify-between items-center">
+              <li>
+                <NavLink
+                  to="/">
+                  <img src="/accueil/logo.jpg" alt="logo May'humanLab" className="h-14"/>
+                </NavLink>
+              </li>
               <li className="flex flex-col items-center relative hover:bg-slate-100 rounded">
                 <span className="flex justify-between w-28">
                   <NavLink
@@ -177,6 +183,9 @@ function Nav() {
           ) : (
             /**Nav pour les utilisateurs non connectés */
             <ul className="text-base flex justify-between items-center">
+              <li>
+                <img src="/accueil/logo.jpg" alt="logo May'humanLab" className="h-14"/>
+              </li>
               <li className="my-3">
                 <HashLink to="/#top">Accueil</HashLink>
               </li>

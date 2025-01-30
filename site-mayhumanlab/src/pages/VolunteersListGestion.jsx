@@ -42,7 +42,7 @@ function VolunteersListGestion() {
         <h1 className="text-center my-6 font-bold text-2xl lg:text-4xl">
           Gestion des comptes
         </h1>
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end px-14">
           <button
             onClick={handleAddVolunteer}
             className=" text-white primary-btn-small"
