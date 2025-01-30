@@ -3,15 +3,14 @@ import Header from "../components/Header";
 function LegalsMention() {
     return (<>
         <Header />
-        <main className="font-roboto leading-8 mt-20 text-lg">
+        <main className="font-roboto leading-8 mt-20 text-lg p">
             <h1 className="text-center font-jura my-8 font-extralight text-4xl lg:text-6xl lg:my-12">Mentions légales</h1>
-            <div>
+            <div class="p-12">
                 <p>En vigueur au 30/01/2025</p>
 
                 <p>
                     Conformément aux dispositions de la loi n°2004-575 du 21 juin 2004 pour la Confiance en l’économie
-                    numérique, il est porté à la connaissance des utilisateurs et visiteurs du site
-                    <a href="https://www.mayhumanlab.fr/">https://www.mayhumanlab.fr/</a>, les présentes mentions légales.
+                    numérique, il est porté à la connaissance des utilisateurs et visiteurs du site <a href="https://www.mayhumanlab.fr/" className="text-blue-600">https://www.mayhumanlab.fr/</a>, les présentes mentions légales.
                     La connexion et la navigation sur le Site par l’Utilisateur implique acceptation intégrale et sans
                     réserve des présentes mentions légales.
                     Ces dernières sont accessibles sur le Site à la rubrique "Mentions légales".
@@ -52,7 +51,7 @@ function LegalsMention() {
                     judiciaires telles que prévues par la règlementation en vigueur.
                 </p>
 
-                <p>Rédigé sur <a href="http://legalplace.fr">http://legalplace.fr</a></p>
+                <p>Rédigé sur <a href="http://legalplace.fr" className="text-blue-600">http://legalplace.fr</a></p>
             </div>
         </main>
     </>)
