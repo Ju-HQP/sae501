@@ -177,7 +177,7 @@ function Nav() {
                 )
               }
               <li>
-                <NavLink to="/profile"><img className="w-12 rounded-full" src={userInfos.photo} /></NavLink>
+                <NavLink to="/profile"><img className="w-12 h-12 rounded-full" src={userInfos.photo_b} /></NavLink>
               </li>
             </ul>
           ) : (
