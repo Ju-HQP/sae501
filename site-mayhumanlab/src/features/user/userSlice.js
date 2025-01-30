@@ -7,6 +7,11 @@ import {
     logout,
 } from './connexion';
 import {
+    redirect
+} from 'react-router-dom';
+import {
+    updatePicture,
+    updateProfile,
     resetPassword,
     sendMail
 } from './userAsyncAction';
@@ -18,6 +23,8 @@ const slice = createSlice({
         isConnecting: false,
         userInfos: null,
         isAdmin: false,
+        redirect: false,
+        imageEdit: false,
         resetMessage: null,
         sendMailMessage: null,
         errors: {
@@ -31,7 +38,13 @@ const slice = createSlice({
         },
         stopConnecting(state, action) {
             state.isConnecting = false;
-        }
+        },
+        startImageEdit(state, action){
+            state.imageEdit = true;
+        },
+        stopImageEdit(state, action){
+            state.imageEdit = false;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -45,6 +58,7 @@ const slice = createSlice({
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
                 state.userInfos = action.payload.utilisateur;
+                state.redirectToAgenda = true;
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;
@@ -79,11 +93,27 @@ const slice = createSlice({
             .addCase(sendMail.rejected, (state, action) => {
                 state.sendMailMessage = action.payload;
             })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.redirect = true;
+            })
+            .addCase(updateProfile.pending, (state, action) => {
+                
+            })
+            .addCase(updatePicture.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.imageEdit = false;
+            })
+            .addCase(updatePicture.pending, (state, action) => {
+
+            })
     }
 })
 
 export const {
     startConnecting,
-    stopConnecting
+    stopConnecting,
+    startImageEdit,
+    stopImageEdit
 } = slice.actions;
 export default slice.reducer;

@@ -57,9 +57,13 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
         $this->competences = new ArrayCollection();
     }
 
-    public function setComp(string $comp):static{
-       $this->competences->add($comp);
+    public function clearComp(): void
+    {
+        $this->competences->clear();
+    }
 
+    public function setComp(Competence $comp):static{
+       $this->competences->add($comp);
        return $this;
     }
 
@@ -67,6 +71,12 @@ class Benevole implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id_benevole;
     }
+
+    public function getComp(): Collection
+    {
+        return $this->competences;
+    }
+
 
     public function getNom(): ?string
     {

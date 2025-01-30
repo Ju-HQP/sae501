@@ -13,3 +13,5 @@ export const selectErrorLogout = (state) => state.user.errors.apiErrorLogout;
 export const selectResetMessage = (state) => state.user.resetMessage;
 
 export const selectSendMailMessage = (state) => state.user.sendMailMessage;
+
+export const selectImageEdit = (state) => state.user.imageEdit;

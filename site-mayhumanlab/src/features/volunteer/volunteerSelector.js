@@ -15,6 +15,7 @@ export const selectDatasSend = (state) => state.volunteer.dataSend;
 
 export const selectErrorLoad = (state) => state.volunteer.errors.apiErrorLoad;
 export const selectErrorDelete = (state) => state.volunteer.errors.apiErrorDelete;
+
 export const selectErrorSave = (state) => {
     if (state.volunteer.idVolunteerModifying) {
         return state.volunteer.errors.apiErrorUpdate;
@@ -35,7 +36,14 @@ export const selectInitialFormValues = createSelector(
             if (Object.keys(datas).length > 0) { // si l'objet data à une d
                 return datas;
             }
-            return volunteer.find((volunteer) => volunteer.id_benevole === id) || null;
+            const selectedVolunteer = volunteer.find((volunteer) => volunteer.id_benevole === id) || null;
+            if(selectedVolunteer && Array.isArray(selectedVolunteer.competences)){
+                const nomComp = selectedVolunteer.competences.map((comp) => comp.nom_c);
+                return {
+                    ...selectedVolunteer, nom_c : nomComp.join('-')
+                }
+            }
+            return selectedVolunteer
         }
     }
 );

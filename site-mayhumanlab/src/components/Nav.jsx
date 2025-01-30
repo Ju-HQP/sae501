@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import {
+  selectUserInfos,
   selectUserIsAdmin,
   selectUserIsConnected,
   selectUserIsConnecting,
@@ -20,6 +21,8 @@ function Nav() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const userInfos = useSelector(selectUserInfos);
+  const [redirectToAgenda, setRedirectToAgenda] = useState(false);
 
   // pour l'état de connexion (utilisateur connecté ou non)
   const isConnected = useSelector(selectUserIsConnected);
@@ -34,6 +37,7 @@ function Nav() {
 
   function handleConnecting() {
     dispatch(startConnecting()); //isModifying passe à true
+    setRedirectToAgenda(true);
   }
 
   const handleDisconnecting = async () => {
@@ -43,12 +47,13 @@ function Nav() {
 
   useEffect(() => {
     // Connexion possible que depuis l'accueil
-    if (isConnected && location.pathname === "/") {
-      navigate("/");
+    if (isConnected && redirectToAgenda) {
+      setRedirectToAgenda(false);
+      navigate("/agenda");  
     } else if (!isConnected) {
       navigate("/");
     }
-  }, [isConnected, navigate, location.pathname]);
+  }, [redirectToAgenda, setRedirectToAgenda, isConnected, navigate]);
 
   return (
     <>
@@ -58,6 +63,12 @@ function Nav() {
         <section className="hidden lg:block">
           {isConnected ? (
             <ul className="text-base flex justify-between items-center">
+              <li>
+                <NavLink
+                  to="/">
+                  <img src="/accueil/logo.jpg" alt="logo May'humanLab" className="h-14"/>
+                </NavLink>
+              </li>
               <li className="flex flex-col items-center relative hover:bg-slate-100 rounded">
                 <span className="flex justify-between w-28">
                   <NavLink
@@ -135,13 +146,13 @@ function Nav() {
                   Trombinoscope
                 </NavLink>
               </li>
-              <li className="my-3">
+              <li className="my-3 text-center">
                 <NavLink
                   to="/gestion-du-site"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
-                      : "py-2 px-4  hover:bg-slate-100 rounded"
+                      ? "text-pink-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
+                      : "hover:bg-slate-100 rounded"
                   }
                 >
                   Gestion du site
@@ -151,13 +162,13 @@ function Nav() {
               {
                 /**QUE POUR LES ADMINS */
                 isAdmin && (
-                  <li className="my-3">
+                  <li className="my-3 text-center">
                     <NavLink
                       to="/gestion-des-benevoles"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
-                          : "py-2 px-4  hover:bg-slate-100 rounded"
+                          ? "text-pink-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
+                          : "hover:bg-slate-100 rounded"
                       }
                     >
                       Gestion des comptes
@@ -165,22 +176,16 @@ function Nav() {
                   </li>
                 )
               }
-
-              <li className="my-3">
-                <button
-                  onClick={handleDisconnecting}
-                  className="secondary-btn-small"
-                >
-                  Déconnexion
-                </button>
-              </li>
               <li>
-                <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
+                <NavLink to="/profile"><img className="w-12 h-12 rounded-full" src={userInfos.photo_b} /></NavLink>
               </li>
             </ul>
           ) : (
             /**Nav pour les utilisateurs non connectés */
             <ul className="text-base flex justify-between items-center">
+              <li>
+                <img src="/accueil/logo.jpg" alt="logo May'humanLab" className="h-14"/>
+              </li>
               <li className="my-3">
                 <HashLink to="/#top">Accueil</HashLink>
               </li>
@@ -319,15 +324,21 @@ function Nav() {
                     }
 
                     <li className="my-3">
+                      <NavLink to="/profile" className={({ isActive }) =>
+                              isActive &&
+                              "text-pink-600 underline underline-offset-8 "
+                            }
+                          >
+                            Mon compte </NavLink>
+                    </li>
+
+                    <li className="mt-10">
                       <button
                         onClick={handleDisconnecting}
                         className="secondary-btn-small"
                       >
                         Déconnexion
                       </button>
-                    </li>
-                    <li>
-                      <NavLink to="/profile"><img className="w-12" src="/default-user.png" /></NavLink>
                     </li>
                   </ul>
                 </div>

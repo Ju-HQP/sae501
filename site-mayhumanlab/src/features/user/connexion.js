@@ -4,8 +4,7 @@ import {
 import {
     URL_API_AUTH,
     URL_API_CSRF,
-    URL_API_LOGIN
-} from '../../utils/config.js';
+    URL_API_LOGIN} from '../../utils/config.js';
 import {
     URL_API_LOGOUT
 } from '../../utils/config.js';
@@ -13,6 +12,7 @@ import { resetDatas } from '../volunteer/volunteerSlice.js';
 //fonctions asynchrones pour communiquer avec l'api
 
 // récupération du jeton de session pour la connexion
+
 export const csrfToken = createAsyncThunk(
     'user/csrf',
     async (_, {

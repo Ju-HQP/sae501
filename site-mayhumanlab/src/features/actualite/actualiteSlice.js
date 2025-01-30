@@ -52,31 +52,37 @@ const actualiteSlice = createSlice({
 
         .addCase(addActu.pending, (state) => {
             state.errors.apiErrorAdd = null;
+            state.loading = true;
         })
         .addCase(addActu.fulfilled, (state, action)=>{
             state.tabActus.push(action.payload);
             state.editActu = false;
+            state.loading = false;
             state.dataSend = {};
         })
         .addCase(addActu.rejected, (state, action)=>{
             state.errors.apiErrorAdd = action.payload.message;
             state.dataSend = action.payload.dataSend;
             state.editActu = true;
+            state.loading = false;
             startEditActu();
         })
         .addCase(updateActu.pending, (state) => {
             state.errors.apiErrorUpdate = null;
+            state.loading = true;
         })
         .addCase(updateActu.fulfilled, (state, action)=>{
             state.tabActus[state.tabActus.findIndex((actualite)=>state.idActu === actualite.id_actualite)] = action.payload;
             state.idActu = null;
             state.editActu = false;
             state.errors.apiErrorUpdate = null;
+            state.loading = false;
             state.dataSend = {};
         })
         .addCase(updateActu.rejected, (state, action)=>{
             state.errors.apiErrorUpdate = action.payload.message;
             state.dataSend = action.payload.dataSend;
+            state.loading = false;
             state.editActu = true;
             startEditActu(state.idActu);
         })

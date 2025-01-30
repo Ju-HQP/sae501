@@ -17,6 +17,7 @@ import {
 import { loadProjects } from "../features/project/projectAsyncAction";
 import partenaires from '../partenaires.json';
 import Footer from "../components/Footer";
+import { datasSQL } from "../features/user/connexion";
 
 function Home() {
     const dispatch = useDispatch();
@@ -29,6 +30,8 @@ function Home() {
         dispatch(loadActus());
         dispatch(loadProjects());
     }, []);
+
+    console.log(listeActualite.length);
 
     return (
         <>
@@ -91,7 +94,9 @@ function Home() {
                         {loadingActu ? (
                             <p>Chargement des actualités...</p>
                         ) : (
-                            <ul className="lg:grid lg:grid-cols-4">
+                            <ul className={`lg:grid ${listeActualite.length === 1 ? "lg:grid-cols-1" : 
+                                listeActualite.length === 2 ? "lg:grid-cols-2" : 
+                                "lg:grid-cols-3"}`}>
                                 {listeActualite.map((actualite, id) => (
                                     <ActualiteItemAccueil actualite={actualite} key={id} />
                                 ))}

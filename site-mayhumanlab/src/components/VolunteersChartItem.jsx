@@ -2,6 +2,7 @@ import React from "react";
 
 function VolunteersItem({ volunteer }) {
  const lengthComp = volunteer.competences.length;
+
   return (
     <>
       <div className="grid md:grid-cols-2 m-6">
@@ -14,8 +15,7 @@ function VolunteersItem({ volunteer }) {
             className="flex object-cover w-40 h-40 rounded-lg text-center justify-center"
             alt={`Photo de ${volunteer.prenom_b} ${volunteer.nom_b}`}
           />
-          <p className="text-lg text-center mb-0">{volunteer.prenom_b}</p>
-          <p className="text-lg text-center">{volunteer.nom_b}</p>
+          <p className="text-lg text-center">{volunteer.prenom_b} {volunteer.nom_b}</p>
         </div>
         <div id="volunteer_bloc2" className="flex flex-col space-y-4">
           <div className="my-1">

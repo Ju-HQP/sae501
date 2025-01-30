@@ -34,12 +34,12 @@ security:
 
     # Règles d'accès
     access_control:
-        - { path: ^/reset-password, roles: PUBLIC_ACCESS }  #accessible sans authentification (utilisation d'un token URL stocké dans la session depuis le mail)
-        - { path: ^/csrf_token, roles: PUBLIC_ACCESS }  #accessible sans authentification
-        - { path: ^/login, roles: PUBLIC_ACCESS, methods: [POST, GET] }
+        - { path: ^/api/csrf_token, roles: PUBLIC_ACCESS }  #accessible sans authentification
+        - { path: ^/api/login, roles: PUBLIC_ACCESS, methods: [POST, GET] }
         - { path: ^/api/actualites, roles: PUBLIC_ACCESS, methods: [GET] }
-        - { path: ^/api/projects, roles: PUBLIC_ACCESS, methods: [GET] }
-        - { path: ^/api, roles: ROLE_USER, methods: [GET] }
-        - { path: ^/api, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
+        - { path: ^/api/projets, roles: PUBLIC_ACCESS, methods: [GET] }
+        - { path: ^/api/projets, roles: ROLE_USER, methods: [POST,PUT] }
+        - { path: ^/api/actualites, roles: ROLE_USER, methods: [POST,PUT] }
+        - { path: ^/api/benevoles, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
     role_hierarchy:
         ROLE_ADMIN: [ROLE_USER] #permet à l'admin d'hérité par défaut de tous les accès du user

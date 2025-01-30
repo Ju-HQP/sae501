@@ -36,12 +36,13 @@ export const addActu = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
+            const formData = new FormData();
+            Object.entries(dataToSend).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
             const response = await fetch(URL_API_ACTUS, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataToSend),
+                body: formData,
                 credentials: 'include'
             });
             if (response.status === 403){

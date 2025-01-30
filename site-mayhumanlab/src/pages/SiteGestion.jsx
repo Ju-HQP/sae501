@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import ActualiteForm from "../components/ActualiteForm";
-import { selectEditActu, selectErrorDeleteActu, selectLoadingActu } from "../features/actualite/actualiteSelector";
+import ActualiteForm from "../components/formulaires/ActualiteForm";
+import { selectEditActu, selectLoadingActu } from "../features/actualite/actualiteSelector";
 import { loadActus } from "../features/actualite/actualiteAsyncAction";
 import { useEffect, useState } from "react";
 import { selectSortedActusByReleaseDate } from "../features/actualite/actualiteSelector";
@@ -10,7 +10,7 @@ import { deleteActu } from "../features/actualite/actualiteAsyncAction";
 import ActualiteRow from "../components/ActualiteRow";
 import { selectEditProject, selectErrorDeleteProject, selectLoadingProject, selectSortedProjectsByTitle } from "../features/project/projectSelector";
 import { deleteProject, loadProjects } from "../features/project/projectAsyncAction";
-import ProjectForm from "../components/ProjectForm";
+import ProjectForm from "../components/formulaires/ProjectForm";
 import { startEditProject } from "../features/project/projectSlice";
 import ProjectRow from "../components/ProjectRow";
 import Footer from "../components/Footer";

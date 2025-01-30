@@ -56,13 +56,14 @@ export const addVolunteer = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
+            const formData = new FormData();
+            Object.entries(datas).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
             const res = await fetch(URL_API_VOLUNTEERS, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 credentials: 'include', // important pour conserver le cookie de session
-                body: JSON.stringify(datas)
+                body: formData
             });
             if (res.status === 403) {
                 throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');

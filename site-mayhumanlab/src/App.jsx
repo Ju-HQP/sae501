@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import Profile from "./pages/Profile";
 import MailResetForm from "./pages/MailResetForm";
 import ResetPassword from "./pages/ResetPassword";
+import ProfileUpdate from "./pages/ProfileUpdate";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
         <Route exact path="/trombinoscope" element={<VolunteersChart />} />
         <Route exact path="/gestion-du-site" element={<SiteGestion />} />
         <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/profile/modifier" element={<ProfileUpdate />} />
         <Route
           exact
           path="/gestion-des-benevoles"

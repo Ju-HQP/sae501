@@ -6,7 +6,7 @@ import {
   selectVolunteer,
   selectVolunteerModifying,
 } from "../features/volunteer/volunteerSelector";
-import VolunteerForm from "../components/VolunteerForm";
+import VolunteerForm from "../components/formulaires/VolunteerForm";
 import Header from "../components/Header";
 import VolunteerListItem from "../components/VolunteerListItem";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";
@@ -42,10 +42,10 @@ function VolunteersListGestion() {
         <h1 className="text-center my-6 font-bold text-2xl lg:text-4xl">
           Gestion des comptes
         </h1>
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end px-14">
           <button
             onClick={handleAddVolunteer}
-            className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+            className=" text-white primary-btn-small"
           >
             Créer un bénévole
           </button>
@@ -65,7 +65,6 @@ function VolunteersListGestion() {
           <table className="mt-8 w-11/12 min-w-fit border-separate border-spacing-4">
             <thead className="h-16">
               <tr>
-                <th>ID</th>
                 <th>Photo</th>
                 <th>Prénom</th>
                 <th>Nom</th>
