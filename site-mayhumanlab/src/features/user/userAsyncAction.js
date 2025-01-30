@@ -53,18 +53,13 @@ export const updatePicture = createAsyncThunk(
             if (response.status === 403) {
                 throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
             }
-            if (response.status === 409) { // Conflit avec les autres données
+            if (response.status === 400) { // Conflit avec les autres données ou pas d'image
                 const error = await response.json();
                 throw new Error(error.message);
             }
             return await response.json();
         } catch (error) {
-            // création de l'objet errorObj pour transmettre les données écrites précédemment
-            const errorObj = {
-                message: error.message ?? "Désolé, la mise à jour de l'image a rencontré une erreur.",
-                dataSend: datas
-            }
-            return rejectWithValue(errorObj);
+            return rejectWithValue(error.message);
         };
     }
 )

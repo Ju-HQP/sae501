@@ -19,7 +19,7 @@ export const selectSortedProjectsByTitle = createSelector(
 
 export const selectFormTitle = createSelector(
     selectIdProject,
-    (id) => id ? "Modifier une projet" : "Ajouter une projet"
+    (id) => id ? "Modifier un projet" : "Ajouter un projet"
 )
 
 export const selectInitialFormValues = createSelector(

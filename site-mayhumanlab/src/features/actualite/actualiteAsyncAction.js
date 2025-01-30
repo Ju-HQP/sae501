@@ -48,7 +48,7 @@ export const addActu = createAsyncThunk(
             if (response.status === 403){
                 throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
-            if (response.status === 409) { // Conflit avec les autres données
+            if (response.status === 409 || response.status === 400) { // Conflit avec les autres données ou pas d'image
                 const error = await response.json();
                 throw new Error(error.message);
             }

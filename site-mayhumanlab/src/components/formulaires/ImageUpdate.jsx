@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatePicture } from "../../features/user/userAsyncAction";
 import { stopImageEdit, stopRedirect } from "../../features/user/userSlice";
 import FileInputWithPreview from "./FileInputWithPreview";
-import { selectLoading, selectRedirectToProfile } from "../../features/user/userSelector";
+import { selectErrorImageUpdate, selectLoading, selectRedirectToProfile } from "../../features/user/userSelector";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingModale from "../LoadingModale";
@@ -13,6 +13,7 @@ const ImageUpdate = ({ id }) => {
     const navigate = useNavigate();
     const redirect = useSelector(selectRedirectToProfile);
     const loading = useSelector(selectLoading);
+    const error = useSelector(selectErrorImageUpdate);
 
     const handleSubmit = async (image, form) => {
         const formData = new FormData();
@@ -49,6 +50,11 @@ const ImageUpdate = ({ id }) => {
                                 className=' md:p-4 lg:px-8 gap-8 gap-y-4'
                                 encType="multipart/form-data"
                             >
+                                {error && (
+                                    <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
+                                        {error}
+                                    </div>
+                                )}
                                 <Field name="new_image" id="new_image" component={FileInputWithPreview} />
                                 <div className="flex justify-between m-8 col-end-3 md:justify-end md:mx-0 md:px-4">
                                     <button

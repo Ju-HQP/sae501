@@ -34,7 +34,7 @@ const ProjectForm = () => {
             {loading ? (
                     <LoadingModale/>
                 ) : (
-            <dialog open className="w-screen shadow-2xl rounded-lg relative p-4">
+            <dialog open className="w-screen shadow-2xl rounded-lg relative p-4 md:mx-12">
                 <div className="flex flex-col justify-center">
                     <h2 className="text-2xl font-bold text-center mb-4">{title}</h2>
 

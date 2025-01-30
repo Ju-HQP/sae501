@@ -1,3 +1,5 @@
+import { createSelector } from "@reduxjs/toolkit";
+
 export const selectUserIsConnected = (state) => state.user.connected;
 
 export const selectUserIsConnecting = (state) => state.user.isConnecting;
@@ -9,6 +11,8 @@ export const selectUserIsAdmin = (state) => state.user.isAdmin;
 export const selectErrorLogin = (state) => state.user.errors.apiErrorLogin;
 
 export const selectErrorLogout = (state) => state.user.errors.apiErrorLogout;
+
+export const selectErrorImageUpdate = (state) => state.user.errors.apiErrorUpdateImage;
 
 export const selectImageEdit = (state) => state.user.imageEdit;
 
