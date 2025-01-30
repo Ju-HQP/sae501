@@ -37,6 +37,9 @@ function ResetPassword() {
       }
     })
     .catch(() => {
+      console.log(token);
+      console.log(url);
+      console.log("Fail FETCH");
       setIsValidToken(false);
     });
 
