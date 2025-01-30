@@ -69,13 +69,7 @@ function SiteGestion(){
       <main className='flex flex-col items-center p-8'>
         
       <h1 className='text-center font-jura my-6 font-bold text-2xl lg:text-4xl'>Gestion du site</h1>
-        
-
-        <div className='w-full flex justify-end'>
-          <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
-            Créer une nouvelle actualité
-          </button>
-        </div>
+      
         {errorDeleteActu &&
           <div className="fixed top-40 left-0 bg-red-100 text-red-700 p-3 rounded mb-4">
             {errorDeleteActu}
