@@ -20,6 +20,9 @@ const projectSlice = createSlice({
 
     reducers: {
         startEditProject(state,action){
+            state.errors.apiErrorAdd = null;
+            state.errors.apiErrorUpdate = null;
+            state.errors.apiErrorDelete = null;
             state.editProject = true;
             state.idProject = action.payload;
         },
@@ -28,6 +31,7 @@ const projectSlice = createSlice({
             state.idProject = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.errors.apiErrorDelete = null;
             state.dataSend = {};
         }
     },

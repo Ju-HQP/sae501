@@ -2,6 +2,8 @@ import { formatDate } from '../utils/dateUtils';
 import { useDispatch } from 'react-redux';
 import { startEditActu } from '../features/actualite/actualiteSlice';
 import DeleteModale from './DeleteModale';
+import { deleteActu } from '../features/actualite/actualiteAsyncAction';
+import DeleteButton from './DeleteButton';
 
 function ActualiteRow({ actualite, width, handleDelete }) {
 
@@ -9,6 +11,11 @@ function ActualiteRow({ actualite, width, handleDelete }) {
 
   const formattedDate = formatDate(actualite.date_a);
 
+  // Fonction qui sera passé en paramètre du composant DeleteButton
+   const handleDeleteActuality = (id) => {
+      dispatch(deleteActu({id}));
+    };
+  
   const handleEdit = () => {
     dispatch(startEditActu(actualite.id_actualite));
   };
@@ -23,8 +30,11 @@ function ActualiteRow({ actualite, width, handleDelete }) {
           <p className="col-start-1">{actualite.description_a}</p>
           <div className="flex col-span-2 m-auto w-full">
               <button className='primary-btn-small mr-2 w-full' onClick={handleEdit}>Modifier</button>
-              <DeleteModale title={actualite.titre_a} id={actualite.id_actualite} handleDelete={handleDelete}/>
-          </div>
+              <DeleteButton
+          name={actualite.titre_a}
+          id={actualite.id_actualite}
+          deleteEntityById={handleDeleteActuality}
+        ></DeleteButton>          </div>
       </section>
       :
       <tr className="h-16">
@@ -33,9 +43,12 @@ function ActualiteRow({ actualite, width, handleDelete }) {
         <td className="text-left p-2"><img src={actualite.image_a} className="mx-auto text-center w-12 h-12 rounded-lg object-cover"></img></td>
         <td className="text-left max-w-[300px] truncate p-2">{actualite.description_a}</td>
         <td className="text-end">
-          <button className="primary-btn-small mr-2" onClick={handleEdit}>Modifier</button>
-          <DeleteModale title={actualite.titre_a} id={actualite.id_actualite} handleDelete={handleDelete}/>
-        </td>
+          <button className='primary-btn-small mr-2' onClick={handleEdit}>Modifier</button>
+          <DeleteButton
+          name={actualite.titre_a}
+          id={actualite.id_actualite}
+          deleteEntityById={handleDeleteActuality}
+        ></DeleteButton></td>
       </tr>
   );
 }

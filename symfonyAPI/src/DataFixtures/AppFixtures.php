@@ -109,11 +109,21 @@ class AppFixtures extends Fixture
 			$benevole = new Benevole();
 			$benevole->setNom("Ben");
 			$benevole->setPrenom("Ben");
+			//benevole
 			$benevole->setPassword("$2y$08\$Q7y54/MZNwi85tm2a/06TOgDvl3.wPJRvlAkDP9gLqrUH6eWGvTd6");
 			$benevole->setMail("ben@free.fr");
 			$benevole->setTel("0485956514");
 			$benevole->setRoles(0);
 			$benevole->setPhoto("http://localhost:8000//uploads/profile-pictures/67926c01b80fcjpg");
+			$manager->persist($benevole);
+
+			$benevole = new Benevole();
+			$benevole->setNom("Mail");
+			$benevole->setPrenom("Facteur");
+			$benevole->setPassword("$2y$08\$o5JPGuVIApVMkixmOpaNUe8tbjq7bnvAogzaaWCdgsHzJeaSPO4yG");
+			$benevole->setMail("sdsd@gmail.com");
+			$benevole->setTel("0485956514");
+			$benevole->setRoles(0);
 			$manager->persist($benevole);
 
 			$manager->flush();

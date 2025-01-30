@@ -66,7 +66,7 @@ export const addVolunteer = createAsyncThunk(
                 body: formData
             });
             if (res.status === 403) {
-                throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
             if (res.status === 409) { // Conflit avec les autres données
                 const error = await res.json();
@@ -99,7 +99,7 @@ export const updateVolunteer = createAsyncThunk(
                 body: JSON.stringify(datas),
             });
             if (response.status === 403) {
-                throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
             if (response.status === 409) { // Conflit avec les autres données
                 const error = await response.json();
@@ -131,13 +131,18 @@ export const deleteVolunteer = createAsyncThunk(
                 credentials: 'include',
             });
             if (response.status === 403) {
-                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
             if (response.status === 204) {
                 return datas.id;
             }
+            if(response.status === 404){
+                const error = await response.json();
+                throw new Error(error.message);
+            }
         } catch (error) {
-            return rejectWithValue(error.response.data.error.message);
+           console.log("delete catch error");
+            return rejectWithValue(error.message?? "Erreur lors de la suppression du bénévole.");
         };
     }
 )

@@ -22,6 +22,7 @@ const actualiteSlice = createSlice({
         startEditActu(state,action){
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.errors.apiErrorDelete = null;
             state.editActu = true;
             state.idActu = action.payload;
         },

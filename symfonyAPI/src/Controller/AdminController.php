@@ -27,17 +27,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use App\Entity\Projet;
+use App\Service\PasswordMailerService;
+use Symfony\Component\HttpFoundation\RequestStack;
 // Pour la gestion du mot de passe
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\ByteString;
 
 class AdminController extends AbstractController
 {
 	private EntityManagerInterface $entityManager;
 	private LoggerInterface $logger;
 
-	public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
+	public function __construct(EntityManagerInterface $entityManager,LoggerInterface $logger)
 	{
 		$this->entityManager = $entityManager;
 		$this->logger = $logger;
@@ -66,7 +69,7 @@ class AdminController extends AbstractController
 	// le paramètre passwordhasher vient du fichier security.yaml
 
 	#[Route('/api/benevoles', name: 'adminBenevolesAjouter', methods: ['POST'])]
-	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+	public function adminBenevolesAjouterAction(Request $request, PasswordMailerService $passwordMailerService, UserPasswordHasherInterface $passwordHasher): Response
 	{
 		$file = $request->files->get('photo_b');
 		$uploadDir = '/uploads/profile-pictures';
@@ -127,11 +130,10 @@ class AdminController extends AbstractController
 		}
 
 
-		// --- Génération du mdp aléatoire
-		$randomMdp = random_bytes(10);
-		$test = "test";
+		// --- Génération du mdp aléatoire avec Symfony String (Bibliothèque sécu)
+		$randomMdp = ByteString::fromRandom(10)->toString();
 		// --- Hash du mot de passe
-		$hashedPassword = $passwordHasher->hashPassword($benevole, $test);
+		$hashedPassword = $passwordHasher->hashPassword($benevole, $randomMdp);
 		// ajout à l'objet Benevole
 		$benevole->setPassword($hashedPassword);
 
@@ -140,12 +142,20 @@ class AdminController extends AbstractController
 		$this->entityManager->persist($benevole);
 		$this->entityManager->flush();
 
-		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
+		// Envoi du mail
+		$passwordMailRequest = $passwordMailerService->processSendingPasswordEmail($benevole->getMail(),$randomMdp);
+		
+		$query = $this->entityManager->createQuery("SELECT b FROM App\Entity\Benevole b");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();
-		$response->setStatusCode(Response::HTTP_CREATED);
-		//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
-		$response->setContent(json_encode($benevoles[sizeof($benevoles) - 1]));
+		if (($passwordMailRequest->getStatusCode()) !== 200){
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => 'L\'envoi du mail au nouveau compte à rencontré une erreur. Veuillez réessayer']));
+		}else{
+			$response->setStatusCode(Response::HTTP_CREATED);
+			//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
+			$response->setContent(json_encode($benevoles[sizeof($benevoles) - 1]));
+		}
 		return $response;
 	}
 
@@ -169,7 +179,7 @@ class AdminController extends AbstractController
 		} else {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->setContent(json_encode(array(['message' => 'Resource not found: No benevole found for id ' . $id])));
+			$response->setContent(json_encode(['message' => 'Ce bénévole n\'existe pas ou a déjà été supprimé.']));
 			return $response;
 			// 404 Not Found
 		}
@@ -364,7 +374,7 @@ class AdminController extends AbstractController
 
 			//return new Response(null, 'actualite resource deleted' . $id); 
 			$response = new Response;
-			$response->setContent(json_encode(array(['message' => 'actualite ressource deleted: actualite was deleted ' . $idActualite])));
+			$response->setContent(json_encode(['message' => 'L\'actualité a bien été supprimée']));
 			$response->setStatusCode(Response::HTTP_NO_CONTENT);
 
 			return $response;
@@ -373,7 +383,7 @@ class AdminController extends AbstractController
 		} else {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
-			$response->setContent(json_encode(array(['message' => 'Resource not found: No actualite found for id ' . $idActualite])));
+			$response->setContent(json_encode(['message' => 'Cette actualité n\'existe pas ou a déjà été supprimée.']));
 			return $response;
 			// 404 Not Found
 
@@ -519,7 +529,7 @@ class AdminController extends AbstractController
 
 			//return new Response(null, 'project resource deleted' . $id); 
 			$response = new Response;
-			$response->setContent(json_encode(array(['message' => 'project ressource deleted: project was deleted ' . $idProject])));
+			$response->setContent(json_encode(['message' => 'Le projet a bien été supprimé']));
 			$response->setStatusCode(Response::HTTP_NO_CONTENT);
 			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
@@ -532,7 +542,7 @@ class AdminController extends AbstractController
 			$response->setStatusCode(Response::HTTP_NOT_FOUND);
 			$response->headers->set('Content-Type', 'application/json');
 			$response->headers->set('Access-Control-Allow-Origin', '*');
-			$response->setContent(json_encode(array(['message' => 'Resource not found: No project found for id ' . $idProject])));
+			$response->setContent(json_encode(['message' => 'Ce projet n\'existe pas ou a déjà été supprimé.']));
 			return $response;
 			// 404 Not Found
 

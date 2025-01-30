@@ -1,22 +1,33 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { selectVolunteer } from "../features/volunteer/volunteerSelector";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectErrorDelete,
+  selectIdVolunteerDeleting,
+  selectIdVolunteerModifying,
+  selectVolunteer,
+} from "../features/volunteer/volunteerSelector";
 import { deleteVolunteer } from "../features/volunteer/volunteerAsyncAction";
 import DeleteButton from "./DeleteButton";
-import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
+import { startVolunteerEdit, stopVolunteerEdit } from "../features/volunteer/volunteerSlice";
 
 function VolunteerListItem({ volunteer, width }) {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const errorDelete = useSelector(selectErrorDelete);
+  const idVolunteerDeleting = useSelector(selectIdVolunteerModifying);
 
-    const dispatch = useDispatch();
-    
-    const handleDeleteVolunteer = (id) => {
-        dispatch(deleteVolunteer({id}));
-    }
+  const dispatch = useDispatch();
 
-    const handlePlay = () => {
-        dispatch(startVolunteerEdit(volunteer.id_benevole));
-    }
+  const handleDeleteVolunteer = (id) => {
+    dispatch(deleteVolunteer({ id }));
+  };
+
+  const handleModify = () => {
+    dispatch(startVolunteerEdit(volunteer.id_benevole));
+  };
+
+  const handleDelete = () => {
+    dispatch(stopVolunteerEdit());
+  }
 
     const competence = [...volunteer.competences];
 
@@ -32,7 +43,7 @@ function VolunteerListItem({ volunteer, width }) {
                     {competence.map((competence, id)=><p key={id} className="rounded-full px-4 bg-slate-300">{competence.nom_c}</p>)}
                 </span>
                 <div className="flex col-span-2 m-auto w-full">
-                    <button className='primary-btn-small mr-2 w-full' onClick={handlePlay}>Modifier</button>
+                    <button className='primary-btn-small mr-2 w-full' onClick={handleModify}>Modifier</button>
                     <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </div>
             </section>
@@ -57,7 +68,7 @@ function VolunteerListItem({ volunteer, width }) {
                 <td className="text-center px-2">{volunteer.tel_b}</td>
                 <td className="text-center px-2">{volunteer.mail_b}</td>
                 <td className="text-end p-2">
-                    <button className='primary-btn-small m-2' onClick={handlePlay}>Modifier</button>
+                    <button className='primary-btn-small m-2' onClick={handleModify}>Modifier</button>
                     <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </td>
             </tr>

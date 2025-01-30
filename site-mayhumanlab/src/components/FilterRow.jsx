@@ -15,7 +15,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
           <div className="w-full">
             <select
               {...input}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500"
             >
               <option value="nom_b">Nom</option>
               <option value="prenom_b">Prénom</option>
@@ -35,7 +35,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
               {...input}
               type="text"
               placeholder="Recherche"
-              className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-500 ${
                 touched && invalid ? 'border-red-500' : 'border-gray-300'
               }`}
             />
@@ -62,7 +62,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
           <div className="min-w-[200px]">
             <select
               {...input}
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500"
             >
               <option value="nom_b">Nom</option>
               <option value="prenom_b">Prénom</option>
@@ -82,7 +82,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
               {...input}
               type="text"
               placeholder="Recherche"
-              className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-500 ${
                 touched && invalid ? 'border-red-500' : 'border-gray-300'
               }`}
             />

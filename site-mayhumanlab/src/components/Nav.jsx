@@ -74,7 +74,7 @@ function Nav() {
                   <NavLink
                     className={({ isActive }) =>
                       isActive
-                        ? "text-pink-600 underline underline-offset-8 py-2 px-4 "
+                        ? "text-amber-600 underline underline-offset-8 py-2 px-4 "
                         : "py-2 px-4  "
                     }
                     to="/"
@@ -92,31 +92,26 @@ function Nav() {
                   <ul
                     onMouseOver={() => setIsMenuOpen(true)}
                     onMouseOut={() => setIsMenuOpen(false)}
-                    className=" absolute top-6 flex flex-col justify-between items-end mt-3 px-6 rounded-md bg-slate-100"
+                    className=" absolute top-6 flex flex-col justify-between items-end mt-3 px-2 rounded-md bg-slate-100"
                   >
-                    <li className="my-3 hover:bg-slate-200 p-2 rounded">
+                    <li className="my-3 hover:bg-slate-200 p-2 rounded w-full">
                       <HashLink className="p-2" to="/#presentation">
                         Présentation
                       </HashLink>
                     </li>
-                    <li className="my-3 hover:bg-slate-200 p-2 rounded">
+                    <li className="my-3 hover:bg-slate-200 p-2 rounded w-full">
                       <HashLink className="p-2" to="/#axes">
                         Axes
                       </HashLink>
                     </li>
-                    <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                      <HashLink className="p-2" to="/#projets">
-                        Projets
-                      </HashLink>
-                    </li>
-                    <li className="my-3 hover:bg-slate-200 p-2 rounded">
+                    <li className="my-3 hover:bg-slate-200 p-2 rounded w-full">
                       <HashLink className="p-2" to="/#actu">
                         Actualités
                       </HashLink>
                     </li>
-                    <li className="my-3 hover:bg-slate-200 p-2 rounded">
-                      <HashLink className="p-2" to="/#contacts">
-                        Contacts
+                    <li className="my-3 hover:bg-slate-200 p-2 rounded w-full">
+                      <HashLink className="p-2" to="/#projets">
+                        Projets
                       </HashLink>
                     </li>
                   </ul>
@@ -127,7 +122,7 @@ function Nav() {
                   to="/agenda"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
+                      ? "text-amber-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
                       : "py-2 px-4  hover:bg-slate-100 rounded"
                   }
                 >
@@ -139,7 +134,7 @@ function Nav() {
                   to="/trombinoscope"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
+                      ? "text-amber-600 underline underline-offset-8 py-2 px-4  hover:bg-slate-100 rounded"
                       : "py-2 px-4  hover:bg-slate-100 rounded"
                   }
                 >
@@ -151,7 +146,7 @@ function Nav() {
                   to="/gestion-du-site"
                   className={({ isActive }) =>
                     isActive
-                      ? "text-pink-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
+                      ? "text-amber-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
                       : "hover:bg-slate-100 rounded"
                   }
                 >
@@ -167,7 +162,7 @@ function Nav() {
                       to="/gestion-des-benevoles"
                       className={({ isActive }) =>
                         isActive
-                          ? "text-pink-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
+                          ? "text-amber-600 underline underline-offset-8 mx-2 hover:bg-slate-100 rounded"
                           : "hover:bg-slate-100 rounded"
                       }
                     >
@@ -196,13 +191,10 @@ function Nav() {
                 <HashLink to="/#axes">Axes</HashLink>
               </li>
               <li className="my-3">
-                <HashLink to="/#projets">Projets</HashLink>
-              </li>
-              <li className="my-3">
                 <HashLink to="/#actu">Actualités</HashLink>
               </li>
               <li className="my-3">
-                <HashLink to="/#contacts">Contacts</HashLink>
+                <HashLink to="/#projets">Projets</HashLink>
               </li>
               <li className="my-3">
                 <button
@@ -243,7 +235,7 @@ function Nav() {
                           onClick={() => setIsMenuOpen((prev) => !prev)}
                           className={({ isActive }) =>
                             isActive
-                              ? "text-pink-600 underline underline-offset-8 "
+                              ? "text-amber-600 underline underline-offset-8 "
                               : ""
                           }
                         >
@@ -266,9 +258,6 @@ function Nav() {
                           <li className="my-3">
                             <HashLink to="/#actu">Actualités</HashLink>
                           </li>
-                          <li className="my-3">
-                            <HashLink to="/#contacts">Contacts</HashLink>
-                          </li>
                         </ul>
                       )}
                     </li>
@@ -277,7 +266,7 @@ function Nav() {
                         to="/agenda"
                         className={({ isActive }) =>
                           isActive &&
-                          "text-pink-600 underline underline-offset-8 "
+                          "text-amber-600 underline underline-offset-8 "
                         }
                       >
                         Agenda
@@ -288,7 +277,7 @@ function Nav() {
                         to="/trombinoscope"
                         className={({ isActive }) =>
                           isActive &&
-                          "text-pink-600 underline underline-offset-8 "
+                          "text-amber-600 underline underline-offset-8 "
                         }
                       >
                         Trombinoscope
@@ -299,7 +288,7 @@ function Nav() {
                         to="/gestion-du-site"
                         className={({ isActive }) =>
                           isActive &&
-                          "text-pink-600 underline underline-offset-8 "
+                          "text-amber-600 underline underline-offset-8 "
                         }
                       >
                         Gestion du site
@@ -314,7 +303,7 @@ function Nav() {
                             to="/gestion-des-benevoles"
                             className={({ isActive }) =>
                               isActive &&
-                              "text-pink-600 underline underline-offset-8 "
+                              "text-amber-600 underline underline-offset-8 "
                             }
                           >
                             Gestion des comptes
@@ -326,7 +315,7 @@ function Nav() {
                     <li className="my-3">
                       <NavLink to="/profile" className={({ isActive }) =>
                               isActive &&
-                              "text-pink-600 underline underline-offset-8 "
+                              "text-amber-600 underline underline-offset-8 "
                             }
                           >
                             Mon compte </NavLink>
@@ -387,14 +376,6 @@ function Nav() {
                     <li className="my-3">
                       <HashLink to="/#actu" onClick={() => setIsNavOpen(false)}>
                         Actualités
-                      </HashLink>
-                    </li>
-                    <li className="my-3">
-                      <HashLink
-                        to="/#contacts"
-                        onClick={() => setIsNavOpen(false)}
-                      >
-                        Contacts
                       </HashLink>
                     </li>
                     <li className="my-3">

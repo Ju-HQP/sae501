@@ -11,7 +11,9 @@ import {
 } from 'react-router-dom';
 import {
     updatePicture,
-    updateProfile
+    updateProfile,
+    resetPassword,
+    sendMail
 } from './userAsyncAction';
 
 const slice = createSlice({
@@ -24,6 +26,8 @@ const slice = createSlice({
         redirectToProfile: false,
         imageEdit: false,
         loading: false,
+        resetMessage: null,
+        sendMailMessage: null,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
@@ -81,6 +85,18 @@ const slice = createSlice({
             .addCase(getAuth.fulfilled, (state, action) => {
                 state.connected = true;
                 state.userInfos = action.payload.utilisateur;
+            })
+            .addCase(resetPassword.fulfilled, (state, action) => {
+                state.resetMessage = action.payload.message;
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.resetMessage = null;
+            })
+            .addCase(sendMail.fulfilled, (state, action) => {
+                state.sendMailMessage = action.payload.message;
+            })
+            .addCase(sendMail.rejected, (state, action) => {
+                state.sendMailMessage = action.payload;
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.userInfos = action.payload;
