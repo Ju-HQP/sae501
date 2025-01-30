@@ -7,11 +7,11 @@ import FileInputWithPreview from "./FileInputWithPreview";
 const ImageUpdate = ({id}) => {
     const dispatch = useDispatch();
 
-    const handleSubmit = async (values, form) => {
-        const image = {...values};
-
-        console.log(image instanceof File);
-        dispatch(updatePicture({image, id}));
+    const handleSubmit = async (image, form) => {
+        const formData = new FormData();
+        formData.append('new_image', image.new_image);
+        formData.append('id', id);
+        dispatch(updatePicture(formData));
     };
 
     function handleExit() {
@@ -27,7 +27,7 @@ const ImageUpdate = ({id}) => {
                         <form
                             onSubmit={handleSubmit}
                             className=' md:p-4 lg:px-8 gap-8 gap-y-4'
-                            enctype="multipart/form-data"
+                            encType="multipart/form-data"
                         >
                             <Field name="new_image" id="new_image" component={FileInputWithPreview}/>
                             <div className="flex justify-between m-8 col-end-3 md:justify-end md:mx-0 md:px-4">

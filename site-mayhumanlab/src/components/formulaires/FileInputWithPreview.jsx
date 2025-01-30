@@ -20,8 +20,6 @@ const FileInputWithPreview = ({ input, meta, picture }) => {
   const handleFileChange = (e) => {
     file = e.target.files[0];
     input.onChange(file); // Met à jour le formulaire localement
-    console.log("Le fichier est un fichier : "+ file.type instanceof File);
-
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
       if (input.name === 'photo_b') {

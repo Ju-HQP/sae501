@@ -2,13 +2,17 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Form, Field } from "react-final-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../features/user/userAsyncAction";
-import { selectUserInfos } from "../features/user/userSelector";
+import { selectImageEdit, selectUserInfos } from "../features/user/userSelector";
 import Header from "../components/Header";
 import { NavLink } from "react-router-dom";
+import { startImageEdit } from "../features/user/userSlice";
+import ImageUpdate from "../components/formulaires/ImageUpdate";
+
 
 function ProfileUpdate() {
     const dispatch = useDispatch();
     const userInfos = useSelector(selectUserInfos);
+    const imageEdit = useSelector(selectImageEdit);
 
     const handleSubmit = async (values, form) => {
         values.role_b = null;
@@ -16,10 +20,16 @@ function ProfileUpdate() {
         dispatch(updateProfile(values));
     };
 
+    function handleImageUpdate() {
+        dispatch(startImageEdit());
+    };
+
     return (
         <>
             <Header />
             <main>
+                {imageEdit && <ImageUpdate id={userInfos.id_benevole} />}
+                <img src={userInfos.photo_b} onClick={handleImageUpdate} className="w-32 h-32 rounded-full md:w-40 md:h-40 col-start-1 col-end-2 m-auto" />
                 <Form
                     initialValues={userInfos}
                     onSubmit={handleSubmit}

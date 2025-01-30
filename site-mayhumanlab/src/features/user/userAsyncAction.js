@@ -45,13 +45,10 @@ export const updatePicture = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
-            console.log(datas.image);
-            const formData = new FormData();
-            formData.append('new_image', datas.image);
-            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id}/image`, {
+            const response = await fetch(`${URL_API_VOLUNTEERS}/image`, {
                 method: 'POST',
                 credentials: 'include',
-                body: formData,
+                body: datas,
             });
             if (response.status === 403) {
                 throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");

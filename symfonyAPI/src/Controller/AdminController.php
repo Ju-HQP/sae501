@@ -83,7 +83,9 @@ class AdminController extends AbstractController
 		$file = $request->files->get('photo_b');
 		$uploadDir = '/uploads/profile-pictures';
 
-		$src = $this->uploadFile($file, $uploadDir, $request);
+		if ($file) {
+			$src = $this->uploadFile($file, $uploadDir, $request);
+		}
 
 		$data = $request->request->all();
 		// ------ Gestion des erreurs
@@ -182,21 +184,22 @@ class AdminController extends AbstractController
 		}
 	}
 
-	#[Route('/api/benevoles/{id}/image', name: 'imageModifier', methods: ['POST'])]
-	public function imageModifierAction(Request $request, String $id): Response
+	#[Route('/api/benevoles/image', name: 'imageModifier', methods: ['POST'])]
+	public function imageModifierAction(Request $request): Response
 	{
 		$file = $request->files->get('new_image');
+		$id = $request->request->get('id');
 
 		$uploadDir = '/uploads/profile-pictures';
-		if(!$file) {
+		if (!$file) {
 			return new Response('Missing File', Response::HTTP_BAD_REQUEST);
 		}
 		$src = $this->uploadFile($file, $uploadDir, $request);
 
 		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
 
-		$benevole->setImage($src);
-		
+		$benevole->setPhoto($src);
+
 		$this->entityManager->persist($benevole);
 		$this->entityManager->flush();
 
