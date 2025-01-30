@@ -1,5 +1,8 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
+    router:
+        strict_requirements: null
+        default_uri: '%env(FRONTEND_URL)%'
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
 
