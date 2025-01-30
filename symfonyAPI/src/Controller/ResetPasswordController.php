@@ -68,6 +68,7 @@ class ResetPasswordController extends AbstractController
                 $session = $requestStack->getSession();
                 $session->start();
                 $session->set('ResetPasswordPublicToken', $token);
+                $this->logger->info($this->generateUrl('app_reset_password'));
                 return new JsonResponse([
                     'message' => 'Token stocké en session.',
                     'redirect' => $this->generateUrl('app_reset_password'),
