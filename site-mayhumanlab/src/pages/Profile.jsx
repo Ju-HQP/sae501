@@ -36,8 +36,8 @@ function Profile() {
                     <p>{userInfos.nom_b}</p>
                 </span>
                 <span className="col-start-2 row-start-1 md:text-center">
-                    <p>Mail : {userInfos.mail}</p>
-                    <p className="my-4">Téléphone : {userInfos.tel}</p>
+                    <p>Mail : {userInfos.mail_b}</p>
+                    <p className="my-4">Téléphone : {userInfos.tel_b}</p>
                 </span>
                 <ul className="grid grid-cols-2 gap-3">
                     {competences.map((comp) => <li className="rounded-full px-4 py-1 bg-slate-300 text-center">{comp}</li>)}

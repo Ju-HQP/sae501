@@ -182,6 +182,7 @@ class AdminController extends AbstractController
 		$id = $request->request->get('id');
 
 		$uploadDir = '/uploads/profile-pictures';
+		
 		if (!$file) {
 			return new Response('Missing File', Response::HTTP_BAD_REQUEST);
 		}
@@ -245,7 +246,7 @@ class AdminController extends AbstractController
 				//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
 				->setMail($data['mail_b'] ?? $benevole->getMail())
 				->setTel($data['tel_b'] ?? $benevole->getTel())
-				->setRoles($data['role_b'] ?? $benevole->getRoles())
+				->setRoles($data['role_b'] ?? $benevole->getRole())
 				->clearComp();
 
 			// SI le champ compétence existe (si il est vide en front il n'est pas envoyé dans les datas)
