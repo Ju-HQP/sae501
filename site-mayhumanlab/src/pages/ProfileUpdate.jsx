@@ -41,7 +41,7 @@ function ProfileUpdate() {
             <main className="font-roboto leading-8 mt-12 px-4">
                 {imageEdit && <ImageUpdate id={userInfos.id_benevole} />}
                 {loading && <LoadingModale />}
-                <h1 className="text-center font-montserrat my-8 font-extralight text-4xl lg:text-6xl lg:my-12">Modifier mon compte</h1>
+                <h1 className="text-center font-jura my-8 font-extralight text-4xl lg:text-6xl lg:my-12">Modifier mon compte</h1>
                 <Form
                     initialValues={userInfos}
                     onSubmit={handleSubmit}

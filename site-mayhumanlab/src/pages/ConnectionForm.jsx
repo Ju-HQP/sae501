@@ -30,7 +30,7 @@ function ConnectionForm() {
           className="w-full md:w-7/12 shadow-2xl rounded-lg relative px-4 mx-2"
         >
           <span className="flex justify-center flex-col mt-8 lg:mt-12">
-            <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">
+            <h2 className="text-2xl font-jura font-bold text-center md:text-4xl mb-4">
               Connexion
             </h2>
             {errorLogin && (
