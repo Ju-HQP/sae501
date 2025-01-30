@@ -69,9 +69,11 @@ class AdminController extends AbstractController
 	public function adminBenevolesAjouterAction(Request $request, UserPasswordHasherInterface $passwordHasher): Response
 	{
 		$file = $request->files->get('photo_b');
-		$host = $request->getHost();
-		$port = $request->getPort();
-		$scheme = $request->getScheme();
+		$uploadDir = '/uploads/profile-pictures';
+
+		if ($file) {
+			$src = $this->uploadFile($file, $uploadDir, $request);
+		}
 
 		$data = $request->request->all();
 		// ------ Gestion des erreurs
@@ -79,10 +81,6 @@ class AdminController extends AbstractController
 		if (!$data) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
 		}
-
-		$uploadDir = '/uploads/profile-pictures';
-		$fileName = uniqid() . $file->guessExtension();
-		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
 
 		$mail = $data["mail_b"];
 
@@ -105,7 +103,7 @@ class AdminController extends AbstractController
 			// le mot de passe est généré automatiquement, on ne doit pas recevoir de données depuis le front pour le mdp
 			->setMail($data['mail_b'] ?? '')
 			->setTel($data['tel_b'] ?? null)
-			->setPhoto($scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName ?? null)
+			->setPhoto($src ?? null)
 			->setRoles($data['role_b'] ?? 0);
 
 		$this->logger->info("Liste des compétences récupérées : " . json_encode($comp));
@@ -177,6 +175,39 @@ class AdminController extends AbstractController
 		}
 	}
 
+	#[Route('/api/benevoles/image', name: 'imageModifier', methods: ['POST'])]
+	public function imageModifierAction(Request $request): Response
+	{
+		$file = $request->files->get('new_image');
+		$id = $request->request->get('id');
+
+		$uploadDir = '/uploads/profile-pictures';
+		if (!$file) {
+			return new Response('Missing File', Response::HTTP_BAD_REQUEST);
+		}
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
+		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+
+		$benevole->setPhoto($src);
+
+		$this->entityManager->persist($benevole);
+		$this->entityManager->flush();
+
+		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole like :id");
+		$query->setParameter("id", $benevole->getId());
+		$benevoleUpdate = $query->getArrayResult();
+		$benevoleUpdate = $benevoleUpdate[0];
+
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_OK);
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		$response->setContent(json_encode($benevoleUpdate), Response::HTTP_CREATED, [
+			'Content-Type' => 'application/json',
+		]);
+		return $response;
+	}
 
 	#[Route('/api/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
 	public function adminBenevolesModifierAction(Request $request, String $id): Response
@@ -216,7 +247,6 @@ class AdminController extends AbstractController
 				->setTel($data['tel_b'] ?? $benevole->getTel())
 				->setRoles($data['role_b'] ?? $benevole->getRoles())
 				->clearComp();
-			//  ->setImage($data['photo_b'] ?? $benevole->getPhoto());
 
 			// SI le champ compétence existe (si il est vide en front il n'est pas envoyé dans les datas)
 
@@ -280,7 +310,13 @@ class AdminController extends AbstractController
 	#[Route('/api/actualites', name: 'adminActualitesAjouter', methods: ['POST'])]
 	public function adminActualitesAjouterAction(Request $request): Response
 	{
-		$data = json_decode($request->getContent(), true);
+
+		$file = $request->files->get('image');
+		$uploadDir = '/uploads/news';
+
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
+		$data = $request->request->all();
 
 		if (!$data) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
@@ -301,7 +337,7 @@ class AdminController extends AbstractController
 		$actualite->setTitre($data['titre_a'] ?? '')
 			->setDescription($data['description_a'] ?? '')
 			->setDate($data['date_a'] ?? '')
-			->setImage($data['image_a'] ?? '');
+			->setImage($src ?? '');
 
 		$this->entityManager->persist($actualite);
 		$this->entityManager->flush();
@@ -428,7 +464,13 @@ class AdminController extends AbstractController
 	#[Route('/api/projets', name: 'adminProjectsAjouter', methods: ['POST'])]
 	public function adminProjectsAjouterAction(Request $request): Response
 	{
-		$data = json_decode($request->getContent(), true);
+
+		$file = $request->files->get('image');
+		$uploadDir = '/uploads/projects';
+
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
+		$data = $request->request->all();
 
 		if (!$data) {
 			return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
@@ -448,7 +490,7 @@ class AdminController extends AbstractController
 		$project = new Projet();
 		$project->setTitre($data['titre_p'] ?? '')
 			->setDescription($data['description_p'] ?? '')
-			->setImage($data['image_p'] ?? '');
+			->setImage($src ?? '');
 
 		$this->entityManager->persist($project);
 		$this->entityManager->flush();
@@ -554,5 +596,24 @@ class AdminController extends AbstractController
 			$response->setContent(json_encode(['message' => 'Resource not found: No actualite found for id ' . $idProject]));
 			return $response;
 		}
+	}
+
+	private function uploadFile($file, String $uploadDir, Request $request): String
+	{
+
+		$host = $request->getHost();
+		$port = $request->getPort();
+		$scheme = $request->getScheme();
+
+		//on génère le nom du fichier
+		$fileName = uniqid() . "." . $file->guessExtension();
+
+		//on place le fichier dans le dossier voulu
+		$file->move($this->getParameter('kernel.project_dir') . "/public" . $uploadDir, $fileName);
+
+		//on crée le src qui sera stocké dans la bdd
+		$src = $scheme . "://" . $host . ":" . $port . "/" . $uploadDir . "/" . $fileName;
+
+		return $src;
 	}
 }

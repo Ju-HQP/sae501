@@ -6,7 +6,7 @@ import {
   selectVolunteer,
   selectVolunteerModifying,
 } from "../features/volunteer/volunteerSelector";
-import VolunteerForm from "../components/VolunteerForm";
+import VolunteerForm from "../components/formulaires/VolunteerForm";
 import Header from "../components/Header";
 import VolunteerListItem from "../components/VolunteerListItem";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";

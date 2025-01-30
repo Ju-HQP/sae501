@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { getAuth } from "./features/user/connexion";
 import { useEffect } from "react";
 import Profile from "./pages/Profile";
+import ProfileUpdate from "./pages/ProfileUpdate";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/trombinoscope" element={<VolunteersChart />} />
         <Route exact path="/gestion-du-site" element={<SiteGestion />} />
         <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/profile/modifier" element={<ProfileUpdate />} />
         <Route
           exact
           path="/gestion-des-benevoles"
