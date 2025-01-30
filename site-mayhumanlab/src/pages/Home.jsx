@@ -31,6 +31,8 @@ function Home() {
         dispatch(loadProjects());
     }, []);
 
+    console.log(listeActualite.length);
+
     return (
         <>
             <Header />
@@ -92,7 +94,9 @@ function Home() {
                         {loadingActu ? (
                             <p>Chargement des actualités...</p>
                         ) : (
-                            <ul className="lg:grid lg:grid-cols-4">
+                            <ul className={`lg:grid ${listeActualite.length === 1 ? "lg:grid-cols-1" : 
+                                listeActualite.length === 2 ? "lg:grid-cols-2" : 
+                                "lg:grid-cols-3"}`}>
                                 {listeActualite.map((actualite, id) => (
                                     <ActualiteItemAccueil actualite={actualite} key={id} />
                                 ))}
