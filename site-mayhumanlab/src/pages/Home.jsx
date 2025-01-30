@@ -84,7 +84,7 @@ function Home() {
                             </ul>
                             <div
                                 aria-hidden="true"
-                                className="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-4 lg:rounded-3xl blur-md bg-gradient-to-br from-pink-600 via-cyan-500 to-violet-500 opacity-50"
+                                className="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-2 lg:rounded-1xl blur-md bg-gradient-to-br from-amber-600 to-sky-800 opacity-50"
                             ></div>
                         </div>
                     </section>
@@ -120,7 +120,7 @@ function Home() {
                         )}
                     </section>
                     <section id='projets' className="px-12 my-12 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-16 lg:my-12">Partenaires</h2>
+                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-16 lg:mt-20">Partenaires</h2>
                         <ul className="grid grid-cols-2 gap-y-4 md:grid-cols-5">{partenaires.map((partenaire, id) =>
                             <li key={id} className="flex">
                                 <img src={"/accueil/logo-partenaires/" + partenaire.nom + ".webp"} className="m-auto max-w-24" />

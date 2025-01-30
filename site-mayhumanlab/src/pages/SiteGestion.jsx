@@ -81,7 +81,7 @@ function SiteGestion(){
             <div>
               <div className='w-full flex justify-between mt-14'>
                 <h3 className="font-montserrat font-extralight text-3xl text-center">Actualités</h3>
-                <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+                <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600">
                   +
                 </button>
               </div>
@@ -95,7 +95,7 @@ function SiteGestion(){
           <div className='w-full px-14'>
             <div className='w-full flex justify-between mt-14'>
               <h3 className="font-montserrat font-extralight text-3xl text-center">Actualités</h3>
-              <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+              <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600">
                 Créer une nouvelle actualité
               </button>
             </div>
@@ -135,7 +135,7 @@ function SiteGestion(){
           <div className='mt-14'>
             <div className='w-full flex justify-between mt-14'>
               <h3 className="font-montserrat font-extralight text-3xl text-center">Projets</h3>
-              <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+              <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600">
                 +
               </button>
             </div>
@@ -150,7 +150,7 @@ function SiteGestion(){
           <div className='w-full px-14'>
             <div className='w-full flex justify-between mt-14'>
               <h3 className="font-montserrat font-extralight text-3xl text-center">Projets</h3>
-              <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
+              <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-600">
                 Créer un nouveau projet
               </button>
             </div>
