@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function Footer({ contactVisible }) {
 
     return (
@@ -20,7 +22,7 @@ function Footer({ contactVisible }) {
                         </ul>
                     </section>
                 }
-                <p className="text-center my-4">© May'HumanLab - 2022 - May'HumanLab est une association à but non lucratif (loi 1901) basé à Laval en Mayenne (53)</p>
+                <p className="text-center my-4">© May'HumanLab - 2022 - May'HumanLab est une association à but non lucratif (loi 1901) basé à Laval en Mayenne (53) - <NavLink to="/mentions-legales"> Mentions Légales</NavLink></p>
             </footer>
         </>)
 };
