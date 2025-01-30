@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import ActualiteForm from "../components/formulaires/ActualiteForm";
-import { selectEditActu, selectLoadingActu } from "../features/actualite/actualiteSelector";
+import { selectEditActu, selectErrorDeleteActu, selectLoadingActu } from "../features/actualite/actualiteSelector";
 import { loadActus } from "../features/actualite/actualiteAsyncAction";
 import { useEffect, useState } from "react";
 import { selectSortedActusByReleaseDate } from "../features/actualite/actualiteSelector";
