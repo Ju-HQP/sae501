@@ -50,7 +50,7 @@ function Nav() {
     if (isConnected && redirectToAgenda) {
       setRedirectToAgenda(false);
       navigate("/agenda");  
-    } else if (!isConnected) {
+    } else if (!isConnected && !(location.pathname=="/mentions-legales")) {
       navigate("/");
     }
   }, [redirectToAgenda, setRedirectToAgenda, isConnected, navigate]);
