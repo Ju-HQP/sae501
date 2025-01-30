@@ -38,22 +38,23 @@ function ProfileUpdate() {
     return (
         <>
             <Header />
-            <main>
+            <main className="font-roboto leading-8 mt-12 px-4">
                 {imageEdit && <ImageUpdate id={userInfos.id_benevole} />}
                 {loading && <LoadingModale />}
-                <img src={userInfos.photo_b} onClick={handleImageUpdate} className="w-32 h-32 rounded-full md:w-40 md:h-40 col-start-1 col-end-2 m-auto" />
+                <h1 className="text-center font-montserrat my-8 font-extralight text-4xl lg:text-6xl lg:my-12">Modifier mon compte</h1>
                 <Form
                     initialValues={userInfos}
                     onSubmit={handleSubmit}
                     render={({ handleSubmit }) => (
                         <form
                             onSubmit={handleSubmit}
-                            className="my-4 px-2 md:grid grid-cols-2 lg:px-8"
+                            className="my-4 px-2 md:grid grid-cols-2 lg:mx-24 lg:px-24"
                         >
+                            <img src={userInfos.photo_b} onClick={handleImageUpdate} className="w-32 h-32 rounded-full object-cover md:w-40 md:h-40 row-span-2 m-auto" />
                             <Field
                                 name="prenom_b"
                                 render={({ input, meta }) => (
-                                    <div className="flex flex-col md:px-4">
+                                    <div className="flex flex-col md:px-4 row-start-3">
                                         <label
                                             htmlFor="prenom_b"
                                             className="mt-3 mb-2 font-semibold"
@@ -110,7 +111,7 @@ function ProfileUpdate() {
 
                                 name="mail_b"
                                 render={({ input, meta }) => (
-                                    <div className="flex flex-col col-start-1 md:px-4">
+                                    <div className="flex flex-col col-start-2 row-start-2 md:px-4">
                                         <label
                                             htmlFor="mail_b"
                                             className="mt-3 mb-2 font-semibold"
@@ -139,7 +140,7 @@ function ProfileUpdate() {
                                 //validate={combineValidators(required, phoneValidated)}
                                 name="tel_b"
                                 render={({ input, meta }) => (
-                                    <div className="flex flex-col col-start-2 row-start-2 md:px-4">
+                                    <div className="flex flex-col col-start-2 row-start-3 md:px-4">
                                         <label
                                             htmlFor="tel_b"
                                             className="mt-3 mb-2 font-semibold"
@@ -168,7 +169,7 @@ function ProfileUpdate() {
                                 validate=""
                                 name="nom_c"
                                 render={({ input, meta }) => (
-                                    <div className="flex flex-col col-start-2 row-start-3 md:px-4">
+                                    <div className="flex flex-col col-start-2 row-start-4 md:px-4">
                                         <label
                                             htmlFor="nom_c"
                                             className="mt-3 mb-2 font-semibold"
@@ -194,7 +195,7 @@ function ProfileUpdate() {
                                 )}
                             ></Field>
 
-                            <div className="flex justify-between m-8 col-end-3 md:justify-end md:mx-0 md:px-4">
+                            <div className="flex justify-between m-8 col-span-2 md:justify-end md:mx-0 md:px-4">
                                 <NavLink
                                     variant="contained"
                                     className="secondary-btn-large md:mr-4"
