@@ -2,21 +2,32 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { Form, Field } from "react-final-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../features/user/userAsyncAction";
-import { selectImageEdit, selectUserInfos } from "../features/user/userSelector";
+import { selectImageEdit, selectLoading, selectRedirectToProfile, selectUserInfos } from "../features/user/userSelector";
 import Header from "../components/Header";
-import { NavLink } from "react-router-dom";
-import { startImageEdit } from "../features/user/userSlice";
+import { NavLink, useNavigate } from "react-router-dom";
+import { startImageEdit, stopRedirect } from "../features/user/userSlice";
 import ImageUpdate from "../components/formulaires/ImageUpdate";
+import LoadingModale from "../components/LoadingModale";
+import { useEffect } from "react";
 
 
 function ProfileUpdate() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const userInfos = useSelector(selectUserInfos);
     const imageEdit = useSelector(selectImageEdit);
+    const loading = useSelector(selectLoading);
+    const redirect = useSelector(selectRedirectToProfile);
+
+    useEffect(() => {
+        if(redirect){
+            navigate("/profile");
+            dispatch(stopRedirect());
+          }
+      },[selectRedirectToProfile, redirect, dispatch] );
 
     const handleSubmit = async (values, form) => {
         values.role_b = null;
-        console.log(values);
         dispatch(updateProfile(values));
     };
 
@@ -29,6 +40,7 @@ function ProfileUpdate() {
             <Header />
             <main>
                 {imageEdit && <ImageUpdate id={userInfos.id_benevole} />}
+                {loading && <LoadingModale />}
                 <img src={userInfos.photo_b} onClick={handleImageUpdate} className="w-32 h-32 rounded-full md:w-40 md:h-40 col-start-1 col-end-2 m-auto" />
                 <Form
                     initialValues={userInfos}
