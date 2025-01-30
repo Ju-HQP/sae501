@@ -31,7 +31,7 @@ function Profile() {
 
     return (<>
         <Header />
-        <main className="font-roboto leading-8 mt-20 text-lg">
+        <main className="font-roboto leading-8 text-lg">
             <h1 className="text-center font-jura my-8 font-extralight text-4xl lg:text-6xl lg:my-12">Mon compte</h1>
             <div className="flex flex-col items-center m-auto md:grid grid-cols-2 md:max-w-xl">
                 <img src={userInfos.photo_b} className="w-32 h-32 object-cover rounded-full md:w-40 md:h-40 col-start-1 col-end-2 m-auto" />

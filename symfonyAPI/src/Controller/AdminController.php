@@ -145,7 +145,7 @@ class AdminController extends AbstractController
 		// Envoi du mail
 		$passwordMailRequest = $passwordMailerService->processSendingPasswordEmail($benevole->getMail(),$randomMdp);
 		
-		$query = $this->entityManager->createQuery("SELECT b FROM App\Entity\Benevole b");
+		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();
 		if (($passwordMailRequest->getStatusCode()) !== 200){
