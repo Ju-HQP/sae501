@@ -4,7 +4,7 @@ function ProjectsItemAccueil({ project }) {
         <li className="w-full rounded-lg lg:rounded-3xl h-2/3 pt-4 mb-8 relative">
             
             <div className="rounded-lg bg-white pt-8 relative z-20 lg:grid grid-cols-2 lg:pt-0 lg:rounded-3xl">
-                <h3 className="font-jura font-extralight text-3xl text-center col-start-2 lg:mt-8">
+                <h3 className="font-jura text-3xl text-center col-start-2 lg:mt-8">
                     {project.titre_p}
                 </h3>
                 <p className="m-6 col-start-2 lg:mx-8">
