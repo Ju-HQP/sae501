@@ -6,6 +6,7 @@ import VolunteerForm from "../components/formulaires/VolunteerForm";
 import { logout } from "../features/user/connexion";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 
 function Profile() {
     const dispatch = useDispatch();
@@ -23,7 +24,9 @@ function Profile() {
         dispatch(logout());
     };
 
-    
+    useEffect(() => {
+      document.title = "Mon compte | May'Humanlab";
+    }, []);
 
     return (<>
         <Header />
