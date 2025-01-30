@@ -69,7 +69,7 @@ function VolunteerListItem({ volunteer, width }) {
                 <td className="text-center px-2">{volunteer.mail_b}</td>
                 <td className="text-end p-2">
                     <button className='primary-btn-small m-2' onClick={handleModify}>Modifier</button>
-                    <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
+                    <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteEntityById={handleDeleteVolunteer}></DeleteButton>
                 </td>
             </tr>
     )
