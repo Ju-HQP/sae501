@@ -32,6 +32,10 @@ function SiteGestion(){
     setWidth(window.innerWidth)
   }
 
+  useEffect(() => {
+    document.title = "Gestion du site | May'Humanlab";
+  }, []);
+
   const handleAddActu = () => {
     dispatch(startEditActu());
   };
@@ -62,7 +66,7 @@ function SiteGestion(){
       <Header />
       <main className='flex flex-col items-center p-8'>
         
-      <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>Gestion du site</h1>
+      <h1 className='text-center font-jura my-6 font-bold text-2xl lg:text-4xl'>Gestion du site</h1>
         
         {editActu && <ActualiteForm/>}
 
@@ -76,7 +80,7 @@ function SiteGestion(){
           ?
             <div>
               <div className='w-full flex justify-between mt-14'>
-                <h3 className="font-montserrat font-extralight text-3xl text-center">Actualités</h3>
+                <h3 className="font-jura text-3xl text-center">Actualités</h3>
                 <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
                   +
                 </button>
@@ -90,7 +94,7 @@ function SiteGestion(){
 
           <div className='w-full px-14'>
             <div className='w-full flex justify-between mt-14'>
-              <h3 className="font-montserrat font-extralight text-3xl text-center">Actualités</h3>
+              <h3 className="font-jura text-3xl text-center">Actualités</h3>
               <button onClick={handleAddActu} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
                 Créer une nouvelle actualité
               </button>
@@ -130,7 +134,7 @@ function SiteGestion(){
 
           <div className='mt-14'>
             <div className='w-full flex justify-between mt-14'>
-              <h3 className="font-montserrat font-extralight text-3xl text-center">Projets</h3>
+              <h3 className="font-jura text-3xl text-center">Projets</h3>
               <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
                 +
               </button>
@@ -145,7 +149,7 @@ function SiteGestion(){
 
           <div className='w-full px-14'>
             <div className='w-full flex justify-between mt-14'>
-              <h3 className="font-montserrat font-extralight text-3xl text-center">Projets</h3>
+              <h3 className="font-jura text-3xl text-center">Projets</h3>
               <button onClick={handleAddProject} className="bg-black text-white px-4 py-2 rounded hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-600">
                 Créer un nouveau projet
               </button>

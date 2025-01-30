@@ -26,6 +26,10 @@ function VolunteersListGestion() {
   }
 
   useEffect(() => {
+    document.title = "Gestion des comptes | May'Humanlab";
+  }, []);
+
+  useEffect(() => {
     dispatch(loadVolunteer());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -39,7 +43,7 @@ function VolunteersListGestion() {
     <>
       <Header />
       <main className="flex flex-col items-center p-8">
-        <h1 className="text-center my-6 font-bold text-2xl lg:text-4xl">
+        <h1 className="font-jura text-center my-6 font-bold text-2xl lg:text-4xl">
           Gestion des comptes
         </h1>
         <div className="w-full flex justify-end px-14">

@@ -29,7 +29,7 @@ function VolunteerListItem({ volunteer, width }) {
                 <p className="col-start-1">{volunteer.tel_b}</p>
                 <p className="col-start-1">{volunteer.mail_b}</p>
                 <span className="flex col-span-2 m-auto my-2 justify-between gap-4">
-                    {competence.map((competence)=><p className="rounded-full px-4 bg-slate-300">{competence.nom_c}</p>)}
+                    {competence.map((competence, id)=><p key={id} className="rounded-full px-4 bg-slate-300">{competence.nom_c}</p>)}
                 </span>
                 <div className="flex col-span-2 m-auto w-full">
                     <button className='primary-btn-small mr-2 w-full' onClick={handlePlay}>Modifier</button>
