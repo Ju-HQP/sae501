@@ -34,6 +34,10 @@ function SiteGestion(){
     setWidth(window.innerWidth)
   }
 
+  useEffect(() => {
+    document.title = "Gestion du site | May'Humanlab";
+  }, []);
+
   const handleAddActu = () => {
     dispatch(startEditActu());
   };

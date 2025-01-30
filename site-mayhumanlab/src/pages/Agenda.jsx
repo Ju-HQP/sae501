@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 function Agenda() {
+
+    useEffect(() => {
+      document.title = "Agenda | May'Humanlab";
+    }, []);
 
     return (
         <>

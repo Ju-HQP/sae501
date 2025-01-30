@@ -66,7 +66,7 @@ function Nav() {
               <li>
                 <NavLink
                   to="/">
-                  <img src="/accueil/logo.jpg" alt="logo May'humanLab" className="h-14"/>
+                  <img src="/logo.jpg" alt="logo May'humanLab" className="h-14"/>
                 </NavLink>
               </li>
               <li className="flex flex-col items-center relative hover:bg-slate-100 rounded">
@@ -184,7 +184,7 @@ function Nav() {
             /**Nav pour les utilisateurs non connectés */
             <ul className="text-base flex justify-between items-center">
               <li>
-                <img src="/accueil/logo.jpg" alt="logo May'humanLab" className="h-14"/>
+                <img src="/logo.jpg" alt="logo May'humanLab" className="h-14"/>
               </li>
               <li className="my-3">
                 <HashLink to="/#top">Accueil</HashLink>
