@@ -43,7 +43,7 @@ function VolunteerListItem({ volunteer, width }) {
                     {competence.map((competence, id)=><p key={id} className="rounded-full px-4 bg-slate-300">{competence.nom_c}</p>)}
                 </span>
                 <div className="flex col-span-2 m-auto w-full">
-                    <button className='primary-btn-small mr-2 w-full' onClick={handlePlay}>Modifier</button>
+                    <button className='primary-btn-small mr-2 w-full' onClick={handleModify}>Modifier</button>
                     <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </div>
             </section>
@@ -68,7 +68,7 @@ function VolunteerListItem({ volunteer, width }) {
                 <td className="text-center px-2">{volunteer.tel_b}</td>
                 <td className="text-center px-2">{volunteer.mail_b}</td>
                 <td className="text-end p-2">
-                    <button className='primary-btn-small m-2' onClick={handlePlay}>Modifier</button>
+                    <button className='primary-btn-small m-2' onClick={handleModify}>Modifier</button>
                     <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
                 </td>
             </tr>
