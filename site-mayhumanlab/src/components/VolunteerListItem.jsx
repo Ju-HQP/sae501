@@ -44,7 +44,7 @@ function VolunteerListItem({ volunteer, width }) {
                 </span>
                 <div className="flex col-span-2 m-auto w-full">
                     <button className='primary-btn-small mr-2 w-full' onClick={handleModify}>Modifier</button>
-                    <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteVolunteerById={handleDeleteVolunteer}></DeleteButton>
+                    <DeleteButton name={volunteer.nom_b} id={volunteer.id_benevole} deleteEntityById={handleDeleteVolunteer}></DeleteButton>
                 </div>
             </section>
             :
