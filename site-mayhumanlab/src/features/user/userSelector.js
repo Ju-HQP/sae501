@@ -11,3 +11,7 @@ export const selectErrorLogin = (state) => state.user.errors.apiErrorLogin;
 export const selectErrorLogout = (state) => state.user.errors.apiErrorLogout;
 
 export const selectImageEdit = (state) => state.user.imageEdit;
+
+export const selectRedirectToProfile = (state) => state.user.redirectToProfile;
+
+export const selectLoading = (state) => state.user.loading;
