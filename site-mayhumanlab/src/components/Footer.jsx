@@ -3,12 +3,12 @@ function Footer({ contactVisible }) {
     return (
         <>
 
-            <footer className="px-8 py-4 flex flex-col justify-between z-50 bg-gray-800 font-roboto text-white">
+            <footer className="absolute left-0 right-0 px-8 py-4 flex flex-col justify-between z-50 bg-gray-800 font-roboto text-white">
                 {
                     contactVisible
                     &&
                     <section className="my-4 lg:px-12">
-                        <h2 className="font-montserrat text-4xl lg:text-4xl font-extralight text-center mb-8 lg:text-left">Nous contacter</h2>
+                        <h2 className="font-jura text-4xl lg:text-4xl font-extralight text-center mb-8 lg:text-left">Nous contacter</h2>
                         <ul className="w-fit">
                             <li>Maison des associations</li>
                             <li>17, rue de Rastatt</li>
