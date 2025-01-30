@@ -3,12 +3,16 @@ import { required } from "../utils/validators";
 import { Field, Form } from "react-final-form";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Footer from "../components/Footer";
-import { useDispatch } from "react-redux";
-import { logout, sendMail } from "../features/user/connexion";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/user/connexion";
+import { selectSendMailMessage } from "../features/user/userSelector";
+import { sendMail } from "../features/user/userAsyncAction";
 
 function MailResetForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const messageSendMail = useSelector(selectSendMailMessage);
 
   const handleSubmit = async (value) => {
     dispatch(sendMail(value));
@@ -74,6 +78,12 @@ function MailResetForm() {
                             </div>
                           )}
                         ></Field>
+                        {messageSendMail && 
+                            <div className="flex flex-col col-start-1 md:px-4  my-4">
+                                <div className="bg-gray-100 text-gray-700 p-3 rounded">
+                                    {messageSendMail}
+                                    </div>
+                                </div>}
                         <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
                           <button
                             type="button"
@@ -82,12 +92,12 @@ function MailResetForm() {
                           >
                             Revenir à l'accueil
                           </button>
-                          <button
+                          {!messageSendMail && <button
                             type="submit"
                             className="primary-btn-large md:ml-4"
                           >
                             Envoyer
-                          </button>
+                          </button>}
                         </div>
                       </form>
                     )}

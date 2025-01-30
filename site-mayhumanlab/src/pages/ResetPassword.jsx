@@ -5,17 +5,22 @@ import { required } from "../utils/validators";
 import { Field, Form } from "react-final-form";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import Footer from "../components/Footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../features/user/connexion";
+import { resetPassword } from "../features/user/userAsyncAction";
+import { selectResetMessage } from "../features/user/userSelector";
 
 function ResetPassword() {
   const { token } = useParams(); // Récupère le token dans l'URL
   const [isValidToken, setIsValidToken] = useState(false);
 
+  const requestMessage = useSelector(selectResetMessage);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const url = token ? `${URL_API_PASSWORD}/${token}` : URL_API_PASSWORD;
+
   // Vérifier si le token est valide via une requête API
   fetch(url, {
     method: "GET",
@@ -23,7 +28,7 @@ function ResetPassword() {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // Redirige vers /reset-password sans le token
       if (data.redirect) {
         navigate(data.redirect);
       }
@@ -37,20 +42,8 @@ function ResetPassword() {
 
   const handleSubmit = async (values) => {
     const dataToSend = { ...values };
-    fetch(`${URL_API_PASSWORD}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataToSend),
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          alert("Mot de passe réinitialisé avec succès !");
-        } else {
-          alert("Erreur lors de la réinitialisation du mot de passe.");
-        }
-      });
+    console.log(dataToSend);
+    dispatch(resetPassword(dataToSend));
   };
 
   const handleBackHome = async () => {
@@ -129,6 +122,13 @@ function ResetPassword() {
                             </div>
                           )}
                         ></Field>
+                        {requestMessage && (
+                          <div className="flex flex-col col-start-1 md:px-4  my-4">
+                            <div className="bg-gray-100 text-gray-700 p-3 rounded">
+                              {requestMessage}
+                            </div>
+                          </div>
+                        )}
                         <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
                           <button
                             type="button"
@@ -137,12 +137,14 @@ function ResetPassword() {
                           >
                             Revenir à l'accueil
                           </button>
-                          <button
-                            type="submit"
-                            className="primary-btn-large md:ml-4"
-                          >
-                            Réinitialiser
-                          </button>
+                          {!requestMessage && (
+                            <button
+                              type="submit"
+                              className="primary-btn-large md:ml-4"
+                            >
+                              Réinitialiser
+                            </button>
+                          )}
                         </div>
                       </form>
                     )}

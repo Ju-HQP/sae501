@@ -100,9 +100,10 @@ function ConnectionForm() {
                       </div>
                     )}
                   ></Field>
-                  <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
+                  <div className="mt-4 text-blue-400 flex flex-col col-start-1 md:px-4">
                   <Link to="/mail-reinitialiser">Mot de passe oublié ?</Link>
-
+                  </div>
+                  <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
                     <button
                       onClick={handleExit}
                       variant="contained"

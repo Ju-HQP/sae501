@@ -6,14 +6,20 @@ import {
     login,
     logout,
 } from './connexion';
+import {
+    resetPassword,
+    sendMail
+} from './userAsyncAction';
 
 const slice = createSlice({
     name: 'user',
     initialState: {
         connected: false,
         isConnecting: false,
-        userInfos:null,
+        userInfos: null,
         isAdmin: false,
+        resetMessage: null,
+        sendMailMessage: null,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
@@ -58,10 +64,21 @@ const slice = createSlice({
             })
             // Fonction pour palier le reload de la page qui reset les states
             .addCase(getAuth.fulfilled, (state, action) => {
-               state.connected = true;
-               state.userInfos = action.payload.utilisateur;
+                state.connected = true;
+                state.userInfos = action.payload.utilisateur;
             })
-            // A compléter pour la page profil (modif)
+            .addCase(resetPassword.fulfilled, (state, action) => {
+                state.resetMessage = action.payload.message;
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.resetMessage = null;
+            })
+            .addCase(sendMail.fulfilled, (state, action) => {
+                state.sendMailMessage = action.payload.message;
+            })
+            .addCase(sendMail.rejected, (state, action) => {
+                state.sendMailMessage = action.payload;
+            })
     }
 })
 
