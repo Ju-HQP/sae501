@@ -9,7 +9,7 @@ function ActualiteItemAccueil({ actualite }) {
             
             <div className="p-6">
                 <img src={actualite.image_a} className="object-cover h-44 w-48 m-auto rounded-lg my-6" />
-                <h3 className="font-montserrat font-extralight text-3xl text-center mb-4">
+                <h3 className="font-jura font-extralight text-3xl text-center mb-4">
                     {actualite.titre_a}
                 </h3>
                 <p className="mt-6 lg:mx-8">{formattedDate}</p>

@@ -46,7 +46,7 @@ function Home() {
                         />
                     </div>
                     <section id="presentation" className="px-12 my-8 max-w-6xl m-auto">
-                        <h1 className="text-center font-montserrat my-8 font-extralight text-4xl lg:text-6xl lg:my-12">
+                        <h1 className="text-center font-jura my-8 font-extralight text-4xl lg:text-6xl lg:my-12">
                             May'HumanLab
                         </h1>
                         <p className="mt-4">
@@ -71,7 +71,7 @@ function Home() {
                         </p>
                     </section>
                     <section id="axes" className="px-6 mt-12 mb-16 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
                             Nos Axes
                         </h2>
                         <div className="relative bg-white w-full p-6 rounded-lg">
@@ -87,7 +87,7 @@ function Home() {
                         </div>
                     </section>
                     <section id="actu" className="px-16 my-12 max-w-7xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
                             Actualités
                         </h2>
 
@@ -104,7 +104,7 @@ function Home() {
                         )}
                     </section>
                     <section id="projets" className="px-12 my-8 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
                             Projets
                         </h2>
                         {loadingProject ? (
@@ -118,7 +118,7 @@ function Home() {
                         )}
                     </section>
                     <section id='projets' className="px-12 my-12 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-16 lg:my-12">Partenaires</h2>
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-16 lg:my-12">Partenaires</h2>
                         <ul className="grid grid-cols-2 gap-y-4 md:grid-cols-5">{partenaires.map((partenaire, id) =>
                             <li key={id} className="flex">
                                 <img src={"/accueil/logo-partenaires/" + partenaire.nom + ".webp"} className="m-auto max-w-24" />

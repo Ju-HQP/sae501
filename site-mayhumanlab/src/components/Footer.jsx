@@ -8,7 +8,7 @@ function Footer({ contactVisible }) {
                     contactVisible
                     &&
                     <section className="my-4 lg:px-12">
-                        <h2 className="font-montserrat text-4xl lg:text-4xl font-extralight text-center mb-8 lg:text-left">Nous contacter</h2>
+                        <h2 className="font-jura text-4xl lg:text-4xl font-extralight text-center mb-8 lg:text-left">Nous contacter</h2>
                         <ul className="w-fit">
                             <li>Maison des associations</li>
                             <li>17, rue de Rastatt</li>

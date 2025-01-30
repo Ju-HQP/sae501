@@ -48,7 +48,7 @@ function VolunteersChart() {
     <>
       <Header />
       <main className='p-8'>
-        <h1 className="text-center my-6 mb-14 font-bold text-2xl lg:text-4xl">
+        <h1 className="text-center font-jura my-6 mb-14 font-bold text-2xl lg:text-4xl">
           Trombinoscope
         </h1>
 

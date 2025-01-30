@@ -62,7 +62,7 @@ function SiteGestion(){
       <Header />
       <main className='flex flex-col items-center p-8'>
         
-      <h1 className='text-center my-6 font-bold text-2xl lg:text-4xl'>Gestion du site</h1>
+      <h1 className='text-center font-jura my-6 font-bold text-2xl lg:text-4xl'>Gestion du site</h1>
         
         {editActu && <ActualiteForm/>}
 
