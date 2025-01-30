@@ -1,15 +1,17 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { stopEditProject } from '../features/project/projectSlice';
-import { saveProject } from '../features/project/projectAsyncAction';
-import { selectErrorSave, selectFormTitle, selectInitialFormValues, selectLoadingProject } from '../features/project/projectSelector';
-import { required } from '../utils/validators';
-import LoadingModale from './LoadingModale';
+import { stopEditProject } from '../../features/project/projectSlice';
+import { saveProject } from '../../features/project/projectAsyncAction';
+import { selectErrorSave, selectFormTitle, selectInitialFormValues, selectLoadingProject } from '../../features/project/projectSelector';
+import { required } from '../../utils/validators';
+import LoadingModale from '../LoadingModale';
+import FileInputWithPreview from './FileInputWithPreview';
 
 const ProjectForm = () => {
 
     const initialValues = useSelector(selectInitialFormValues);
+    const initialPicture = initialValues ? initialValues.image_p : null;
     const title = useSelector(selectFormTitle);
     const errorSave = useSelector(selectErrorSave);
     const loading = useSelector(selectLoadingProject);
@@ -17,7 +19,7 @@ const ProjectForm = () => {
     const dispatch = useDispatch();
 
     const handleClose = () => {
-      dispatch(stopEditProject());
+        dispatch(stopEditProject());
     };
 
     const handleSubmit = async (values, form) => {
@@ -46,7 +48,11 @@ const ProjectForm = () => {
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
                         render={({ handleSubmit }) => (
-                            <form onSubmit={handleSubmit}>
+                            <form
+                                onSubmit={handleSubmit}
+                                className='md:grid grid-cols-2 md:p-4 lg:px-8 gap-8 gap-y-4'
+                                enctype="multipart/form-data"
+                            >
                                 <Field
                                     validate={required}
                                     name="titre_p"
@@ -66,26 +72,7 @@ const ProjectForm = () => {
                                         </div>
                                     )}
                                 />
-
-                                <Field
-                                    validate={required}
-                                    name="image_p"
-                                    render={({ input, meta }) => (
-                                        <div className="flex flex-col">
-                                            <label htmlFor="image_p" className="mt-3 mb-2 font-semibold">Image</label>
-                                            <input
-                                                {...input}
-                                                id="image_p"
-                                                type="text"
-                                                placeholder="Image d'illustration du projet"
-                                                className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
-                                            />
-                                            {meta.touched && meta.error && (
-                                                <span className="text-red-500 text-sm">{meta.error}</span>
-                                            )}
-                                        </div>
-                                    )}
-                                />
+                                <Field name="image" id="image" component={FileInputWithPreview} picture={initialPicture}/>
 
                                 <Field
                                     validate={required}
@@ -107,17 +94,17 @@ const ProjectForm = () => {
                                     )}
                                 />
 
-                                <div className="flex justify-between mt-8">
+                                <div className="flex justify-between mt-8 col-span-2 md:justify-end">
                                     <button
                                         type="button"
                                         onClick={handleClose}
-                                        className="font-bold text-xl border-2 border-black hover:border-pink-600 hover:text-pink-600 rounded-lg px-5 py-3 text-center"
+                                        className="secondary-btn-large"
                                     >
                                         Annuler
                                     </button>
                                     <button
                                         type="submit"
-                                        className="text-white font-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+                                        className="primary-btn-large md:ml-4"
                                     >
                                         Soumettre
                                     </button>

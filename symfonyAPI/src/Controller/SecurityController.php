@@ -135,13 +135,14 @@ class SecurityController extends AbstractController
 
         $response = new Response();
         $benevoleInfos = [
-            'id' => $benevoleConnecte->getId(),
-            'photo' => $benevoleConnecte->getPhoto(),
-            'nom' => $benevoleConnecte->getNom(),
-            'prenom' => $benevoleConnecte->getPrenom(),
-            'mail' => $benevoleConnecte->getMail(),
-            'tel' => $benevoleConnecte->getTel(),
-            'role' => $benevoleConnecte->getRoles()
+            'id_benevole' => $benevoleConnecte->getId(),
+            'photo_b' => $benevoleConnecte->getPhoto(),
+            'nom_b' => $benevoleConnecte->getNom(),
+            'prenom_b' => $benevoleConnecte->getPrenom(),
+            'mail_b' => $benevoleConnecte->getMail(),
+            'tel_b' => $benevoleConnecte->getTel(),
+            'nom_c' => $benevoleConnecte->getComp(),
+            'role_b' => $benevoleConnecte->getRoles(),
         ];
 
         $response->setContent(json_encode(['isAuthenticated' => true, 'user' => $user->getUserIdentifier(), 'utilisateur' => $benevoleInfos], 200));

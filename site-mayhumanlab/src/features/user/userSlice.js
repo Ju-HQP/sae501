@@ -6,15 +6,23 @@ import {
     login,
     logout,
 } from './connexion';
-import { redirect } from 'react-router-dom';
+import {
+    redirect
+} from 'react-router-dom';
+import {
+    updatePicture,
+    updateProfile
+} from './userAsyncAction';
 
 const slice = createSlice({
     name: 'user',
     initialState: {
         connected: false,
         isConnecting: false,
-        userInfos:null,
+        userInfos: null,
         isAdmin: false,
+        redirect: false,
+        imageEdit: false,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
@@ -26,7 +34,13 @@ const slice = createSlice({
         },
         stopConnecting(state, action) {
             state.isConnecting = false;
-        }
+        },
+        startImageEdit(state, action){
+            state.imageEdit = true;
+        },
+        stopImageEdit(state, action){
+            state.imageEdit = false;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -60,15 +74,31 @@ const slice = createSlice({
             })
             // Fonction pour palier le reload de la page qui reset les states
             .addCase(getAuth.fulfilled, (state, action) => {
-               state.connected = true;
-               state.userInfos = action.payload.utilisateur;
+                state.connected = true;
+                state.userInfos = action.payload.utilisateur;
             })
             // A compléter pour la page profil (modif)
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.redirect = true;
+            })
+            .addCase(updateProfile.pending, (state, action) => {
+                
+            })
+            .addCase(updatePicture.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.imageEdit = false;
+            })
+            .addCase(updatePicture.pending, (state, action) => {
+
+            })
     }
 })
 
 export const {
     startConnecting,
-    stopConnecting
+    stopConnecting,
+    startImageEdit,
+    stopImageEdit
 } = slice.actions;
 export default slice.reducer;

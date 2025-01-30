@@ -9,3 +9,5 @@ export const selectUserIsAdmin = (state) => state.user.isAdmin;
 export const selectErrorLogin = (state) => state.user.errors.apiErrorLogin;
 
 export const selectErrorLogout = (state) => state.user.errors.apiErrorLogout;
+
+export const selectImageEdit = (state) => state.user.imageEdit;
