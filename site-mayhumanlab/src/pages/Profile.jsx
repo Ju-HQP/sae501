@@ -29,6 +29,11 @@ function Profile() {
       document.title = "Mon compte | May'Humanlab";
     }, []);
 
+    const competence = [...userInfos.competences];
+
+    console.log(userInfos);
+    console.log(competence);
+
     return (<>
         <Header />
         <main className="font-roboto leading-8 text-lg">
@@ -44,7 +49,7 @@ function Profile() {
                     <p className="my-4">Téléphone : {userInfos.tel_b}</p>
                 </span>
                 <ul className="grid grid-cols-2 gap-3">
-                    {competences.map((comp, id) => <li key={id} className="rounded-full px-4 py-1 bg-slate-300 text-center">{comp}</li>)}
+                    {competence.map((comp, id) => <li key={id} className="rounded-full px-4 py-1 bg-slate-300 text-center">{comp.nom_c}</li>)}
                 </ul>
                 <div className="col-span-2 mt-8 md:text-end">
                     <button className="secondary-btn-small mr-4" onClick={handleDisconnecting}>Déconnexion</button>
