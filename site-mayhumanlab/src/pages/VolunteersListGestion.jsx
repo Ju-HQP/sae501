@@ -26,6 +26,10 @@ function VolunteersListGestion() {
   }
 
   useEffect(() => {
+    document.title = "Gestion des comptes | May'Humanlab";
+  }, []);
+
+  useEffect(() => {
     dispatch(loadVolunteer());
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);

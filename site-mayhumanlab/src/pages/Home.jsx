@@ -29,7 +29,9 @@ function Home() {
     useEffect(() => {
         dispatch(loadActus());
         dispatch(loadProjects());
+        document.title = "Accueil | May'Humanlab";
     }, []);
+        
 
     console.log(listeActualite.length);
 
