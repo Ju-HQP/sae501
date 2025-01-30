@@ -3,7 +3,7 @@ function Footer({ contactVisible }) {
     return (
         <>
 
-            <footer className="px-8 py-4 flex flex-col justify-between z-50 bg-gray-800 font-roboto text-white">
+            <footer className="absolute left-0 right-0 px-8 py-4 flex flex-col justify-between z-50 bg-gray-800 font-roboto text-white">
                 {
                     contactVisible
                     &&
