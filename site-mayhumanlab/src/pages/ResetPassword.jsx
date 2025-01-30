@@ -22,7 +22,7 @@ function ResetPassword() {
   const url = token ? `${URL_API_PASSWORD}/${token}` : URL_API_PASSWORD;
 
   // Vérifier si le token est valide via une requête API
-  fetch(url, {
+  fetch('https://lammi-saes5-03.univ-lemans.fr'+url, {
     method: "GET",
     credentials: "include",
   })
