@@ -11,8 +11,9 @@ import { useEffect } from "react";
 function Profile() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const userInfos = useSelector(selectUserInfos);
+    const infos = useSelector(selectUserInfos);
     const isModifying = useSelector(selectVolunteerModifying);
+    const userInfos =  {...infos};
 
     /*constante de TEST */
     const competences = [
