@@ -61,8 +61,8 @@ function VolunteersChart() {
         ) : (
           
           <div className="grid grid-cols-1 md:grid-cols-2">
-            {memorizedValues.map((volunteer) => (
-              <VolunteersChartItem key={volunteer.id} volunteer={volunteer} />
+            {memorizedValues.map((volunteer, id) => (
+              <VolunteersChartItem key={id} volunteer={volunteer} />
             ))}
           </div>
         )}

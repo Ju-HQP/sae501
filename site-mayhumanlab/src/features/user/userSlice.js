@@ -7,7 +7,7 @@ import {
     logout,
 } from './connexion';
 import {
-    redirect
+    redirectToProfile
 } from 'react-router-dom';
 import {
     updatePicture,
@@ -23,8 +23,9 @@ const slice = createSlice({
         isConnecting: false,
         userInfos: null,
         isAdmin: false,
-        redirect: false,
+        redirectToProfile: false,
         imageEdit: false,
+        loading: false,
         resetMessage: null,
         sendMailMessage: null,
         errors: {
@@ -44,7 +45,11 @@ const slice = createSlice({
         },
         stopImageEdit(state, action){
             state.imageEdit = false;
+            state.redirectToProfile = true;
         },
+        stopRedirect(state, action){
+            state.redirectToProfile = false;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -58,7 +63,7 @@ const slice = createSlice({
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
                 state.userInfos = action.payload.utilisateur;
-                state.redirectToAgenda = true;
+                state.redirectToProfileToAgenda = true;
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;
@@ -95,17 +100,20 @@ const slice = createSlice({
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.userInfos = action.payload;
-                state.redirect = true;
+                state.redirectToProfile = true;
+                state.loading = false;
             })
             .addCase(updateProfile.pending, (state, action) => {
-                
+                state.loading = true;
             })
             .addCase(updatePicture.fulfilled, (state, action) => {
                 state.userInfos = action.payload;
                 state.imageEdit = false;
+                state.redirectToProfile = true;
+                state.loading = false;
             })
             .addCase(updatePicture.pending, (state, action) => {
-
+                state.loading = true;
             })
     }
 })
@@ -114,6 +122,7 @@ export const {
     startConnecting,
     stopConnecting,
     startImageEdit,
-    stopImageEdit
+    stopImageEdit,
+    stopRedirect
 } = slice.actions;
 export default slice.reducer;
