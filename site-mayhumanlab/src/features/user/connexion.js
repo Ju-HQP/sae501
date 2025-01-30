@@ -4,9 +4,7 @@ import {
 import {
     URL_API_AUTH,
     URL_API_CSRF,
-    URL_API_LOGIN,
-    URL_API_SQL
-} from '../../utils/config.js';
+    URL_API_LOGIN} from '../../utils/config.js';
 import {
     URL_API_LOGOUT
 } from '../../utils/config.js';
@@ -15,27 +13,6 @@ import { resetDatas } from '../volunteer/volunteerSlice.js';
 
 // récupération du jeton de session pour la connexion
 
-export const datasSQL = createAsyncThunk(
-    'user/temp',
-    async (_, {
-        rejectWithValue
-    }) => {
-        try {
-            const reponse = await fetch(URL_API_SQL, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                credentials: 'include'
-            });
-            const datas = await reponse.json();
-            console.log(datas);
-            return datas;
-        } catch (error) {
-            return rejectWithValue(error.response.data.error.message);
-        }
-    }
-)
 export const csrfToken = createAsyncThunk(
     'user/csrf',
     async (_, {

@@ -5,6 +5,5 @@ export const URL_API_LOGIN = 'http://localhost:8000/api/login';
 export const URL_API_LOGOUT = 'http://localhost:8000/api/logout';
 export const URL_API_AUTH = 'http://localhost:8000/api/auth';
 export const URL_API_CSRF = 'http://localhost:8000/api/csrf_token';
-export const URL_API_SQL = 'http://localhost:8000/api/sql';
 
 export const test = "oui";
