@@ -22,7 +22,7 @@ function ResetPassword() {
   const url = token ? `${URL_API_PASSWORD}/${token}` : URL_API_PASSWORD;
 
   // Vérifier si le token est valide via une requête API
-  fetch('https://lammi-saes5-03.univ-lemans.fr'+url, {
+  fetch(url, {
     method: "GET",
     credentials: "include",
   })
@@ -30,16 +30,13 @@ function ResetPassword() {
     .then((data) => {
       // Redirige vers /reset-password sans le token
       if (data.redirect) {
-        navigate(data.redirect);
+        navigate('/reset-password');
       }
       if (data.valid) {
         setIsValidToken(data.valid);
       }
     })
     .catch(() => {
-      console.log(token);
-      console.log(url);
-      console.log("Fail FETCH");
       setIsValidToken(false);
     });
 
