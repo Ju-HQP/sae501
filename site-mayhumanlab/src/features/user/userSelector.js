@@ -49,7 +49,7 @@ export const selectIsAdmin = createSelector(
     (user) => {
         if (user){
             // Role_b est un tableau avec toujours un élément
-            if (user.role_b[0] === "ROLE_ADMIN"){
+            if ((user.role_b[0] === "ROLE_ADMIN") || (user.role_b===1)){
                 return true;
             }
             return false;
