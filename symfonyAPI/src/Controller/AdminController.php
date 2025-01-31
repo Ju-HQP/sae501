@@ -160,10 +160,22 @@ class AdminController extends AbstractController
 	}
 
 	#[Route('/api/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
-	public function adminBenevolesSupprimerAction(String $id): Response
+	public function adminBenevolesSupprimerAction(String $id, Security $security): Response
 	{
 		// Récupérer les données JSON
 		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+		$user = $security->getUser();
+
+		$mailUserSession = $user->getUserIdentifier();
+		$mailTo = $benevole->getMail();
+
+		if ($mailUserSession == $mailTo){
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => 'Pour supprimer votre compte Administrateur, un autre compte Administrateur doit s\'en charger.']));
+
+			return $response;
+		}
 
 		if ($benevole) {
 			$this->entityManager->remove($benevole);
@@ -292,7 +304,7 @@ class AdminController extends AbstractController
 			$mailUserSession = $user->getUserIdentifier();
 			$mailTo = $benevole->getMail();
 
-			if ($mailUserSession !== $mailTo){
+			if ($mailUserSession !== $mailTo) {
 				return new Response('L\utilisateur connecté et celui modifié ne correspondent pas. Veuillez vous déconnecter et réessayer.', Response::HTTP_BAD_REQUEST);
 			}
 
