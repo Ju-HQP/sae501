@@ -47,7 +47,7 @@ export const updatePicture = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
-            const response = await fetch(`${URL_API_VOLUNTEERS}/image`, {
+            const response = await fetch(`${URL_API_USER}/image`, {
                 method: 'POST',
                 credentials: 'include',
                 body: datas,
