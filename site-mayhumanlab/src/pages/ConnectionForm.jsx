@@ -21,11 +21,18 @@ function ConnectionForm() {
     dispatch(login(values));
   };
 
+  const handleKeyDown = (e) => {
+    if(e.key === "Enter"){
+        handleSubmit();
+    };
+  };
+
   return (
     <>
       <div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
         <dialog
           open
+          onKeyUp={handleKeyDown}
           onClose={handleExit}
           className="w-full md:w-7/12 shadow-2xl rounded-lg relative px-4 mx-2"
         >
