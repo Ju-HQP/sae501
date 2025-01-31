@@ -112,6 +112,8 @@ const slice = createSlice({
             })
             .addCase(updateProfile.pending, (state, action) => {
                 state.loading = true;
+                state.datasSend = {};
+                state.errors.apiErrorUpdate = null;
             })
             .addCase(updateProfile.rejected, (state, action) => {
                 state.datasSend = action.payload.dataSend;

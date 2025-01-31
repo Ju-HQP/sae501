@@ -15,6 +15,7 @@ import { startImageEdit, stopRedirect, stopUserEdit } from "../features/user/use
 import ImageUpdate from "../components/formulaires/ImageUpdate";
 import LoadingModale from "../components/LoadingModale";
 import { useEffect } from "react";
+import { combineValidators, phoneValidated, required } from "../utils/validators";
 
 function ProfileUpdate() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ function ProfileUpdate() {
                 className="w-32 h-32 rounded-full object-cover md:w-40 md:h-40 row-span-2 m-auto"
               />
               <Field
+                validate={required}
                 name="prenom_b"
                 render={({ input, meta }) => (
                   <div className="flex flex-col md:px-4 row-start-3">
@@ -99,6 +101,7 @@ function ProfileUpdate() {
                 )}
               ></Field>
               <Field
+              validate={required}
                 name="nom_b"
                 render={({ input, meta }) => (
                   <div className="flex flex-col col-start-1 md:px-4">
@@ -122,6 +125,7 @@ function ProfileUpdate() {
                 )}
               ></Field>
               <Field
+              validate={required}
                 name="mail_b"
                 render={({ input, meta }) => (
                   <div className="flex flex-col col-start-2 row-start-2 md:px-4">
@@ -145,7 +149,7 @@ function ProfileUpdate() {
                 )}
               ></Field>
               <Field
-                //validate={combineValidators(required, phoneValidated)}
+                validate={combineValidators(required, phoneValidated)}
                 name="tel_b"
                 render={({ input, meta }) => (
                   <div className="flex flex-col col-start-2 row-start-3 md:px-4">
