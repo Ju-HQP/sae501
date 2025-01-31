@@ -62,7 +62,7 @@ function VolunteersChart() {
         ) : errorLoading ? (
           <p className="text-center">{errorLoading}</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-center max-w-6xl m-auto">
             {memorizedValues.map((volunteer, id) => (
               <VolunteersChartItem key={id} volunteer={volunteer} />
             ))}
