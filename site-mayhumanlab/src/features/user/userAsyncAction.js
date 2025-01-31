@@ -2,7 +2,7 @@ import {
     createAsyncThunk
 } from '@reduxjs/toolkit';
 import {
-    URL_API_VOLUNTEERS,
+    URL_API_USER,
     URL_API_FORGOT,
     URL_API_PASSWORD,
 } from '../../utils/config.js';
@@ -13,8 +13,7 @@ export const updateProfile = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
-            console.log(datas);
-            const response = await fetch(`${URL_API_VOLUNTEERS}/${datas.id_benevole}`, {
+            const response = await fetch(`${URL_API_USER}/${datas.id_benevole}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -25,7 +24,7 @@ export const updateProfile = createAsyncThunk(
             if (response.status === 403) {
                 throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
             }
-            if (response.status === 409) { // Conflit avec les autres données
+            if (response.status === 409 || response.status === 400) { // Conflit avec les autres données // Mauvaise requête
                 const error = await response.json();
                 throw new Error(error.message);
             }
@@ -47,7 +46,7 @@ export const updatePicture = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
-            const response = await fetch(`${URL_API_VOLUNTEERS}/image`, {
+            const response = await fetch(`${URL_API_USER}/image`, {
                 method: 'POST',
                 credentials: 'include',
                 body: datas,
@@ -55,7 +54,7 @@ export const updatePicture = createAsyncThunk(
             if (response.status === 403) {
                 throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
             }
-            if (response.status === 400) { // Conflit avec les autres données ou pas d'image
+            if (response.status === 400) { // Conflit ou pas d'image
                 const error = await response.json();
                 throw new Error(error.message);
             }
