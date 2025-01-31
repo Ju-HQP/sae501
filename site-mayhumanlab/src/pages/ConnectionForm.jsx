@@ -4,14 +4,12 @@ import { Field, Form } from "react-final-form";
 import { required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { login } from "../features/user/connexion.js";
-import { selectErrorLogin, selectUserIsConnected } from "../features/user/userSelector.js";
-import { useNavigate, Link } from "react-router-dom";
+import { selectErrorLogin } from "../features/user/userSelector.js";
+import { Link } from "react-router-dom";
 
 function ConnectionForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const errorLogin = useSelector(selectErrorLogin);
-  const isConnected = useSelector(selectUserIsConnected);
 
   const handleExit = () => {
     dispatch(stopConnecting());
