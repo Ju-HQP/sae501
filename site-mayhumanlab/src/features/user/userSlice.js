@@ -22,6 +22,7 @@ const slice = createSlice({
         connected: false,
         isConnecting: false,
         userInfos: null,
+        datasSend:{},
         isAdmin: false,
         redirectToProfile: false,
         imageEdit: false,
@@ -31,6 +32,7 @@ const slice = createSlice({
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
+            apiErrorUpdate: null,
             apiErrorUpdateImage: null
         },
     },
@@ -50,6 +52,10 @@ const slice = createSlice({
         },
         stopRedirect(state, action){
             state.redirectToProfile = false;
+        },
+        stopUserEdit(state){
+            state.datasSend = {};
+            state.errors.apiErrorUpdate = null;
         }
     },
     extraReducers: (builder) => {
@@ -107,6 +113,11 @@ const slice = createSlice({
             .addCase(updateProfile.pending, (state, action) => {
                 state.loading = true;
             })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.datasSend = action.payload.dataSend;
+                state.errors.apiErrorUpdate = action.payload.message;
+                state.loading = false;
+            })
             .addCase(updatePicture.fulfilled, (state, action) => {
                 state.userInfos = action.payload;
                 state.imageEdit = false;
@@ -130,6 +141,7 @@ export const {
     stopConnecting,
     startImageEdit,
     stopImageEdit,
-    stopRedirect
+    stopRedirect,
+    stopUserEdit,
 } = slice.actions;
 export default slice.reducer;

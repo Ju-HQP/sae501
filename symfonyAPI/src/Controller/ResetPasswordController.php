@@ -24,6 +24,7 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
+#[Route('/api')]
 class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
@@ -68,7 +69,6 @@ class ResetPasswordController extends AbstractController
                 $session = $requestStack->getSession();
                 $session->start();
                 $session->set('ResetPasswordPublicToken', $token);
-                $this->logger->info($this->generateUrl('app_reset_password'));
                 return new JsonResponse([
                     'message' => 'Token stocké en session.',
                     'redirect' => $this->generateUrl('app_reset_password'),

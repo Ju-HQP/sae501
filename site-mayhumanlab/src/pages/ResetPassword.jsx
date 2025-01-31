@@ -30,7 +30,7 @@ function ResetPassword() {
     .then((data) => {
       // Redirige vers /reset-password sans le token
       if (data.redirect) {
-        navigate(data.redirect);
+        navigate('/reset-password');
       }
       if (data.valid) {
         setIsValidToken(data.valid);
