@@ -378,7 +378,7 @@ class AdminController extends AbstractController
 		}
 	}
 
-	#[Route('/api/user/image', name: 'imageModifier', methods: ['POST'])]
+	#[Route('/api/benevoles/image', name: 'imageModifier', methods: ['POST'])]
 	public function imageModifierAction(Request $request): Response
 	{
 		$file = $request->files->get('new_image');

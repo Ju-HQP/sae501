@@ -43,6 +43,7 @@ security:
         - { path: ^/api/projets, roles: PUBLIC_ACCESS, methods: [GET] }
         - { path: ^/api/projets, roles: ROLE_USER, methods: [POST,PUT] }
         - { path: ^/api/actualites, roles: ROLE_USER, methods: [POST,PUT] }
+        - { path: ^/api/benevoles/images, roles: ROLE_USER, methods: [GET,POST,PUT,DELETE] }
         - { path: ^/api/benevoles, roles: ROLE_ADMIN, methods: [POST,PUT,DELETE] }
     role_hierarchy:
         ROLE_ADMIN: [ROLE_USER] #permet à l'admin d'hérité par défaut de tous les accès du user
