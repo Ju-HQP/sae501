@@ -11,7 +11,7 @@ import {
 } from "../features/user/userSelector";
 import Header from "../components/Header";
 import { NavLink, useNavigate } from "react-router-dom";
-import { startImageEdit, stopRedirect } from "../features/user/userSlice";
+import { startImageEdit, stopRedirect, stopUserEdit } from "../features/user/userSlice";
 import ImageUpdate from "../components/formulaires/ImageUpdate";
 import LoadingModale from "../components/LoadingModale";
 import { useEffect } from "react";
@@ -37,14 +37,18 @@ function ProfileUpdate() {
     dispatch(updateProfile(values));
   };
 
-  function handleImageUpdate() {
+  const handleImageUpdate = () => {
     dispatch(startImageEdit());
-  }
+  };
+
+  const handleExit = () => {
+    dispatch(stopUserEdit());
+  };
 
   return (
     <>
       <Header />
-      <main className="font-roboto leading-8 mt-12 px-4">
+      <main className="font-roboto leading-8 mt-8 md:mt-0 px-4">
         {imageEdit && <ImageUpdate id={initialValues.id_benevole} />}
         {loading && <LoadingModale />}
         <h1 className="text-center font-jura my-8 font-extralight text-4xl lg:text-6xl lg:my-12">
@@ -61,7 +65,7 @@ function ProfileUpdate() {
           render={({ handleSubmit }) => (
             <form
               onSubmit={handleSubmit}
-              className="my-4 px-2 md:grid grid-cols-2 lg:mx-24 lg:px-24"
+              className="my-6 px-2 md:grid grid-cols-2 lg:mx-24 lg:px-24"
             >
               <img
                 src={initialValues.photo_b}
@@ -192,6 +196,7 @@ function ProfileUpdate() {
               <div className="flex justify-between m-8 col-span-2 md:justify-end md:mx-0 md:px-4">
                 <NavLink
                   variant="contained"
+                  onClick={handleExit}
                   className="secondary-btn-large md:mr-4"
                   to="/profile"
                 >

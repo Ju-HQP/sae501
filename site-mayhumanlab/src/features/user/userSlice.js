@@ -52,6 +52,10 @@ const slice = createSlice({
         },
         stopRedirect(state, action){
             state.redirectToProfile = false;
+        },
+        stopUserEdit(state){
+            state.datasSend = {};
+            state.errors.apiErrorUpdate = null;
         }
     },
     extraReducers: (builder) => {
@@ -137,6 +141,7 @@ export const {
     stopConnecting,
     startImageEdit,
     stopImageEdit,
-    stopRedirect
+    stopRedirect,
+    stopUserEdit,
 } = slice.actions;
 export default slice.reducer;
