@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'react-final-form';
 import { required } from '../utils/validators';
 
-const FilterRow = ({ conditions, index, width, onRemove }) => {
+const FilterRow = ({ conditions, index, width}) => {
   return (
     width < 750
       ?
@@ -92,11 +92,6 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
           </div>
         )}
       </Field>
-      <button
-        type="button"
-        onClick={() => onRemove(index)}
-        className="px-3 py-1 secondary-btn-small"
-      >X</button>
     </div>
   );
 };

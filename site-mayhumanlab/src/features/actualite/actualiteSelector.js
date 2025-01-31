@@ -27,8 +27,6 @@ export const selectInitialFormValues = createSelector(
     selectIdActu,
     selectDatasSend,
     (actualites, id, datas) => {
-        console.log(datas);
-        console.log(id);
         if (!id) {
             if (Object.keys(datas).length > 0) {
                 return datas;

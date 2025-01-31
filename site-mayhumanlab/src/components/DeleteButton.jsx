@@ -16,7 +16,6 @@ function DeleteButton({name, id, deleteEntityById}) {
   };
 
   const handleDelete = () => {
-    console.log(id);
     deleteEntityById(id);
     setOpen(false);
   }

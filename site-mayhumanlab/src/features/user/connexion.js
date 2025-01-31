@@ -44,7 +44,6 @@ export const login = createAsyncThunk(
         try {
             const token = await dispatch(csrfToken());
             datas["_csrf_token"] = token.payload;
-            console.log(datas);
             const res = await fetch(URL_API_LOGIN, {
                 method: 'POST',
                 headers: {

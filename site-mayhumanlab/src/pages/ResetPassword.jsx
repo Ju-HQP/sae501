@@ -42,7 +42,6 @@ function ResetPassword() {
 
   const handleSubmit = async (values) => {
     const dataToSend = { ...values };
-    console.log(dataToSend);
     dispatch(resetPassword(dataToSend));
   };
 

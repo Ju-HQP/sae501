@@ -16,17 +16,6 @@ const FilterForm = ({ onFilter, width }) => {
     setConditions([...conditions, { property: 'nom_b', search: '' }]);
   };
 
-  const handleRemoveCondition = (index) => {
-    const newConditions = conditions.filter((_, i) => i !== index);
-    setConditions(newConditions);
-
-    // Appliquer immédiatement les nouveaux filtres
-    const filterFunctions = newConditions.map((condition) =>
-      mappingFilters[condition.property](condition.property)(condition.search)
-    );
-    onFilter(filterFunctions);
-  };
-
   const handleSubmit = (values) => {
     const filteredConditions = values.conditions.filter(
       (condition) => condition.search.trim() !== ""
@@ -70,7 +59,7 @@ const FilterForm = ({ onFilter, width }) => {
 
             {conditions.map((condition, index) => (
               <Fragment key={index}>
-                <FilterRow conditions={conditions} index={index} width={width} onRemove={handleRemoveCondition} />
+                <FilterRow conditions={conditions} index={index} width={width} />
               </Fragment>
             ))}
             {conditions.length > 0 && (
@@ -128,7 +117,7 @@ const FilterForm = ({ onFilter, width }) => {
 
           {conditions.map((condition, index) => (
             <Fragment key={index}>
-              <FilterRow conditions={conditions} index={index} width={width} onRemove={handleRemoveCondition} />
+              <FilterRow conditions={conditions} index={index} width={width} />
             </Fragment>
           ))}
 

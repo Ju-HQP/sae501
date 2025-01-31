@@ -25,7 +25,6 @@ const ImageUpdate = ({ id }) => {
     function handleExit() {
         dispatch(stopImageEdit());
     }
-    console.log(loading);
 
     useEffect(() => {
         if (redirect) {

@@ -130,7 +130,6 @@ export const deleteActu = createAsyncThunk(
                 return dataToSend.id;
             }
             }catch (error) {
-                console.log(error.message);
             return rejectWithValue(error.message??"Erreur lors de la suppression de l'actualité.");
         }
     }

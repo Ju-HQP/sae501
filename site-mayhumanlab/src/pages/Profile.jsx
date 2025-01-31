@@ -26,9 +26,6 @@ function Profile() {
 
   const competence = [...userInfos.competences];
 
-  console.log(userInfos);
-  console.log(competence);
-
   return (
     <>
       <Header />

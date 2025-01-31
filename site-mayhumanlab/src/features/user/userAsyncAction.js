@@ -74,7 +74,6 @@ export const sendMail = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
-            console.log(datas);
             const res = await fetch(URL_API_FORGOT, {
                 method: 'POST',
                 headers: {
