@@ -7,8 +7,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import {
+  selectIsAdmin,
   selectUserInfos,
-  selectUserIsAdmin,
   selectUserIsConnected,
   selectUserIsConnecting,
 } from "../features/user/userSelector";
@@ -30,8 +30,7 @@ function Nav() {
   // pour le Formulaire de connexion
   const isConnecting = useSelector(selectUserIsConnecting);
 
-  var isAdmin = useSelector(selectUserIsAdmin);
-  isAdmin = true; // debug à suppr
+  const isAdmin = useSelector(selectIsAdmin);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

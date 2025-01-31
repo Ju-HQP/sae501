@@ -6,8 +6,6 @@ export const selectUserIsConnecting = (state) => state.user.isConnecting;
 
 export const selectUserInfos = (state) => state.user.userInfos;
 
-export const selectUserIsAdmin = (state) => state.user.isAdmin;
-
 export const selectErrorLogin = (state) => state.user.errors.apiErrorLogin;
 
 export const selectErrorLogout = (state) => state.user.errors.apiErrorLogout;
@@ -43,5 +41,18 @@ export const selectInitialFormValues = createSelector(
                 return user
             }
            
+    }
+);
+
+export const selectIsAdmin = createSelector(
+    selectUserInfos,
+    (user) => {
+        if (user){
+            // Role_b est un tableau avec toujours un élément
+            if (user.role_b[0] === "ROLE_ADMIN"){
+                return true;
+            }
+            return false;
+        }
     }
 );

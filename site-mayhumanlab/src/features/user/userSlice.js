@@ -23,7 +23,6 @@ const slice = createSlice({
         isConnecting: false,
         userInfos: null,
         datasSend:{},
-        isAdmin: false,
         redirectToProfile: false,
         imageEdit: false,
         loading: false,
@@ -78,7 +77,6 @@ const slice = createSlice({
             })
             .addCase(logout.fulfilled, (state, action) => {
                 state.connected = false;
-                state.isAdmin = false;
                 state.userInfos = null;
                 state.errors.apiErrorLogout = null;
             })
