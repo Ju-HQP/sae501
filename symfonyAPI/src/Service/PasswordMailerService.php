@@ -72,14 +72,12 @@ class PasswordMailerService
 
     public function processSendingOnlyLinkResetPasswordEmail(string $mailUser): Response
     {
-        $this->logger->info("Mail pour mdp : ".$mailUser);
 
         $user = $this->entityManager->getRepository(Benevole::class)->findOneBy([
             'mail_b' => $mailUser,
         ]);
 
         if (!$user) {
-            $this->logger->info("Utilisateur non trouvé");
             $response = new Response();
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
             $response->setContent(json_encode(['message' => 'Le bénévole n\'existe pas.']));
@@ -105,7 +103,6 @@ class PasswordMailerService
             return $response;
 
         } catch (ResetPasswordExceptionInterface $e) {
-            $this->logger->info("ERRORRRR");
 
             $response = new Response();
             $response->setStatusCode(Response::HTTP_EXPECTATION_FAILED); // Error 417

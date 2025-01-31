@@ -78,7 +78,7 @@ class ResetPasswordController extends AbstractController
             // Récupérer le token depuis la session
             $token = $this->getTokenFromSession();
             if (!$token) {
-                $this->logger->info("Aucun token trouvé dans l’URL ou la session.");
+
                 return new JsonResponse([
                     'valid' => false,
                     'message' => 'Aucun token trouvé dans l’URL ou la session.'
@@ -91,8 +91,7 @@ class ResetPasswordController extends AbstractController
                 // Token valide donc affichage du formulaire en front
                 return new JsonResponse(['valid' => true], Response::HTTP_OK);
             } catch (ResetPasswordExceptionInterface $e) {
-                $this->logger->info("Catch Error Reset Mot de passe :");
-                $this->logger->info($e->getReason());
+
                 return new JsonResponse([
                     'valid' => false,
                     'message' => 'Token invalide ou expiré.',

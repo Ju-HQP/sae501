@@ -109,7 +109,6 @@ class AdminController extends AbstractController
 			->setPhoto($src ?? null)
 			->setRoles($data['role_b'] ?? 0);
 
-		$this->logger->info("Liste des compétences récupérées : " . json_encode($comp));
 
 		// SI le champ compétence existe (si il est vide en front il n'est pas envoyé dans les datas)
 		if (!empty($data['nom_c'])) {
@@ -122,10 +121,8 @@ class AdminController extends AbstractController
 					$comp = new Competence();
 					$comp->setNom(ucfirst($nomComp));
 					$this->entityManager->persist($comp);
-					$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
 				}
 				$benevole->setComp($comp);
-				$this->logger->info("Ajout de la compétence existante au bénévole");
 			};
 		}
 
@@ -248,10 +245,9 @@ class AdminController extends AbstractController
 						$comp = new Competence();
 						$comp->setNom(ucfirst($nomComp));
 						$this->entityManager->persist($comp);
-						$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
+	
 					}
 					$benevole->setComp($comp);
-					$this->logger->info("Ajout de la compétence existante au bénévole");
 				};
 			}
 
@@ -344,10 +340,10 @@ class AdminController extends AbstractController
 						$comp = new Competence();
 						$comp->setNom(ucfirst($nomComp));
 						$this->entityManager->persist($comp);
-						$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
+						
 					}
 					$benevole->setComp($comp);
-					$this->logger->info("Ajout de la compétence existante au bénévole");
+
 				};
 			}
 
