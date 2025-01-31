@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import {
+  selectErrorDelete,
   selectErrorLoad,
   selectLoading,
   selectVolunteer,
@@ -18,6 +19,7 @@ function VolunteersListGestion() {
   const isModifying = useSelector(selectVolunteerModifying);
   const loading = useSelector(selectLoading);
   const errorLoading = useSelector(selectErrorLoad);
+  const errorDelete = useSelector(selectErrorDelete);
   const volunteerList = useSelector(selectVolunteer);
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -43,6 +45,11 @@ function VolunteersListGestion() {
     <>
       <Header />
       <main className="flex flex-col items-center p-8">
+      {errorDelete &&
+          <div className="fixed top-24 right-0 bg-red-100 text-red-700 p-3 rounded mb-4">
+            {errorDelete}
+          </div>
+        }
         <h1 className="font-jura text-center my-6 font-bold text-2xl lg:text-4xl">
           Gestion des comptes
         </h1>

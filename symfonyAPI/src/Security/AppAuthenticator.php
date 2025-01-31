@@ -83,7 +83,13 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             'prenom_b' => $benevoleConnecte->getPrenom(),
             'mail_b' => $benevoleConnecte->getMail(),
             'tel_b' => $benevoleConnecte->getTel(),
-            'role_b' => $benevoleConnecte->getRoles()
+            'competences' => $benevoleConnecte->getComp()->map(function ($competence) {
+                return [
+                    'id_competence' => $competence->getId(),
+                    'nom_c' => $competence->getNom()
+                ];
+            })->toArray(),
+            'role_b' => $benevoleConnecte->getRoles(),
         ];
 
         $response->setContent(json_encode(['message' => 'Connexion réussie', 'utilisateur' => $benevoleInfos]));

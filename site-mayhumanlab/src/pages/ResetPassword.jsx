@@ -30,7 +30,7 @@ function ResetPassword() {
     .then((data) => {
       // Redirige vers /reset-password sans le token
       if (data.redirect) {
-        navigate(data.redirect);
+        navigate("/reset-password");
       }
       if (data.valid) {
         setIsValidToken(data.valid);
@@ -109,6 +109,8 @@ function ResetPassword() {
                                 placeholder="Votre mot de passe"
                                 id="new_password"
                                 type="password"
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$" 
+                                title="Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
                                 className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
                               ></input>
                               {meta.touched && meta.invalid && (

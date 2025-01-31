@@ -22,7 +22,7 @@ const slice = createSlice({
         connected: false,
         isConnecting: false,
         userInfos: null,
-        isAdmin: false,
+        datasSend:{},
         redirectToProfile: false,
         imageEdit: false,
         loading: false,
@@ -31,6 +31,7 @@ const slice = createSlice({
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
+            apiErrorUpdate: null,
             apiErrorUpdateImage: null
         },
     },
@@ -50,6 +51,10 @@ const slice = createSlice({
         },
         stopRedirect(state, action){
             state.redirectToProfile = false;
+        },
+        stopUserEdit(state){
+            state.datasSend = {};
+            state.errors.apiErrorUpdate = null;
         }
     },
     extraReducers: (builder) => {
@@ -72,7 +77,6 @@ const slice = createSlice({
             })
             .addCase(logout.fulfilled, (state, action) => {
                 state.connected = false;
-                state.isAdmin = false;
                 state.userInfos = null;
                 state.errors.apiErrorLogout = null;
             })
@@ -106,6 +110,13 @@ const slice = createSlice({
             })
             .addCase(updateProfile.pending, (state, action) => {
                 state.loading = true;
+                state.datasSend = {};
+                state.errors.apiErrorUpdate = null;
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.datasSend = action.payload.dataSend;
+                state.errors.apiErrorUpdate = action.payload.message;
+                state.loading = false;
             })
             .addCase(updatePicture.fulfilled, (state, action) => {
                 state.userInfos = action.payload;
@@ -130,6 +141,7 @@ export const {
     stopConnecting,
     startImageEdit,
     stopImageEdit,
-    stopRedirect
+    stopRedirect,
+    stopUserEdit,
 } = slice.actions;
 export default slice.reducer;

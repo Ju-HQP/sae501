@@ -40,7 +40,7 @@ class AdminController extends AbstractController
 	private EntityManagerInterface $entityManager;
 	private LoggerInterface $logger;
 
-	public function __construct(EntityManagerInterface $entityManager,LoggerInterface $logger)
+	public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
 	{
 		$this->entityManager = $entityManager;
 		$this->logger = $logger;
@@ -143,15 +143,15 @@ class AdminController extends AbstractController
 		$this->entityManager->flush();
 
 		// Envoi du mail
-		$passwordMailRequest = $passwordMailerService->processSendingPasswordEmail($benevole->getMail(),$randomMdp);
-		
+		$passwordMailRequest = $passwordMailerService->processSendingPasswordEmail($benevole->getMail(), $randomMdp);
+
 		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
 		$benevoles = $query->getArrayResult(); // ou getResult();
 		$response = new Response();
-		if (($passwordMailRequest->getStatusCode()) !== 200){
+		if (($passwordMailRequest->getStatusCode()) !== 200) {
 			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
 			$response->setContent(json_encode(['message' => 'L\'envoi du mail au nouveau compte à rencontré une erreur. Veuillez réessayer']));
-		}else{
+		} else {
 			$response->setStatusCode(Response::HTTP_CREATED);
 			//on encode le dernier élément du tableau, il s'agit de celui qu'on vient de créer car on ne peut pas encoder directement l'objet $benevole
 			$response->setContent(json_encode($benevoles[sizeof($benevoles) - 1]));
@@ -160,10 +160,22 @@ class AdminController extends AbstractController
 	}
 
 	#[Route('/api/benevoles/{id}', name: 'adminBenevolesSupprimer', methods: ['DELETE'])]
-	public function adminBenevolesSupprimerAction(String $id): Response
+	public function adminBenevolesSupprimerAction(String $id, Security $security): Response
 	{
 		// Récupérer les données JSON
 		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+		$user = $security->getUser();
+
+		$mailUserSession = $user->getUserIdentifier();
+		$mailTo = $benevole->getMail();
+
+		if ($mailUserSession == $mailTo){
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => 'Pour supprimer votre compte Administrateur, un autre compte Administrateur doit s\'en charger.']));
+
+			return $response;
+		}
 
 		if ($benevole) {
 			$this->entityManager->remove($benevole);
@@ -185,46 +197,8 @@ class AdminController extends AbstractController
 		}
 	}
 
-	#[Route('/api/benevoles/image', name: 'imageModifier', methods: ['POST'])]
-	public function imageModifierAction(Request $request): Response
-	{
-		$file = $request->files->get('new_image');
-		$id = $request->request->get('id');
-
-		$uploadDir = '/uploads/profile-pictures';
-		
-		if(!$file){
-			$response = new Response();
-			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
-			$response->setContent(json_encode(['message' => "Veuillez sélectionner une image."]));
-			return $response;
-		}
-		$src = $this->uploadFile($file, $uploadDir, $request);
-
-		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
-
-		$benevole->setPhoto($src);
-
-		$this->entityManager->persist($benevole);
-		$this->entityManager->flush();
-
-		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole like :id");
-		$query->setParameter("id", $benevole->getId());
-		$benevoleUpdate = $query->getArrayResult();
-		$benevoleUpdate = $benevoleUpdate[0];
-
-		$response = new Response();
-		$response->setStatusCode(Response::HTTP_OK);
-		$response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
-		$response->setContent(json_encode($benevoleUpdate), Response::HTTP_CREATED, [
-			'Content-Type' => 'application/json',
-		]);
-		return $response;
-	}
-
 	#[Route('/api/benevoles/{id}', name: 'adminBenevolesModifier', methods: ['PUT'])]
-	public function adminBenevolesModifierAction(Request $request, String $id): Response
+	public function adminBenevolesModifierAction(Request $request, string $id): Response
 	{
 
 		$data = json_decode($request->getContent(), true);
@@ -307,6 +281,140 @@ class AdminController extends AbstractController
 		}
 	}
 
+	//--------------------------- Bénévole (UTILISATEUR) -----------------------//
+
+	// Fonctionnement équivalent au modifier mais route différente et vérif du User (avec security)
+	#[Route('/api/user/{id}', name: 'userModifier', methods: ['PUT'])]
+	public function oneUserModifierAction(Request $request, string $id, Security $security): Response
+	{
+
+		$data = json_decode($request->getContent(), true);
+
+		if (!$data) {
+			return new Response('Les données envoyées n\'ont pas pu être traitées.', Response::HTTP_BAD_REQUEST);
+		}
+		// Récupérer les données JSON
+		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+		$user = $security->getUser();
+
+		if ($user && $benevole) {
+
+			// Vérification de correspondance entre l'utilisateur et l'émetteur de la requête avec le mail
+
+			$mailUserSession = $user->getUserIdentifier();
+			$mailTo = $benevole->getMail();
+
+			if ($mailUserSession !== $mailTo) {
+				return new Response('L\utilisateur connecté et celui modifié ne correspondent pas. Veuillez vous déconnecter et réessayer.', Response::HTTP_BAD_REQUEST);
+			}
+
+			$mailReq = $data["mail_b"];
+
+			// Cas où le mail mis à jour est différent du mail actuel du bénévole ->
+			if ($mailReq !== $mailTo) {
+
+				// Et où un bénévole aurait déjà ce mail
+				$benevoleWithMail = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $mailReq]);
+
+				if ($benevoleWithMail) {
+					$response = new Response();
+					$response->setStatusCode(Response::HTTP_CONFLICT);
+					$response->setContent(json_encode(['message' => 'Cet e-mail est déjà utilisé. Veuillez réessayer avec un autre e-mail.']));
+					return $response;
+				}
+			}
+
+			$benevole->setPrenom($data['prenom_b'] ?? $benevole->getPrenom())
+				->setNom($data['nom_b'] ?? $benevole->getNom())
+				//   ->setPassword($data['mdp_b'] ?? $benevole->getPassword())
+				->setMail($data['mail_b'] ?? $benevole->getMail())
+				->setTel($data['tel_b'] ?? $benevole->getTel())
+				->setRoles($data['role_b'] ?? $benevole->getRole())
+				->clearComp();
+
+			// SI le champ compétence existe (si il est vide en front il n'est pas envoyé dans les datas)
+
+			if (!empty($data['nom_c']) && $data["nom_c"]) {
+				$tabComp = explode("-", $data['nom_c']); //"soudeur-designer" -> ["soudeur", "designer"]
+				foreach ($tabComp as $nomComp) {
+					$comp = $this->entityManager->getRepository(Competence::class)
+						->findOneBy(['nom_c' => $nomComp]);
+					if (!$comp) {
+						// Créer une nouvelle compétence si elle n'existe pas
+						$comp = new Competence();
+						$comp->setNom(ucfirst($nomComp));
+						$this->entityManager->persist($comp);
+						$this->logger->info("Création d'une nouvelle compétence et ajout au bénévole");
+					}
+					$benevole->setComp($comp);
+					$this->logger->info("Ajout de la compétence existante au bénévole");
+				};
+			}
+
+
+			$this->entityManager->persist($benevole);
+			$this->entityManager->flush();
+
+			$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole like :id");
+			$query->setParameter("id", $benevole->getId());
+			$benevoleUpdate = $query->getArrayResult();
+			$benevoleUpdate = $benevoleUpdate[0];
+
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_OK);
+			$response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			$response->setContent(json_encode($benevoleUpdate), Response::HTTP_CREATED, [
+				'Content-Type' => 'application/json',
+			]);
+			// Retourne le bénévole modifié
+			return $response;
+		} else {
+			$response = new Response;
+			$response->setStatusCode(Response::HTTP_NOT_FOUND);
+			$response->setContent(json_encode(array(['message' => 'Bénévole non trouvé'] . $id)));
+			return $response;
+			// 404 Not Found
+		}
+	}
+
+	#[Route('/api/user/image', name: 'imageModifier', methods: ['POST'])]
+	public function imageModifierAction(Request $request): Response
+	{
+		$file = $request->files->get('new_image');
+		$id = $request->request->get('id');
+
+		$uploadDir = '/uploads/profile-pictures';
+
+		if (!$file) {
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
+			$response->setContent(json_encode(['message' => "Veuillez sélectionner une image."]));
+			return $response;
+		}
+		$src = $this->uploadFile($file, $uploadDir, $request);
+
+		$benevole = $this->entityManager->getRepository(Benevole::class)->find($id);
+
+		$benevole->setPhoto($src);
+
+		$this->entityManager->persist($benevole);
+		$this->entityManager->flush();
+
+		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole like :id");
+		$query->setParameter("id", $benevole->getId());
+		$benevoleUpdate = $query->getArrayResult();
+		$benevoleUpdate = $benevoleUpdate[0];
+
+		$response = new Response();
+		$response->setStatusCode(Response::HTTP_OK);
+		$response->headers->set('Content-Type', 'application/json');
+		$response->headers->set('Access-Control-Allow-Origin', '*');
+		$response->setContent(json_encode($benevoleUpdate), Response::HTTP_CREATED, [
+			'Content-Type' => 'application/json',
+		]);
+		return $response;
+	}
 
 	//------------------------------------ ACTUALITE ------------------------------------//
 
@@ -328,7 +436,7 @@ class AdminController extends AbstractController
 		$file = $request->files->get('image');
 		$uploadDir = '/uploads/profile-pictures';
 
-		if(!$file){
+		if (!$file) {
 			$response = new Response();
 			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
 			$response->setContent(json_encode(['message' => "Veuillez ajouter une image à l'actualité."]));
@@ -489,7 +597,7 @@ class AdminController extends AbstractController
 		$file = $request->files->get('image');
 		$uploadDir = '/uploads/profile-pictures';
 
-		if(!$file){
+		if (!$file) {
 			$response = new Response();
 			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
 			$response->setContent(json_encode(['message' => 'Veuillez ajouter une image au projet.']));

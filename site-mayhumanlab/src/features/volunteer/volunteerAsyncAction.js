@@ -136,12 +136,11 @@ export const deleteVolunteer = createAsyncThunk(
             if (response.status === 204) {
                 return datas.id;
             }
-            if(response.status === 404){
+            if(response.status === 404 || response.status === 400){
                 const error = await response.json();
                 throw new Error(error.message);
             }
         } catch (error) {
-           console.log("delete catch error");
             return rejectWithValue(error.message?? "Erreur lors de la suppression du bénévole.");
         };
     }
