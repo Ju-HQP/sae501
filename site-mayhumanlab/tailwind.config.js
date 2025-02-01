@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         roboto: 'Roboto, sans-serif',
         montserrat: 'Montserrat',
+        jura: 'Jura'
       }
     },
   },

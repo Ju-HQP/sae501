@@ -36,18 +36,19 @@ export const addProject = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
+            const formData = new FormData();
+            Object.entries(dataToSend).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
             const response = await fetch(URL_API_PROJECTS, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataToSend),
+                body: formData,
                 credentials: 'include'
             });
             if (response.status === 403) {
-                throw new Error("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
-            if (response.status === 409) { // Conflit avec les autres données
+            if (response.status === 409 || response.status === 400) { // Conflit avec les autres données ou pas d'image
                 const error = await response.json();
                 throw new Error(error.message);
             }
@@ -78,7 +79,7 @@ export const updateProject = createAsyncThunk(
                 credentials: 'include'
             });
             if (response.status === 403) {
-                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises pour effectuer cette action.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
             if (response.status === 409) { // Conflit avec les autres données
                 const error = await response.json();
@@ -127,9 +128,18 @@ export const deleteProject = createAsyncThunk(
                 },
                 credentials: 'include'
             });
-            return dataToSend.id;
+            if (response.status === 403){
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
+            }
+            if(response.status === 404){
+                const error = await response.json();
+                throw new Error(error.message);
+            }
+            if(response.status === 204){
+                return dataToSend.id;
+            }
         } catch (error) {
-            return rejectWithValue("Erreur lors de la suppression du projet.");
+            return rejectWithValue(error.message?? "Erreur lors de la suppression du projet.");
         }
     }
 )

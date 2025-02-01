@@ -1,7 +1,6 @@
 // vérifie si la propriété d'un objet contient ou non la valeur de recherche fournie
 
 export function filterProperty(property) {      
-    console.log(property);
     return function compareValues(search) {
         if (typeof search !== 'string') {
             throw new Error(`Invalid search term: ${search}`);
@@ -12,10 +11,6 @@ export function filterProperty(property) {
             if (typeof property !== 'string' || !object.hasOwnProperty(property)) {
                 throw new Error(`Invalid property: ${property}`);
                 }
-
-            console.log(object);
-            console.log(object[property]);
-            console.log(lowerSearch);
 
             return object[property].toLowerCase().includes(lowerSearch);
         }

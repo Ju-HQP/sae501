@@ -48,7 +48,6 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
             $csrfToken = $data["_csrf_token"];
         }
 
-        // $this->logger->info('Mail requête : ' . $mailB);
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $mailB);
 
@@ -77,13 +76,19 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         $response = new Response();
         $benevoleInfos = [
-            'id' => $benevoleConnecte->getId(),
-            'photo' => $benevoleConnecte->getPhoto(),
-            'nom' => $benevoleConnecte->getNom(),
-            'prenom' => $benevoleConnecte->getPrenom(),
-            'mail' => $benevoleConnecte->getMail(),
-            'tel' => $benevoleConnecte->getTel(),
-            'role' => $benevoleConnecte->getRoles()
+            'id_benevole' => $benevoleConnecte->getId(),
+            'photo_b' => $benevoleConnecte->getPhoto(),
+            'nom_b' => $benevoleConnecte->getNom(),
+            'prenom_b' => $benevoleConnecte->getPrenom(),
+            'mail_b' => $benevoleConnecte->getMail(),
+            'tel_b' => $benevoleConnecte->getTel(),
+            'competences' => $benevoleConnecte->getComp()->map(function ($competence) {
+                return [
+                    'id_competence' => $competence->getId(),
+                    'nom_c' => $competence->getNom()
+                ];
+            })->toArray(),
+            'role_b' => $benevoleConnecte->getRoles(),
         ];
 
         $response->setContent(json_encode(['message' => 'Connexion réussie', 'utilisateur' => $benevoleInfos]));

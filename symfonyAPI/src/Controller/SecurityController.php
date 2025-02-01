@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Actualite;
 use App\Entity\Benevole;
+use App\Entity\Competence;
+use App\Entity\Projet;
 use Doctrine\Common\Lexer\Token;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,20 +32,6 @@ class SecurityController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    //temp 
-    #[Route('/debug/csrf', name: 'debug_csrf', methods: ['POST'])]
-    public function debugCsrf(Request $request, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
-    {
-        $sentToken = $request->request->get('_csrf_token');
-        $expectedToken = $csrfTokenManager->getToken('authenticate')->getValue();
-
-        return new JsonResponse([
-            'sentToken' => $sentToken,
-            'expectedToken' => $expectedToken,
-            'isValid' => $csrfTokenManager->isTokenValid(new CsrfToken('authenticate', $sentToken)),
-        ]);
-    }
-
 
     #[Route('/csrf_token', name: 'api_csrf_token', methods: ['GET'])]
     public function getCsrfToken(RequestStack $requestStack, CsrfTokenManagerInterface $csrfTokenManager): JsonResponse
@@ -146,13 +135,19 @@ class SecurityController extends AbstractController
 
         $response = new Response();
         $benevoleInfos = [
-            'id' => $benevoleConnecte->getId(),
-            'photo' => $benevoleConnecte->getPhoto(),
-            'nom' => $benevoleConnecte->getNom(),
-            'prenom' => $benevoleConnecte->getPrenom(),
-            'mail' => $benevoleConnecte->getMail(),
-            'tel' => $benevoleConnecte->getTel(),
-            'role' => $benevoleConnecte->getRoles()
+            'id_benevole' => $benevoleConnecte->getId(),
+            'photo_b' => $benevoleConnecte->getPhoto(),
+            'nom_b' => $benevoleConnecte->getNom(),
+            'prenom_b' => $benevoleConnecte->getPrenom(),
+            'mail_b' => $benevoleConnecte->getMail(),
+            'tel_b' => $benevoleConnecte->getTel(),
+            'competences' => $benevoleConnecte->getComp()->map(function ($competence) {
+                return [
+                    'id_competence' => $competence->getId(),
+                    'nom_c' => $competence->getNom()
+                ];
+            })->toArray(),
+            'role_b' => $benevoleConnecte->getRoles(),
         ];
 
         $response->setContent(json_encode(['isAuthenticated' => true, 'user' => $user->getUserIdentifier(), 'utilisateur' => $benevoleInfos], 200));

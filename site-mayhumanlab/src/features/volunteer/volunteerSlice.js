@@ -14,7 +14,6 @@ const slice = createSlice({
         loading: false,
         volunteerModifying: false,
         idVolunteerModifying: null,
-        idVolunteerDeleting: null,
         dataSend:{},//objet vide
         errors: {
             apiErrorLoad: null,
@@ -27,6 +26,7 @@ const slice = createSlice({
         startVolunteerEdit(state, action) {
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.errors.apiErrorDelete = null;
             state.volunteerModifying = true;
             state.idVolunteerModifying = action.payload;
         },
@@ -61,7 +61,6 @@ const slice = createSlice({
             })
             .addCase(addVolunteer.fulfilled, (state, action) => {
                 state.volunteers = [...state.volunteers, action.payload];
-                console.log(action.payload);
                 state.volunteerModifying = false;
                 state.loading = false;
                 state.dataSend = {};

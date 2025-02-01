@@ -36,18 +36,19 @@ export const addActu = createAsyncThunk(
         rejectWithValue
     }) => {
         try {
+            const formData = new FormData();
+            Object.entries(dataToSend).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
             const response = await fetch(URL_API_ACTUS, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(dataToSend),
+                body: formData,
                 credentials: 'include'
             });
             if (response.status === 403){
                 throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
-            if (response.status === 409) { // Conflit avec les autres données
+            if (response.status === 409 || response.status === 400) { // Conflit avec les autres données ou pas d'image
                 const error = await response.json();
                 throw new Error(error.message);
             }
@@ -75,7 +76,7 @@ export const updateActu = createAsyncThunk(
                 credentials: 'include'
             });
             if (response.status === 403){
-                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
             }
             if (response.status === 409) { // Conflit avec les autres données
                 const error = await response.json();
@@ -119,13 +120,17 @@ export const deleteActu = createAsyncThunk(
                 credentials: 'include'
             });
             if (response.status === 403){
-                return rejectWithValue("Désolé, vous n'avez pas les autorisations requises.");
+                throw new Error('Désolé, vous n\'avez pas les autorisations requises pour effectuer cette action.');
+            }
+            if(response.status === 404){
+                const error = await response.json();
+                throw new Error(error.message);
             }
             if(response.status === 204){
                 return dataToSend.id;
             }
-        } catch (error) {
-            return rejectWithValue("Erreur lors de la suppression de l'actualité.");
+            }catch (error) {
+            return rejectWithValue(error.message??"Erreur lors de la suppression de l'actualité.");
         }
     }
 )

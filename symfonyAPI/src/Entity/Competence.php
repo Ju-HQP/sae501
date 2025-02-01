@@ -19,9 +19,6 @@ class Competence
     #[ORM\Column(length: 100,name: 'nom_c')]
     private ?string $nom_c;
 
-    #[ORM\Column(length: 7,name: 'couleur_c', nullable:true)]
-    private ?string $couleur_c;
-
     #[ManyToMany(targetEntity: Benevole::class, mappedBy: 'competences')]
     private Collection $benevoles;
 
@@ -51,17 +48,5 @@ class Competence
         $this->nom_c = $nom;
 
         return $this->nom_c;
-    }
-
-    public function getCouleurComp(string $couleur): ?string
-    {
-            return $this->couleur_c;
-    }
-
-    public function setCouleurComp(string $couleur): ?string
-    {
-        $this->couleur_c = $couleur;
-
-        return $this->couleur_c;
     }
 }

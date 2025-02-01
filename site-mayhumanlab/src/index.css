@@ -29,7 +29,7 @@ code {
 }
 
 .primary-btn-large:hover {
-  background-color: #db2777;
+  background-color: #CD772E;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
@@ -49,8 +49,8 @@ code {
 }
 
 .secondary-btn-large:hover {
-  color: #db2777;
-  border-color: #db2777;
+  color: #CD772E;
+  border-color: #CD772E;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
@@ -70,8 +70,8 @@ code {
 }
 
 .primary-btn-small:hover {
-  background-color: #db2777;
-  border-color: #db2777;
+  background-color: #CD772E;
+  border-color: #CD772E;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
@@ -91,9 +91,22 @@ code {
 }
 
 .secondary-btn-small:hover {
-  color: #db2777;
-  border-color: #db2777;
+  color: #CD772E;
+  border-color: #CD772E;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+html, body, #root {
+  height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }

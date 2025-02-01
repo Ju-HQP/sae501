@@ -6,18 +6,33 @@ import {
     login,
     logout,
 } from './connexion';
-import { redirect } from 'react-router-dom';
+import {
+    redirectToProfile
+} from 'react-router-dom';
+import {
+    updatePicture,
+    updateProfile,
+    resetPassword,
+    sendMail
+} from './userAsyncAction';
 
 const slice = createSlice({
     name: 'user',
     initialState: {
         connected: false,
         isConnecting: false,
-        userInfos:null,
-        isAdmin: false,
+        userInfos: null,
+        datasSend:{},
+        redirectToProfile: false,
+        imageEdit: false,
+        loading: false,
+        resetMessage: null,
+        sendMailMessage: null,
         errors: {
             apiErrorLogin: null,
             apiErrorLogout: null,
+            apiErrorUpdate: null,
+            apiErrorUpdateImage: null
         },
     },
     reducers: {
@@ -26,6 +41,20 @@ const slice = createSlice({
         },
         stopConnecting(state, action) {
             state.isConnecting = false;
+        },
+        startImageEdit(state, action){
+            state.imageEdit = true;
+        },
+        stopImageEdit(state, action){
+            state.imageEdit = false;
+            state.redirectToProfile = true;
+        },
+        stopRedirect(state, action){
+            state.redirectToProfile = false;
+        },
+        stopUserEdit(state){
+            state.datasSend = {};
+            state.errors.apiErrorUpdate = null;
         }
     },
     extraReducers: (builder) => {
@@ -40,7 +69,7 @@ const slice = createSlice({
                 state.isConnecting = false;
                 state.errors.apiErrorLogin = null;
                 state.userInfos = action.payload.utilisateur;
-                state.redirectToAgenda = true;
+                state.redirectToProfileToAgenda = true;
             })
             .addCase(login.rejected, (state, action) => {
                 // state.isLogging = false;
@@ -48,7 +77,6 @@ const slice = createSlice({
             })
             .addCase(logout.fulfilled, (state, action) => {
                 state.connected = false;
-                state.isAdmin = false;
                 state.userInfos = null;
                 state.errors.apiErrorLogout = null;
             })
@@ -60,15 +88,60 @@ const slice = createSlice({
             })
             // Fonction pour palier le reload de la page qui reset les states
             .addCase(getAuth.fulfilled, (state, action) => {
-               state.connected = true;
-               state.userInfos = action.payload.utilisateur;
+                state.connected = true;
+                state.userInfos = action.payload.utilisateur;
             })
-            // A compléter pour la page profil (modif)
+            .addCase(resetPassword.fulfilled, (state, action) => {
+                state.resetMessage = action.payload.message;
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.resetMessage = null;
+            })
+            .addCase(sendMail.fulfilled, (state, action) => {
+                state.sendMailMessage = action.payload.message;
+            })
+            .addCase(sendMail.rejected, (state, action) => {
+                state.sendMailMessage = action.payload;
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.redirectToProfile = true;
+                state.loading = false;
+            })
+            .addCase(updateProfile.pending, (state, action) => {
+                state.loading = true;
+                state.datasSend = {};
+                state.errors.apiErrorUpdate = null;
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.datasSend = action.payload.dataSend;
+                state.errors.apiErrorUpdate = action.payload.message;
+                state.loading = false;
+            })
+            .addCase(updatePicture.fulfilled, (state, action) => {
+                state.userInfos = action.payload;
+                state.imageEdit = false;
+                state.redirectToProfile = true;
+                state.loading = false;
+                state.errors.apiErrorUpdateImage = null;
+            })
+            .addCase(updatePicture.pending, (state, action) => {
+                state.loading = true;
+                state.errors.apiErrorUpdateImage = null;
+            })
+            .addCase(updatePicture.rejected, (state, action) => {
+                state.loading = false;
+                state.errors.apiErrorUpdateImage = action.payload;
+            })
     }
 })
 
 export const {
     startConnecting,
-    stopConnecting
+    stopConnecting,
+    startImageEdit,
+    stopImageEdit,
+    stopRedirect,
+    stopUserEdit,
 } = slice.actions;
 export default slice.reducer;

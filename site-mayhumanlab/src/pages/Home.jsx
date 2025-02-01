@@ -17,6 +17,7 @@ import {
 import { loadProjects } from "../features/project/projectAsyncAction";
 import partenaires from '../partenaires.json';
 import Footer from "../components/Footer";
+import { datasSQL } from "../features/user/connexion";
 
 function Home() {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function Home() {
     useEffect(() => {
         dispatch(loadActus());
         dispatch(loadProjects());
+        document.title = "Accueil | May'Humanlab";
     }, []);
 
     return (
@@ -43,7 +45,7 @@ function Home() {
                         />
                     </div>
                     <section id="presentation" className="px-12 my-8 max-w-6xl m-auto">
-                        <h1 className="text-center font-montserrat my-8 font-extralight text-4xl lg:text-6xl lg:my-12">
+                        <h1 className="text-center font-jura my-8 font-extralight text-4xl lg:text-6xl lg:my-12">
                             May'HumanLab
                         </h1>
                         <p className="mt-4">
@@ -68,7 +70,7 @@ function Home() {
                         </p>
                     </section>
                     <section id="axes" className="px-6 mt-12 mb-16 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
                             Nos Axes
                         </h2>
                         <div className="relative bg-white w-full p-6 rounded-lg">
@@ -79,19 +81,21 @@ function Home() {
                             </ul>
                             <div
                                 aria-hidden="true"
-                                className="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-4 lg:rounded-3xl blur-md bg-gradient-to-br from-pink-600 via-cyan-500 to-violet-500 opacity-50"
+                                className="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-2 lg:rounded-1xl blur-md bg-gradient-to-br from-amber-600 to-sky-800 opacity-50"
                             ></div>
                         </div>
                     </section>
                     <section id="actu" className="px-16 my-12 max-w-7xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
                             Actualités
                         </h2>
 
                         {loadingActu ? (
                             <p>Chargement des actualités...</p>
                         ) : (
-                            <ul className="lg:grid lg:grid-cols-4">
+                            <ul className={`lg:grid ${listeActualite.length === 1 ? "lg:grid-cols-1" : 
+                                listeActualite.length === 2 ? "lg:grid-cols-2" : 
+                                "lg:grid-cols-3"}`}>
                                 {listeActualite.map((actualite, id) => (
                                     <ActualiteItemAccueil actualite={actualite} key={id} />
                                 ))}
@@ -99,7 +103,7 @@ function Home() {
                         )}
                     </section>
                     <section id="projets" className="px-12 my-8 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-8 lg:my-12">
                             Projets
                         </h2>
                         {loadingProject ? (
@@ -113,7 +117,7 @@ function Home() {
                         )}
                     </section>
                     <section id='projets' className="px-12 my-12 max-w-6xl m-auto">
-                        <h2 className="font-montserrat text-4xl lg:text-6xl font-extralight text-center my-16 lg:my-12">Partenaires</h2>
+                        <h2 className="font-jura text-4xl lg:text-6xl font-extralight text-center my-16 lg:mt-20">Partenaires</h2>
                         <ul className="grid grid-cols-2 gap-y-4 md:grid-cols-5">{partenaires.map((partenaire, id) =>
                             <li key={id} className="flex">
                                 <img src={"/accueil/logo-partenaires/" + partenaire.nom + ".webp"} className="m-auto max-w-24" />

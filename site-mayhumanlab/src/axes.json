@@ -2,19 +2,19 @@
     {
         "id": 1,
         "titre": "Particuliers",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam..",
+        "description": "Notre Fab-Lab s’épanouit grâce à des partenariats solides avec des entreprises, des associations et des institutions. Ces collaborations permettent de développer des projets innovants et variés, où l'expertise de chacun enrichit l'ensemble. Ensemble, nous offrons un espace unique d’expérimentation et de création, propice à l’émergence de nouvelles idées.",
         "image": "https://images.unsplash.com/photo-1695654398336-5cf41b2dc558?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
         "id": 2,
         "titre": "Structure",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam..",
+        "description":"Notre Fab-Lab, situé à Laval, est un espace dynamique et ouvert à tous, avec plusieurs ateliers équipés pour la fabrication, la conception et l’expérimentation. Les membres peuvent y accéder pour réaliser leurs projets personnels ou collaboratifs, avec le soutien précieux de bénévoles passionnés et compétents. Que ce soit pour l’impression 3D, l’électronique ou le travail du bois, chaque atelier est conçu pour encourager la créativité et l'innovation.",
         "image": "https://images.unsplash.com/photo-1534777410147-084a460870fc?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
         "id": 3,
         "titre": "Handifest",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam..",
+        "description": "Le HandiFest, soutenu par notre association chaque année, est un événement inclusif dédié aux personnes en situation de handicap. Il propose des activités variées et accessibles, permettant à chacun de participer à des ateliers créatifs, des démonstrations et des échanges enrichissants.",
         "image": "https://pbs.twimg.com/media/GOrFROAW8AA1db0.jpg:large"
     }
 ]

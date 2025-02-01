@@ -20,6 +20,9 @@ const projectSlice = createSlice({
 
     reducers: {
         startEditProject(state,action){
+            state.errors.apiErrorAdd = null;
+            state.errors.apiErrorUpdate = null;
+            state.errors.apiErrorDelete = null;
             state.editProject = true;
             state.idProject = action.payload;
         },
@@ -28,6 +31,7 @@ const projectSlice = createSlice({
             state.idProject = null;
             state.errors.apiErrorAdd = null;
             state.errors.apiErrorUpdate = null;
+            state.errors.apiErrorDelete = null;
             state.dataSend = {};
         }
     },
@@ -49,21 +53,25 @@ const projectSlice = createSlice({
 
         .addCase(addProject.pending, (state) => {
             state.errors.apiErrorAdd = null;
+            state.loading = true;
         })
         .addCase(addProject.fulfilled, (state, action)=>{
             state.tabProjects.push(action.payload);
             state.editProject = false;
             state.dataSend = {};
+            state.loading = false;
         })
         .addCase(addProject.rejected, (state, action)=>{
             state.errors.apiErrorAdd = action.payload.message;
             state.dataSend = action.payload.dataSend;
             state.editProject = true;
+            state.loading = false;
             startEditProject();
         })
 
         .addCase(updateProject.pending, (state) => {
             state.errors.apiErrorUpdate = null;
+            state.loading = true;
         })
         .addCase(updateProject.fulfilled, (state, action)=>{
             state.tabProjects[state.tabProjects.findIndex((project)=>state.idProject === project.id_projet)] = action.payload;
@@ -77,6 +85,7 @@ const projectSlice = createSlice({
             state.errors.apiErrorUpdate = action.payload.message;
             state.dataSend = action.payload.dataSend;
             state.editProject = true;
+            state.loading = false;
             startEditProject(state.idProject);
         })
         .addCase(deleteProject.pending, (state) => {

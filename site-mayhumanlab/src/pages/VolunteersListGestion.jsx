@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { startVolunteerEdit } from "../features/volunteer/volunteerSlice";
 import {
+  selectErrorDelete,
   selectErrorLoad,
   selectLoading,
   selectVolunteer,
   selectVolunteerModifying,
 } from "../features/volunteer/volunteerSelector";
-import VolunteerForm from "../components/VolunteerForm";
+import VolunteerForm from "../components/formulaires/VolunteerForm";
 import Header from "../components/Header";
 import VolunteerListItem from "../components/VolunteerListItem";
 import { loadVolunteer } from "../features/volunteer/volunteerAsyncAction";
@@ -18,12 +19,17 @@ function VolunteersListGestion() {
   const isModifying = useSelector(selectVolunteerModifying);
   const loading = useSelector(selectLoading);
   const errorLoading = useSelector(selectErrorLoad);
+  const errorDelete = useSelector(selectErrorDelete);
   const volunteerList = useSelector(selectVolunteer);
   const [width, setWidth] = useState(window.innerWidth);
 
   function handleResize() {
     setWidth(window.innerWidth);
   }
+
+  useEffect(() => {
+    document.title = "Gestion des comptes | May'Humanlab";
+  }, []);
 
   useEffect(() => {
     dispatch(loadVolunteer());
@@ -39,13 +45,18 @@ function VolunteersListGestion() {
     <>
       <Header />
       <main className="flex flex-col items-center p-8">
-        <h1 className="text-center my-6 font-bold text-2xl lg:text-4xl">
+      {errorDelete &&
+          <div className="fixed top-24 right-0 bg-red-100 text-red-700 p-3 rounded mb-4">
+            {errorDelete}
+          </div>
+        }
+        <h1 className="font-jura text-center my-6 font-bold text-2xl lg:text-4xl">
           Gestion des comptes
         </h1>
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-end px-14">
           <button
             onClick={handleAddVolunteer}
-            className=" text-white text-bold text-xl bg-black hover:bg-pink-600 rounded-lg px-5 py-3 text-center"
+            className=" text-white primary-btn-small"
           >
             Créer un bénévole
           </button>
@@ -65,7 +76,6 @@ function VolunteersListGestion() {
           <table className="mt-8 w-11/12 min-w-fit border-separate border-spacing-4">
             <thead className="h-16">
               <tr>
-                <th>ID</th>
                 <th>Photo</th>
                 <th>Prénom</th>
                 <th>Nom</th>

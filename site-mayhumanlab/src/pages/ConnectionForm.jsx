@@ -4,14 +4,12 @@ import { Field, Form } from "react-final-form";
 import { required } from "../utils/validators";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { login } from "../features/user/connexion.js";
-import { selectErrorLogin, selectUserIsConnected } from "../features/user/userSelector.js";
-import { useNavigate } from "react-router-dom";
+import { selectErrorLogin } from "../features/user/userSelector.js";
+import { Link } from "react-router-dom";
 
 function ConnectionForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const errorLogin = useSelector(selectErrorLogin);
-  const isConnected = useSelector(selectUserIsConnected);
 
   const handleExit = () => {
     dispatch(stopConnecting());
@@ -21,16 +19,23 @@ function ConnectionForm() {
     dispatch(login(values));
   };
 
+  const handleKeyDown = (e) => {
+    if(e.key === "Enter"){
+        handleSubmit();
+    };
+  };
+
   return (
     <>
       <div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
         <dialog
           open
+          onKeyUp={handleKeyDown}
           onClose={handleExit}
           className="w-full md:w-7/12 shadow-2xl rounded-lg relative px-4 mx-2"
         >
           <span className="flex justify-center flex-col mt-8 lg:mt-12">
-            <h2 className="text-2xl font-bold text-center md:text-4xl mb-4">
+            <h2 className="text-2xl font-jura font-bold text-center md:text-4xl mb-4">
               Connexion
             </h2>
             {errorLogin && (
@@ -102,6 +107,9 @@ function ConnectionForm() {
                       </div>
                     )}
                   ></Field>
+                  <div className="mt-4 text-blue-400 flex flex-col col-start-1 md:px-4">
+                  <Link to="/mail-reinitialiser">Mot de passe oublié ?</Link>
+                  </div>
                   <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
                     <button
                       onClick={handleExit}

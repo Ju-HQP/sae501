@@ -5,7 +5,7 @@ function VolunteersItem({ volunteer }) {
 
   return (
     <>
-      <div className="grid md:grid-cols-2 m-6">
+      <div className="grid md:grid-cols-2 m-6 lg:w-11/12">
         <div
           id="volunteer_bloc1"
           className="flex flex-col items-center gap-1 self-center"
