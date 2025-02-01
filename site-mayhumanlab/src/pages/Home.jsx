@@ -81,7 +81,7 @@ function Home() {
                             </ul>
                             <div
                                 aria-hidden="true"
-                                className="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-2 lg:rounded-1xl blur-md bg-gradient-to-br from-amber-600 to-sky-800 opacity-50"
+                                className="rounded-lg bottom-0 absolute -z-10 inset-x-0 inset-y-2 lg:rounded-1xl blur-md bg-blue-300"
                             ></div>
                         </div>
                     </section>
