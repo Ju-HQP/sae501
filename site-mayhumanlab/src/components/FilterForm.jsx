@@ -1,7 +1,11 @@
-import React, { Fragment, useState } from 'react';
-import { Form } from 'react-final-form';
-import FilterRow from './FilterRow.jsx';
-import { filterProperty, filterDate, filterCompetence } from '../utils/filters.js';
+import React, { Fragment, useState } from "react";
+import { Form } from "react-final-form";
+import FilterRow from "./FilterRow.jsx";
+import {
+  filterProperty,
+  filterDate,
+  filterCompetence,
+} from "../utils/filters.js";
 
 const FilterForm = ({ onFilter, width }) => {
   const [conditions, setConditions] = useState([]);
@@ -13,7 +17,7 @@ const FilterForm = ({ onFilter, width }) => {
   };
 
   const handleAddCondition = () => {
-    setConditions([...conditions, { property: 'nom_b', search: '' }]);
+    setConditions([...conditions, { property: "nom_b", search: "" }]);
   };
 
   const handleRemoveCondition = (index) => {
@@ -31,14 +35,14 @@ const FilterForm = ({ onFilter, width }) => {
     const filteredConditions = values.conditions.filter(
       (condition) => condition.search.trim() !== ""
     );
-  
+
     setConditions(filteredConditions);
-  
+
     // Appliquer uniquement les filtres valides
     const filterFunctions = filteredConditions.map((condition) =>
       mappingFilters[condition.property](condition.property)(condition.search)
     );
-  
+
     onFilter(filterFunctions);
   };
 
@@ -48,12 +52,11 @@ const FilterForm = ({ onFilter, width }) => {
     form.reset();
   };
 
-  return (
-    width < 750
-      ?
+  return width < 750 ? (
     <Form
       onSubmit={handleSubmit}
       onReset={handleReset}
+      initialValues={{ conditions }}
       render={({ handleSubmit, form }) => (
         <form
           onSubmit={handleSubmit}
@@ -63,30 +66,36 @@ const FilterForm = ({ onFilter, width }) => {
           <fieldset>
             <div className="flex items-center space-x-4 justify-between w-full">
               <legend className="text-lg font-semibold">Filtres</legend>
-              <button type="button" onClick={handleAddCondition} className="flex items-center justify-center px-4 py-2 secondary-btn-small">
-                  +
-              </button>
+              <button
+                type="button"
+                onClick={handleAddCondition}
+                className="flex items-center justify-center px-4 py-2 primary-btn-small"
+              ><b>+</b></button>
             </div>
 
             {conditions.map((condition, index) => (
               <Fragment key={index}>
-                <FilterRow conditions={conditions} index={index} width={width} onRemove={handleRemoveCondition} />
+                <FilterRow
+                  conditions={conditions}
+                  index={index}
+                  width={width}
+                  onRemove={handleRemoveCondition}
+                />
               </Fragment>
             ))}
             {conditions.length > 0 && (
               <div className="flex items-center space-x-4 mt-4 justify-between w-full">
                 <button
-                  type="submit"
-                  className="px-4 py-2 secondary-btn-small mx-2 w-full"
-                >
-                  Appliquer
-                </button>
-              
-                <button
                   type="reset"
-                  className="px-4 py-2 primary-btn-small w-full"
+                  className="px-4 py-2 secondary-btn-small w-full"
                 >
                   Réinitialiser
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 primary-btn-small mx-2 w-full"
+                >
+                  Appliquer
                 </button>
               </div>
             )}
@@ -94,65 +103,57 @@ const FilterForm = ({ onFilter, width }) => {
         </form>
       )}
     />
-
-
-
-
-    :
-
-
-
-
+  ) : (
     <Form
-    onSubmit={handleSubmit}
-    onReset={handleReset}
-    render={({ handleSubmit, form }) => (
-      <form
-        onSubmit={handleSubmit}
-        onReset={() => handleReset(form)}
-        className="space-y-4 p-4 mx-16 border-t-2 border-b-2 border-solid"
-      >
-        <fieldset>
-          <div className="flex items-center space-x-4 justify-between">
-            <legend className="text-lg font-semibold">Filtres</legend>
-            <button
-              type="button"
-              onClick={handleAddCondition}
-              className="flex items-center justify-center px-4 py-2 secondary-btn-small"
-            >
-              Ajouter un filtre
-            </button>
-          </div>
-
-
-
-          {conditions.map((condition, index) => (
-            <Fragment key={index}>
-              <FilterRow conditions={conditions} index={index} width={width} onRemove={handleRemoveCondition} />
-            </Fragment>
-          ))}
-
-          {conditions.length > 0 && (
-            <div className="flex items-center space-x-4 mt-4 justify-between">
+      onSubmit={handleSubmit}
+      onReset={handleReset}
+      initialValues={{ conditions }}
+      render={({ handleSubmit, form }) => (
+        <form
+          onSubmit={handleSubmit}
+          onReset={() => handleReset(form)}
+          className={`space-y-4 p-4 mx-16 ${conditions.length === 0 && 'border-t-2 border-b-2'}`}
+        >
+          <fieldset>
+            <div className="flex items-center space-x-4 justify-between">
+              <legend className="text-lg font-semibold">Filtres</legend>
               <button
-                type="submit"
-                className="px-4 py-2 secondary-btn-small mx-2"
+                type="button"
+                onClick={handleAddCondition}
+                className="flex items-center justify-center px-4 py-2 primary-btn-small"
               >
-                Appliquer
-              </button>
-            
-              <button
-                type="reset"
-                className="px-4 py-2 primary-btn-small"
-              >
-                Réinitialiser
+                Ajouter un filtre
               </button>
             </div>
-          )}
-        </fieldset>
-      </form>
-    )}
-  />
+
+            {conditions.map((condition, index) => (
+              <Fragment key={index}>
+                <FilterRow
+                  conditions={conditions}
+                  index={index}
+                  width={width}
+                  onRemove={handleRemoveCondition}
+                />
+              </Fragment>
+            ))}
+
+            {conditions.length > 0 && (
+              <div className="flex items-center space-x-4 mt-4 justify-end">
+                <button type="reset" className="px-4 py-2 secondary-btn-small">
+                  Réinitialiser
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 primary-btn-small mx-2"
+                >
+                  Appliquer
+                </button>
+              </div>
+            )}
+          </fieldset>
+        </form>
+      )}
+    />
   );
 };
 
