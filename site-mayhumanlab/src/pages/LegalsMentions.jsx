@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 
 function LegalsMention() {
+    document.title = "Mentions Légales | May'Humanlab";
     return (<>
         <Header />
         <main className="font-roboto leading-8 mt-20 text-lg p">

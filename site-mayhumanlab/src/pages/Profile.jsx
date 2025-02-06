@@ -20,9 +20,7 @@ function Profile() {
     dispatch(logout());
   };
 
-  useEffect(() => {
     document.title = "Mon compte | May'Humanlab";
-  }, []);
 
   const competence = [...userInfos.competences];
 

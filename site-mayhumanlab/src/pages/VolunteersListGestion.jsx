@@ -27,9 +27,7 @@ function VolunteersListGestion() {
     setWidth(window.innerWidth);
   }
 
-  useEffect(() => {
-    document.title = "Gestion des comptes | May'Humanlab";
-  }, []);
+  document.title = "Gestion des comptes | May'Humanlab";
 
   useEffect(() => {
     dispatch(loadVolunteer());
