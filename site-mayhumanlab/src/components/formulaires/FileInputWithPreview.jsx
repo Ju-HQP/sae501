@@ -71,6 +71,7 @@ const FileInputWithPreview = ({ input, meta, picture }) => {
 
                 <>
                   <label htmlFor={input.name} className='font-semibold mb-4'>Image de couverture</label>
+                  <p className='mb-4 italic text-xs'>Attention : Une image trop lourde peut provoquer une erreur !</p>
                   <div className='h-40 w-full md:h-56 border-2 border-dashed flex justify-center items-center'>
                     {imagePreview
                       ?
