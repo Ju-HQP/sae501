@@ -66,7 +66,7 @@ function Profile() {
               Déconnexion
             </button>
             <NavLink to="/profile/modifier">
-              <button className="primary-btn-small h-10">Modifier</button>
+              <button className="primary-btn-small">Modifier</button>
             </NavLink>
           </div>
         </div>
