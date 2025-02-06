@@ -4,7 +4,7 @@ function Footer({ contactVisible }) {
     return (
         <>
 
-            <footer className="w-full px-8 py-4 flex flex-col justify-between z-50 bg-sky-800 font-roboto text-white">
+            <footer className="w-full px-8 py-4 flex flex-col justify-between z-49 bg-sky-800 font-roboto text-white">
                 {
                     contactVisible
                     &&

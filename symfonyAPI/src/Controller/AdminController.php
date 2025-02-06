@@ -49,20 +49,25 @@ class AdminController extends AbstractController
 	#[Route('/api/benevoles', name: 'adminBenevoles', methods: ['GET'])]
 	public function adminBenevolesAction(Security $security): Response
 	{
-
 		$user = $security->getUser();
-
-		if (!$user) {
-			return new JsonResponse(['error' => 'Access denied'], 403);
+		if ($user) {
+			$userRoleArray = $user->getRoles();
+			// Cas où l'admin est connecté (il ne peut pas voir son compte dans le trombi ou la gestion des comptes)
+			if ($userRoleArray[0] === 'ROLE_ADMIN') {
+				$benevoleEntity = $this->entityManager->getRepository(Benevole::class)->findOneBy(['mail_b' => $user->getUserIdentifier()]);
+				$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c where b.id_benevole not like :id");
+				$query->setParameter("id", $benevoleEntity->getId());
+			} else {
+				$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
+			}
+			$benevoles = $query->getArrayResult(); // ou getResult();
+			$response = new Response();
+			$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
+			$response->setContent(json_encode($benevoles));
+			$response->headers->set('Content-Type', 'application/json');
+			$response->headers->set('Access-Control-Allow-Origin', '*');
+			return $response;
 		}
-		$query = $this->entityManager->createQuery("SELECT b,c FROM App\Entity\Benevole b LEFT JOIN b.competences c");
-		$benevoles = $query->getArrayResult(); // ou getResult();
-		$response = new Response();
-		$response->setStatusCode(Response::HTTP_OK); // 200 https://github.com/symfony/http-foundation/blob/5.4/Response.php
-		$response->setContent(json_encode($benevoles));
-		$response->headers->set('Content-Type', 'application/json');
-		$response->headers->set('Access-Control-Allow-Origin', '*');
-		return $response;
 	}
 
 	// Fonction pour l'ajout d'un nouveau Bénévole
@@ -166,7 +171,7 @@ class AdminController extends AbstractController
 		$mailUserSession = $user->getUserIdentifier();
 		$mailTo = $benevole->getMail();
 
-		if ($mailUserSession == $mailTo){
+		if ($mailUserSession == $mailTo) {
 			$response = new Response;
 			$response->setStatusCode(Response::HTTP_BAD_REQUEST);
 			$response->setContent(json_encode(['message' => 'Pour supprimer votre compte Administrateur, un autre compte Administrateur doit s\'en charger.']));
@@ -245,7 +250,6 @@ class AdminController extends AbstractController
 						$comp = new Competence();
 						$comp->setNom(ucfirst($nomComp));
 						$this->entityManager->persist($comp);
-	
 					}
 					$benevole->setComp($comp);
 				};
@@ -340,10 +344,8 @@ class AdminController extends AbstractController
 						$comp = new Competence();
 						$comp->setNom(ucfirst($nomComp));
 						$this->entityManager->persist($comp);
-						
 					}
 					$benevole->setComp($comp);
-
 				};
 			}
 
