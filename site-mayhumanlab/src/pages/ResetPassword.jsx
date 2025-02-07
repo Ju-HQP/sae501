@@ -50,6 +50,17 @@ function ResetPassword() {
     dispatch(logout());
   };
 
+  const handleKeyDown = (e) => {
+    // À chaque touché pressée, la fontion est executée
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const form = e.currentTarget;
+      if (form) {
+        form.requestSubmit(); // déclenche onSubmit du formulaire
+      }
+    }
+  };
+
   return (
     <>
       <main className="font-roboto leading-8">
@@ -91,7 +102,7 @@ function ResetPassword() {
                   <Form
                     onSubmit={handleSubmit}
                     render={({ handleSubmit }) => (
-                      <form onSubmit={handleSubmit}>
+                      <form onKeyDown={handleKeyDown} onSubmit={handleSubmit}>
                         <Field
                           validate={required}
                           name="new_password"
@@ -108,7 +119,7 @@ function ResetPassword() {
                                 placeholder="Votre mot de passe"
                                 id="new_password"
                                 type="password"
-                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$" 
+                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$"
                                 title="Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
                                 className="border shadow-inner border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 focus:shadow-none"
                               ></input>

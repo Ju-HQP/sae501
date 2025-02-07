@@ -17,7 +17,7 @@ const FilterForm = ({ onFilter, width }) => {
   };
 
   const handleAddCondition = () => {
-    setConditions([...conditions, { property: "nom_b", search: "" }]);
+    setConditions([...conditions, { property: "competences", search: "" }]);
   };
 
   const handleRemoveCondition = (index) => {

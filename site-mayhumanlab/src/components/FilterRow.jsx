@@ -30,6 +30,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
         )}
       </Field>
       <Field
+        validate={required}
         initialValue={conditions[index].search}
         name={`conditions[${index}].search`}
       >
@@ -51,7 +52,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
       </Field>
     </div>
   ) : (
-    <div className="my-4 bg-white flex flex-row gap-4 items-center">
+    <div className="my-4 bg-white flex flex-row gap-4 items-start">
       <Field
         initialValue={conditions[index].property}
         name={`conditions[${index}].property`}
@@ -71,6 +72,7 @@ const FilterRow = ({ conditions, index, width, onRemove }) => {
       </Field>
 
       <Field
+        validate={required}
         initialValue={conditions[index].search}
         name={`conditions[${index}].search`}
       >
