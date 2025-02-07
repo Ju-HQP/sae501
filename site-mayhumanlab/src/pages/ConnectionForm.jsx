@@ -20,9 +20,14 @@ function ConnectionForm() {
   };
 
   const handleKeyDown = (e) => {
-    if(e.key === "Enter"){
-        handleSubmit();
-    };
+    // À chaque touché pressée, la fontion est executée
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const form = e.currentTarget;
+      if (form) {
+        form.requestSubmit(); // déclenche onSubmit du formulaire
+      }
+    }
   };
 
   return (
@@ -30,7 +35,6 @@ function ConnectionForm() {
       <div className="bg-[rgba(0,0,0,0.5)] p-4 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%)] max-h-full flex">
         <dialog
           open
-          onKeyUp={handleKeyDown}
           onClose={handleExit}
           className="w-full md:w-7/12 shadow-2xl rounded-lg relative px-4 mx-2"
         >
@@ -46,9 +50,7 @@ function ConnectionForm() {
             <Form
               onSubmit={handleSubmit}
               render={({ handleSubmit }) => (
-                <form
-                  onSubmit={handleSubmit}
-                >
+                <form onKeyDown={handleKeyDown} onSubmit={handleSubmit}>
                   <Field
                     validate={required}
                     name="mail_b"
@@ -108,7 +110,7 @@ function ConnectionForm() {
                     )}
                   ></Field>
                   <div className="mt-4 text-blue-400 flex flex-col col-start-1 md:px-4">
-                  <Link to="/mail-reinitialiser">Mot de passe oublié ?</Link>
+                    <Link to="/mail-reinitialiser">Mot de passe oublié ?</Link>
                   </div>
                   <div className="w-full flex justify-between col-end-3 mt-8 mb-2 md:mx-0 md:justify-end md:my-10 md:px-4">
                     <button
