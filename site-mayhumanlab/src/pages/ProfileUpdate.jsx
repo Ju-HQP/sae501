@@ -210,7 +210,6 @@ function ProfileUpdate() {
                   type="submit"
                   variant="contained"
                   className="primary-btn-large md:ml-4"
-                  onClick={handleSubmit}
                 >
                   Valider
                 </button>
